@@ -129,6 +129,7 @@ code {
 }
 
 div.highlight {
+  margin-top: 1rem;
   overflow-x: auto;
   margin-right: calc(-50vw + 50%);
   padding: 0;
