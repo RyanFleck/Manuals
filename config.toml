@@ -1,17 +1,17 @@
-baseURL = "https://hugo-pure.netlify.com"
+baseURL = "https://manuals.ryanfleck.ca/"
 languageCode = "en-us"
 # https://gohugo.io/variables/site/#site-variables-list
-title = "Site Title"
+title = "Manuals"
 theme = "RCF-Pure"
 pygmentsCodeFences = true
-pygmentsStyle = "vs"
+pygmentsStyle = "colorful"
 sectionPagesMenu = "main"
 
 # https://gohugo.io/variables/site/#the-site-params-variable
 [params]
-    copyright = "Copyright © 2019 Name of Entity"
-    author = "Firstname Lastname"
-    homepage_banner_title = "Hello."
-    homepage_banner_lead = "Title and lead can be modified in config.toml"
+    copyright = "Copyright © 2019 Ryan Fleck"
+    author = "Ryan Fleck"
+    homepage_banner_title = "Prepare to Learn."
+    homepage_banner_lead = "Welcome to Ryan's personal collection of notes."
     site_svg_src = "/icons/brain.svg"
-    long_site_title = "Long Site Title"
+    long_site_title = "Manuals"
