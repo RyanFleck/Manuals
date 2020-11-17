@@ -98,13 +98,21 @@ html {
   scroll-behavior: smooth;
   overflow-y: scroll;
   overflow-x: hidden;
+  padding: 0.5rem;
+  font-size: 18px;
+  background: #fff1ae;
+}
+
+html,
+button,
+body,
+textarea,
+pre,
+code {
   -webkit-font-smoothing: antialiased !important;
   -moz-osx-font-smoothing: auto !important;
   font-family: "IBM Plex Mono", "SFMono-Regular", Consolas, "Liberation Mono",
     "Noto Mono", Menlo, Courier, monospace;
-  padding: 0.5rem;
-  font-size: 18px;
-  background: #fff1ae;
 }
 
 h1,
