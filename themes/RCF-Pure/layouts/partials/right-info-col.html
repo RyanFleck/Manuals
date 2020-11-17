@@ -1,14 +1,15 @@
-
-
-<h3>Directory</h3>
+<br />
+<h3>Site Directory</h3>
 <ul>
-{{ range .Site.Sections }}
-<li><a href="{{ .Permalink }}">{{ .Title }}</a>
-<ul>
-{{ range .Pages }}
-<li><a href="{{ .Permalink }}">{{ .Title }}</a></li>
-{{ end }}
+  {{ range .Site.Sections }}
+  <li>
+    <a href="{{ .Permalink }}">{{ .Title }}</a>
+    <ul>
+      {{ range .Pages }}
+      <li><a href="{{ .Permalink }}">{{ .Title }}</a></li>
+      {{ end }}
+    </ul>
+  </li>
+  {{ end }}
 </ul>
-</li>
-{{ end }}
-</ul>
+<br />

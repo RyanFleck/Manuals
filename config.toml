@@ -4,12 +4,12 @@ languageCode = "en-us"
 title = "Manuals"
 theme = "RCF-Pure"
 pygmentsCodeFences = true
-pygmentsStyle = "colorful"
+pygmentsStyle = "autumn"
 sectionPagesMenu = "main"
 
 # https://gohugo.io/variables/site/#the-site-params-variable
 [params]
-    copyright = "Copyright © 2019 Ryan Fleck"
+    copyright = "Copyright ©2019 Ryan Fleck"
     author = "Ryan Fleck"
     homepage_banner_title = "Prepare to Learn."
     homepage_banner_lead = "Welcome to my personal collection of notes."
