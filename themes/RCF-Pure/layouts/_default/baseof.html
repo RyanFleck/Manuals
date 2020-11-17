@@ -1,22 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
+  <!-- Head -->
+  {{- partial "head.html" . -}}
 
-{{- partial "head.html" . -}}
-
-<body>
-
+  <body>
+    <!-- Header -->
     {{- partial "header.html" . -}}
 
+    <!-- Main -->
     {{- block "main" . }}{{- end }}
 
-
+    <!-- Info -->
     {{- partial "right-info-col.html" . -}}
 
-
+    <!-- Footer -->
     {{- partial "footer.html" . -}}
 
+    <!-- Scripts -->
     {{- partial "scripts.html" . -}}
-
-</body>
-
+  </body>
 </html>

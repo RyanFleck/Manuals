@@ -1,22 +1,24 @@
 <header>
-    <nav class="navbar">
-        <h1 class="navbar-brand"><a class="navbar-brand" href="{{ .Site.BaseURL }}">
-            {{ .Site.Params.long_site_title }}
-        </a></h1>
-        <p class="navbar-nav ml-auto">
-
-            {{ range .Site.Sections }}
-            <span class="nav-item">
-                <a class="nav-link" href="{{ .Permalink }}">{{ .Title }}</a>
-            </span>
-            {{ end }}
-
-            {{ range (where site.RegularPages "Section" "") }}
-            <span class="nav-item">
-                <a class="nav-link" href="{{ .Permalink }}">{{ .Title }}</a>
-            </span>
-            {{ end }}
-
-        </p>
-    </nav>
+  <nav class="navbar">
+    <h1 class="navbar-brand">
+      <a class="navbar-brand" href="{{ .Site.BaseURL }}">
+        {{ .Site.Params.long_site_title }}
+      </a>
+    </h1>
+    <p class="navbar-nav ml-auto">
+      <!-- Sections. -->
+      {{ range $i, $e := .Site.Sections }}
+      <span class="nav-item">
+        {{- if $i -}} &middot;&nbsp; {{- end -}}
+        <a class="nav-link" href="{{ .Permalink }}">{{ .Title }}</a>
+      </span>
+      {{ end }} &middot;
+      <!-- Other pages. -->
+      {{ range (where site.RegularPages "Section" "") }}
+      <span class="nav-item">
+        <a class="nav-link" href="{{ .Permalink }}">{{ .Title }}</a>
+      </span>
+      {{ end }}
+    </p>
+  </nav>
 </header>

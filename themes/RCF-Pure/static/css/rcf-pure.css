@@ -101,6 +101,7 @@ html {
   padding: 0.5rem;
   font-size: 16px;
   background: #fff1ae;
+  color: black;
 }
 
 html,
@@ -170,7 +171,7 @@ ol {
 .navbar-brand {
   color: black;
   text-decoration: none;
-  margin-bottom: 0.3em;
+  margin-bottom: 0.2em;
 }
 .navbar-nav {
   margin-top: 0.3em;
@@ -213,5 +214,10 @@ hr {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #dbce8a;
+  /* background: #dbce8a; */
+  background: #f7e58e;
+}
+
+#title-link {
+  color: black;
 }

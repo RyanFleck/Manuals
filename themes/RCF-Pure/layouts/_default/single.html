@@ -1,22 +1,17 @@
 {{ define "main" }}
 <main>
-<h1 class="mt">{{ .Title }}</h1>
+  <h1 class="mt">
+    <a href="{{.Permalink}}" id="title-link"> {{ .Title }} </a>
+  </h1>
 
-{{ if not .Date.IsZero }}
-<p><b>{{ .Date.Format "2006-01-02" }}</b></p>
-{{ end }}
+  {{ if not .Date.IsZero }}
+  <p><b>{{ .Date.Format "2006-01-02" }}</b></p>
+  {{ end }} {{ if .Params.summary }}
+  <p>{{ .Params.summary }}</p>
+  {{ end }} {{ if .Params.toc }}
+  <h4>Contents</h4>
+  {{ .TableOfContents }} {{ end }}
 
-{{ if .Params.summary }}
-    <p>{{ .Params.summary }}</p>
-{{ end }}
-{{ if .Params.toc }}
-    <h4>Contents</h4>
-    {{ .TableOfContents }}
-{{ end }}
-
-<article>
-{{ .Content }}
-</article>
-
+  <article>{{ .Content }}</article>
 </main>
 {{end}}

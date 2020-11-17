@@ -1,9 +1,15 @@
 <br />
+<br />
 <h3>Site Directory</h3>
 <ul>
+  <li>
+    <a href="{{ .Site.BaseURL }}">Homepage</a>
+  </li>
   {{ range .Site.Sections }}
   <li>
-    <a href="{{ .Permalink }}">{{ .Title }}</a>
+    <b>
+      <a href="{{ .Permalink }}">{{ .Title }}</a>
+    </b>
     <ul>
       {{ range .Pages }}
       <li><a href="{{ .Permalink }}">{{ .Title }}</a></li>
