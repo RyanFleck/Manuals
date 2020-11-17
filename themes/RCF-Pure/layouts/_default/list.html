@@ -1,0 +1,19 @@
+{{ define "main" }}
+<main>
+
+<h1 class="mt">{{ .Title }}</h1>
+
+{{ if .Content }}
+{{ .Content }}
+{{ end }}
+
+<ol reversed>
+{{ range .Pages }}
+<li>
+        <a href="{{.Permalink}}">
+            {{ if .Date }}{{.Date.Format "2006-01-02"}} - {{end}}{{.Title}}</a>
+    </li>
+{{ end }}
+</ol>
+</main>
+{{end}}

@@ -1,0 +1,48 @@
+{{ define "main" }}
+
+<div class="jumbotron bg-light border">
+
+    <h1 class="display-1">{{ .Site.Params.homepage_banner_title }}</h1>
+    <p class="lead">{{ .Site.Params.homepage_banner_lead }}</p>
+    <!--
+        <p class="lead">
+            <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a>
+        </p>
+    -->
+</div>
+
+{{ .Content }}
+
+<!--
+<h3>Sections</h3>
+{{ range .Sections }}
+<p><a href="{{ .Permalink }}">{{ .Title }}</a></p>
+{{ range .Pages }}
+<p> - <a href="{{ .Permalink }}">{{ .Title }}</a></p>
+{{ end }}
+{{ end }}
+
+<h3>Base Pages</h3> 
+
+{{ range where .Site.Pages "Section" .Section }}
+    {{ if .Title }}
+    <p> - <a href="{{ .Permalink }}">{{ .Title }}</a></p>
+    {{ end }}
+{{ end }}-->
+
+<!--h3>Netlify Test Form</h3>
+
+<form name="contact" netlify>
+        <p>
+          <label>Name <input type="text" name="name" /></label>
+        </p>
+        <p>
+          <label>Email <input type="email" name="email" /></label>
+        </p>
+        <p>
+          <button type="submit">Send</button>
+        </p>
+</form-->
+
+{{end}}
+

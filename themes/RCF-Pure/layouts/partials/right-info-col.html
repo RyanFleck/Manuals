@@ -1,0 +1,18 @@
+
+<div class="alert alert-primary" role="alert">
+    <b>Alert</b> - Site is under construction!
+</div>
+
+
+<h3>Directory</h3>
+<ul>
+{{ range .Site.Sections }}
+<li><a href="{{ .Permalink }}">{{ .Title }}</a>
+<ul>
+{{ range .Pages }}
+<li><a href="{{ .Permalink }}">{{ .Title }}</a></li>
+{{ end }}
+</ul>
+</li>
+{{ end }}
+</ul>
