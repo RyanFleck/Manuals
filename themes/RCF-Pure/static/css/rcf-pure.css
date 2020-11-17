@@ -20,7 +20,6 @@ blockquote,
 dl,
 dd {
   margin: 0px;
-  margin-top: 1em;
 }
 
 /* Remove list styles on ul, ol elements with a list role, which suggests default styling will be removed */
@@ -76,17 +75,33 @@ html {
   -webkit-font-smoothing: antialiased !important;
   -moz-osx-font-smoothing: auto !important;
   font-family: "Courier New", Courier, monospace;
-  padding: 1rem;
-  font-size: 14px;
-  max-width: 100%;
+  padding: 0.2rem;
+  font-size: 18px;
   background: #fff1ae;
 }
 
-body {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+ul,
+ol,
+table,
+footer {
   margin: 0 auto;
-  max-width: 450px;
+  max-width: 512px;
+  margin-top: 1em;
 }
 
+li > ul,
+li > ol {
+  margin: 0;
+}
+
+/*
 @media only screen and (min-width: 800px) {
   body {
     max-width: 590px;
@@ -95,6 +110,7 @@ body {
     font-size: 18px;
   }
 }
+*/
 
 a {
   color: rgb(69, 0, 197);
@@ -132,15 +148,34 @@ code {
 div.highlight {
   margin-top: 1rem;
   overflow-x: auto;
-  margin-right: calc(-50vw + 50%);
   padding: 0;
+  /*
+  border-radius: 5px;
+  border: 1px solid #dbce8a;
+  */
 }
 
 div.highlight pre {
-  margin: 0;
+  overflow: auto;
+  width: 100%;
+  padding-left: calc(50vw - 256px);
 }
 
 pre {
-  overflow-x: auto;
   background-color: transparent !important;
+}
+
+hr {
+  border: none;
+  border-top: 1px solid #dbce8a;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+  background: #fff1ae;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #dbce8a;
 }

@@ -63,9 +63,9 @@ e2.o: myfile2.cpp SetInt.h
 
 Make clauses are structured like this:
 
-```
+```make
 target: dependencies
-    build command
+    build-command
 ```
 
 The `.PHONY` special case will run every time make is executed.
