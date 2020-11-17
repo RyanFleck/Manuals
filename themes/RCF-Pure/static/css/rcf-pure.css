@@ -79,6 +79,7 @@ html {
   padding: 1rem;
   font-size: 14px;
   max-width: 100%;
+  background: #fff1ae;
 }
 
 body {
@@ -136,10 +137,10 @@ div.highlight {
 }
 
 div.highlight pre {
-  background-color: white !important;
   margin: 0;
 }
 
 pre {
   overflow-x: auto;
+  background-color: transparent !important;
 }

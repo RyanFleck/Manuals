@@ -83,4 +83,5 @@ By following these steps, **make** can ensure that, whenever it is run, all the 
 
 # The Bare Necessities
 
-Basic C++ supports the following types: int, float, double, long double, char, and bool. With the `#include<string>` library, the type string is also available for use.
+Basic C++ supports the following elementary types:
+_int, float, double, long double, char,_ and _bool._ With the `#include<string>` library, the type _string_ is also available for use.

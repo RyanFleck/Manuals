@@ -4,8 +4,8 @@ languageCode = "en-us"
 title = "Manuals"
 theme = "RCF-Pure"
 pygmentsCodeFences = true
-pygmentsStyle = "autumn"
 sectionPagesMenu = "main"
+pygmentsStyle = "friendly"
 
 # https://gohugo.io/variables/site/#the-site-params-variable
 [params]
