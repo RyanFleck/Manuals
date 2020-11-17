@@ -12,7 +12,7 @@ pygmentsStyle = "friendly"
     copyright = "Copyright ©2019 Ryan Fleck"
     author = "Ryan Fleck"
     homepage_banner_title = "Prepare to Learn."
-    homepage_banner_lead = "Welcome to my personal collection of notes."
+    homepage_banner_lead = "Welcome to my personal manuals."
     site_svg_src = "/icons/brain.svg"
     long_site_title = "Manuals"
 
