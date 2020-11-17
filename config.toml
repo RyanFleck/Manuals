@@ -15,3 +15,17 @@ sectionPagesMenu = "main"
     homepage_banner_lead = "Welcome to my personal collection of notes."
     site_svg_src = "/icons/brain.svg"
     long_site_title = "Manuals"
+
+[markup]
+    defaultMarkdownHandler = "goldmark"
+    [markup.tableOfContents]
+        endLevel = 5
+        ordered = false
+        startLevel = 1
+
+[markup.goldmark.renderer]
+    unsafe = true
+
+[blackfriday]
+  plainIDAnchors = true
+  hrefTargetBlank = true
