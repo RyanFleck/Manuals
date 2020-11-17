@@ -94,7 +94,10 @@ language.
 Basic C++ supports the following elementary types:
 _int, float, double, long double, char,_ and _bool._ With the `#include<string>` library, the type _string_ is also available for use.
 
-
 ## Expressions
 
+Incomplete.
+
 ## Procedures and Functions
+
+Incomplete.
