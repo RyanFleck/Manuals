@@ -109,10 +109,11 @@ body,
 textarea,
 pre,
 code {
+  /* These are not enforced if not important, wcyd? */
   -webkit-font-smoothing: antialiased !important;
   -moz-osx-font-smoothing: auto !important;
   font-family: "IBM Plex Mono", "SFMono-Regular", Consolas, "Liberation Mono",
-    "Noto Mono", Menlo, Courier, monospace;
+    "Noto Mono", Menlo, Courier, monospace !important;
 }
 
 h1,
