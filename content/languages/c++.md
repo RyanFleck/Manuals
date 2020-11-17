@@ -18,7 +18,9 @@ Like a vaccum cleaner with burn, soak, espresso machine, and do taxes settings, 
 ```cpp
 #include <iostream>
 
+// Like C, C++ programs have a main function
 int main(){
+    // Print characters to standard output
     std::cout << "Hello World!" << std::endl;
     return 0;
 }
@@ -50,6 +52,7 @@ Before I touch on the myriad of complex build systems in C++, please take a look
 
 ```make
 # CSI2372 Generic Makefile
+
 .PHONY: all
 
 all: e1.o e2.o
@@ -83,5 +86,15 @@ By following these steps, **make** can ensure that, whenever it is run, all the 
 
 # The Bare Necessities
 
+In the following subsections, I'll cover the most basic features of the
+language.
+
+## Static Typing
+
 Basic C++ supports the following elementary types:
 _int, float, double, long double, char,_ and _bool._ With the `#include<string>` library, the type _string_ is also available for use.
+
+
+## Expressions
+
+## Procedures and Functions
