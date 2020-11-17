@@ -9,6 +9,17 @@ draft: false
 
 # Hello Python
 
+Python's _hello world_, like other scripting languages,
+is poetic in its brevity:
+
 ```py
-print("Hello, World!")  # Yes, this is everything.
+print("Hello, World!")
 ```
+
+# Where Can I Use Python
+
+1. Deploying Django and Flask services on Heroku
+
+# Why Python?
+
+It's EZ.
