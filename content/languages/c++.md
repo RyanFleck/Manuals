@@ -87,17 +87,195 @@ By following these steps, **make** can ensure that, whenever it is run, all the 
 # The Bare Necessities
 
 In the following subsections, I'll cover the most basic features of the
-language.
+language, which should be easy to pick up if you have previous
+programming experience with another programming language, especially C or Java.
 
-## Static Typing
+Things in C++ are named with **identifiers**, which can be a series of characters and numbers from a-z, A-Z, 0-9, and underscores. An identifier cannot start with a number.
+
+## Static Typing and Variables
 
 Basic C++ supports the following elementary types:
 _int, float, double, long double, char,_ and _bool._ With the `#include<string>` library, the type _string_ is also available for use.
 
-## Expressions
+```cpp
+// Simple variable declarations:
+double x;
+bool y;
+int p;
+```
 
-Incomplete.
+Standard C++ hackery allows you to declare and initialize variables
+in the following ways:
 
-## Procedures and Functions
+```cpp
+double v = 32.123;
+double v(32.123);
+```
 
-Incomplete.
+Additionally, you can declare and optionally
+initialize multiple variables at the same time:
+
+```cpp
+int a=2, b=3, c, d, e=4;
+```
+
+The **const** keyword can be used to declare a variable which cannot be re-assigned:
+
+```cpp
+const int height = 182;
+```
+
+## Arrays
+
+The C programming language makes extensive use of arrays,
+and C++ continues that tradition. To initialize an array:
+
+```cpp
+// type name[size?] = {elem elem elem};
+// type name[size];
+
+int scores[10];
+int scores[] = { 1, 2, 3, 4 }
+int scores[10] = { 1, 2, 3, 4 }
+int scores[3][3] = { 1, 2, 3, 4, 5, 6, 7, 8, 9 }
+int scores[3][3] = {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}}
+```
+
+Providing both a length and values will fill the non-specified values with the default value of the array's class. For `int`, zero is provided.
+
+## Input and Output
+
+Print to the screen with **cout**:
+
+```cpp
+cout << "X is 3! Wow!" << endl;
+```
+
+Take input with **cin**:
+
+```cpp
+int x;
+cout << "Enter your favourite integer:";
+cin >> x;
+// x now holds the user-entered number.
+```
+
+## Control Flow
+
+Control flow constructs allow logic to run under certain conditions.
+
+```cpp
+if(x == 3){
+    cout << "X is 3! Wow!" << endl;
+}else{
+    cout << "X is not 3." << endl;
+}
+```
+
+A simple **for** loop that prints numbers up to a target:
+
+```cpp
+int target = 200;
+for(int i=0; i<target; i++){
+    cout << "i has value: " << i << endl;
+}
+```
+
+A **while** loop to do the same:
+
+```cpp
+int count = 0;
+while (count <= 200) {
+    cout << "count has value: " << count << endl;
+    count++;
+}
+```
+
+A **do-while** loop to do the same:
+
+```cpp
+int count = 0;
+do {
+    cout << "count has value: " << count << endl;
+    count++;
+} while (count <= 200);
+```
+
+The **ternary if**, never nest this or your coworkers will hate you.
+
+```cpp
+string res = b ? "b is true" : "b is false";
+```
+
+## Functions
+
+Logic can be compartmentalized into functions that can be called from other parts
+of a C++ program.
+
+C++, being a derivative of c, does not automatically hoist functions, so you must
+provide the _declaration_ of a function at the top of a file, or in the header,
+if you plan to call the function within a different function that is instantiated above
+the original.
+
+```cpp
+// return-type name( arguments with types ){
+//   function content
+//   return return-type
+// }
+
+int max(int a, int b){
+    return a > b ? a : b;
+}
+```
+
+Within functions, **static** variables can be declared that won't be changed
+from one call to the next, unless the program is reset.
+
+```cpp
+int max(int a){
+    static b;
+    if( a > b ) b = a;
+    return b;
+}
+```
+
+A function can be placed into the body of the parent it is called in with the **inline** keyword.
+
+```cpp
+inline int max(int a){
+    static b;
+    if( a > b ) b = a;
+    return b;
+}
+```
+
+## Namespaces
+
+You can call functions from other namespaces by prepending a function name with
+the namespace name, or you can **use** a namespace to make all the functions
+accessible to the current program.
+
+Without namespace:
+
+```cpp
+#include <iostream>
+// ...
+std::cout << "Hello World!" << std::endl;
+```
+
+With namespace:
+
+```cpp
+#include <iostream>
+using namespace std;
+// ...
+cout << "Hello World!" << endl;
+```
+
+You've probably noticed that just the `std::` has been removed from the second program's calls to the iostream functions.
+
+## Scope
+
+# Sections to Add
+
+- Vectors
