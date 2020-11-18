@@ -28,7 +28,7 @@ int main(){
 
 > C++ is designed to allow you to express ideas, but if you don't have ideas or don't have any clue about how to express them, C++ doesn't offer much help. <br /> &nbsp;&mdash; Bjarne Stroustrup[^cpp]
 
-[^cpp]: The C++ Programming Language by Bjarne Stroustrup
+[^cpp]: The C++ Programming Language, Bjarne Stroustrup
 
 # Compiling and Executing
 
