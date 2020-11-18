@@ -134,6 +134,20 @@ footer {
   margin-top: 1em;
 }
 
+blockquote {
+  font-style: italic;
+  color: rgb(69, 0, 197);
+}
+
+blockquote > p {
+  border-left: 2px solid rgb(222 205 255);
+  padding-left: 10px;
+}
+
+.footnotes > hr {
+  display: none;
+}
+
 li > ul,
 li > ol {
   margin: 0;
@@ -231,4 +245,22 @@ hr {
 #navbar-hr {
   margin: 0px;
   padding: 0px;
+}
+
+/* Footnotes */
+
+sup,
+sub {
+  vertical-align: baseline;
+  position: relative;
+  top: -0.4em;
+}
+
+sub {
+  top: 0.4em;
+}
+
+sup.footnote-ref > a {
+  color: grey;
+  font-size: 0.5rem;
 }

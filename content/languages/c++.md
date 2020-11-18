@@ -370,6 +370,17 @@ int *b = &a;  // b points to the address of a
 cout << a;    // prints '4' to the console.
 ```
 
+> We are the music makers, <br />
+> And we are the dreamers of dreams, <br />
+> Wandering by lone sea-breakers, <br />
+> And sitting by desolate streams; <br />
+> World-losers and world-forsakers, <br />
+> On whom the pale moon gleams: <br />
+> Yet we are the movers and shakers <br />
+> Of the world for ever, it seems.[^1] <br />
+
+[^1]: From [Ode](https://www.poetryfoundation.org/poets/arthur-oshaughnessy) by Arthur O'Shaughnessy
+
 # Sections to Add
 
 - Vectors
