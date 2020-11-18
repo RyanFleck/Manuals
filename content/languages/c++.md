@@ -201,7 +201,8 @@ do {
 } while (count <= 200);
 ```
 
-The **ternary if**, never nest this or your coworkers will hate you.
+The **ternary if**, never nest this or your coworkers will hate you
+forever and thereafter.
 
 ```cpp
 string res = b ? "b is true" : "b is false";
@@ -228,6 +229,8 @@ int max(int a, int b){
 }
 ```
 
+### Static
+
 Within functions, **static** variables can be declared that won't be changed
 from one call to the next, unless the program is reset.
 
@@ -239,6 +242,8 @@ int max(int a){
 }
 ```
 
+### Inline
+
 A function can be placed into the body of the parent it is called in with the **inline** keyword.
 
 ```cpp
@@ -246,6 +251,35 @@ inline int max(int a){
     static b;
     if( a > b ) b = a;
     return b;
+}
+```
+
+### Default Arguments
+
+Functions can be given default arguments by using the equals sign within the
+arguments in the instantiation:
+
+```cpp
+int addOne(int a = 10){
+    return a + 1;
+}
+
+addOne(4);  // returns 5
+addOne();   // returns 11
+```
+
+### Overloading Functions
+
+You can provide multiple definitions for the same function name, as long as different
+arguments or argument types are specified:
+
+```cpp
+int addOne(int a){
+    return a + 1;
+}
+
+float addOne(float a){
+    return a + 1;
 }
 ```
 
@@ -274,8 +308,30 @@ cout << "Hello World!" << endl;
 
 You've probably noticed that just the `std::` has been removed from the second program's calls to the iostream functions.
 
-## Scope
+To create your own namespace use the **namespace** keyword to wrap functions,
+variables, and classes:
+
+```cpp
+namespace rcf{
+    int three(){
+        return 3;
+    }
+}
+
+// ...
+
+rcf::three();
+```
+
+# Compiling and Executing II: Headers
+
+Will this title fit on mobile?
 
 # Sections to Add
 
 - Vectors
+- Scope
+
+```
+
+```

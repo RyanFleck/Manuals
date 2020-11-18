@@ -207,6 +207,8 @@ hr {
   border-top: 1px solid #dbce8a;
 }
 
+/* Webkit Scrollbar */
+
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
