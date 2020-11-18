@@ -26,6 +26,10 @@ int main(){
 }
 ```
 
+> C++ is designed to allow you to express ideas, but if you don't have ideas or don't have any clue about how to express them, C++ doesn't offer much help. <br /> &nbsp;&mdash; Bjarne Stroustrup[^cpp]
+
+[^cpp]: The C++ Programming Language by Bjarne Stroustrup
+
 # Compiling and Executing
 
 C++ is a compiled and statically-typed language.
@@ -367,8 +371,30 @@ Here's a basic example of how pointers work:
 int a = 3;    // a holds 3
 int *b = &a;  // b points to the address of a
 *b = 4;       // the address that b points to now holds 4
-cout << a;    // prints '4' to the console.
+(*b)++;       // Increment the value that b points to
+cout << a;    // prints '5' to the console.
 ```
+
+Probably one of the most important features of pointers is the ability
+to iterate by a single (class-bit-width) in memory. Array names are pointers,
+and using this pointer is the most common way to iterate through an array:
+
+It's a complex poetry, but with this simple tool, we can do a lot.
+
+# Sections to Add
+
+- Vectors
+- Scope
+
+```
+
+```
+
+# A Note on Programming
+
+Never forget that you are responsible for waving the dreams of yourself, and others,
+into panes of logic that are run by rocks that we
+tricked to think with lightning.
 
 > We are the music makers, <br />
 > And we are the dreamers of dreams, <br />
@@ -381,11 +407,4 @@ cout << a;    // prints '4' to the console.
 
 [^1]: From [Ode](https://www.poetryfoundation.org/poets/arthur-oshaughnessy) by Arthur O'Shaughnessy
 
-# Sections to Add
-
-- Vectors
-- Scope
-
-```
-
-```
+# References
