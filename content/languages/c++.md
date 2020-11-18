@@ -84,6 +84,9 @@ one and two for a CSI lab) will be compiled. Here are the steps:
 
 By following these steps, **make** can ensure that, whenever it is run, all the executables that rely on old code are rebuilt, and you're always running the latest compiled code.
 
+For further commentary on compiling with header files, see the
+section [Compiling with Headers](#compiling-ii-with-headers).
+
 # The Bare Necessities
 
 In the following subsections, I'll cover the most basic features of the
@@ -323,9 +326,35 @@ namespace rcf{
 rcf::three();
 ```
 
-# Compiling and Executing II: Headers
+# Compiling II: With Headers
 
-Will this title fit on mobile?
+Attempting to cram a huge program into a single source file is very impractical,
+and you should regard anybody who does so as either incredibly lazy or more
+than a little bit masochistic. For this reason, Kernighan and Stroustrup have provided
+methods for splitting your code into multiple source and header files.
+
+Typically, a header file will include function and class declarations needed by all files in the program, and logic needed only in a given file is kept there.
+
+As it quickly becomes impractical to compile a large set of files, C++ has a great
+number of complex build systems to manage source and header files, along with required
+libraries. Typing very long build commands is, to say the least, prone to error.
+
+A [Makefile](#makefiles) is the simplest way to compile a complex program made of more than a few files.
+
+```sh
+// TODO: Provide better example.
+g++ a.cpp -o a.o
+```
+
+# Pointers
+
+If you've only ever used _Python_, _JavaScript_, _Ruby_, or _Java_,
+and have never dabbled with an assembly language or C,
+you're in for a treat.
+
+**In simple terms, a pointer holds an address.**
+
+That's it. Remember this. A pointer holds the address of a memory location.
 
 # Sections to Add
 

@@ -13,6 +13,8 @@
     <!-- Info -->
     {{- partial "right-info-col.html" . -}}
 
+    <!-- Page Info -->
+    {{ if .IsPage }} {{- partial "page-info.html" . -}} {{ end }}
     <!-- Footer -->
     {{- partial "footer.html" . -}}
 
