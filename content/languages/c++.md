@@ -342,7 +342,7 @@ libraries. Typing very long build commands is, to say the least, prone to error.
 A [Makefile](#makefiles) is the simplest way to compile a complex program made of more than a few files.
 
 ```sh
-// TODO: Provide better example.
+# TODO: Provide better example:
 g++ a.cpp -o a.o
 ```
 
@@ -355,6 +355,20 @@ you're in for a treat.
 **In simple terms, a pointer holds an address.**
 
 That's it. Remember this. A pointer holds the address of a memory location.
+
+```cpp
+//  &  The address operator, an ampersand.
+//  *  The pointer operator, a star.
+```
+
+Here's a basic example of how pointers work:
+
+```cpp
+int a = 3;    // a holds 3
+int *b = &a;  // b points to the address of a
+*b = 4;       // the address that b points to now holds 4
+cout << a;    // prints '4' to the console.
+```
 
 # Sections to Add
 
