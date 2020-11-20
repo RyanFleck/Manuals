@@ -155,7 +155,11 @@ button,
 body,
 textarea,
 pre,
-code {
+.highlight,
+p,
+div,
+code,
+span {
   /* These are not enforced if not important, wcyd? */
   -webkit-font-smoothing: antialiased !important;
   -moz-osx-font-smoothing: auto !important;
