@@ -165,6 +165,7 @@ code {
   -webkit-font-feature-settings: "liga" on, "calt" on;
   font-feature-settings: "liga" on, "calt" on;
   text-rendering: optimizeLegibility;
+  font-size: 1rem;
 }
 
 h1,
