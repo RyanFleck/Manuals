@@ -159,11 +159,10 @@ code {
   /* These are not enforced if not important, wcyd? */
   -webkit-font-smoothing: antialiased !important;
   -moz-osx-font-smoothing: auto !important;
-  font-variant-ligatures: normal;
   font-family: "JetBrains Mono", "IBM Plex Mono", "SFMono-Regular", Consolas,
     "Liberation Mono", "Noto Mono", Menlo, Courier, monospace !important;
+  font-variant-ligatures: normal;
   -webkit-font-feature-settings: "liga" on, "calt" on;
-  -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
 
