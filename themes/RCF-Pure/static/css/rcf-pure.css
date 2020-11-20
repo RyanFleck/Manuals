@@ -270,6 +270,12 @@ article > div.highlight pre {
   padding-left: calc(50vw - 310px);
 }
 
+@media only screen and (min-width: 600px) {
+  li > .highlight {
+    margin-right: calc(310px - 50vw);
+  }
+}
+
 pre {
   overflow: auto;
   background-color: transparent !important;
