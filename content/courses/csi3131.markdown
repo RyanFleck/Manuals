@@ -1,0 +1,1242 @@
+---
+title: "CSI3131: Operating Systems"
+layout: classnotes
+course-title: Operating Systems
+summary: "Notes on uOttawa's operating systems course."
+toc: true
+---
+
+# Preamble
+
+I took _CSI3131: Operating Systems_ during the Winter 2019 Semester. The notes below reflect my learning over the duration of the course. Each section anchor is hyperlinked in the table of contents above. References and footnotes are present[^md-footnotes] and can be found at the end of the document.
+
+[^md-footnotes]: Footnotes are used by placing `[^ref]` where a superscript number should be placed, and `[^ref]: explanation` can be used in-place or at the end of the document. All referenced footnotes will be collected and placed at the end of the document. [More info.](https://www.markdownguide.org/extended-syntax/)
+
+<br />
+
+# Syllabus
+
+_Operating Systems_ covers the design and implementation of basic operating systems, and provides students with hands-on experience solving OS-level problems involving processes, threading, memory management and Input/Output. Section **A** is being taught by Burak Kantarci ([bkantarc@uottawa.ca](mailto:bkantarc@uottawa.ca))
+
+## Grading
+
+A mark of _50%_ must be scored on the midterm and final to pass.
+
+If `midterm * .20` and `final * .50` is greater than _35%_, then the mark is equal to:
+
+```plain
+Assignments:   15%
+Labs:          15%
+Midterm:       20%
+Final Exam:    50%
+Bonus Quizzes: +5%
+```
+
+Otherwise, the grade is calculated with assignments, labs and bonus ignored. Failure is likely.
+
+## Textbooks
+
+Primary:
+
+```plain
+Title: Operating System Concepts/Essentials
+Authors: Silberchatz, Galvin, Gange
+Publisher: Wiley, 2011
+```
+
+Secondary:
+
+```plain
+Title: Operating Systems: Internals and Design Principles
+Author: William Stallings
+Edition: Fourth
+```
+
+```plain
+Title: Applied Operating System Concepts
+Author: A. Silberschatz et al.
+Publisher: Wiley, 2000
+```
+
+<br />
+
+# Important Dates & Deadlines
+
+| Date       | Event            |
+| ---------- | ---------------- |
+| 2019-02-11 | Assignment 1 due |
+| 2019-02-26 | **Midterm** exam |
+
+<br />
+
+# Lecture Notes
+
+Winter 2019 lectures run from January 7th to April 5th; the second week of the year through to the end of week fourteen. Lecture notes are labeled according to week, then by day/lecture. My schedule for this class/year is as follows:
+
+```
+Tuesday  1600h - Lecture in Morisset Hall 218
+Tuesday  1730h - Laboratory in SITE 2052
+Thursday 1430h - Lecture in Morisset Hall 218
+Thursday 1430h - Tutorial in Simard Hall 425
+```
+
+## Pre-Lecture Notes
+
+Each week entry is filled with the material that will be covered in the coming week, to review on the weekend-of. Each event entry should contain a summary of the learning and notes.
+
+_MathJax_ has been included for the presentation of formulae and mathematics, tutorial [here](https://math.meta.stackexchange.com/questions/5020/mathjax-basic-tutorial-and-quick-reference).
+
+It can be written inline, like so: $$ A \times B = C $$ - pretty neat. The primary means of inclusion will probably be in a block, to present formulae:
+
+$$
+    v_{O} = IR = \left( \frac{R}{ R + r_{D}} \right) (v_{s} + V_{DO})
+$$
+
+Might be good to glance though the first chapter or two of the textbook in preparation for the winter semester.
+
+Chapter One is an introduction and overview of computing environments.
+
+Chapter Two is on _Operating-System Structures_
+
+Solutions to the practice questions and extra materials are available at <http://www.os-book.com>.
+
+## **W02** January 06-12
+
+### Tuesday 1600h - Lecture in Morisset Hall 218
+
+The first OS lecture covered the syllabus, followed by simple computer architecture and threading.
+
+Labs will not be graded, but attendance is highly recommended. There will be four assignments.
+
+**I/O** is short for Input/Output. Common implementations:
+
+1. _Programmed I/O_ is inefficient, and constantly polls for input.
+1. _Interrupt-Driven I/O_ - CPU takes a few cycles to process interrupt when it occurs.
+1. _DMA_ or _Direct Memory Access_ - Bypasses CPU for most of operation. (CPU is still required to address blocks for the I/O operation.)
+
+## **W03** January 13-19
+
+### Tuesday 1600h - Lecture in Morisset Hall 218
+
+Today's CSI lecture discussed parent and child processes, including use of the `fork()` command (paired with `wait()` and `exit`) to orchestrate a simple parent+child process.
+
+- Currently in Module 2 on processes.
+- Silberchatz Chapter 3.
+
+No lab this week.
+
+### Thursday 1430h - Lecture in Morisset Hall 218
+
+Generally, this week has been discussing processes. The following concepts are earmarked as important:
+
+1. Process states, including switching.
+1. The **PCB** (Process Control Block) - What it does, stores.
+1. Process scheduling.
+1. Operations on processes.
+1. Mechanisms for process cooperation. (IPC)
+
+_Job, task and process_ are used interchangeably during the lectures.
+
+Process states:
+
+1. New - Process is being created & loading.
+1. Waiting - Process requires some event to occur.
+1. Ready - Process is not running, but ready to be assigned to run.
+1. Running - Process is executing instructions.
+1. Terminated - Execution has finished.
+
+Process information is saved in a **PCB** (Process Control Block) which includes all of the context for a process in the waiting, ready, or running state. When program execution is put on hold, the PCB is saved so execution can resume with CPU registers in the same state at a later time:
+
+1. Process State
+1. Process Number
+1. Program Counter (PC)
+1. Registers
+1. Memory Limits
+1. List of Open Files
+
+Given a list of I/O, System and User programs, a **Scheduler** must be utilized to determine the order in which waiting tasks are executed.
+
+**Process Scheduling Queues** can be used. Job (all processes), Ready (processes in main memory) and Device (I/O) queues separate processes and run them based on queue priority. In this scenario, _Long Term Schedulers_ are responsible for moving jobs from the Job (_new_ state) to Ready queue (_ready_ state), and the _Short Term Scheduler_ manages programs in the main memory, choosing to make them _run_ or _wait_. _Medium Term Schedulers_ may also be used to swap processes from the main memory to disk (_Swap Space_).
+
+```c
+/*
+ *  rcf016_fork.c - Experimental program that uses UNIX sys calls.
+ *  Copyright (C) 2018 Ryan Fleck under the GNU GPLv3.
+ *  Compiled & tested using GCC.
+ */
+
+#include<stdio.h>
+#include<unistd.h>   // Provides fork()
+#include<stdlib.h>   // Provides exit()
+// sys/types and sys/wait provides wait()
+#include <sys/types.h>
+#include <sys/wait.h>
+
+int main(int argc, char **argv)
+{
+    puts("I am a process, about to fork().");
+    int pid = fork(); //Forks _at this point_ in execution.
+
+    if( pid == 0 ) {
+        puts("I am child.");
+        exit(0);
+    } else {
+        int status;
+        wait(&status);
+        printf("I am parent. Child exited with status %i.",status);
+    }
+    return 0;
+}
+```
+
+### Thursday 1430h - Tutorial in Simard Hall 425
+
+The DGD iterated through probable quiz/midterm questions. I'll pay more attention and take better notes next time.
+
+What is the purpose of an OS?
+
+- Hardware Abstraction
+- Resource Allocation
+- Provide a Control Program `->` Supervision and manage processes.
+
+## **W04** January 20-26
+
+- **Module 2** on Processes - Notes in [midterm prep section](#w08-february-17-23).
+- Unix system calls.
+- Communication architectures.
+- Processes.
+
+## **W05** January 27 - February 02
+
+- **Module 3** on Threading - Notes in [midterm prep section](#w08-february-17-23).
+- **PCB** (Process Control Block) stores all information on a process:
+  ### Notes on - PC (Program Counter), register states, process state.
+  - Scheduling & memory management information.
+  - Owner, parents, children.
+  - I/O information & open files.
+- During context switching, a PCB can be persisted to storage.
+
+## **W06** February 03-09
+
+- **Module 4** on Scheduling - Notes in [midterm prep section](#w08-february-17-23).
+
+## **W07** February 10-16
+
+Feb **11**: Assignment 1 due. Snow days canceled the majority of CSI class this week.
+
+- **Module 5**
+- Semaphores
+
+### Piping
+
+### Forking
+
+### Fscking
+
+> fsck is used to check and optionally repair one or more Linux file systems. filesys can be a device name (e.g. /dev/hdc1, /dev/sdb2), a mount point (e.g. /, /usr, /home), or an ext2 label or UUID specifier (e.g. UUID=8868abf6-88c5-4a83-98b8-bfc24057f7bd or LABEL=root). Normally, the fsck program will try to handle filesystems on different physical disk drives in parallel to reduce the total amount of time needed to check all of the filesystems.[^fsck]
+
+[^fsck]: _linux.die.net_, [fsck](https://linux.die.net/man/8/fsck) - check and repair a Linux file system
+
+## **W08** February 17-23
+
+Reading week. Midterm preparation. Date: **Feb 26**. Covers:
+
+```
+Module-1: Operating System Overview
+Module-2: Processes
+Module-3: Threads
+Module-4: CPU Scheduling
+Module-5: Process and Thread Synchronization
+ --until Semaphores (exclusive; semaphores not included)
+```
+
+Approach:
+
+1. Glance over slides and take light notes.
+1. Look over practice material.
+1. Fill knowledge gaps by reading textbook.
+
+<br />
+
+### Notes on Module 1: Operating System Overview
+
+#### Computer System Architecture
+
+- A computer is composed of:
+  - A processor.
+  - Memory ([memory _is_ RAM](https://www.imdb.com/title/tt1106046/))
+  - IO - Input/output modules.
+  - Buses that provide communication between components.
+- Data sent to the bus is buffered in registers.
+- IO Modules have registers storing status of operations, CPU control info.
+- CPU Registers (fast memory/cache) used for critical programs.
+  - User-Visible registers can be used to hold data, condition codes.
+  - Control/Status registers used by CPU and OS:
+    - **PC** - Program Counter - Address of next instruction.
+    - **IR** - Instruction Register - Addr of latest instruction.
+    - **PSW** - Program Status Word - Contains status info, interrupt enable bit, su/user mode bit.
+- During an instruction cycle, the CPU fetches and executes the next instruction. After completing an instruction, the _PC_ is incremented.
+  - With no interrupts, the CPU will wait for IO calls to complete.
+  - Interrupts are most effective when a single CPU is shared among all processes.
+  - _Multiprogramming_ is where the CPU changes context to work on another process while the first process waits for the result of an IO operation.
+
+#### Interrupts
+
+- IO Modules interrupt the CPU.
+- An interrupt request is sent through the control bus, and an IHR (Interrupt Hander Routine) is started by the OS.
+- An instruction cycle will check for interrupts after each instruction is executed. If present, the current program is suspended and the interrupt handler is executed.
+- Can have different priorities:
+  - Can occur sequentially, interrupts cannot be interrupted.
+  - Can have priorities: certain interrupts take precedence.
+- Interrupt Classes:
+  - _Program IO_ for output and errors.
+  - _Exceptions_ that stop execution.
+  - _Timers_ that preempt a program to perfomr another task.
+  - _Hardware Failures_.
+
+#### IO - Input & Output
+
+- Cache is very fast CPU memory. When requesting data, the processor will check the cache for a word, and pull a block with the word from main memory if not present.
+- _Access Time_ - how long does it take to bring a referenced word into the processor?
+  - Where T is Total time, T1 is access time for cache, T2 is 'at for main memory.
+  - _'AT Hit Ratio_ - Fraction of data that is in the cache when it is called.
+- Types:
+
+  - **Programmed IO**
+
+    - CPU waits for each IO operation, checking if IO op is complete.
+    - Cycles are used to monitor the IO.
+
+  - **Interrupt-Driven IO**
+
+    - CPU executes instructions while IO is running.
+    - IO response processed and stored in memory/storage by the CPU.
+
+  - **Direct Memory Access**
+    - CPU sends request to DMA module.
+    - DMA module assigns a block of memory for IO to directly transfer data to.
+    - Interrupt sent when task is complete.
+    - CPU only involved at the beginning/end of transfer, free otherwise.
+
+#### Operating System
+
+- Program that is responsible for:
+  - Execution of application programs.
+  - Provides hardware abstraction for programs (interfaces).
+  - Provides interface for user to control programs.
+  - _Accounting_: collect stats on resource usage and performance.
+  - Error detection and response (retry, abort):
+    - Memory error.
+    - Device failure.
+    - Arithmetic overflow.
+    - Forbidden memory access.
+- The **Kernel**
+  - Implements hardware abstractions so:
+    - Clean and uniform interface is provided for applications.
+    - Access to hardware is managed securely, between programs.
+- Provides:
+  - Method of executing programs.
+  - Filesystem management.
+  - System access, IO access.
+  - (not integral) editors, compilers, linkers, debuggers.
+- OS Design
+  - Difficulties
+    - Improper synchronization - Programs waiting for IO must recieve signals correctly.
+    - Failed mutual exclusion - Prevent simultaneous data access.
+    - Deadlock - Programs wait for each other endlessly (Canadian computers).
+  - Solutions to Multiprogramming and Time Sharing problems:
+    - System Structure
+    - **Processes**
+      - Systematic way of initiating, controlling and monitoring program execution.
+      - A Process is an executable program including:
+        - Associated data: variables, buffers.
+        - Execution context: content of registers, process priority.
+    - **Memory Management**
+      - OS provides programs with _virtual memory_.
+      - Memory space of a program can exist on real memory and on disks.
+        - All program calls to memory are to virtual memory.
+        - Hardware mapper must map virtual memory to hardware.
+        - When an address that is not present in hardware memory is referenced:
+          - A block of lower-usage memory is persisted to disk (swap space).
+          - Referenced data is moved to hardware memory (real memory).
+    - **Information Protection/Security**
+      - A _filesystem_ is implemented to organize long-term data storage on disks.
+      - Data objects (files) are loaded into virtual memory for manipulation.
+      - Access control is implemented to restrict the usage of certain processes and files to specific users or roles.
+    - **Scheduling/Resource Management**
+      - _Differential Responsiveness_ ensures important processes are executed first.
+      - _Fairness_ ensures processes of the same class are given equal access to resources.
+      - _Efficiency_ - _"Maximize throughput, mimimize response time, accomodate as many users as possible."_[^s1]
+      - A _dispatcher_ (dispatcher is the short-term scheduler) decides which process in memory to execute next from a queue.
+      - Long term scheduler responsible for determining what subset of programs in a queue should be active. Too many, and the CPU will thrash as it context switches continuously.
+      - Queues exist for each IO device, so processes do not access them simultaneously.
+
+[^s1]: CSI3131 Slides - Module 1 - Computer Systems Overview
+
+<br />
+
+### Notes on Module 2: Processes
+
+Chapter 3 of _OS Concepts Essentials, Silberchatz._
+
+- A process executes a program, composed of:
+  - ASM/Machine code to execute.
+  - Data
+  - Heap (dynamic memory, use `malloc()` and `free()`)
+  - Stack (local variables like `int`, `double`, structs)[^glab]
+- State
+  - A process can exist in a number of states.
+  - **New**, process is being created. Can be admitted to ready state.
+  - **Ready**, process can move to running, and move back to ready after being interrupted and waiting.
+  - **Running**, program will finish and be terminated.
+    - Move to ready if interrupted or out of time.
+    - Move to waiting if an IO event has started or a resource is not yet available.
+  - **Waiting**, if the program needs data to continue execution.
+  - **Terminated**, program execution finished.
+- **PCB**
+  - Stores all program information.
+    - Process state
+    - Priority & scheduling info
+    - Process number
+    - Program counter
+    - Registers
+    - Memory limits
+    - List of open files
+  - Can be persisted to a disk (storage).
+  - Required to halt and resume process execution (requires state, _pc_)
+  - During a context switch, the PCB is updated and saved.
+- Scheduling
+  - Optimize for utilization (multiprocessing) and response time (time sharing).
+  - _Queues_ are used to organize processes:
+    - Arrays of pointers to PCBs.
+    - **Job** queue: All system processes.
+    - **Ready** queue: Progs in main memory ready for execution.
+    - **Device** queues: Processes waiting for IO on a specific device.
+
+[^glab]: Memory: Stack vs Heap, [_GribbleLab_](https://www.gribblelab.org/CBootCamp/7_Memory_Stack_vs_Heap.html)
+
+#### Scheduling
+
+- Types of Schedulers
+  - _Dispatcher_ - Short term scheduler responsible for moving progs from ready to running.
+  - Medium term - Selects which processes to move to/from swap space.
+  - Long term - Selects which progs to move from new to ready, into memory.
+- Context Switching
+  - In a multiprogramming scenario, when a prog is waiting for another prog or io, its context is saved into a PCB, and a ready program is brought back into the CPU.
+
+#### Operations
+
+- Creation
+  - Parents spawn children, which:
+    - Share memory like COWs[^cow] if `fork()`ed.
+    - May be executed processes.
+  - Fork and Exec
+    - **Fork** creates a child process.
+      ```c
+      int pid = fork();
+      ```
+      - Test bullet.
+      - FooBar.
+    - **Exec** replaces the program with another.
+      ```c
+      int execl(const char *path, const char *arg, ...);
+      ```
+      - When called during a fork, a new program runs, the process' memory space is replaced.
+      - Unless there is an error, control is never returned to the parent.
+  - createProcess is a Windows call that forks, then execs a specified prog.
+- Termination
+  - `exit` - call made by the program, graceful exit.
+  - `kill` - pid can be called to kill an unwanted process.
+  - `terminateProcess` - like kill, but on Winblows.
+  - Abnormal termination occurs when the program encounters an error. (`1`)
+  - OS releases resouces held by the process.
+  - Exit state can be seen by executing `wait()` in parent.
+
+[^cow]: _Copy on Write_
+
+### Inter-Process Communication
+
+- IPC Models
+  - **Memory Sharing**
+    - Process _A_ makes a system call to create a shared region of memory.
+    - Process _B_ makes a syscall to map the shared space into its address space.
+  - **Message Passing**
+    - Utilizes `send` and `recieve` operations.
+    - Can achieve:
+      - Direct or indirect communication.
+      - Synchronous or async communication.
+      - Automatic or explicit buffering.
+- Direct Communication:
+  - Automatically establish bidirectional links between applications.
+  - Sender/reciever named in function call.
+- Indirect Comms:
+  - Messages are sent to mailboxes/ports.
+  - Mailboxes can be shared, and ops: create, destroy.
+  - Many progs can send/recieve from a mailbox.
+- Blocking (_synchronous_) message passing.
+  - Sender waits until message is recieved, and vv[^vv].
+  - Possible deadlock problem.
+- Non-Blocking (_asynchronous_) message passing.
+  - Sender does not wait for message to arrive to continue execution.
+- Buffering:
+  - Data moved into a system buffer.
+  - If reciever buffer is available, data is transferred.
+  - Data read out of reciever buffer.
+- **Pipes**:
+  - Unix processes created with 3 files:
+    1. Standard input `0`
+    2. Standard output `1`
+    3. Standard error `2`
+  - This standard I/O can be redirected to other programs and files with pipes.
+  - Invoked by `fork()` ing, and opening/closing the pipe on the correct ends.
+    ```c
+    int file_descriptors[2];  // Create arr to save fdrs
+    pipe( file_descriptors ); // Create pipe, save fdrs into arr
+    ```
+  - `mkfifo()` creates named pipe, better than regular pipes... how? No idea.
+- **Signals**:
+  - `02 SIGINT` interrupts processes.
+  - `09 SIGKILL` aka `KILL-9`, terminates process, see [Monzy](https://www.youtube.com/watch?v=Fow7iUaKrq4) vid.
+  - The signal is processed at the beginning of the next user-mode execution cycle of the process.
+- **Sockets**: Endpoints for communication.
+  - Concatenated IP Address and port. I.E. `201.12.99.14:696`
+  - A _communication link_ is a pair of sockets.
+- **RPC/RMI** - Remote Procedure Calls & Remote Method Invocation:
+  - Procedures can be called on different machines.
+  - Return values need to be passed between computers.
+  - Implemented with client and server **stubs**.
+    - Client stub finds server and _marhalls_ parameters.
+    - Server stub unpacks params, performs procedure.
+  - Java _RMI_ like _RPC_. Allows methods to run and return data remotely.
+    ```java
+    // On the client.
+    val = server.methodName( A, B );
+    // Meanwhile, on the server...
+    boolean methodName( Object a, Object b ){
+        // Operations.
+    }
+    ```
+
+[^vv]: _Abbreviation_: vv => vice versa.
+
+<br />
+
+### Notes on Module 3: Threads
+
+Chapter 4 of _OS Concepts Essentials, Silberchatz._
+
+- A process owns a virtual address space, an image of the process, and files.
+- A process executes along with other programs, and has an execution state and priority.
+- A single CPU/set of registers can only support one concurrent execution.
+- A **Thread**:
+  - Subdivision of a process.
+  - Shares the address space and resources of the parent.
+  - Have an independant set of registers/stack.
+  - Less expensive than a full context switch.
+  - Comms between threads faster than between processes.
+  - Much shorter creation time than more processes.
+- Threads enable:
+  - Responsive computers: one thread can handle user interation, another heavy lifting.
+  - Utilization of multiple processors: threads execute in parallel.
+- Threads can be managed by the OS kernel (UNIX) or a library (Java).
+
+#### Multithreading Models
+
+- Where:
+  - _Kernel Threads_ (**kthreads**) refer to thread implementations provided by the OS Kernel.
+  - _User Threads_ (**uthreads**) refer to thread models provided by programming lang libs.
+- **One to One**, where each uthread is given a kthread.
+  - Thread management is expensive, limited number of threads.
+  - Better concurrency, can utilize multiple processors.
+- **Many to One**, where all uthreads are mapped to a single kthread.
+  - No system calls or OS support needed. Portable solution.
+  - OS cannot distinguish between a blocked uthread or process.
+- **Many to Many**, where multiple uthreads are allocated across multiple kthreads.
+  - Thread library dynamically maps uthreads to kthreads.
+
+#### Using Threads
+
+- Creation and Termination
+  - Fork & exec
+    - Fork duplicates the calling thread.
+    - Exec destroys all threads as it replaces the process.
+  - Pools
+    - Threads can be created, and assigned work later.
+    - No lost resources in dynamically creating threads.
+  - Cancellation
+    - Async: Threads destroyed immediately, possible corruption.
+    - Deferred: Flag placed on thread, will terminate gracefully.
+- Signal handling
+  - Basically UNIX software interrupt.
+  - Signal handler used to deliver signal to process.
+    - Can send signal to:
+      - Every thread.
+      - Certain threads.
+      - One thread gets all signals.
+      - One thread to which the signal applies.
+- Thread Specifc data:
+  - Useful for each thread to have unique copy of data when thread creation not handled by programmer (implicit, library use.)
+- Scheduler Activations:
+  - Many to many models require kthreads to issue **upcalls** to uthreads when a kthread is about to block a uthread.
+
+#### Threading Examples
+
+- Libraries
+
+  - PThreads: POSIX standard API for kthread init/sync.
+
+    ```c
+    int main {
+      int id[6];
+      for(i=0; i<6; i++){
+        id[i] = i;
+        pthread_create( &tid[i], &attr, worker, &id[i]);
+      }
+      return 0;
+    }
+
+    void * worker(){
+      printf("I am a Worker Thread");
+      pthread_exit(0);
+    }
+
+    ```
+
+  - Java Threads: extend Thread class or implement Runnable for uthreads.
+
+    ```java
+    class Worker extends Thread{
+      public void run() {
+        System.out.println("I Am a Worker Thread");
+      }
+    }
+
+    public class First{
+      public static void main(String args[]) {
+        Worker x = new Worker();
+        x.start();
+        System.out.println("I Am The Main Thread");
+      }
+    }
+    ```
+
+    - Join with `thread.join();`
+    - Interrupt with `thread.interrupt();`
+    - Use `ThreadLocal` to create thread-specific data.
+
+- Implementations
+  - UNIX
+    - Calls them _tasks_, `clone()` sets full/little sharing.
+  - Windows XP
+    - Implements one-to-one mapping.
+    - Threads contain id, register set, separate user/kernel stacks.
+    - Leans on a kthread.
+  - Java
+    - Threads managed by JVM.
+    - Many-to-many model.
+
+<br />
+
+### Notes on Module 4: CPU Scheduling
+
+Chapter 6 of _OS Concepts Essentials, Silberchatz._
+
+- _Multiprogramming_
+  - Maximize resources by ensuring CPU does not waste cycles on blocked ops.
+  - Scheduling algos balance resouces based on different needs.
+  - Majority of CPU bursts are very short before blocked waiting for IO.
+- **Dispatcher module** gives the proc selected by the **short-term scheduler** CPU time. _Dispatch latency_ is the time it takes the dispatcher to stop a process and begin running another.
+- Optimize For:
+  - Servers -> Throughput, # of processes that complete per time unit.
+  - Batch Systems -> Low turnaround time, submitted job completion.
+  - Heavily loaded sys -> Fairness & waiting time.
+  - Time Sharing sys -> Response time, request submitted to system response.
+
+There will be questions about the above optimization scenarios. The following metrics will need to be provided, along with averages:
+
+- _Utilization_ is the percentage when processes are running. (`90%`)
+- _Throughput_ is the processes finished divided by the time. (`4/23`)
+- _Turnaround TIme_ is measured in time units, how fast the sys finishes computation since proc arrival (`3us`)
+- _Waiting Time_: duration after proc arrival when proc not being executed.
+- _Response Time_: duration between proc arrival and first execution.
+
+Generally:
+
+- Maximize CPU Utilization and throughput.
+- Minimize turnaround, waiting, response times.
+
+Preemptive:
+
+- Definition: taking measures to handle an imminent event.
+- OS Definition: CPU switches tasks before proc voluntarily releases it.
+  - Example: Proc uses up alloted time slice, switches from running to ready.
+
+#### Algorithms
+
+- Basic
+
+  - **FCFS**: First come, first served.
+    - When proc arrives, it is put at the end of the ready queue.
+    - Proc at front of queue runs until finished.
+    - _Not_ preemptive. Dumb algo.
+    - Convoy effect: low CPU and IO utilization as everything waits.
+  - **SJF**: Shortest Job First - two cases:
+
+    - NonPreemptive:
+      - CPU bursts allowed to finish.
+    - Preemptive:
+
+      - CPU bursts interrupted when a shorter burst-len task arrives.
+      - Gives minimum average waiting time.
+      - Burst times estimated with exponential averaging:
+
+        - $$ t_n $$ - Length of $$ n^{th} $$ cpu burst.
+        - $$ \tau\_{n+1} $$ - Predicted length of next cpu burst.
+        - $$ \alpha $$ - Inclusively between 0 and 1, relative weight of val. Should be lower if a process has more anomalies. Closer to 1, more emphasis placed on immediately previous burst.
+
+        $$
+            \begin{align}
+            \tau_{n+1} & = \alpha t_n + (1 - \alpha)\tau_n \\
+            \tau_{n+1} & = \alpha t_n +
+              (1 - \alpha)^1 \alpha t_{n-1} +
+              (1 - \alpha)^2 \alpha t_{n-2} ...
+            \end{align}
+        $$
+
+  - **Priority**
+    - Procs assigned a priority, tasks processed based on this priority.
+    - Can be explicit/set based on need or work-environment politics.
+    - Starvation can be resolved by aging - slowly increasing the priority.
+  - **Round Robin**
+    - `n` processes get `1/n` CPU time each per `q` time units.
+      - Large `q` means first come, first serve.
+      - Small `q` will cause thrashing[^thrash].
+      - `q` should be larger than the time to:
+        - Execute context switching.
+        - Average CPU burst length to prevent small ops from being split.
+    - Better response, but worse avg turnaround than _SJF_.
+
+- Multiple Queues
+  - **Multi-Level**
+    - Split ready queue into foreground/background procs.
+    - Implement different algos for each queue.
+    - Each queue can get a priority or time slice.
+  - **Multi-Level Feedback**
+    - Multilevel, but queues are priorities, and procs can move up/down queues.
+    - Move higher when process is aging/important.
+    - Move lower when process is being a CPU hog.
+    - Algos must be implemented for each queue, and when to lift/drop proc priority.
+
+[^thrash]: _Thrashing_ - When the CPU is trying to process too many programs simultaneously, and constant context switching and swapping prevents any real work from being completed.
+
+#### Advanced Topics
+
+- Multiprocessor Scheduling:
+  - Approaches:
+    - Asymmetric multiprocessing: one CPU makes all scheduling decisions.
+    - **SMP**: Symmetric multiprocessing:
+      - Each CPU is self-scheduling from common queues.
+      - Benefits of caching lost when processes swap processors.
+        - SMP gives procs _processor affinity_ to address this.
+      - Load Balancing:
+        - CPUs that are equally capable should be equally loaded.
+        - Methods:
+          - _Push migration_ is a task run to redistribute load.
+          - _Pull migration_: CPU finishes work and pulls new work from loaded CPUs.
+  - Symmetric multithreading: (Intel _Hyperthreading_, AMD _SMP_)
+    - Provided in hardware. A single processor contains multiple logical CPUs.
+- Thread Scheduling:
+  - Contention slope:
+    - Threads compete for resources.
+    - **PCS**: Process contention scope.
+      - uthreads compete to retain running state.
+      - many-to-one or many-to-many models.
+    - **SCS**: Global contention scope.
+      - kthreads compete for CPU time.
+      - One-to-one model.
+  - PThread scheduing:
+    - Can specify _PCS_ or _SCS_ scopes.
+      - `PTHREAD_SCOPE_PROCESS` makes pthreads user-level threads.
+      - `PTHREAD_SCOPE_SYSTEM` binds each user-level thread to a processor.
+- Algorithm Evaluation:
+  - Deterministeic modeling:
+    - For a predetermined workload, compares performance of different algos.
+  - Queuing models:
+    - Computer described as a network of servers with queues.
+    - With arrival and service data, the utilization and avg queue-len/wait time can be computed.
+  - Simulation modeling:
+    - Create simulator, run different algos.
+    - Generate data for CPU and IO bursts based on random data or distributions.
+    - Feed data from real system to simulate CPU.
+  - Implementation:
+    - High cost to implement and test in real life.
+
+#### Examples
+
+- Linux
+  - Preemtive and priority-based.
+  - Two priority ranges:
+    - Time-sharing:
+      - Highest priority task in active array selected.
+      - When task time ends, priority reevaluated, moved to expired array.
+      - Expired array becomes active when all active tasks are complete.
+    - Real-time:
+      - Soft realtime.
+      - Highest priority process runs first.
+- WinXP
+  - Preemtive and priority-based.
+- Solaris
+  - Uses multi-level feedback queue
+  - Classes of Scheduling
+    - Real time
+    - System
+    - Interactive
+    - Time sharing (default)
+- Java
+  - Preemtive and fixed-priority.
+  - FCFS within priority planes.
+  - JVM doesn't ensure time-slicing, so processes can `yield();` to opt out.
+  - Thread priority can be set in code using `setPriority()`.
+
+<br />
+
+### Notes on Module 5: Process and Thread Synchronization
+
+Chapter 5 of _OS Concepts Essentials, Silberchatz._
+
+- Access to resources shared by concurrent threads needs to be controlled.
+- Order of execution determines the final output of the running code.
+- Ideally, we avoid race conditions.
+- **Critical Section Problem** Requirements:
+  - Mutual Exclusion:
+    - Only a single process should be executing its critical section at a given time.
+  - Bounded Waiting:
+    - Limit to number of times a proc is allowed to enter a critical path wheile another is waiting to enter.
+  - Progress:
+    - For a group of procs about to enter the critical section:
+      - No deadlock
+      - No interference - If a prog terminates in remainder section _rs_ it should not block other progs from entering the critical section _cs_.
+      - Assume a thread always exits the critical section.
+- Background Producer/Consumer:
+- Classic Problems:
+  - Bounded Buffer:
+  - Reader Writer:
+  - Dining Philosophers:
+- Synchronization in Real Systems:
+
+#### Peterson's Solution
+
+- FooBar
+
+#### Hardware Solutions
+
+- Disable, then enable, interrupts.
+
+#### Monitors
+
+- FooBar
+
+### Semaphores
+
+_Transplanted from [Java Manual]({{ site.url }}/java#semaphores)._
+
+A Semaphore is a data structure used to address synchronization problems. It can be used in a variety of patterns. Essentially, a semaphore is a number that can be incremented or decremented, but not read, and the value of the semaphore dictates if a thread can continue operating, or must wait. The rules are well defined in the _Little Book of Semaphores_[^lbos] (This numbered list of rules is copied from the text.):
+
+1. When you create the semaphore, you can initialize its value to any integer, but after that the only operations you are allowed to perform are increment
+   (increase by one) and decrement (decrease by one). You cannot read the
+   current value of the semaphore.
+2. When a thread decrements the semaphore, if the result is negative, the
+   thread blocks itself and cannot continue until another thread increments
+   the semaphore.
+3. When a thread increments the semaphore, if there are other threads waiting, one of the waiting threads gets unblocked.
+
+[^lbos]: _Little Book of Semaphores_ more info needed.
+
+A basic implementation of a semaphore in Java appears as follows, utilizing the built-in `Thread` library for `wait()` and `notify()` to stop and start the threads.
+
+```java
+class Semaphore{
+
+    private int count;
+
+    public Semaphore( int count ){
+        this.count = count;
+    }
+
+    synchronized public void wait()
+    throws InterruptedException{
+        count--;
+        if( count < 0 ) wait();
+    }
+
+    synchronized public void signal()
+    throws InterruptedException{
+        count++;
+        notify();
+    }
+}
+```
+
+Wait and signal are used in a number of different ways. At this point, it is best to discuss some common patterns to show how semaphores work, and when to apply them. In the subsections below, threads are labeled `A, B, C... N`, and Semaphores are `sx, sy, sz... n` or `sa, sb, sc` when created to deal with a specific thread.
+
+#### Signaling
+
+When thread `A` requires thread `B` to complete an action before it can continue, it must wait until thread `B` sends a signal. This ensures that A will never `dostuff()` before `B` does.
+
+```java
+Semaphore sx = new Semaphore(1);
+
+/*  Thread A  */
+    sx.wait();
+    doStuff();
+
+/*  Thread B  */
+    doStuff();
+    sx.signal();
+```
+
+#### Rendezvous
+
+When thread `A` and `B` need to wait for each other, and cannot continue to execute until both finish certain commands. Neither thread can proceed until they reach a given point. To implement this, ensure each thread signals as it arrives, and is placed into the thread queue as count is below zero. The second thread to `signal()` will call `wait()` on the first thread, which will call `wait()` on the second thread, and both can continue to `dostuff2()`, though the order is not guaranteed.
+
+```java
+// Tracks if A is ready.
+Semaphore saReady = new Semaphore(0);
+
+// Tracks if B is ready.
+Semaphore sbReady = new Semaphore(0);
+
+/*  Thread A  */
+    doStuff();
+    saReady.signal();
+    sbReady.wait();
+    doStuff2();
+
+/*  Thread B  */
+    doStuff();
+    sbReady.signal();
+    saReady.wait();
+    doStuff2();
+```
+
+#### Mutex
+
+Short for _Mutual Exclusion_, ensures only one thread can execute the code in a crital section concurrently. A very large number of threads can operate concurrently using this model, and it is guaranteed that only one will ever `doCriticalStuff()` at any given moment.
+
+```java
+Semaphore sx = new Semaphore(1);
+
+/*  Thread N  */
+    sx.wait();
+    doCriticalStuff();
+    sx.signal();
+```
+
+#### Multiplex
+
+The _Multiplex_ pattern allows a set number of threads to enter a critical path concurrently. This pattern is identical to the _Mutex_ pattern, but the Semaphore is instatiated with value `n` as count, where `n` is the thread limit.
+
+```java
+Semaphore sx = new Semaphore(n);
+
+/*  Thread N  */
+    sx.wait();
+    doCriticalStuff();
+    sx.signal();
+```
+
+#### Barrier
+
+An n-threaded generalization of the _Rendezvous_ pattern. All threads will be blocked until the _nth_ thread arrives, and then all can continue simultaneously. The solution incorporates a _turnstile_ where the semaphore is rapidly decremented, then incremented, allowing each thread to pass through after the _nth_ thread arrives. Unfortunately, this barrier pattern can only be used once as the turnstile does not reset itself.
+
+```java
+// Mutex used to update the thread count.
+Semaphore mutex = new Semaphore(1);
+int count = 0;
+
+// Barrier used to count incoming threads.
+Semaphore barrier = new Semaphore(0); // Init as locked.
+
+/*  Thread N  */
+    mutex.wait();
+    count++;
+    mutex.signal();
+
+    // Makes the barrier one to enable turnstile.
+    if( count == n ) barrier.signal();
+
+    // Turnstile occurs.
+    barrier.wait();
+    barrier.signal();
+
+    doStuff();
+```
+
+#### Two-Phase Barrier
+
+Threads wait before and after executing the critical section, in order to ensure no threads _lap_ the others. Only one barrier is open at a time. When count reaches _n_, `barrierB` is locked and `barrierA` is opened, and _vice versa_. Locking/unlocking the barriers involves incrementing the semaphore once so it can _turnstile_ when all the threads arrive.
+
+```java
+// Mutex used to update the thread count.
+Semaphore mutex = new Semaphore(1);
+int count = 0;
+
+// Barrier used to count incoming threads.
+Semaphore barrierA = new Semaphore(0); // Init as locked.
+Semaphore barrierB = new Semaphore(1); // Init as open.
+
+/*  Thread N  */
+    mutex.wait();
+        count++;
+        if( count == n ){
+            barrierB.wait();
+            barrierA.signal();
+        }
+    mutex.signal();
+
+    barrierA.wait();
+    barrierA.signal();
+
+    doStuff(); // Critical point.
+
+    mutex.wait();
+        count--;
+        if( count == 0 ){
+            barrierA.wait();
+            barrierB.signal();
+        }
+    mutex.signal();
+
+    barrierB.wait();
+    barrierB.signal();
+```
+
+#### Queue
+
+A queue ensures threads of different types proceeed in pairs.
+
+```java
+Semaphore typeX = new Semaphore(0);
+Semaphore typeY = new Semaphore(0);
+
+/*  Thread A of type X  */
+    typeY.signal();
+    typeX.wait();
+    doStuff();
+
+/*  Thread B of type Y  */
+    typeX.signal();
+    typeY.wait();
+    doStuff();
+```
+
+<!-- RESUME HERE -->
+
+<br />
+
+<!--
+
+## **W09** February 24 - March 02
+
+### Tuesday  1600h - Lecture in Morisset Hall 218
+### Tuesday  1730h - Laboratory in SITE 2052
+### Thursday 1430h - Lecture in Morisset Hall 218
+### Thursday 1430h - Tutorial in Simard Hall 425
+
+## **W10** March 03-09
+
+### Tuesday  1600h - Lecture in Morisset Hall 218
+### Tuesday  1730h - Laboratory in SITE 2052
+### Thursday 1430h - Lecture in Morisset Hall 218
+### Thursday 1430h - Tutorial in Simard Hall 425
+
+## **W11** March 10-16
+
+### Tuesday  1600h - Lecture in Morisset Hall 218
+### Tuesday  1730h - Laboratory in SITE 2052
+### Thursday 1430h - Lecture in Morisset Hall 218
+### Thursday 1430h - Tutorial in Simard Hall 425
+
+## **W12** March 17-23
+
+### Tuesday  1600h - Lecture in Morisset Hall 218
+### Tuesday  1730h - Laboratory in SITE 2052
+### Thursday 1430h - Lecture in Morisset Hall 218
+### Thursday 1430h - Tutorial in Simard Hall 425
+
+## **W13** March 24-30
+
+### Tuesday  1600h - Lecture in Morisset Hall 218
+### Tuesday  1730h - Laboratory in SITE 2052
+### Thursday 1430h - Lecture in Morisset Hall 218
+### Thursday 1430h - Tutorial in Simard Hall 425
+
+## **W14** March 31 - April 06
+
+### Tuesday  1600h - Lecture in Morisset Hall 218
+### Tuesday  1730h - Laboratory in SITE 2052
+### Thursday 1430h - Lecture in Morisset Hall 218
+### Thursday 1430h - Tutorial in Simard Hall 425
+
+-->
+
+## **W15** April 07-12
+
+Final preparation. Date: **Feb 10**. Most questions from chapters 5-12.
+
+Major topics:
+
+- Process Synchronization
+- Deadlocks
+- Memory
+- Virtual Memory
+
+Minor topics:
+
+- Mass Storage
+- File Systems
+- I/O Systems
+- CPU Scheduling
+- Threading
+- Processes
+
+### Notes on Modules 5 and 6: Syncronization and Deadlocks
+
+#### The Critical Section Problem
+
+How can we programmers guarantee that a thread or process has exclusive access to a set of resources in a 'critical section' of the code? A good solution must meet a few requirements. Mutual Exclusion must be attained, where only a single thread is executing the critical section simultaneously. The CS must be accessible to all threads that need to enter it, and deadlock should be avoided. Sharing is caring, so Bounded Waiting must be implemented to eliminate famine.
+
+The Critical Section Problem can be solved with software, hardware or higher level software abstractions like semaphores and monitors.
+
+##### Peterson's Algorithm
+
+Ensures two processes cannot enter the critical section simultaneously. A valid solution to the Critical Section Problem.
+
+```c
+/* Task i: */
+while(true) {
+    flag[i]=true;
+    turn=j;
+    while (flag[j]==true && turn==j){/* Busy-Waiting */} ;
+    /* Critical Section */
+    flag[i]=false; // I no longer want in
+    /* Remainder Section */
+}
+```
+
+<!--resumehere-->
+
+##### Banker's Algorithm
+
+#### Semaphores vs Monitors
+
+Monitors are implemented using Semaphores, ensure mutual exclusion, and also contains procedures and local data.
+
+#### Deadlock Conditions
+
+#### Handling Deadlocks
+
+avoidance, prevention, allowing deadlocks then detection +
+recovery, ignoring the problem and pretending that deadlocks
+never occur in the system, recovery strategies.
+
+- Resource allocation graph
+- Safe state
+- Banker's Algorithm
+- Deadlock detection algorithm.
+
+### Notes on Module 7: Memory
+
+#### Physical and Logical Address Spaces
+
+#### Internal and External Fragmentation
+
+- compaction
+
+#### Contiguous Allocation
+
+fixed partitioning, dynamic partitioning, placement
+algorithms
+
+#### Paging
+
+address translation, page tables, how are
+they used and implemented, TLB, Effective Access
+Time (hierarchical, hashed, inverted page table)
+
+#### Segmentation
+
+segment table, & in combination
+with paging
+
+- How to do protection/sharing in each scheme
+
+### Notes on Module 8: Virtual Memory
+
+#### Paging
+
+- demand paging
+- pre-paging
+
+#### Page Faults
+
+- Why
+- Process
+
+#### Page Fault Replacement Algorithms
+
+##### Optimal
+
+##### FIFO
+
+First in first out, a circular buffer is used to keep a pointer to the next frame to be replaced.
+
+##### LRU
+
+Least recently used, implements a linked list to test which frame was used the least recently.
+
+##### CLOCK
+
+Implements a FIFO circular buffer, but entires have a use bit. The pointer skips an entry and turns the 'use' bit off if the use bit is present when attempting to replace a frame.
+
+#### Page Buffering and Cleaning Policies
+
+#### Allocation Issues
+
+Thrashing, what and how to deal with.
+
+Resident set Management
+
+- local/global replacement scope
+- fixed/variable allocation size
+
+Page Fault Rate Stragegy
+
+#### Load Control
+
+- what
+- why
+
+### Notes on Module 9: File Systems
+
+####
+
+####
+
+### Notes on Module 10: Mass Storage
+
+_ToDo_
+
+### Notes on Module 11: Input & Output (I/O)
+
+_ToDo_
+
+<br />
+
+# Side Effects
+
+Interesting experiments that occur as a result of knowledge gained in the classroom will be documented here, if any are completed.
+
+<br />
+<!-- References are generated, please leave this header. -->
+# References

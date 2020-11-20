@@ -1,0 +1,283 @@
+---
+title: "PHY2323: Electricity & Magnetism"
+layout: classnotes
+course-title: Electricity & Magnetism
+toc: true
+draft: true
+---
+
+<h3>Table of Contents</h3>
+1. Seed list entry.
+{:toc}
+
+<br />
+
+# Preamble
+
+I took _PHY2323: Electricity & Magnetism_ during the Winter 2019 Semester. The notes below were recorded over the duration of the course, after each lecture. Each section anchor is hyperlinked in the table of contents above. References and footnotes are present[^md-footnotes] and can be found at the end of the document.
+
+[^md-footnotes]: Footnotes are used by placing `[^ref]` where a superscript number should be placed, and `[^ref]: explanation` can be used in-place or at the end of the document. All referenced footnotes will be collected and placed at the end of the document. [More info.](https://www.markdownguide.org/extended-syntax/)
+
+<br />
+
+# Syllabus
+
+TBR. Section **A** is being taught by Michel Godin ([mgodin@uOttawa.ca](mailto:mgodin@uOttawa.ca)).
+
+<br />
+
+# Important Dates & Deadlines
+
+| Date       | Event             |
+| ---------- | ----------------- |
+| 2019-01-25 | Assignment 1 due  |
+| 2019-02-05 | Assignment 2 quiz |
+| 2019-02-25 | Assignment 3 due  |
+| 2019-03-12 | **Midterm** exam  |
+
+<br />
+
+# Lecture Notes
+
+Winter 2019 lectures run from January 7th to April 5th; the second week of the year through to the end of week fourteen. Lecture notes are labeled according to week, then by day/lecture. My schedule for this class/year is as follows:
+
+```
+Tuesday 1130h - Lecture in CBY C03
+Tuesday 1900h - Tutorial in Henderson 013
+Friday 1300h - Lecture in CBY C03
+```
+
+## Pre-Lecture Notes
+
+Each week entry is filled with the material that will be covered in the coming week, to review on the weekend-of. Each event entry should contain a summary of the learning and notes.
+
+_MathJax_ has been included for the presentation of formulae and mathematics, tutorial [here](https://math.meta.stackexchange.com/questions/5020/mathjax-basic-tutorial-and-quick-reference).
+
+It can be written inline, like so: $$ A \times B = C $$ - pretty neat. The primary means of inclusion will probably be in a block, to present formulae:
+
+$$
+    v_{O} = IR = \left( \frac{R}{ R + r_{D}} \right) (v_{s} + V_{DO})
+$$
+
+_Maxwell's Equations_
+
+$$
+    \begin{align}
+        \nabla \times \vec{E} & = - \frac{\partial \vec{B}}{ \partial t }
+        &\text{1}\\[10pt]
+        \nabla \times \vec{H} & = \vec{J} + \frac{ \partial \vec{D} }{ \partial t }
+        &\text{2}\\[10pt]
+        \nabla \cdot \vec{D} & = \rho_v
+        &\text{3}\\[10pt]
+        \nabla \cdot \vec{B} & = 0
+        &\text{4}
+    \end{align}
+$$
+
+Expressed in MathJax/LATeX as:
+
+```tex
+$$
+    \begin{align}
+        \nabla \times \vec{E} & = -
+            \frac{\partial \vec{B}}{ \partial t }
+        &\text{1}\\[10pt]
+        \nabla \times \vec{H} & = \vec{J} +
+            \frac{ \partial \vec{D} }{ \partial t }
+        &\text{2}\\[10pt]
+        \nabla \cdot \vec{D} & = \rho_v
+        &\text{3}\\[10pt]
+        \nabla \cdot \vec{B} & = 0
+        &\text{4}
+    \end{align}
+$$
+```
+
+Might be good to glance though the first chapter or two of the textbook in preparation for the winter semester.
+
+Chapter One is on _Electromagnetic Field Theory_.
+
+Chapter Two is on _Vector Analysis_.
+
+## **W02** January 06-12
+
+### Tuesday 1130h - Lecture in CBY C03
+
+First lecture of the year. Turns out _Michel Godin_ is pronounced _Michelle Godain_, that'll be good to remember for meeting the guy one-on-one.
+
+The beginning of the lecture was an overview of what to review and expect from the course, which is essentially applied vector calculus. The course covers Chapters 2-7 of the _Guru_ textbook, which is the primary teaching resource. Chapter 2 is essential concepts and review, this was covered in the remainder of this first lecture. Quizzes will be given during DGDs to displace assignments, due to class size.
+
+**An important distinction:** Unit Vector representation in-class and in the textbook is different:
+
+$$
+    \begin{align}
+        \vec{a_x}, \, \vec{a_y}, \, \vec{a_z} \, \,
+        &\text{In Guru, unit vectors use arrows and subscript.} \\[10pt]
+        \hat{x}, \, \hat{y}, \, \hat{z} \, \,
+        &\text{In class, unit vectors use hats.}
+    \end{align}
+$$
+
+Next, Godin went over the entirety of Chapter 2. Important concepts to review:
+
+- Dot Product
+- Cross Product
+- Handling Vectors
+- Coordinate Systems:
+  - Cartesian $$ (x,y,z) $$
+  - Cylindrical $$ (\rho,\phi,z) $$
+  - Spherical $$ (r, \theta, \phi) $$
+- Differential volumes, surfaces, lines.
+
+### Friday 1300h - Lecture in CBY C03
+
+Missed this lecture for CUSEC.
+
+## **W03** January 13-19
+
+### Tuesday 1130h - Lecture in CBY C03
+
+- See prof lecture notes for _Tuesday, #3_.
+- Chapter 3 in Guru book.
+- There are only ~5 different integrals used throughout the course.
+- Line, surface, volume integrals.
+- Problems discussed:
+  - Line charge problem affecting a point.
+  - Uniformly charged surface affecting a point.
+
+Process for all problems:
+
+1. Draw the situation.
+1. Figure out which equation to apply to the problem.
+1. Plug in all the variables.
+1. Solve (profit).
+
+$$
+    \begin{align}
+       &\epsilon_{0} &\text{Permativity of free space.}\\[10pt]
+       &\epsilon &\text{Permativity of material.}
+    \end{align}
+$$
+
+### Tuesday 1900h - Tutorial in Henderson 013
+
+Problems in Section ~2.17 were solved on the board. First, 2.24, where the total flux passing through the surface of a cylinder is calculated. Second, 2.31, where the flux through the volume of a sphere is calculated.
+
+### Friday 1300h - Lecture in CBY C03
+
+Skipped lecture for IBM interview.
+
+## **W04** January 20-26
+
+### Tuesday 1130h - Lecture in CBY C03
+
+Lectures are getting harder to follow. Today's topics were based on _Guru 3.5_. When encountering an electrostatics question, the first method used should be Gauss's Law. The Gauss approach is, by far, the easiest way to solve a problem, but it has limitations. It can only be used when there is spherical symmetry, an infinite line/cylinder of charge, or an infinite plane of charge. In all other cases, Coulomb's law must be used to solve problems.
+
+Electric Potential is a Scalar Field with units **V** (Volts). And is equal to the gradient of V.
+
+$$
+         \vec{E} \, = \, - \nabla V
+$$
+
+### Tuesday 1900h - Tutorial in Henderson 013
+
+The three steps to solve every assignment problem:
+
+1. Visualize the problem and draw a detailed diagram.
+2. Pick the correct formula and plug variables in.
+3. Solve the formula. (_Profit!_)
+
+### Coulomb's Law Charge Distribution Formulae
+
+From Lecture 2 notes on _Jan 11_:
+
+**Line of Charge**
+
+**Surface of Charge**
+
+**Volume of Charge**
+
+### Friday 1300h - Lecture in CBY C03
+
+Skipped to work on **A1**:
+
+## **W05** January 27 - February 02
+
+### Tuesday 1130h - Lecture in CBY C03
+
+### Tuesday 1900h - Tutorial in Henderson 013
+
+### Friday 1300h - Lecture in CBY C03
+
+## **W06** February 03-09
+
+### Tuesday 1130h - Lecture in CBY C03
+
+### Tuesday 1900h - Tutorial in Henderson 013
+
+### Friday 1300h - Lecture in CBY C03
+
+## **W07** February 10-16
+
+### Tuesday 1130h - Lecture in CBY C03
+
+Begins
+
+### Tuesday 1900h - Tutorial in Henderson 013
+
+School closed due to snow.
+
+### Friday 1300h - Lecture in CBY C03
+
+## **W08** February 17-23
+
+Reading week.
+
+<!--
+
+## **W09** February 24 - March 02
+
+### Tuesday 1130h - Lecture in CBY C03
+### Tuesday 1900h - Tutorial in Henderson 013
+### Friday 1300h - Lecture in CBY C03
+
+## **W10** March 03-09
+
+### Tuesday 1130h - Lecture in CBY C03
+### Tuesday 1900h - Tutorial in Henderson 013
+### Friday 1300h - Lecture in CBY C03
+
+## **W11** March 10-16
+
+### Tuesday 1130h - Lecture in CBY C03
+### Tuesday 1900h - Tutorial in Henderson 013
+### Friday 1300h - Lecture in CBY C03
+
+## **W12** March 17-23
+
+### Tuesday 1130h - Lecture in CBY C03
+### Tuesday 1900h - Tutorial in Henderson 013
+### Friday 1300h - Lecture in CBY C03
+
+## **W13** March 24-30
+
+### Tuesday 1130h - Lecture in CBY C03
+### Tuesday 1900h - Tutorial in Henderson 013
+### Friday 1300h - Lecture in CBY C03
+
+## **W14** March 31 - April 06
+
+### Tuesday 1130h - Lecture in CBY C03
+### Tuesday 1900h - Tutorial in Henderson 013
+### Friday 1300h - Lecture in CBY C03
+
+-->
+<br />
+
+# Side Effects
+
+Interesting experiments that occur as a result of knowledge gained in the classroom will be documented here, if any are completed.
+
+<br />
+<!-- References are generated, please leave this header. -->
+# References

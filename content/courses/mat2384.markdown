@@ -1,0 +1,283 @@
+---
+title: "MAT2384: Ordinary Differential Equations"
+layout: classnotes
+course-title: Ordinary Differential Equations
+toc: true
+draft: true
+---
+
+<h3>Table of Contents</h3>
+1. Seed list entry.
+{:toc}
+
+<br />
+
+# Preamble
+
+I took _MAT2384: Ordinary Differential Equations_ during the Winter 2019 Semester. The notes below were recorded over the duration of the course, after each lecture. Each section anchor is hyperlinked in the table of contents above. References and footnotes are present[^md-footnotes] and can be found at the end of the document.
+
+[^md-footnotes]: Footnotes are used by placing `[^ref]` where a superscript number should be placed, and `[^ref]: explanation` can be used in-place or at the end of the document. All referenced footnotes will be collected and placed at the end of the document. [More info.](https://www.markdownguide.org/extended-syntax/)
+
+<br />
+
+# Syllabus
+
+_ODE_ covers the mechanics and usage of Ordinary Differential Equations, Numerical Methods and Laplace Transforms. The textbook used is written by uOttawa's own Steven Desjardins and Remi Vaillancourt. Chapters 1-4 and 6 cover ODEs, 5 covers Laplace Transforms, and 7-10 covers Numerical Methods. Section **C** is being taught by Tanya Schmah ([tschmah@uottawa.ca](mailto:tschmah@uottawa.ca)). Course timeline and materials can be found at <http://mysite.science.uottawa.ca/tschmah/mat2384c>.
+
+The final is worth _50%_, and a minimum grade of _40%_ must be scored on the final to pass.
+
+<br />
+
+# Important Dates & Deadlines
+
+| Date       | Event            |
+| ---------- | ---------------- |
+| 2019-01-23 | Assignment 1 due |
+| 2019-02-06 | Assignment 2 due |
+| 2019-02-27 | Assignment 3 due |
+| 2019-03-04 | **Midterm** exam |
+| 2019-03-13 | Assignment 4 due |
+| 2019-03-27 | Assignment 5 due |
+
+<br />
+
+# Lecture Notes
+
+Winter 2019 lectures run from January 7th to April 5th; the second week of the year through to the end of week fourteen. Lecture notes are labeled according to week, then by day/lecture. My schedule for this class/year is as follows:
+
+```
+Monday 1730h - Double Lecture in SITE B0138
+Wednesday 1600h - Lecture in SITE B0138
+```
+
+## Pre-Lecture Notes
+
+Each week entry is filled with the material that will be covered in the coming week, to review on the weekend-of. Each event entry should contain a summary of the learning and notes.
+
+_MathJax_ has been included for the presentation of formulae and mathematics, tutorial [here](https://math.meta.stackexchange.com/questions/5020/mathjax-basic-tutorial-and-quick-reference).
+
+It can be written inline, like so: $$ A \times B = C $$ - pretty neat. The primary means of inclusion will probably be in a block, to present formulae:
+
+$$
+    v_{O} = IR = \left( \frac{R}{ R + r_{D}} \right) (v_{s} + V_{DO})
+$$
+
+A more detailed example:
+
+```tex
+$$
+   \begin{align}
+    \int \frac{dy}{y} = - \int 2x \, dx + c_{1}
+    & \Longrightarrow ln |y| = -x^2 + c_{1}\\
+    y(x) & = e^{-x^2 + c_{1}} = e^{c_{1}} e^{-x^2}\\
+    y(x) & = c \, e^{-x^2}
+    \end{align}
+$$
+```
+
+$$
+   \begin{align}
+    \int \frac{dy}{y} = - \int 2x \, dx + c_{1}
+    & \Longrightarrow ln |y| = -x^2 + c_{1}\\
+    y(x) & = e^{-x^2 + c_{1}} = e^{c_{1}} e^{-x^2}\\
+    y(x) & = c \, e^{-x^2}
+    \end{align}
+$$
+
+My New Year's Resolution is to keep these course pages up to date throughout the Winter semester. With any luck, I'll have a great resource to look back on, and the extra work I put in to demonstrate my knowledge here will pay off on the assignments and exams.
+
+## **W02** January 06-12
+
+### Monday 1730h - Double Lecture in SITE B0138 - 1.1, 1.2, 7.4
+
+The lecture on Monday is split into a full session of ODE, and 50 minutes of Numerical Methods. The **ODE** portion of the lecture covered ODEs and PDEs, and the order of ODEs. **Numerical Methods** covered Fixed Point Theorem, and mentioned that the Intermediate Value and Mean Value Theorems from Calculus had to be reviewed.
+
+> An ODE is an equation containing one or more derivatives of a function.
+
+The first class of ODEs are **Seperable ODEs**. They can be expressed in the form $$ g(y)y' = f(x) $$, or $$ g(y)dy = g(x)dx $$. The general solution to a Seperable ODE is:
+
+$$
+    \int g(y) \, dy = \int f(x) \, dx + c
+$$
+
+I need to put a lot of work into reviewing basic integration and differentiation.
+
+**Fixed Point Iteration** was covered during Numerical Methods, and can be found on _p.162 (Desjardins), Section 7.4_.
+
+### Wednesday 1600h - Lecture in SITE B0138 - 1.3
+
+Missed this lecture due to CUSEC conference, but Section 1.3 was covered.
+
+Section 1.3 involves _Homogenous Coefficients_. Notes will be placed here soon.
+
+## **W03** January 13-19
+
+### Monday 1730h - Double Lecture in SITE B0138 - 1.4, 7.5
+
+- Homogeneity
+- Checking for exact ODEs.
+
+Numerical Methods: Chapter 7.5:
+
+- Intermediate Value Theorem.
+- Fixed Point Iteration.
+
+### Wednesday 1600h - Lecture in SITE B0138 - 1.5
+
+- Exact & Non-Exact ODEs, how to handle both.
+
+## **W04** January 20-26
+
+### Monday 1730h - Double Lecture in SITE B0138 - 1.6, 8.1
+
+### Wednesday 1600h - Lecture in SITE B0138 - 2.1, 2.2
+
+## **W05** January 27 - February 02
+
+### Monday 1730h - Double Lecture in SITE B0138 - 2.3-6, 8.1
+
+### Wednesday 1600h - Lecture in SITE B0138
+
+Practice questions posted at [aix1.uottawa.ca/~jkhoury](http://aix1.uottawa.ca/~jkhoury/2384suggested.html)
+
+## **W06** February 03-09
+
+### Monday 1730h - Double Lecture in SITE B0138
+
+### Wednesday 1600h - Lecture in SITE B0138
+
+## **W07** February 10-16
+
+### Monday 1730h - Double Lecture in SITE B0138
+
+### Wednesday 1600h - Lecture in SITE B0138
+
+## **W08** February 17-23
+
+Reading week. Study for midterm.
+
+## **W09** February 24 - March 02
+
+### Monday 1730h - Double Lecture in SITE B0138
+
+### Wednesday 1600h - Lecture in SITE B0138
+
+## **W10** March 03-09
+
+### Monday 1730h - Double Lecture in SITE B0138
+
+### Wednesday 1600h - Lecture in SITE B0138
+
+## **W11** March 10-16
+
+### Monday 1730h - Double Lecture in SITE B0138
+
+### Wednesday 1600h - Lecture in SITE B0138
+
+Finish lecturing on systems of ODEs.
+
+<!--
+## **W12** March 17-23
+
+### Monday 1730h - Double Lecture in SITE B0138
+### Wednesday 1600h - Lecture in SITE B0138
+
+## **W13** March 24-30
+
+### Monday 1730h - Double Lecture in SITE B0138
+### Wednesday 1600h - Lecture in SITE B0138
+
+## **W14** March 31 - April 06
+
+### Monday 1730h - Double Lecture in SITE B0138
+### Wednesday 1600h - Lecture in SITE B0138
+
+-->
+
+<br />
+
+# Side Effects
+
+Interesting experiments that occur as a result of knowledge gained in the classroom will be documented here, if any are completed.
+
+## Useful MathJax Statements for ODE
+
+Prime `X'` $$ X' $$, fractions `\frac{dy}{dx}` $$ \frac{dy}{dx} $$ .
+
+Partial derivatives `\frac{\partial y}{\partial x}` $$ \frac{\partial y}{\partial x} $$.
+
+Roots `\sqrt{x^3}` $$ \sqrt{x^3} $$ and `\sqrt[4]{x^3}` $$ \sqrt[4]{x^3} $$ .
+
+Greek letters like `\epsilon \varepsilon` $$ \epsilon \, \varepsilon $$ or `\phi \varphi` $$ \phi \, \varphi $$.
+
+Domains can use `\mathbb{R}^2` $$ \mathbb{R}^2 $$.
+
+`\Im \Re` $$ \Im \, \Re $$
+
+`\infty \aleph_0 \nabla \partial` $$ \infty \, \aleph_0 \, \nabla \, \partial $$.
+
+```tex
+$$
+    \int g(y) \, dy = \int f(x) \, dx + c
+$$
+```
+
+$$
+    \int g(y) \, dy = \int f(x) \, dx + c
+$$
+
+Aligned at the primary `=` or `=>`:
+
+```tex
+$$
+   \begin{align}
+    \int \frac{dy}{y} = - \int 2x \, dx + c_{1}
+    & \Longrightarrow ln |y| = -x^2 + c_{1}\\
+    y(x) & = e^{-x^2 + c_{1}} = e^{c_{1}} e^{-x^2}\\
+    y(x) & = c \, e^{-x^2}
+    \end{align}
+$$
+```
+
+$$
+   \begin{align}
+    \int \frac{dy}{y} = - \int 2x \, dx + c_{1}
+    & \Longrightarrow ln |y| = -x^2 + c_{1}\\
+    y(x) & = e^{-x^2 + c_{1}} = e^{c_{1}} e^{-x^2}\\
+    y(x) & = c \, e^{-x^2}
+    \end{align}
+$$
+
+Matrix:
+
+```tex
+$$
+    \begin{bmatrix}
+        a & b & c\\
+        d & e & f
+    \end{bmatrix}
+    \, \dot \,
+    \begin{pmatrix}
+        a & b & c\\
+        d & e & f
+    \end{pmatrix}
+$$
+```
+
+$$
+    \begin{bmatrix}
+        a & b & c\\
+        d & e & f
+    \end{bmatrix}
+    \, \dot \,
+    \begin{pmatrix}
+        a & b & c\\
+        d & e & f
+    \end{pmatrix}
+$$
+
+MathJax is wicked.
+
+<br />
+<!-- References are generated, please leave this header. -->
+# References

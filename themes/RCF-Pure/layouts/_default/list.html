@@ -1,19 +1,19 @@
 {{ define "main" }}
 <main>
+  <h1 class="mt">{{ .Title }}</h1>
 
-<h1 class="mt">{{ .Title }}</h1>
+  {{ if .Content }} {{ .Content }} {{ end }}
 
-{{ if .Content }}
-{{ .Content }}
-{{ end }}
-
-<ol reversed>
-{{ range .Pages }}
-<li>
-        <a href="{{.Permalink}}">
-            {{ if .Date }}{{.Date.Format "2006-01-02"}} - {{end}}{{.Title}}</a>
+  <ol reversed>
+    {{ range .Pages }}
+    <li>
+      <a href="{{.Permalink}}">
+        {{ if .Date }}{{.Date.Format "2006-01-02"}} - {{end}}{{.Title}}
+        <!-- Draft Badge -->
+        {{ if .Draft }}<span style="color: red">DRAFT</span>{{ end }}
+      </a>
     </li>
-{{ end }}
-</ol>
+    {{ end }}
+  </ol>
 </main>
 {{end}}

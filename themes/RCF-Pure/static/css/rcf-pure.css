@@ -184,7 +184,7 @@ ol,
 table,
 footer {
   margin: 0 auto;
-  max-width: 512px;
+  max-width: 600px;
   margin-top: 1em;
 }
 
@@ -222,8 +222,8 @@ a {
   color: rgb(69, 0, 197);
   text-decoration: none;
   overflow-wrap: break-word;
+  word-break: break-word;
   word-wrap: normal;
-  word-break: break-all;
 }
 
 h1,
@@ -255,7 +255,7 @@ code {
   font-family: "Courier New", Courier, monospace;
 }
 
-div.highlight {
+article > div.highlight {
   overflow-x: auto;
   padding: 0;
   /*
@@ -264,13 +264,14 @@ div.highlight {
   */
 }
 
-div.highlight pre {
-  overflow: auto;
+article > pre,
+article > div.highlight pre {
   width: 100%;
-  padding-left: calc(50vw - 266px);
+  padding-left: calc(50vw - 310px);
 }
 
 pre {
+  overflow: auto;
   background-color: transparent !important;
 }
 

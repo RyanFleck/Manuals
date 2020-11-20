@@ -1,13 +1,9 @@
 ---
-title: "C#"
-date: 2017-02-18T09:00:00-05:00
-toc: true
-image: "/content-cover-images/coffee-phone.jpg"
-summary: "C# (pronounced c sharp) is Microsoft's fork of the enterprise language Java."
-draft: false
+layout: docs-manual
+title: C#
+subtitle: "MS thought C+++ would be a silly name for this Java clone."
+draft: true
 ---
-
-# Hello, C\#!
 
 ```csharp
 using System;
@@ -46,7 +42,7 @@ fi
 
 **Windows compile+run script cs.bat:**
 
-```bat
+```
 @ECHO OFF
 ECHO **************************************************
 ECHO **        FOR WIN10x64: C# Compile N' Run       **
@@ -700,7 +696,7 @@ See this [MS doc on Access Modifiers](https://docs.microsoft.com/en-us/dotnet/cs
 
 When first installing _monodevelop_, it was very unstable. I ran it from the command line to see any errors, and sure enough:
 
-```bat
+```
 Error in `monodevelop': free(): invalid pointer: 0x00007f629c001a80
 ======= Backtrace: =========
 /lib/x86_64-linux-gnu/libc.so.6(+0x70bfb)[0x7f630072cbfb]

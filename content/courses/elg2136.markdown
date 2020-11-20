@@ -1,0 +1,308 @@
+---
+title: "ELG2136: Analog Electronics I"
+layout: classnotes
+course-title: Analog Electronics I
+summary: "Notes on uOttawa's analog electronics course."
+toc: true
+draft: true
+---
+
+# Preamble
+
+I took _ELG2136: Analog Electronics I_ during Winter 2019. The notes below reflect my learning over the duration of the course. Each section anchor is hyperlinked in the table of contents above. References and footnotes are present[^md-footnotes] and can be found at the end of the document.
+
+[^md-footnotes]: Footnotes are used by placing `[^ref]` where a superscript number should be placed, and `[^ref]: explanation` can be used in-place or at the end of the document. All referenced footnotes will be collected and placed at the end of the document. [More info.](https://www.markdownguide.org/extended-syntax/)
+
+<br />
+
+# Syllabus
+
+Analog Electronics I teaches the fundamentals of Diodes, BJTs, FETs, Semiconductors and CMOS. _ELG2138_ is the only prerequisite, which itself has three prerequisites. Section **A** is being taught by Emad Gad ([egad@uottawa.ca](mailto:egad@uottawa.ca)).
+
+## Grading
+
+The mess of bold percentages and if/elses on the syllabus is better expressed as a program:
+
+```java
+float weightedGrade = max(
+    ((midterm*.25) + (finalexam*.45)),
+    (finalexam*.70)
+    );
+
+if( weightedGrade > 0.35 ) {
+    float final_grade = (labs*.15) + (quizzes*.15) + weightedGrade;
+} else {
+    fail(); // D, E, F.
+}
+```
+
+## Textbooks
+
+The primary text for this course is _Fundamentals of Microelectronics_.
+
+```
+Title: Fundamentals of Microelectronics
+Author: Behzad Razavi
+Edition: First
+ISBN: ISBN-13978-0-471-47846-1
+```
+
+The secondary, optional text for this course is _Microelectronic Circuits_.
+
+```
+Title: Microelectronic Circuits
+Author: Sedra, A.H. & Smith, K.C.
+Edition: Fifth
+```
+
+<br />
+
+# Important Dates & Deadlines
+
+| Date       | Event            |
+| ---------- | ---------------- |
+| 2019-01-14 | Assignment 1 due |
+| 2019-01-21 | Assignment 2 due |
+| 2019-01-25 | Assignment 3 due |
+| 2019-02-03 | Assignment 4 due |
+| 2019-02-07 | Assignment 5 due |
+| 2019-02-09 | **Midterm** exam |
+
+<br />
+
+# Lecture Notes
+
+Winter 2019 lectures run from January 7th to April 5th; the second week of the year through to the end of week fourteen. Lecture notes are labeled according to week, then by day/lecture. My schedule for this class/year is as follows:
+
+```
+Monday   1130h - Lecture in SITE G0103
+Monday   1430h - Tutorial in Desmarais 1160
+Thursday 1300h - Lecture in SITE G0103
+Friday   1730h - Laboratory in CBY B302
+
+```
+
+## Pre-Lecture Notes
+
+I have taken a good deal of time to set up this page; hopefully I use it to keep track of the course material over the winter semester. Each week entry should be filled with the material that will be covered in the coming week, to review on the weekend-of. Each event entry should contain a summary of the learning and notes.
+
+_MathJax_ has been included for the presentation of formulae and mathematics, tutorial [here](https://math.meta.stackexchange.com/questions/5020/mathjax-basic-tutorial-and-quick-reference).
+
+It can be written inline, like so: $$ A \times B = C $$ - pretty neat. The primary means of inclusion will probably be in a block, to present formulae:
+
+$$
+    v_{O} = IR = \left( \frac{R}{ R + r_{D}} \right) (v_{s} + V_{DO})
+$$
+
+## **W02** January 06-12
+
+### Monday Lecture + Tutorial
+
+Topics covered today include Ideal Diodes and Real PN-Junction diodes. Emad Gad provided some insight that may help me through all of my Engineeering courses, not just Elecronics:
+
+> Beyond this is for the Physicists.
+
+> It is our job to use these findings, and imagine what we can build by applying it.
+
+Hilarious, but true - It would be best for me to stop worrying about the details, and look at problems in a procedural manner in order to survive the rest of my Engineering degree.
+
+**Ideal Diodes** behave according to the voltage present at the anode and cathode. If the voltage across the component is positive, it acts as a short circuit. If the voltage is negative, it behaves as if open. When using an ideal diode in a circuit, there are two steps to the calculation:
+
+1. Assume on/off state for each diode, and write the circuit.
+2. Solve for the circuit and verify that:
+
+- Where OFF was assumed, V is negative.
+- Where ON was assumed, i is positive.
+
+**PN Junction Diodes** are real components, and it follows that they do not behave ideally. When voltage is applied to a PN-Junction Diode, it follows a curve that looks somewhat exponential. Below a certain voltage, the component will break down and current will be allowed to flow. The equation for calculating the current through a PN Junction Diode is:
+
+$$
+
+    i = I_s \left[ exp \left( \frac{V}{ {}_{n} V_t} \right) - 1 \right]
+
+
+$$
+
+- $$ I*s $$ is the \_Saturation Current*.
+- $$ V*t $$ is the \_Thermal Voltage*. Discussed below.
+- $$ n $$ is the _Ideality Factor_. Assume 1.
+
+Thermal Voltage is equal to Boltzmann's constant, multipllied by the temp in kelvins, divided by the magnitude of electronic charge.
+
+$$
+    V_t = \frac{kT}{q}
+$$
+
+Next lecture will probably be on the analysis of diode circuits.
+
+### Thursday Lecture
+
+Missed this lecture due to CUSEC. More diode problems were done in class.
+
+Online simulator <https://www.circuitlab.com/editor/> has proven very useful for double-checking my work.
+
+## **W03** January 13-19
+
+### Monday 1130h - Lecture in SITE G0103
+
+Solving equations with real diodes. Replace each ideal diode with a real equivalent (typically a voltage source pointing in the opposite direction, along with a resistor,) and solve as you would for an ideal diode.
+
+- Plotting the relationship between variable $$ V*{in} $$ and $$ V*{out} $$.
+- Circuits now involve VCVS, CCVS, VCCS, CCCS.
+
+### Monday 1430h - Tutorial in Desmarais 1160
+
+Practice problems involving real-equivalent diodes.
+
+### Thursday 1300h - Lecture in SITE G0103
+
+Practice problems involving real-equivalent diodes.
+
+### Friday 1730h - Laboratory in CBY B302
+
+**Lab One** involved setting up a simple large & small-signal diode circuit, followed by an analysis of the voltage across the diode with a varied current.
+
+## **W04** January 20-26
+
+### Monday 1130h - Lecture in SITE G0103
+
+### Monday 1430h - Tutorial in Desmarais 1160
+
+### Thursday 1300h - Lecture in SITE G0103
+
+### Friday 1730h - Laboratory in CBY B302
+
+## **W05** January 27 - February 02
+
+### Monday 1130h - Lecture in SITE G0103
+
+### Monday 1430h - Tutorial in Desmarais 1160
+
+### Thursday 1300h - Lecture in SITE G0103
+
+### Friday 1730h - Laboratory in CBY B302
+
+## **W06** February 03-09
+
+### Monday 1130h - Lecture in SITE G0103
+
+### Monday 1430h - Tutorial in Desmarais 1160
+
+### Thursday 1300h - Lecture in SITE G0103
+
+### Friday 1730h - Laboratory in CBY B302
+
+Midterm on February 9th. Grade 73/100. Lower than I wanted. Will need to study hard and do well on the assignments to make up on the final exam.
+
+## **W07** February 10-16
+
+## **W08** February 17-23
+
+Reading week.
+
+<!--
+
+## **W09** February 24 - March 02
+
+### Monday   1130h - Lecture in SITE G0103
+### Monday   1430h - Tutorial in Desmarais 1160
+### Thursday 1300h - Lecture in SITE G0103
+### Friday   1730h - Laboratory in CBY B302
+
+## **W10** March 03-09
+
+### Monday   1130h - Lecture in SITE G0103
+### Monday   1430h - Tutorial in Desmarais 1160
+### Thursday 1300h - Lecture in SITE G0103
+### Friday   1730h - Laboratory in CBY B302
+
+## **W11** March 10-16
+
+### Monday   1130h - Lecture in SITE G0103
+### Monday   1430h - Tutorial in Desmarais 1160
+### Thursday 1300h - Lecture in SITE G0103
+### Friday   1730h - Laboratory in CBY B302
+
+## **W12** March 17-23
+
+### Monday   1130h - Lecture in SITE G0103
+### Monday   1430h - Tutorial in Desmarais 1160
+### Thursday 1300h - Lecture in SITE G0103
+### Friday   1730h - Laboratory in CBY B302
+
+## **W13** March 24-30
+
+### Monday   1130h - Lecture in SITE G0103
+### Monday   1430h - Tutorial in Desmarais 1160
+### Thursday 1300h - Lecture in SITE G0103
+### Friday   1730h - Laboratory in CBY B302
+
+## **W14** March 31 - April 06
+
+### Monday   1130h - Lecture in SITE G0103
+### Monday   1430h - Tutorial in Desmarais 1160
+### Thursday 1300h - Lecture in SITE G0103
+### Friday   1730h - Laboratory in CBY B302
+
+-->
+
+<br />
+
+# Side Effects
+
+## Program to Generate Lecture Sections
+
+Being far too lazy to do the manual labor, I wrote this quickly to generate the week-based lecture-note entries in the [Pre-Lecture Notes](#pre-lecture-notes) section.
+
+```py
+#!/usr/bin/python3
+
+import datetime
+date_st = datetime.datetime.strptime
+date_fo = datetime.date.fromordinal
+
+import rcf_logs as rcf
+dbg = rcf.dbg
+rcf.intro("Simple .md date-heading generator", 2018)
+
+# Assumes week 1-52.
+year      = 2018
+firstweek = 2
+lastweek  = 14
+
+dbg(True,"good","init","Modules loaded. Operating on weeks {}-{}, {}".format(firstweek,lastweek,year))
+dbg(True,"good","gen","Markdown output:\n\n")
+
+for x in range(firstweek, lastweek+1):
+
+    daterange = ""
+    start = date_st("{}-W{}-6".format(year,x-1), "%Y-W%W-%w")
+    end = date_st("{}-W{}-5".format(year,x), "%Y-W%W-%w")
+
+    if(start.strftime("%m") != end.strftime("%m")):
+        daterange = "{}{}".format(start.strftime("%B %d - "),end.strftime("%B %d"))
+    else:
+        daterange = "{}{}".format(start.strftime("%B %d-"),end.strftime("%d"))
+
+    str_x = str(x).zfill(2)
+    print("## **W{}** {}".format(str_x, daterange))
+
+```
+
+## MathJax is Awesome.
+
+_MathJax_ has been included for the presentation of formulae and mathematics, tutorial [here](https://math.meta.stackexchange.com/questions/5020/mathjax-basic-tutorial-and-quick-reference). In the [preamble](#preamble), MathJax is used to present mathematics inline, and in a block. The markup:
+
+```
+It can be written inline, like so: $$ A \times B = C $$
+- pretty neat. The primary means of inclusion will probably
+be in a block, to present formulae:
+
+$$
+    v_{O} = IR = \left( \frac{R}{ R + r_{D}} \right) (v_{s} + V_{DO})
+$$
+```
+
+<br />
+<!-- References are generated, please leave this header. -->
+# References

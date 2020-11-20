@@ -14,7 +14,14 @@
     </b>
     <ul>
       {{ range .Pages }}
-      <li><a href="{{ .Permalink }}">{{ .Title }}</a></li>
+      <li>
+        <a href="{{ .Permalink }}">
+          <!-- Title -->
+          {{ .Title }}
+          <!-- Draft Badge -->
+          {{ if .Draft }}<span style="color: red">&=</span>{{ end }}
+        </a>
+      </li>
       {{ end }}
     </ul>
   </li>
