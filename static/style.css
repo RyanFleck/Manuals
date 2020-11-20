@@ -325,3 +325,26 @@ sup.footnote-ref > a {
   color: grey;
   font-size: 0.5rem;
 }
+
+/* Header links */
+
+.header-anchor-link {
+  opacity: 0;
+  transition: opacity 0.3s linear !important;
+}
+
+h1:hover > .header-anchor-link,
+h2:hover > .header-anchor-link,
+h3:hover > .header-anchor-link,
+h4:hover > .header-anchor-link,
+h5:hover > .header-anchor-link,
+h6:hover > .header-anchor-link {
+  opacity: 1;
+}
+
+/* No header anchor links on mobile */
+@media (max-width: 600px) {
+  .header-anchor-link {
+    display: none;
+  }
+}
