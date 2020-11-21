@@ -1,7 +1,7 @@
 ---
 title: "C++ Legacy Copy"
 date: 2018-01-01T00:00:00-05:00
-subtitle: "C wil a billion extra powerful extensions."
+summary: "C wil a billion extra powerful extensions."
 draft: true
 toc: true
 ---

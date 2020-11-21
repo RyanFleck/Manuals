@@ -1,7 +1,7 @@
 ---
 layout: docs-manual
 title: Scala
-subtitle: "Magic that your boss *will* let you use."
+summary: "Magic that your boss *will* let you use."
 draft: true
 toc: true
 ---

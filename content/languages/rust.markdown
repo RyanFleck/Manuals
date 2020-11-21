@@ -1,8 +1,8 @@
 ---
 layout: docs-manual
 title: Rust
-subtitle: "A steeper learning curve than go, but double the power. Wasm."
-draft: true 
+summary: "A steeper learning curve than go, but double the power. Wasm."
+draft: true
 ---
 
 ```rust
@@ -15,14 +15,14 @@ fn main() {
 1. Seed list entry.
 {:toc}
 
-
 ## Why use Rust?
 
-*Rust* seems to be a good way to build stable, multi-platform CLI apps, something I've had difficulty with using C.
+_Rust_ seems to be a good way to build stable, multi-platform CLI apps, something I've had difficulty with using C.
 
 The docs can be found at <https://doc.rust-lang.org/book/>
 
 **Additional Resources**
+
 1. [Blog post about writing games](http://iolivia.me/posts/24-hours-of-rust-game-dev/)
 1. [Cloudflare post about building interpreters](https://blog.cloudflare.com/building-fast-interpreters-in-rust/)
 1. [Blog post about writing CLI apps](https://mattgathu.github.io/writing-cli-app-rust/)
@@ -38,6 +38,7 @@ cargo new project-name
 ```
 
 Dependencies are managed directly in `Cargo.toml`. For instance:
+
 ```toml
 [dependencies]
 package-name = "0.X"
@@ -53,7 +54,7 @@ As I was sitting at my desktop, I started developing using Visual Studio Code wi
 
 Pointers are a little different than C, with Rust replacing `&var` with `&mut var` for mutable variables. References, like most other things, are immutable by default. Nice.
 
-**Woo, killer feature:** `cargo doc --open` will build the docs for *all of your project's dependencies* and open it in your browser! Useful.
+**Woo, killer feature:** `cargo doc --open` will build the docs for _all of your project's dependencies_ and open it in your browser! Useful.
 
 **???** What is this?
 
@@ -81,4 +82,4 @@ Took me a hot minute to wrap my head around this, I've never seen anything like 
 
 ## **WASM**: Web Assembly
 
-After reading an article on *developers.google.com* titled '[Replacing a hot path in your app's JavaScript with WebAssembly](https://developers.google.com/web/updates/2019/02/hotpath-with-wasm)', I decided to give [**wasm-pack**](https://rustwasm.github.io/wasm-pack/) a test drive. The aforementioned article gave excellent insight into when and why WASM should be used, so I decided to attempt to port some game logic into WASM... the possibilities!
+After reading an article on _developers.google.com_ titled '[Replacing a hot path in your app's JavaScript with WebAssembly](https://developers.google.com/web/updates/2019/02/hotpath-with-wasm)', I decided to give [**wasm-pack**](https://rustwasm.github.io/wasm-pack/) a test drive. The aforementioned article gave excellent insight into when and why WASM should be used, so I decided to attempt to port some game logic into WASM... the possibilities!

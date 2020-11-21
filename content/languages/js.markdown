@@ -1,7 +1,7 @@
 ---
 layout: docs-manual
 title: JavaScript
-subtitle: "Can do everything, but shouldn't do everything."
+summary: "Can do everything, but shouldn't do everything."
 toc: true
 ---
 

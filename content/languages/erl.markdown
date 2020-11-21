@@ -1,8 +1,8 @@
 ---
 layout: docs-manual
 title: Erlang
-subtitle: "A secret sauce lang."
-draft: true 
+summary: "A secret sauce lang."
+draft: true
 ---
 
 ```erlang
@@ -19,7 +19,8 @@ start()->
 
 ## Why use Erlang?
 
-Erlang is a *secret sauce*. I haven't written much erlang as, for the moment, I am very focused on academics. I've created this page as a reminder to myself. Content will be added when I begin learning in Summer 2019.
+Erlang is a _secret sauce_. I haven't written much erlang as, for the moment, I am very focused on academics. I've created this page as a reminder to myself. Content will be added when I begin learning in Summer 2019.
 
 #### Resources
+
 1. None yet.

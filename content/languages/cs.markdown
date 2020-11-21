@@ -1,7 +1,7 @@
 ---
 layout: docs-manual
 title: C#
-subtitle: "MS thought C+++ would be a silly name for this Java clone."
+summary: "MS thought C+++ would be a silly name for this Java clone."
 toc: true
 ---
 

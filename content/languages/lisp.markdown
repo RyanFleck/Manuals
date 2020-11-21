@@ -1,7 +1,7 @@
 ---
 layout: docs-manual
 title: Lisp
-subtitle: "Magic that your boss will never let you use."
+summary: "Magic that your boss will never let you use."
 toc: true
 ---
 

@@ -1,7 +1,7 @@
 ---
 layout: docs-manual
 title: Ruby
-subtitle: "A beautifully expressive hacker language. Mostly used for rails."
+summary: "A beautifully expressive hacker language. Mostly used for rails."
 toc: true
 ---
 

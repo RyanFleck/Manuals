@@ -1,7 +1,7 @@
 ---
 layout: docs-manual
 title: Bash
-subtitle: "Glue for sticking together useful programs to do stuff."
+summary: "Glue for sticking together useful programs to do stuff."
 draft: true
 ---
 

@@ -1,7 +1,7 @@
 ---
 layout: docs-manual
 title: Python
-subtitle: "Children and children disguised as grad students love Python!"
+summary: "Children and children disguised as grad students love Python!"
 toc: true
 ---
 

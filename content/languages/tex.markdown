@@ -1,7 +1,7 @@
 ---
 layout: docs-manual
 title: LaTeX
-subtitle: "Want your writing to look like it was typeset? Use TeX."
+summary: "Want your writing to look like it was typeset? Use TeX."
 draft: true
 ---
 
@@ -19,16 +19,18 @@ draft: true
 1. Seed list entry.
 {:toc}
 
-
 ## Why use LaTeX?
 
-*LaTeX* is a typesetting language designed for producing beautiful documents. I haven't done any work on this manual yet, but it should be updated sometime during **December 2018**.
+_LaTeX_ is a typesetting language designed for producing beautiful documents. I haven't done any work on this manual yet, but it should be updated sometime during **December 2018**.
 
 ## What is LaTeX
+
 > LaTeX, which is pronounced «Lah-tech» or «Lay-tech» (to rhyme with «blech» or «Bertolt Brecht»), is a document preparation system for high-quality typesetting. It is most often used for medium-to-large technical or scientific documents but it can be used for almost any form of publishing. [latex-project.org](https://www.latex-project.org/about/)
 
 ## Resume
+
 Currently, I process my resume in LaTeX:
+
 ```latex
 
 % LaTeX resume using res.cls
@@ -163,4 +165,5 @@ Currently, I process my resume in LaTeX:
 ```
 
 ## Unreasonable amounts of polish for student docs.
+
 Potential future project: **BSTEM**, "Beautiful Scientific Typesetting Effortlessly Made"

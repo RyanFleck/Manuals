@@ -1,8 +1,8 @@
 ---
 layout: docs-manual
 title: Go
-subtitle: "Readable as Python, low-level as C. Great general-purpose lang."
-draft: true 
+summary: "Readable as Python, low-level as C. Great general-purpose lang."
+draft: true
 ---
 
 ```go
@@ -19,12 +19,12 @@ func main() {
 1. Seed list entry.
 {:toc}
 
-
 ## Why use Go?
 
 Go is a fast, compiled language with focus on multicore and networked programs. I've done a ton of small, fun projects in NodeJS, and love the ease with which I can express small ideas. Unfortunately, I've grown out of Node, and am looking for something with better security and scalability. I'll be writing personal projects in **go** for the next few months. With Go 2 on the horizon, now seems like a reasonable time to begin learning.
 
 #### Resources
+
 1. [Practical GO](https://dave.cheney.net/practical-go/presentations/qcon-china.html)
 
 #### Setup
@@ -34,15 +34,15 @@ apt install golang
 ```
 
 Add to `~/.profile`:
+
 ```sh
 export GOPATH=$HOME/go
 export PATH=$PATH:$GOROOT/bin:$GOPATH/bin
 ```
 
-
 ## The Basics
 
-The first demo in *A Tour of Go* gives us insight into how go compiles, links and runs. It should be a lot faster to prototype in go than in **c**.
+The first demo in _A Tour of Go_ gives us insight into how go compiles, links and runs. It should be a lot faster to prototype in go than in **c**.
 
 ```go
 package main
@@ -66,6 +66,7 @@ func main() {
 1. `fmt.Printf()` works similarly to **c**'s `printf`.
 
 Interesting things to note:
+
 1. functions are exported (public) if the name starts with a capital. For instance, `Parse()` will be available from outside our package, but `parse()` will be private.
 
 ## Compiling Executables for Linux, OSX, Win.

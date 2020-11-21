@@ -1,7 +1,7 @@
 ---
 layout: docs-manual
 title: C
-subtitle: "For the GNU/Linux and OS Hackers."
+summary: "For the GNU/Linux and OS Hackers."
 toc: true
 draft: true
 ---

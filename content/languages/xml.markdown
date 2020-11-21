@@ -1,7 +1,7 @@
 ---
 layout: docs-manual
 title: XML
-subtitle: "Enterprise-trusted document language."
+summary: "Enterprise-trusted document language."
 toc: true
 ---
 

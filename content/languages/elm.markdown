@@ -1,8 +1,8 @@
 ---
 layout: docs-manual
 title: Elm
-subtitle: "Functional language for writing bug-free web applications fast ."
-draft: true 
+summary: "Functional language for writing bug-free web applications fast ."
+draft: true
 ---
 
 ```Elm
@@ -17,10 +17,10 @@ idek
 
 ## Why use Elm?
 
-Erlang is a *secret sauce*. I haven't written much erlang as, for the moment, I am very focused on academics. I've created this page as a reminder to myself. Content will be added when I begin learning in Summer 2019.
+Erlang is a _secret sauce_. I haven't written much erlang as, for the moment, I am very focused on academics. I've created this page as a reminder to myself. Content will be added when I begin learning in Summer 2019.
 
 #### Resources
+
 1. [The C Book](http://publications.gbdirect.co.uk/c_book/)
 
 <br />
-

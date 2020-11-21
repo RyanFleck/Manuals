@@ -1,7 +1,7 @@
 ---
 layout: docs-manual
 title: Java
-subtitle: "Tireless, the enterprise-grade monolith marcheth ever forward."
+summary: "Tireless, the enterprise-grade monolith marcheth ever forward."
 toc: true
 ---
 

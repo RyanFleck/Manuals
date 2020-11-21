@@ -1,8 +1,8 @@
 ---
 layout: docs-manual
-title: Matlab 
-subtitle: "Mathematical. Used in Signals/Systems and ODE classes."
-draft: true 
+title: Matlab
+summary: "Mathematical. Used in Signals/Systems and ODE classes."
+draft: true
 ---
 
 ```m
@@ -20,4 +20,5 @@ title( "Hello GNU Octave/Matlab!");
 Matlab enables students to verify the results of their paper calculations, providing tools to solve linear systems, analyze systems of points for fit, and much more.
 
 #### Resources
+
 1. None yet.
