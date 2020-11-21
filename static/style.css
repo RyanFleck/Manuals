@@ -169,7 +169,11 @@ span {
   -webkit-font-feature-settings: "liga" on, "calt" on;
   font-feature-settings: "liga" on, "calt" on;
   text-rendering: optimizeLegibility;
-  font-size: 16px !important;
+}
+
+.highlight,
+code {
+  font-size: 1rem;
 }
 
 h1,
@@ -347,4 +351,8 @@ h6:hover > .header-anchor-link {
   .header-anchor-link {
     display: none;
   }
+}
+
+small {
+  font-size: 0.7rem;
 }
