@@ -159,6 +159,7 @@ pre,
 p,
 div,
 code,
+table,
 span {
   /* These are not enforced if not important, wcyd? */
   -webkit-font-smoothing: antialiased !important;
@@ -174,6 +175,11 @@ span {
 .highlight,
 code {
   font-size: 1rem;
+}
+
+div {
+  overflow: auto;
+  text-align: left;
 }
 
 h1,
