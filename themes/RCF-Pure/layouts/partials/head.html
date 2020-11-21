@@ -1,6 +1,8 @@
 <head>
+  <!-- Page Title-->
   <title>{{ .Site.Title }}{{ if .Title }}: {{ .Title }}{{end}}</title>
 
+  <!-- Basic Metadata -->
   <meta charset="utf-8" />
   <meta
     name="viewport"
@@ -9,6 +11,51 @@
   <link href="/style.css" rel="stylesheet" />
   <script type="application/javascript" src="/scripts.js" async defer></script>
 
+  <!-- Canonical URL -->
+  <link rel="canonical" href="{{ .Permalink }}" />
+
+  <!-- Page Description -->
+  {{ if .Summary }}
+  <meta property="og:description" content="{{ .Summary }}" />
+  <meta name="twitter:description" content="{{ .Summary }}" />
+  <meta itemprop="description" content="{{ .Summary }}" />
+  {{ end }}
+
+  <!-- Twitter & FB Meta -->
+  <meta
+    property="og:title"
+    content="{{ if and .Title (not .IsHome) }}{{ .Title }} - {{end}}{{ .Site.Title }}"
+  />
+  <meta
+    name="twitter:title"
+    content="{{ if and .Title (not .IsHome) }}{{ .Title }} - {{end}}{{ .Site.Title }}"
+  />
+  <meta
+    itemprop="name"
+    content="{{ if and .Title (not .IsHome) }}{{ .Title }} - {{end}}{{ .Site.Title }}"
+  />
+  <meta
+    name="twitter"
+    content="{{ if and .Title (not .IsHome) }}{{ .Title }} - {{end}}{{ .Site.Title }}"
+  />
+
+  <!--OpenGraph-->
+  <meta property="og:locale" content="en_CA" />
+  <meta property="og:locale:alternate" content="en_US" />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="{{.Permalink }}" />
+  <meta property="og:site_name" content="Ryan Fleck - Manuals" />
+  <meta property="og:article:author" content="Ryan Fleck" />
+  <meta property="og:profile:first_name" content="Ryan" />
+  <meta property="og:profile:last_name" content="Fleck" />
+  <meta property="og:profile:username" content="RyanFleck" />
+
+  <!--Twitter-->
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:creator" content="@RyanFleck_Dev" />
+  <meta name="twitter:image:src" content="https://ryanfleck.ca/r.jpg" />
+
+  <!-- Privacy Violating Garbage, hope you use Ad-Blockers -->
   <!-- Global site tag (gtag.js) - Google Analytics -->
   <script
     async
