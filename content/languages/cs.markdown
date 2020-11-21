@@ -2,7 +2,7 @@
 layout: docs-manual
 title: C#
 subtitle: "MS thought C+++ would be a silly name for this Java clone."
-draft: true
+toc: true
 ---
 
 ```csharp
@@ -17,11 +17,11 @@ class Hello
 }
 ```
 
-## Why use C#?
+# Why use C#?
 
 Pronounced "C Sharp" and also known as _Microsoft's Java,_ C# is a general-purpose language primarily used for developing Windows applications. C# is also used by the Unity game engine, the ASP.NET framework (which is used by many of the highest-traffic websites,) and should remain relevant for years to come. I am personally learning C# for development on the _Sitecore®_ platform, a web content management system built with Microsoft's .NET system. Working with a large, technical system should provide excellent experience.
 
-## Setup
+# Setup
 
 On **GNU/Linux**, you'll need to install the mono tools. Mono is a libre implementation of Microsoft's C#. To compile and run C# code, install the `mono-devel` package on your distro of choice. After installation, you'll be able to invoke `csc file.cs` to compile your C# file, and `mono file.exe` to run it.
 
@@ -60,7 +60,7 @@ Both of these scripts take one argument, a .cs program, then proceed to compile 
 - An _application_ with a `.exe` extension, contains the _Main_ method.
 - A _library_ with a `.dll` extension, like an _.exe_ without an entry point.
 
-## dotNET Core on GNU/Linux
+# dotNET Core on GNU/Linux
 
 _Mono_ isn't nearly as stable or featureful as Microsoft's full implementation of C#. To use all the features of modern C#, it is necessary to install [.NET Core](https://www.microsoft.com/net/learn/dotnet/hello-world-tutorial#keep-learning). Microsoft has gone out of their Windows-Server-Only way to make their products and services compatible with 'Linux', and my experinece with dotNET Core has been positive. Creating new projects, building, running and packaging have all been smooth processes on Fedora 28.
 
@@ -81,9 +81,9 @@ dotnet run --project rcfxxx_folder
 
 [Get started with .NET Core.](https://www.microsoft.com/net/learn/dotnet/hello-world-tutorial#keep-learning)
 
-## C# Basics
+# C# Basics
 
-### Hello World <!--Page 9-->
+## Hello World <!--Page 9-->
 
 ```csharp
 using System;
@@ -98,7 +98,7 @@ class Test
 }
 ```
 
-### Simple Functions <!--Page 10-->
+## Simple Functions <!--Page 10-->
 
 ```csharp
 using System;
@@ -120,7 +120,7 @@ class Program
 }
 ```
 
-### Namespaces <!--Page 11-->
+## Namespaces <!--Page 11-->
 
 ```csharp
 using System;
@@ -176,7 +176,7 @@ namespace RCF_NSP01
 }
 ```
 
-### C# Syntax <!--Page 12-->
+## C# Syntax <!--Page 12-->
 
 ```csharp
 using System;
@@ -199,7 +199,7 @@ class Program
 - **Operators** apply mathematical functions to data, ex. `. () * = /`
 - **Comments** can be made `// like this ` or `/* like this. */`
 
-### Types <!--Page 15-->
+## Types <!--Page 15-->
 
 ```csharp
 int x = 144/12;
@@ -215,7 +215,7 @@ _Types_ define what kind of value is stored in a location. _Variables_ can be ch
 - **Generic type parameters** [^2]
 - **Pointer types** [^3]
 
-### Custom Types <!--Page 17-->
+## Custom Types <!--Page 17-->
 
 _Custom Types_ can be created from simpler types.
 
@@ -294,7 +294,7 @@ StaticTests e = new StaticTests();
 // Not static for each instance is 1.
 ```
 
-### Conversions and Casting <!--Page 18-->
+## Conversions and Casting <!--Page 18-->
 
 - _Implicit_ conversions are guaranteed by the compiler to succeed, and all data will be retained. Implicit conversions happen automatically.
 - _Explicit_ conversions may fail, and data may be lost. Explicit conversions require _casting_
@@ -305,7 +305,7 @@ long b = a; //Conversion (64 bits.)
 short c = (short)a; //Cast (16 bits.) Possible data loss.
 ```
 
-### Number Types <!--Page 23-->
+## Number Types <!--Page 23-->
 
 Whoa! Conversions, overflow and many types... oh my! While this is great, I'm skipping it for now because it looks familiar to the way it's implemented in _Java_. This example is interesting, though:
 
@@ -316,7 +316,7 @@ Console.WriteLine (x++); // Outputs 0; x is now 1
 Console.WriteLine (++y); // Outputs 1; y is now 1
 ```
 
-### Boolean Types
+## Boolean Types
 
 Booleans in C# can be evaluated with the usual comparators, equal `==` and not equal `!=`, along with and `&&`, or `||` and brackets `( )`. Using single `&` or `|` operators will cause all items to be evaluated instead of _"short-circuiting"_ and breaking as soon as the evaluation can only be true.
 
@@ -326,7 +326,7 @@ C# also has a ternary operator that takes three inputs: A boolean statement, the
 return (a > b) ? a : b;
 ```
 
-### String Types <!--Page 32-->
+## String Types <!--Page 32-->
 
 <!--Table
 |a|b|c|
@@ -338,7 +338,7 @@ return (a > b) ? a : b;
 |c|d|f|
 -->
 
-### Arrays <!--Page 35-->
+## Arrays <!--Page 35-->
 
 An array is a container for variables, and can hold an explicit number of values of a given type. Simple arrays are initialized like `type[] array = new type[length];`. For example, an array of 12 characters would be instantiated as `char[] arr = new char[12];`. (As per CompSci norms, an array with 12 characters will be addressable as indices zero through eleven, for a total of 12 indices.) Simple creation and reading of an array is shown below:
 
@@ -439,7 +439,7 @@ for (int x=0; x<JaggedOne.Length; x++)
 }
 ```
 
-### Variables and Parameters <!--Page 38-->
+## Variables and Parameters <!--Page 38-->
 
 **C#** enforces _definite assignment_, where it is impossible to access memory that has not been initialized by the running program. Calling an unassigned variable will usually result in a _compile-time error_ unless the assignment method infers a _default value_.
 
@@ -480,7 +480,7 @@ class Test
 
 **Note to self:** return to this section to review the other methods to pass by reference, out and params.
 
-### Statements <!--Page 51-->
+## Statements <!--Page 51-->
 
 **Varibles** are _delcared_, and the scope extends within the encapsulating block.
 
@@ -630,7 +630,7 @@ if ( x == null )
   throw new ArgumentNullException();
 ```
 
-### Addressing Types in Namespaces <!--Page 59-->
+## Addressing Types in Namespaces <!--Page 59-->
 
 `namespace` defines the namespace for types within a block.
 
@@ -664,7 +664,7 @@ B objB;
 using RLogger = System.Custom.Logs.RLogger;
 ```
 
-### Creating Types <!--Page 67-->
+## Creating Types <!--Page 67-->
 
 **Definitions:**
 
@@ -692,7 +692,7 @@ See this [MS doc on Access Modifiers](https://docs.microsoft.com/en-us/dotnet/cs
 
 <!-- End of C# core language manual. -->
 
-## Monodevelop
+# Monodevelop
 
 When first installing _monodevelop_, it was very unstable. I ran it from the command line to see any errors, and sure enough:
 
@@ -705,7 +705,7 @@ Error in `monodevelop': free(): invalid pointer: 0x00007f629c001a80
 
 Running `apt-get build-dep monodevelop` fixed all of my stability problems.
 
-## References
+# References
 
 Many are from "C# 5.0 in a Nutshell" 5e. J. and B. Albahari, O'Reilly 2012.
 

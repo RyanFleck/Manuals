@@ -8,7 +8,7 @@
     {{ range .Pages }}
     <li>
       <a href="{{.Permalink}}">
-        {{ if .Date }}{{.Date.Format "2006-01-02"}} - {{end}}{{.Title}}
+        {{.Title}}
         <!-- Draft Badge -->
         {{ if .Draft }}<span style="color: red">DRAFT</span>{{ end }}
       </a>

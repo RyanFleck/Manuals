@@ -1,31 +1,27 @@
 ---
 layout: docs-manual
-title: Bash 
+title: Bash
 subtitle: "Glue for sticking together useful programs to do stuff."
-draft: true 
+draft: true
 ---
 
 ```bash
 echo "Hello, BASH!"
 ```
 
-<h3>Table of Contents</h3>
-1. Seed list entry.
-{:toc}
-
-
 ## Why write Shell Scripts?
-'Cause having your computer do something you do daily *on your behalf* is fantastic.
+
+'Cause having your computer do something you do daily _on your behalf_ is fantastic.
 
 ## What is Bash Shell Scripting?
 
-Bash is a *Unix Shell*, allowing a user to interact with an operating system by entering commands.
+Bash is a _Unix Shell_, allowing a user to interact with an operating system by entering commands.
 
-**Shell Scripting** is to write *Bash Scripts* to run in the *Bash Shell*. Unfortunately, I need to look up the syntax every time I write it, so included here are primarily the fundamentals from miscallaneous sources.
+**Shell Scripting** is to write _Bash Scripts_ to run in the _Bash Shell_. Unfortunately, I need to look up the syntax every time I write it, so included here are primarily the fundamentals from miscallaneous sources.
 
 ## Shell Scripting Fundamentals
 
-A *Shell Script* is essentially a set of unix programs running sequentially, with control flow. It can be saved to any filename (though preferably one with a `.sh` extension,) and made executable with `chmod +x <filename>`. The first line in any shell script should be `#!/bin/sh`. (Do note that you can also specify zsh, bash, csh, etc.)
+A _Shell Script_ is essentially a set of unix programs running sequentially, with control flow. It can be saved to any filename (though preferably one with a `.sh` extension,) and made executable with `chmod +x <filename>`. The first line in any shell script should be `#!/bin/sh`. (Do note that you can also specify zsh, bash, csh, etc.)
 
 ### Standard Output and Comments
 

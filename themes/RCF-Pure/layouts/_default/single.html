@@ -6,9 +6,19 @@
 
   {{ if not .Date.IsZero }}
   <p><b>{{ .Date.Format "2006-01-02" }}</b></p>
-  {{ end }} {{ if .Params.summary }}
+  {{ end }}
+  <!--Subtitle-->
+  {{ if .Params.subtitle }}
+  <p>{{ .Params.subtitle }}</p>
+  <br />
+  {{ end }}
+  <!--Summary-->
+  {{ if .Params.summary }}
   <p>{{ .Params.summary }}</p>
-  {{ end }} {{ if .Params.toc }}
+  <br />
+  {{ end }}
+  <!--Table of Contents-->
+  {{ if .Params.toc }}
   <h4>Contents</h4>
   {{ .TableOfContents }}
   <br />

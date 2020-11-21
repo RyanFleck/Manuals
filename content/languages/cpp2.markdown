@@ -1,9 +1,12 @@
 ---
-layout: docs-manual
 title: "C++ Legacy Copy"
+date: 2018-01-01T00:00:00-05:00
 subtitle: "C wil a billion extra powerful extensions."
 draft: true
+toc: true
 ---
+
+# Hello, C++
 
 ```cpp
 #include <iostream>
@@ -12,17 +15,13 @@ int main(){
 }
 ```
 
-<h3>Table of Contents</h3>
-1. Seed list entry.
-{:toc}
-
-## Why use C++?
+# Why use C++?
 
 To keep up with my friends in advanced programming courses at _uOttawa_ at the time of writing.
 
 Also, seeing as I'm no C++ _aficionado_, I saw that the hackerrank challenge for Kinaxis could only be written in C++, so I'm taking some notes and binge studying today.
 
-## Core C++
+# Core C++
 
 Every C++ program must have **main**, the entry point. A nonzero value returned from `main()` indicates failure. Compile with `g++`.
 
@@ -282,7 +281,7 @@ int main(){
 }
 ```
 
-## Competetive and Interview Programming in C++
+# Competetive and Interview Programming in C++
 
 After flunking my IBM interview and noting Kinaxis (and others,) require C++ skills, I decided to seriously pursue C++ as a language of choice for interviews, project euler questions, and hackerrank challenges.
 
@@ -291,7 +290,7 @@ After flunking my IBM interview and noting Kinaxis (and others,) require C++ ski
 1. Competetive programmer's handbook. [PDF](https://github.com/RyanFleck/ryanfleck.github.io/raw/master/Resources/cpp.pdf)
 2. Cracking the Coding Interview.
 
-## My First Linked Project
+# My First Linked Project
 
 `project.h` is used to provide all other methods to `main.cpp`.
 
