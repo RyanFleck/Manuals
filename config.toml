@@ -7,6 +7,12 @@ pygmentsCodeFences = true
 sectionPagesMenu = "main"
 pygmentsStyle = "friendly"
 
+# All manuals on this site are available from the root.
+[permalinks]
+    languages = "/:filename"
+    libraries = "/:filename"
+    courses = "/:filename"
+
 # https://gohugo.io/variables/site/#the-site-params-variable
 [params]
     copyright = "Copyright ©2019 Ryan Fleck"
