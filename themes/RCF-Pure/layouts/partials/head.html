@@ -22,22 +22,10 @@
   {{ end }}
 
   <!-- Twitter & FB Meta -->
-  <meta
-    property="og:title"
-    content="{{ if and .Title (not .IsHome) }}{{ .Title }} - {{end}}{{ .Site.Title }}"
-  />
-  <meta
-    name="twitter:title"
-    content="{{ if and .Title (not .IsHome) }}{{ .Title }} - {{end}}{{ .Site.Title }}"
-  />
-  <meta
-    itemprop="name"
-    content="{{ if and .Title (not .IsHome) }}{{ .Title }} - {{end}}{{ .Site.Title }}"
-  />
-  <meta
-    name="twitter"
-    content="{{ if and .Title (not .IsHome) }}{{ .Title }} - {{end}}{{ .Site.Title }}"
-  />
+  <meta property="og:title" content="{{ .Title }}" />
+  <meta name="twitter:title" content="{{ .Title }}" />
+  <meta itemprop="name" content="{{ .Title }}" />
+  <meta name="twitter" content="{{ .Title }}" />
 
   <!--OpenGraph-->
   <meta property="og:locale" content="en_CA" />
