@@ -12,6 +12,7 @@ pygmentsStyle = "friendly"
     languages = "/:filename"
     libraries = "/:filename"
     courses = "/:filename"
+    tools = "/:filename"
 
 # https://gohugo.io/variables/site/#the-site-params-variable
 [params]
