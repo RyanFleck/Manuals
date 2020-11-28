@@ -235,7 +235,7 @@ int max(int a, int b){
 }
 ```
 
-### Static
+### Static Variables
 
 Within functions, **static** variables can be declared that won't be changed
 from one call to the next, unless the program is reset.
@@ -351,6 +351,8 @@ g++ a.cpp -o a.o
 
 # Pointers
 
+<!-- CSI2372 Lecture 3 -->
+
 If you've only ever used _Python_, _JavaScript_, _Ruby_, or _Java_,
 and have never dabbled with an assembly language or C,
 you're in for a treat.
@@ -374,20 +376,94 @@ int *b = &a;  // b points to the address of a
 cout << a;    // prints '5' to the console.
 ```
 
-Probably one of the most important features of pointers is the ability
-to iterate by a single (class-bit-width) in memory. Array names are pointers,
-and using this pointer is the most common way to iterate through an array:
-
 It's a complex poetry, but with this simple tool, we can do a lot.
 
-# Sections to Add
+## Manipulating Arrays
 
-- Vectors
-- Scope
+Probably one of the most important features of pointers is the ability to
+iterate by a single (class-bit-width) in memory. We can do this because
+pointers are fundamentally of the type `lvalue`. Array names are pointers,
+and using this pointer is the most common way to iterate through an array.
+Note that the example below uses multiple methods to access array members.
 
+```cpp
+int x[100];  // x is equivalent to &x[0]
+
+// Fill the array with stuff
+for(int i=0; i<100; i++) *(x+i) = i;
+
+// Prints 0 .. 99
+for(int i=0; i<100; i++) cout << x[i] << endl;
+
+// Prints 0 .. 99
+int i = 0;
+while(i<100) cout << *(x+i++) << endl;
 ```
 
+## Dynamic Memory Management
+
+Memory can be allocated by the programmer with the _new_ and _delete_ operators.
+
+```cpp
+int *x;       // Empty pointer of type int
+x = new int;  // Allocate a new chunk of storage
+*x = 4;       // Place something in there
 ```
+
+### New
+
+New can be used to allocate memory for any type of primitive or object.
+
+```cpp
+// Allocate a single spot, an array,
+// and a cube array of type *type*
+new type;
+new type[n];
+new type[a][b][c];
+```
+
+### Delete
+
+Complimentary to _new_, we can also _delete_ the objects and primitives
+that are referenced by pointers with the delete keyword.
+
+```cpp
+int *x;
+x = new int[100];
+delete x;
+```
+
+## Pointers to Functions
+
+It's possible to set pointers to functions. Here, assume **func** is a previously
+defined function that returns a string and takes an integer as an argument.
+
+```cpp
+string (*x)(int);
+x = func;
+x(3);
+```
+
+In this way, you can also require pointers to functions in function arguments.
+
+<!-- CSI2372 Lecture 4 -->
+
+<!-- CSI2372 Lecture 5 -->
+<!-- CSI2372 Lecture 6 -->
+<!-- CSI2372 Lecture 7 -->
+<!-- CSI2372 Lecture 8 -->
+<!-- CSI2372 Lecture 9 -->
+<!-- CSI2372 Lecture 10 -->
+<!-- CSI2372 Lecture 11 -->
+<!-- CSI2372 Lecture 12 -->
+<!-- CSI2372 Lecture 13 -->
+<!-- CSI2372 Lecture 14 -->
+<!-- CSI2372 Lecture 15 -->
+<!-- CSI2372 Lecture 16 -->
+<!-- CSI2372 Lecture 17 -->
+<!-- CSI2372 Lecture 18 -->
+
+<!-- Sections to add: Vectors, Sceope -->
 
 # A Note on Programming
 
