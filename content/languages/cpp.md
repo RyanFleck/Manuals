@@ -329,6 +329,38 @@ namespace rcf{
 rcf::three();
 ```
 
+## Command Line Arguments
+
+To pass input to a program, one may pass command line arguments.
+It is easy to print all the arguments by iterating through the
+elements given in `argv`. Conveniently, the number of arguments
+is passed as `argc`, allowing C++ users to use a for loop to
+iterate through the input.
+
+```cpp
+#include <iostream>
+using namespace std;
+
+int main(int argc, char *argv[])
+{
+    cout << "Arguments passed to program:" << endl;
+
+    // The number of elements is given as 'argc'
+    for(int i=0; i<argc; i++)
+    {
+        // Print commas between elements
+        if(i!=0) cout << ", ";
+
+        // Print the positional argument
+        cout << argv[i];
+    }
+
+    // End the list
+    cout << endl;
+    return 0;
+}
+```
+
 # Compiling II: With Headers
 
 Attempting to cram a huge program into a single source file is very impractical,
@@ -446,7 +478,23 @@ x(3);
 
 In this way, you can also require pointers to functions in function arguments.
 
+# Strings
+
 <!-- CSI2372 Lecture 4 -->
+
+Many C++ programs use traditional C style strings:
+
+```cpp
+char x[] = {"Hello"};
+char y[] = {'H','e','l','l','o','\0'};
+```
+
+# Classes and Objects
+
+Object oriented programming (commonly shortened to OOP,) involves the
+encapsulation of related groups of logic and properties into entities called
+**objects**, which are structured according to a template known as a
+**class**
 
 <!-- CSI2372 Lecture 5 -->
 <!-- CSI2372 Lecture 6 -->
@@ -467,9 +515,16 @@ In this way, you can also require pointers to functions in function arguments.
 
 # A Note on Programming
 
-Never forget that you are responsible for waving the dreams of yourself, and others,
-into panes of logic that are run by rocks that we
+Never forget that you are responsible for weaving the dreams of humanity
+into panes of cold logic, run by rocks which we
 tricked to think with lightning.
+
+More importantly, never forget that computers are not us.
+They have no inherent humanity.
+Computers reflect the coldest, most logical and calculating part
+of ourselves. We must be cautious not to lose ourselves
+and forsake our souls
+by gazing too affectionately at the reflection on this black mirror.
 
 > We are the music makers, <br />
 > And we are the dreamers of dreams, <br />
