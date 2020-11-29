@@ -757,6 +757,25 @@ int main()
 }
 ```
 
+### Static Members
+
+Ha ha.
+
+A **static** declaration enables the sharing of data between object of the same class.
+
+```cpp
+class Frigate
+{
+private:
+    // All frigates use and can modify this
+    static int shipsInFleet;
+    // All frigates can use this number
+    static const int maxSpeed = 30;
+public:
+    Frigate(int numGuns);
+};
+```
+
 ## Objects
 
 <!-- CSI2372 Lecture 5 -->
