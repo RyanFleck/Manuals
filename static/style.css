@@ -265,7 +265,7 @@ code {
   font-family: "Courier New", Courier, monospace;
 }
 
-article > div.highlight {
+body > div.highlight {
   overflow-x: auto;
   padding: 0;
   /*
@@ -274,8 +274,8 @@ article > div.highlight {
   */
 }
 
-article > pre,
-article > div.highlight pre {
+body > pre,
+body > div.highlight pre {
   width: 100%;
   padding-left: calc(50vw - 310px);
 }
