@@ -703,6 +703,60 @@ I weigh 70kg.
 Walking to 51.0501,-114.085,1086
 ```
 
+### Destructor
+
+A class destructor is called, predictably, when an object is destroyed. Destructors have the same name as the class, but include a tilde (`~`) at
+the beginning of the name. Any cleanup that needs to occur before an object
+is destroyed can occur in the constructor.
+
+Destructors do not take arguments.
+
+```cpp
+Man::~Man()
+{
+    cout << "AAAUGH! My brothers will avenge me!" << endl;
+}
+```
+
+By combining a constructor and destructor, we can dynamically allocate
+memory when an object is created based on current requirements,
+and ensure that the memory is freed when the object is destroyed.
+
+```cpp
+#include <iostream>
+using namespace std;
+
+class Frigate
+{
+private:
+    // Let's track the remaining ammunition
+    // for a dynamic number of guns on board
+    int * gunAmmoStores;
+public:
+    Frigate(int numGuns);
+    ~Frigate();
+};
+
+Frigate::Frigate(int numGuns)
+{
+    // Allocate the gun ammo tracker array
+    gunAmmoStores = new int[numGuns];
+    // Load 10 bullets into each cannon
+    for(int i=0; i<numGuns; i++) gunAmmoStores[i] = 10;
+}
+
+Frigate::~Frigate()
+{
+    // De-allocate memory
+    delete gunAmmoStores;
+}
+
+int main()
+{
+    Frigate x = Frigate(21);
+}
+```
+
 ## Objects
 
 <!-- CSI2372 Lecture 5 -->
