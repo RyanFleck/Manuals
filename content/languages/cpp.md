@@ -489,12 +489,209 @@ char x[] = {"Hello"};
 char y[] = {'H','e','l','l','o','\0'};
 ```
 
-# Classes and Objects
+# Object Oriented Programming
 
-Object oriented programming (commonly shortened to OOP,) involves the
+C++ brings **OOP** to the C programming language.
+
+Object oriented programming (commonly shortened to **OOP**,) involves the
 encapsulation of related groups of logic and properties into entities called
-**objects**, which are structured according to a template known as a
-**class**
+objects, which are structured according to templates known as
+classes, structures, unions, and enumerations.
+
+## Special Types
+
+Modern C++ continues to make use of C's structures, unions,
+and enumerations to hold sets of related data.
+
+### Struct
+
+**Structures**, defined with the keyword **struct**, are simple storage
+devices for related variables. Once defined, you can instantiate many
+instances of a structure, and all of them will be assigned memory
+to hold the set of properties that you specify.
+
+Simple usage of the **struct** keyword:
+
+```cpp
+#include <iostream>
+using namespace std;
+
+int main()
+{
+    struct item
+    {
+        string name;
+        int serial;
+        float cost_cad;
+        float weight_kg;
+    };
+
+    // Create an instance of item
+    item block;
+
+    // Set the properties of block
+    block.name = "Wooden Block";
+    block.serial = 1924573;
+    block.cost_cad = 7.99;
+    block.weight_kg = 1.0;
+
+    // Print the block properties:
+    cout << "Item: " << endl;
+    cout << "Name: " << block.name << endl;
+    cout << "Serial No: " << block.serial<< endl;
+    cout << "Cost (CAD): " << block.cost_cad << endl;
+    cout << "Weight (Kg): " << block.weight_kg << endl;
+}
+```
+
+Any variable within a struct can be used just like any ordinary variable
+that was instantiated outside of a struct.
+
+You can also instantiate an array with a structure type.
+
+### Union
+
+**Unions** are like enumerations, and can be instantiated with a list of
+variables with types. _Unlike structures,_ when a union is instantiated,
+it may only populate one of the list of contained variables. This allows
+the same memory location to be populated with data of varying types.
+
+```cpp
+#include <iostream>
+using namespace std;
+
+int main()
+{
+    union item
+    {
+        int serial;
+        float cost_cad;
+        float weight_kg;
+    };
+
+    // Create an instance of item
+    item block;
+
+    // Set the properties of block
+    block.cost_cad = 7.99;
+}
+```
+
+When a union is reassigned (for example, if serial was set after cost in
+the example above,) the value in memory is overwritten. If cost was printed
+after serial was set on the item, it would return the floating point representation
+of the integer which was set _-- probably a very negative number!_
+
+### Enum
+
+**Enumerations** are used to store groups of constants, so rather than using
+numbers to store states, easy-to-read, all-caps variables exist. Try it:
+
+```cpp
+#include <iostream>
+using namespace std;
+
+int main()
+{
+    enum color { red, green, blue, yellow };
+    cout << red << endl; // Prints '0'
+}
+```
+
+By storing states as (implicit) integers, we can increase readability
+without sacrificing runtime performance. You **cannot** use the same
+name between enums within the same scope in C++.
+
+### Typedef
+
+**Make your own type!** The **Typedef** keyword enables programmers to
+visually simplify their programs (and confuse others) by reassigning
+types. For instance:
+
+```cpp
+typedef long double wunderbarnumber;
+wunderbarnumber x;
+```
+
+## Classes
+
+A **class** encapsulates a set of associated variables and functions.
+Let's dive right in with our first class. We **declare** a class
+by stating all of its private and public methods and data.
+
+```cpp
+#include <iostream>
+using namespace std;
+
+class Man
+{
+private:
+    string name;
+    int height;
+    int weight;
+    bool vegetarian;
+    bool drinker;
+    int chest;
+    int ribs;
+    int iq;
+public:
+    Man(string name, int height, int weight);
+    void walk(float latitude, float longitude, float altitude);
+    void speak();
+};
+```
+
+Now we can provide **definitions** for the function declarations.
+
+```cpp
+Man::Man(string n, int h, int w)
+{
+    cout << "Instantiating a Man '"<< n << "'" << endl;
+    height = h;
+    weight = w;
+    name = n;
+}
+
+void Man::speak()
+{
+    cout << "My name is " << name << "." << endl;
+    cout << "I am " << height << "cm tall." << endl;
+    cout << "I weigh " << weight << "kg." << endl;
+}
+
+void Man::walk(float latitude, float longitude, float altitude)
+{
+    cout << "Walking to " << latitude << ","
+         << longitude << "," << altitude << endl;
+}
+```
+
+We can now use the **Man** class in an example.
+
+```cpp
+int main()
+{
+    Man j = Man("Jeremy", 182, 70);
+    j.speak();
+    j.walk(51.05011, -114.08529, 1086.00);
+}
+```
+
+Lastly, let's run the thing and ensure that everything is working as expected
+and giving the output we'd like:
+
+```
+$ g++ main.cpp && ./a.out
+Instantiating a Man 'Jeremy'
+My name is Jeremy.
+I am 182cm tall.
+I weigh 70kg.
+Walking to 51.0501,-114.085,1086
+```
+
+We can't actually use this class until we define all of these declared functions.
+
+## Objects
 
 <!-- CSI2372 Lecture 5 -->
 <!-- CSI2372 Lecture 6 -->
