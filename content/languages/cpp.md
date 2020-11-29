@@ -641,7 +641,12 @@ public:
 };
 ```
 
-Now we can provide **definitions** for the function declarations.
+### Constructor
+
+Let's **define** the constructor that was declared in the class definition.
+
+All we need to do is set all of the private variables to the input
+that will be given in the object instantiation call.
 
 ```cpp
 Man::Man(string n, int h, int w)
@@ -651,7 +656,13 @@ Man::Man(string n, int h, int w)
     weight = w;
     name = n;
 }
+```
 
+### Method Definitions
+
+Now we can provide **definitions** for the rest of the function declarations.
+
+```cpp
 void Man::speak()
 {
     cout << "My name is " << name << "." << endl;
@@ -666,6 +677,8 @@ void Man::walk(float latitude, float longitude, float altitude)
 }
 ```
 
+### Compile and Run an Example
+
 We can now use the **Man** class in an example.
 
 ```cpp
@@ -678,7 +691,8 @@ int main()
 ```
 
 Lastly, let's run the thing and ensure that everything is working as expected
-and giving the output we'd like:
+and giving the output we'd like. Save the code above as `main.cpp` and compile
+with `g++`:
 
 ```
 $ g++ main.cpp && ./a.out
@@ -688,8 +702,6 @@ I am 182cm tall.
 I weigh 70kg.
 Walking to 51.0501,-114.085,1086
 ```
-
-We can't actually use this class until we define all of these declared functions.
 
 ## Objects
 
