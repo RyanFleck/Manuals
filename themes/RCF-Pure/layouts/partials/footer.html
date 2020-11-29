@@ -1,16 +1,14 @@
 <br />
-<footer class="footer mt-auto py-3 bg-light border-top">
-  <div class="container">
-    <span class="text-muted">
-      <a class="text-dark" href="{{ .Site.BaseURL }}">
-        <!-- Site title. -->
-        {{ .Site.Title }}</a
-      >
-      &middot; {{ .Site.Params.copyright }}
-    </span>
-  </div>
+<div id="footer">
+  <span class="text-muted">
+    <a class="text-dark" href="{{ .Site.BaseURL }}">
+      <!-- Site title. -->
+      {{ .Site.Title }}</a
+    >
+    &middot; {{ .Site.Params.copyright }}
+  </span>
   <hr />
-  <small>
+  <div id="footer-data">
     <div>
       Work publicized under the
       <a
@@ -37,11 +35,12 @@
         >manuals.ryanfleck.ca</a
       >
     </div>
+    <div>Development target RCF.19.2.78</div>
     <br />
     <div>
       Read more at
       <a target="_blank" href="https://ryanfleck.ca">ryanfleck.ca</a>
     </div>
-  </small>
-</footer>
+  </div>
+</div>
 <br />
