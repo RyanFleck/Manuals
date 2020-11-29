@@ -1,32 +1,30 @@
 {{ define "main" }}
-<main>
-  <h1 class="mt">
-    <a href="{{.Permalink}}" id="title-link"> {{ .Title }} </a>
-  </h1>
+<h1 class="mt">
+  <a href="{{.Permalink}}" id="title-link"> {{ .Title }} </a>
+</h1>
 
-  {{ if not .Date.IsZero }}
-  <p><b>{{ .Date.Format "2006-01-02" }}</b></p>
-  {{ end }}
-  <!--Subtitle-->
-  {{ if .Params.subtitle }}
-  <p>{{ .Params.subtitle }}</p>
-  <br />
-  {{ end }}
-  <!--Summary-->
-  {{ if .Params.summary }}
-  <p>{{ .Params.summary }}</p>
-  <br />
-  {{ end }}
-  <!--Table of Contents-->
-  {{ if .Params.toc }}
-  <h4>Contents</h4>
-  {{ .TableOfContents }}
-  <br />
-  <br />
-  {{ end }}
+{{ if not .Date.IsZero }}
+<p><b>{{ .Date.Format "2006-01-02" }}</b></p>
+{{ end }}
+<!--Subtitle-->
+{{ if .Params.subtitle }}
+<p>{{ .Params.subtitle }}</p>
+<br />
+{{ end }}
+<!--Summary-->
+{{ if .Params.summary }}
+<p>{{ .Params.summary }}</p>
+<br />
+{{ end }}
+<!--Table of Contents-->
+{{ if .Params.toc }}
+<h4>Contents</h4>
+{{ .TableOfContents }}
+<br />
+<br />
+{{ end }}
 
-  <article>{{ .Content }}</article>
-</main>
+<article>{{ .Content }}</article>
 
 <!-- End -->
 {{end}}
