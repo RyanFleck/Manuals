@@ -806,26 +806,47 @@ using namespace std;
 
 int main()
 {
-    // vector<type> name
+    // Define as: vector<type> name
     vector<int> v;
+
+    // Push a few elements
     v.push_back(3);
     v.push_back(9);
     v.push_back(2);
+    v.push_back(8);
+    v.push_back(12);
+
+    // Insert something after '3'
+    v.insert(v.begin() + 1, 5);
+
+    // Remove the last element
+    v.erase(v.begin() + v.size()-1);
 
     cout << "Vector: ";
-    for(unsigned int i=0; i < v.size(); i++){
+    for(unsigned int i=0; i < v.size(); i++)
+    {
         if(i!=0) cout << ", ";
         // alternatively, cout << v[i];
         cout << v.at(i);
     }
     cout << endl;
+
+    // Wipe everything from the vector
+    v.clear();
+
+    if(v.empty())
+    {
+        cout << "The vector was cleared!";
+    }
 }
 ```
 
 ```sh
 # Run the program:
-g++ main.cpp && ./a.out
-Vector: 3, 9, 2
+$ g++ main.cpp && ./a.out
+Vector: 3, 5, 9, 2, 8
+The vector was cleared!
+
 ```
 
 # A Note on Programming
