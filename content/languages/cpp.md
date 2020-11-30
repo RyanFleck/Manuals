@@ -818,8 +818,14 @@ int main()
         // alternatively, cout << v[i];
         cout << v.at(i);
     }
+    cout << endl;
 }
+```
 
+```sh
+# Run the program:
+g++ main.cpp && ./a.out
+Vector: 3, 9, 2
 ```
 
 # A Note on Programming
