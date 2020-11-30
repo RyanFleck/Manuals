@@ -795,6 +795,33 @@ public:
 
 <!-- Sections to add: Vectors, Sceope -->
 
+# Vectors
+
+Vectors are dynamic arrays.
+
+```cpp
+#include <iostream>
+#include <vector>
+using namespace std;
+
+int main()
+{
+    // vector<type> name
+    vector<int> v;
+    v.push_back(3);
+    v.push_back(9);
+    v.push_back(2);
+
+    cout << "Vector: ";
+    for(unsigned int i=0; i < v.size(); i++){
+        if(i!=0) cout << ", ";
+        // alternatively, cout << v[i];
+        cout << v.at(i);
+    }
+}
+
+```
+
 # A Note on Programming
 
 Never forget that you are responsible for weaving the dreams of humanity
