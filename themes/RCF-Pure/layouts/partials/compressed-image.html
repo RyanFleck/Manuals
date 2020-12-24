@@ -1,0 +1,69 @@
+{{/* This partial renders a compressed image. */}}
+
+{{/* If the file exists and the filename isn't blank, */}}
+{{ if (and (fileExists (print "/assets" .Destination)) (not (eq .Destination ""))) }}
+
+{{/* Grab the image and ensure it has a width property, */}}
+{{ $image := resources.Get .Destination }}
+
+{{/* We build our src-set step by step. */}}
+{{ $src_set := "" }}
+
+{{ if ge $image.Width "2300" }}
+{{ $resized := $image.Resize "2300x 80q jpg"}}
+{{ $src_set = (print $resized.RelPermalink " " $resized.Width "w, " $src_set)}}
+{{ end }}
+
+{{ if ge $image.Width "1920" }}
+{{ $resized := $image.Resize "1920x 80q jpg"}}
+{{ $src_set = (print $resized.RelPermalink " " $resized.Width "w, " $src_set)}}
+{{ end }}
+
+{{ if ge $image.Width "1500" }}
+{{ $resized := $image.Resize "1500x 80q jpg"}}
+{{ $src_set = (print $resized.RelPermalink " " $resized.Width "w, " $src_set)}}
+{{ end }}
+
+{{ if ge $image.Width "1000" }}
+{{ $resized := $image.Resize "1000x 80q jpg"}}
+{{ $src_set = (print $resized.RelPermalink " " $resized.Width "w, " $src_set)}}
+{{ end }}
+
+{{ if ge $image.Width "800" }}
+{{ $resized := $image.Resize "800x 80q jpg"}}
+{{ $src_set = (print $resized.RelPermalink " " $resized.Width "w, " $src_set)}}
+{{ end }}
+
+{{ if ge $image.Width "600" }}
+{{ $resized := $image.Resize "600x 80q jpg"}}
+{{ $src_set = (print $resized.RelPermalink " " $resized.Width "w, " $src_set)}}
+{{ end }}
+
+{{ if ge $image.Width "300" }}
+{{ $resized := $image.Resize "300x 80q jpg"}}
+{{ $src_set = (print $resized.RelPermalink " " $resized.Width "w, " $src_set)}}
+{{ end }}
+
+{{ $placeholder := ($image.Resize "48x q20") | images.Filter (images.GaussianBlur 2) }}
+{{ $alt := .PlainText | safeHTML }}
+{{ $caption := "" }}
+{{ with .Title }}
+{{ $caption = . | safeHTML }}
+{{ end }}
+
+<img
+class="wise-image lazyload"
+srcset="data:image/jpeg;base64,{{ $placeholder.Content | base64Encode }}"
+data-sizes="auto"
+data-srcset="{{ $src_set }}"
+data-src="{{ $image.RelPermalink }}"
+width="{{ $image.Width }}"
+height="{{ $image.Height }}"
+alt="{{ if $alt }}{{ $alt }}{{ else if $caption }}{{ $caption | markdownify | plainify }}{{ else }}{{ path.Base .Destination | plainify }}{{ end }} "
+loading="lazy"
+>
+
+{{ else }}
+<img src="{{ .Destination }}" loading="lazy">
+<p><b>Could not process the image asset: "{{ .Destination }}"</b></p>
+{{ end }}
