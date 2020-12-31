@@ -108,14 +108,14 @@ html {
   scroll-behavior: smooth;
   overflow-y: scroll;
   padding: 0.5rem;
-  font-size: 16px;
+  font-size: 15px;
   background: #fff1ae;
   color: black;
   min-width: 300px;
   overflow-x: hidden;
+  min-width: 500px;
 }
 
-html,
 button,
 body,
 textarea,
@@ -135,12 +135,12 @@ span {
   -webkit-font-feature-settings: "liga" on, "calt" on;
   font-feature-settings: "liga" on, "calt" on;
   text-rendering: optimizeLegibility;
-  font-size: 16px;
+  font-size: 1rem;
 }
 
 .highlight,
 code {
-  font-size: 16px;
+  font-size: 1rem; 
 }
 
 div {
@@ -327,5 +327,5 @@ h6:hover > .header-anchor-link {
 }
 
 #footer-data div {
-  font-size: 12px;
+  font-size: 0.8rem;
 }
