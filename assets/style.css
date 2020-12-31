@@ -2,6 +2,7 @@
 
 /* JBM */
 
+/*
 @font-face {
   font-family: "JetBrains Mono";
   src: url("/fonts/jbm/web/woff2/JetBrainsMono-Regular.woff2") format("woff2"),
@@ -31,7 +32,7 @@
   font-style: italic;
   font-display: swap;
 }
-
+*/
 
 /* CSS RESET: https://github.com/hankchizljaw/modern-css-reset */
 /* Box sizing rules */
@@ -128,8 +129,8 @@ span {
   /* These are not enforced if not important, wcyd? */
   -webkit-font-smoothing: antialiased !important;
   -moz-osx-font-smoothing: auto !important;
-  font-family: "JetBrains Mono", "IBM Plex Mono", "SFMono-Regular", Consolas,
-    "Liberation Mono", "Noto Mono", Menlo, Courier, monospace !important;
+  font-family: "SFMono-Regular", Consolas, Monaco, "Liberation Mono",
+    "Noto Mono", Menlo, Courier, "Courier New", monospace !important;
   font-variant-ligatures: normal;
   -webkit-font-feature-settings: "liga" on, "calt" on;
   font-feature-settings: "liga" on, "calt" on;
@@ -227,7 +228,8 @@ ol {
 
 code {
   color: rgb(0, 1, 66);
-  font-family: "Courier New", Courier, monospace;
+  font-family: "SFMono-Regular", Consolas, Monaco, "Liberation Mono",
+    "Noto Mono", Menlo, Courier, "Courier New", monospace !important;
 }
 
 body > div.highlight {
