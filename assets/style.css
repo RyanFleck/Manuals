@@ -321,7 +321,7 @@ h6:hover > .header-anchor-link {
 /* No header anchor links on mobile */
 @media (max-width: 600px) {
   html{
-    font-size: 14px;
+    font-size: 12px;
   }
   .header-anchor-link {
     display: none;
