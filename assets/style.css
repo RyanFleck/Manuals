@@ -113,7 +113,6 @@ html {
   color: black;
   min-width: 300px;
   overflow-x: hidden;
-  min-width: 500px;
 }
 
 button,
@@ -321,6 +320,9 @@ h6:hover > .header-anchor-link {
 
 /* No header anchor links on mobile */
 @media (max-width: 600px) {
+  html{
+    font-size: 14px;
+  }
   .header-anchor-link {
     display: none;
   }
