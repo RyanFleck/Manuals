@@ -5,7 +5,7 @@
   {{ if .Content }} {{ .Content }} {{ end }}
 
   <ol reversed>
-    {{ range .Pages }}
+    {{ range .Pages }} {{ if (not .Params.unlisted) }}
     <li>
       <a href="{{.Permalink}}">
         {{.Title}}
@@ -13,7 +13,7 @@
         {{ if .Draft }}<span style="color: red">DRAFT</span>{{ end }}
       </a>
     </li>
-    {{ end }}
+    {{ end }} {{ end }}
   </ol>
 </main>
 {{end}}
