@@ -31,3 +31,14 @@ As a developer, AWS skills are currently in high demand, and those with AWS skil
 Getting certified with AWS is a popular way to advance your career as a software engineer. The most popular certification to get is [_AWS Certified Solutions Architect_](https://aws.amazon.com/certification/certified-solutions-architect-associate/) which validates that you can deploy a secure and scalable app on AWS.
 
 This set of notes will draw heavily from this [_AWS Certified Solutions Architect Associate SAA-C02 \[2022\]_](https://www.udemy.com/course/aws-certified-solutions-architect-associate-hands-on/) course which I was able to access for free while working at IBM.
+
+# SAA-C02
+
+This is the AWS Certified Solutions Architect certification exam.
+
+To pass you'll need to know how to design the following:
+
+1. **Resilient architectures**, including highly available, multi-tier, fault-tolerant solutions with decoupling mechanisms and the appropriate resilient storage.
+2. **High-performance architectures** including correct scaling compute, scaling storage, networking, and high-performance databases.
+3. https://aws.amazon.com/certification/certified-solutions-architect-associate/**ecure applications + architectures** to secure application tiers and data
+4. How to **design cost-optimized architectures**
