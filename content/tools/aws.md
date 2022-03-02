@@ -10,10 +10,18 @@ title: Amazon Web Services (AWS)
 
 While it would be cheaper to deploy your new web app on a cloud VM you configure on your own, or easier to use an intermediate layer like Heroku, AWS allows you to deploy and massively scale with ease _for money._
 
-Common AWS services and their use cases:
+**Common AWS services and their use cases:**
 
 1. **VPC** - Private network within AWS, EC2s exist within VPCs
 2. **EC2** - Elastic compute cloud allows you to create containers to run web applications or other programs
 3. **RDS** - Relational database service, runs SQL of some sort
-4. **Route 53**  - Manages DNS queries, can redirect based on region/latency/etc
+4. **Route 53**  - Manages DNS queries, can redirect based on region, latency, etc.
 5. **Lambda**  - Run one-off computations instead of using an EC2
+6. **S3** - Simple Storage Service, for keeping user data like profile pictures or miscellaneous files
+7. **Glacier** - Long term data archival service for compliance or backups
+8. **CloudWatch** - Monitor all AWS services and set up automated actions
+
+Compared to other cloud providers, AWS has the following advantages:
+
+1. It's the largest and most mature vendor by a large margin (\~1/3  of the market)
+2. Very competitive pricing due to scale
