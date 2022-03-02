@@ -39,6 +39,11 @@ Unfortunately (or fortunately,) the life of a Maximo consultant will _never stra
 
 Altering a client's Maximo will almost certainly **forfeit the support agreement** and **IBM can sue you for damages.** Don't do this.
 
+# Maximo Applications
+
+Within Maximo is a plethora of tools for use by a variety of roles. Commonly, Maximo end users (those working within the client organization,) will only see a handful of all the applications that are typically included with a Maximo installation. Many of the applications are designed only for use by developers and consultants or users with permission to customize the Maximo installation for the client's business needs.
+
 # Additional Resources
 
 1. Maximo Secrets - [maximosecrets.com](https://maximosecrets.com/ "https://maximosecrets.com/")
+2. Maximo 7.6 documentation - [ibm.com/docs/en/mam/7.6.0.7](https://www.ibm.com/docs/en/mam/7.6.0.7 "https://www.ibm.com/docs/en/mam/7.6.0.7")
