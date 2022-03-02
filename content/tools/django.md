@@ -1,12 +1,12 @@
 ---
 toc: true
-draft: false
-date: 2020-11-20T19:59:05-07:00
+date: 2020-11-20T19:59:05.000-07:00
 image: "/content-cover-images/coffee-phone.jpg"
-summary: "Content summary for Django."
-title: "Django"
----
+summary: Content summary for Django.
+title: Django
+draft: true
 
+---
 # Introduction
 
 DJANGO! During my time at Wise Assistant, I became intimately familiar with
