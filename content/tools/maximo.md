@@ -18,10 +18,11 @@ Heavy industry across the globe must deal with massive inventories with millions
 * Planning and scheduling of asset maintenance and repair
 * Organization of assets needed for maintenance and repair work
 * Supply chain analytics to optimize stocking and reordering
+* Generates (TPS?) reports to communicate the business status
 
 **What Maximo is NOT:**
 
-* A financial or accounting system - this must be managed in another system
+* A financial or accounting system - this must be managed in an external system which can optionally be connected to Maximo
 
 **I have been extremely cautious to ensure no proprietary knowledge, client information, or insider info is included in this set of learning notes.** If you do notice any, please bring them to my attention immediately by contacting me with the information at [ryanfleck.ca/about](https://ryanfleck.ca/about).
 
