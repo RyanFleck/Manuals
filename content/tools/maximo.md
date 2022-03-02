@@ -29,6 +29,16 @@ This set of notes is primarily sourced from material on **Maximo 7.6+**
 
 # Maximo's Software Architecture
 
-Maximo is a Java-based application that can run on a mainframe or in the cloud. Maximo 8 is significantly more complex than Maximo 7, which can run in a VM on a developer's computer as an EAR deployed on Websphere along with an Oracle DB. _This is fairly cut and dry._ 
+Maximo is a Java-based application that can run on a mainframe or in the cloud. Maximo 8 is significantly more complex than Maximo 7, which can run in a VM on a developer's computer as an EAR deployed on Websphere along with an Oracle DB.
+
+Here is a deployment diagram for Maximo 7 including Maximo Mobile:
 
 ![](/uploads/maximo-softarch.png)
+
+Unfortunately (or fortunately,) the life of a Maximo consultant will _never stray near this Java application_. Customization for clients will almost always be feasible in the many, many customization layers above altering the Maximo source code.
+
+Altering a client's Maximo will almost certainly **forfeit the support agreement** and **IBM can sue you for damages.** Don't do this.
+
+# Additional Resources
+
+1. Maximo Secrets - [maximosecrets.com](https://maximosecrets.com/ "https://maximosecrets.com/")
