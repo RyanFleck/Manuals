@@ -9,4 +9,4 @@ draft: true
 ---
 # Hello, Hugo!
 
-Planned page.
+Planned page. Should be hidden.
