@@ -7,13 +7,13 @@
       <a href="{{ .Site.BaseURL }}">Homepage</a>
     </b>
   </li>
-  {{ range .Site.Sections }}
+  {{ range .Site.Sections.ByTitle }}
   <li>
     <b class="directory-section">
       <a href="{{ .Permalink }}">{{ .Title }}</a>
     </b>
     <ul>
-      {{ range .Pages }} {{ if (not .Params.unlisted)}}
+      {{ range .Pages.ByTitle }} {{ if (not .Params.unlisted)}}
       <li>
         <a href="{{ .Permalink }}">
           <!-- Title -->
