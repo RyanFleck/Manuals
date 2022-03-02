@@ -38,7 +38,7 @@ This is the AWS Certified Solutions Architect certification exam.
 
 To pass you'll need to know how to design the following:
 
-1. **Resilient architectures**, including highly available, multi-tier, fault-tolerant solutions with decoupling mechanisms and the appropriate resilient storage.
-2. **High-performance architectures** including correct scaling compute, scaling storage, networking, and high-performance databases.
-3. https://aws.amazon.com/certification/certified-solutions-architect-associate/**ecure applications + architectures** to secure application tiers and data
-4. How to **design cost-optimized architectures**
+1. **Resilient architectures**, including highly available, multi-tier, fault-tolerant solutions with decoupling mechanisms and the appropriate resilient storage
+2. **High-performance architectures** including correct scaling compute, scaling storage, networking, and high-performance databases
+3. **Secure applications + architectures** to secure application tiers and data
+4. **Cost-optimized architectures** to minimize the cost of storage, compute, and networking
