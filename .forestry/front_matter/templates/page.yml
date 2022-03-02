@@ -20,4 +20,5 @@ fields:
   label: title
 pages:
 - content/tools/aws.md
+- content/tools/maximo-1.md
 - content/tools/maximo.md
