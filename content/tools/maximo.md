@@ -42,9 +42,11 @@ Altering a client's Maximo will almost certainly **forfeit the support agreement
 
 # Maximo Applications
 
+A Maximo Application is an access-restricted tool accessible through the Start Center that an end user will use to complete their work.
+
 Within Maximo is a plethora of tools for use by a variety of roles. Commonly, Maximo end users (those working within the client organization,) will only see a handful of all the applications that are typically included with a Maximo installation. Many of the applications are designed only for use by developers and consultants or users with permission to customize the Maximo installation for the client's business needs.
 
-A list of the 144 standard Maximo 7.6 applications can be found [here](https://www.ibm.com/docs/en/mam/7.6.0.7?topic=levels-applications-their-data-storage).
+A list of the **144** standard Maximo 7.6 applications can be found in a table [here](https://www.ibm.com/docs/en/mam/7.6.0.7?topic=levels-applications-their-data-storage) along with notes on where each application stores data.
 
 Notably, developers will use the following applications to customize a client's Maximo installation and build new applications:
 
