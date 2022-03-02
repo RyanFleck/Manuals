@@ -12,6 +12,23 @@ toc = true
 
 Heavy industry across the globe must deal with massive inventories with millions of parts, each with different stocking and holding costs, reordering processes, expiry dates, criticalities, and business requirements for counting and inventory management. Balancing all of these variables are systems like IBM Maximo, which aims to maximize the return of all enterprise assets through the optimization of cost, downtime, maintenance, repair material cost, and labor productivity.
 
+**What Maximo is:**
+
+* A tool to manage enterprise assets
+* Planning and scheduling of asset maintenance and repair
+* Organization of assets needed for maintenance and repair work
+* Supply chain analytics to optimize stocking and reordering
+
+**What Maximo is NOT:**
+
+* A financial or accounting system - this must be managed in another system
+
 **I have been extremely cautious to ensure no proprietary knowledge, client information, or insider info is included in this set of learning notes.** If you do notice any, please bring them to my attention immediately by contacting me with the information at [ryanfleck.ca/about](https://ryanfleck.ca/about).
 
 This set of notes is primarily sourced from material on **Maximo 7.6+**
+
+# Maximo's Software Architecture
+
+Maximo is a Java-based application that can run on a mainframe or in the cloud. Maximo 8 is significantly more complex than Maximo 7, which can run in a VM on a developer's computer as an EAR deployed on Websphere along with an Oracle DB. _This is fairly cut and dry._ 
+
+![](/uploads/maximo-softarch.png)
