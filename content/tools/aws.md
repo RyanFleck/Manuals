@@ -16,3 +16,4 @@ Common AWS services and their use cases:
 2. **EC2** - Elastic compute cloud allows you to create containers to run web applications or other programs
 3. **RDS** - Relational database service, runs SQL of some sort
 4. **Route 53**  - Manages DNS queries, can redirect based on region/latency/etc
+5. **Lambda**  - Run one-off computations instead of using an EC2
