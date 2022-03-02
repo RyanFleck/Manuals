@@ -109,7 +109,7 @@ html {
   overflow-y: scroll;
   padding: 0.5rem;
   font-size: 15px;
-  background: #fff1ae;
+  background: #fffccc;
   color: black;
   min-width: 300px;
   overflow-x: hidden;
@@ -267,7 +267,7 @@ hr {
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
-  background: #fff1ae;
+  background: #fffccc;
 }
 
 ::-webkit-scrollbar-thumb {
