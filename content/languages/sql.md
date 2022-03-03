@@ -8,7 +8,7 @@ title: SQL
 ---
 # What is SQL?
 
-Structured Query Language (SQL) is used to retrieve and modify information in a **relational database** like MySQL, PostgreSQL, Microsoft SQL, Oracle DB, and others. Relational databases store data in large relational tables, where each row must conform to the types specified in the table columns, where cell contents must be either data, nothing, or a reference to a row in another table.
+Structured Query Language (SQL) is used to retrieve and modify information in a **relational database management system** like MySQL, PostgreSQL, [SQLite](https://sqlite.org/codeofethics.html), Microsoft SQL, Oracle, and others. Relational databases store data in large relational tables, where each row must conform to the types specified in the table columns, where cell contents must be either data, nothing, or a reference to a row in another table.
 
 Use the [W3Schools Try-It Editor](https://www.w3schools.com/sql/trysql.asp?filename=trysql_op_or) to tinker with SQL now.
 
@@ -18,11 +18,22 @@ Object Relational Mappers (ORMs) are abstractions used by web developers to inte
 
 Modern developers could live out a career without ever touching SQL due to the variety of well built ORMs that exist to translate objects built in an object-oriented language to SQL queries for insertion, retrieval, and manipulation. This is unfortunate in the same way a lack of knowledge about a CPU, machine code, assembly languages, or C is unfortunate: It means the programmer in question is operating on blind abstraction. This is obviously useful right up to the moment when performance tuning, a bug, or some other issue necessitating critical introspection of a codebase appears.
 
+## Differences Between SQL Flavors
+
+All of the aforementioned DBMS (Database Management System) flavors like MySQL and PostgreSQL use similar dialects of a common SQL standard. Statements are often similar or identical, but each flavor has slight differences in syntax.
+
+Flavors differentiate themselves with the features they offer the business and developer, including:
+
+* Special storage functions or data attributes
+* Query speed or general performance
+* Security
+* Resiliency
+
 ## Note on Syntax
 
-- SQL keywords are **not case sensitive**
-- Every statement must end with a semicolon
-- Table names don't seem to be case sensitive
+* SQL keywords are **not case sensitive**
+* Every statement must end with a semicolon
+* Table names don't seem to be case sensitive
 
 # Commands
 
@@ -32,9 +43,7 @@ This section contains a short usage guide for each of the common SQL commands, w
 
 Retreives data from a table.
 
-```
-SELECT <columns or * for all> FROM <table>;
-```
+    SELECT <columns or * for all> FROM <table>;
 
 ```sql
 SELECT * FROM products;
