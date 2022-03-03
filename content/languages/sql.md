@@ -35,6 +35,12 @@ Flavors differentiate themselves with the features they offer the business and d
 * Every statement must end with a semicolon
 * Table names don't seem to be case sensitive
 
+# Administration
+
+```sql
+SHOW DATABASES;
+```
+
 # Commands
 
 This section contains a short usage guide for each of the common SQL commands, with one or two composition examples.
