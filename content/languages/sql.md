@@ -18,16 +18,44 @@ Object Relational Mappers (ORMs) are abstractions used by web developers to inte
 
 Modern developers could live out a career without ever touching SQL due to the variety of well built ORMs that exist to translate objects built in an object-oriented language to SQL queries for insertion, retrieval, and manipulation. This is unfortunate in the same way a lack of knowledge about a CPU, machine code, assembly languages, or C is unfortunate: It means the programmer in question is operating on blind abstraction. This is obviously useful right up to the moment when performance tuning, a bug, or some other issue necessitating critical introspection of a codebase appears.
 
+## Note on Syntax
+
+- SQL keywords are **not case sensitive**
+- Every statement must end with a semicolon
+- Table names don't seem to be case sensitive
+
 # Commands
 
 This section contains a short usage guide for each of the common SQL commands, with one or two composition examples.
 
 ## SELECT
 
+Retreives data from a table.
+
 ```
 SELECT <columns or * for all> FROM <table>;
 ```
 
-```
+```sql
 SELECT * FROM products;
 ```
+
+## UPDATE
+
+## DELETE
+
+## CREATE DATABASE
+
+## ALTER DATABASE
+
+## CREATE TABLE
+
+## ALTER TABLE
+
+## INSERT INTO
+
+## DROP TABLE
+
+## CREATE INDEX
+
+## DROP INDEX
