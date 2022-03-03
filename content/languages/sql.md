@@ -20,6 +20,14 @@ Modern developers could live out a career without ever touching SQL due to the v
 
 # Commands
 
-This section contains a short usage guide for each of the common SQL commands.
+This section contains a short usage guide for each of the common SQL commands, with one or two composition examples.
 
 ## SELECT
+
+```
+SELECT <columns or * for all> FROM <table>;
+```
+
+```
+SELECT * FROM products;
+```
