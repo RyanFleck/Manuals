@@ -17,3 +17,9 @@ Use the [W3Schools Try-It Editor](https://www.w3schools.com/sql/trysql.asp?filen
 Object Relational Mappers (ORMs) are abstractions used by web developers to interact with relational databases.
 
 Modern developers could live out a career without ever touching SQL due to the variety of well built ORMs that exist to translate objects built in an object-oriented language to SQL queries for insertion, retrieval, and manipulation. This is unfortunate in the same way a lack of knowledge about a CPU, machine code, assembly languages, or C is unfortunate: It means the programmer in question is operating on blind abstraction. This is obviously useful right up to the moment when performance tuning, a bug, or some other issue necessitating critical introspection of a codebase appears.
+
+# Commands
+
+This section contains a short usage guide for each of the common SQL commands.
+
+## SELECT
