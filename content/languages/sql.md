@@ -49,7 +49,9 @@ This section contains a short usage guide for each of the common SQL commands, w
 
 Retreives data from a table.
 
-    SELECT <columns or * for all> FROM <table>;
+```sql
+SELECT <columns or * for all> FROM <table>;
+```
 
 ```sql
 SELECT * FROM products;
@@ -57,15 +59,40 @@ SELECT * FROM products;
 
 ## UPDATE
 
+```sql
+UPDATE <table> SET <column>=<value>, <column2>=<value> WHERE <condition>;
+```
+
 ## DELETE
 
+```sql
+DELETE FROM <table> WHERE <condition>;
+```
+
 ## CREATE DATABASE
+
+```sql
+CREATE DATABASE <database name>;
+```
+
+## DROP DATABASE
+
+DON'T F@#%!NG DO THIS!
+
+```sql
+SHOW DATABASES; -- List all existing databases
+DROP DATABASE <name>;
+```
 
 ## ALTER DATABASE
 
 ## CREATE TABLE
 
 ## ALTER TABLE
+
+```
+ALTER TABLE <table> ADD <column name> <type>;
+```
 
 ## INSERT INTO
 
