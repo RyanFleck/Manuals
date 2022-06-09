@@ -77,20 +77,27 @@ CREATE DATABASE <database name>;
 
 ## DROP DATABASE
 
-DON'T F@#%!NG DO THIS!
+_**DON'T F@#%!NG DO THIS!**_
 
 ```sql
 SHOW DATABASES; -- List all existing databases
 DROP DATABASE <name>;
 ```
 
-## ALTER DATABASE
-
 ## CREATE TABLE
+
+```sql
+CREATE TABLE <name> (
+  column_name type,
+  column_name type,
+  column_name type,
+  column_name type
+);
+```
 
 ## ALTER TABLE
 
-```
+```sql
 ALTER TABLE <table> ADD <column name> <type>;
 ```
 
