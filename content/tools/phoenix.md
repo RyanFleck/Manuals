@@ -39,3 +39,36 @@ See [Elixir School: Basics](https://elixirschool.com/en/lessons/basics/basics)
 **Mix** is the Elixir command line build tool. Useful commands:
 
 - `mix new <project name>` creates a new project.
+
+# Hello World
+
+In Powershell, run:
+
+```
+mix new cards
+cd cards
+```
+
+Modify `lib/cards.ex` if wanted:
+
+```ex
+defmodule Cards do
+  def hello do
+    :world
+  end
+end
+```
+
+Run interactive Elixir and run the method:
+
+```
+PS C:\Users\Developer\Documents\Elixir\cards> iex.bat -S mix
+Interactive Elixir (1.14.0) - press Ctrl+C to exit (type h() ENTER for help)
+iex(1)> Cards.hello
+:world
+iex(2)>
+```
+
+Congrats, you have _called a method by property in the Cards module._
+
+Note that Elixir implements **implicit return** of the last value.
