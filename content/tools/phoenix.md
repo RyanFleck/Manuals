@@ -10,7 +10,7 @@ title: Phoenix
 
 I've decided to go all in on Phoenix/Elixir for my next few projects.
 
-**Elixir** is syntactic sugar for Erlang. 
+**Elixir** is syntactic sugar for Erlang.
 Elixir actually transpiles to Erlang and runs on Erlang's [BEAM](https://www.erlang.org/blog/a-brief-beam-primer/) VM.
 BEAM stands for _**B**ogdan's **E**rlang **A**bstract **M**achine_, or more recently, _**B**jörn's **E**rlang **A**bstract **M**achine_, after the maintainers.
 The BEAM itself is akin to Java's JVM.
@@ -287,8 +287,8 @@ end
 # Pattern Matching
 
 **Pattern matching is Elixir's replacement for variable assignment.**
- 
- Pattern matching is used **anytime you use the equals sign.**
+
+Pattern matching is used **anytime you use the equals sign.**
 
 ```ex
 def deal(deck, hand_size), do: Enum.split(deck, hand_size)
@@ -324,7 +324,7 @@ iex(46)> rest_of_deck
  "Two of Diamonds", "Two of Hearts", "Two of Spades", "Three of Clubs",
  "Three of Diamonds", "Three of Hearts", "Three of Spades", "Four of Clubs",
  "Four of Diamonds", "Four of Hearts", "Four of Spades"]
- ```
+```
 
 This also works with lists:
 
@@ -345,17 +345,16 @@ iex(51)> c
 :can
 ```
 
-Interestingly, if we put a hard-coded value on the left hand side, Elixir will require the right hand side to have the same value in the right-hand spot. 
+Interestingly, if we put a hard-coded value on the left hand side, Elixir will require the right hand side to have the same value in the right-hand spot.
 
 ```
 iex(60)> ["red", color] = ["red", "blue"]
 ["red", "blue"]
-iex(61)> ["redx", color] = ["red", "blue"] 
+iex(61)> ["redx", color] = ["red", "blue"]
 ** (MatchError) no match of right hand side value: ["red", "blue"]
     (stdlib 4.0.1) erl_eval.erl:496: :erl_eval.expr/6
     iex:61: (file)
 ```
-
 
 # Saving to the Filesystem
 
@@ -457,7 +456,6 @@ Using [ex_doc](https://github.com/elixir-lang/ex_doc) allows developers to expor
 
 ...and run `mix deps.get` to install the package.
 
-
 **Module Documentation** gives an overview of the entire module and defines a purpose for the child functions.
 
 ```ex
@@ -472,7 +470,92 @@ Using [ex_doc](https://github.com/elixir-lang/ex_doc) allows developers to expor
 @doc """
   Shuffles and deals a `hand_size` of cards 
     and the remainder of the deck in a second list.
+
+  ## Examples
+
+      iex(71)> Cards.create_hand(3)
+      {["Four of Clubs", "Ace of Hearts", "Two of Clubs"],
+      ["Three of Diamonds", "Two of Diamonds", "Four of Spades", "King of Clubs",
+        "Three of Spades", "King of Hearts", "King of Spades", "Ace of Spades",
+        "Three of Hearts", "Ace of Clubs", "Two of Hearts", "Four of Diamonds",
+        "Three of Clubs", "Two of Spades", "Ace of Diamonds", "Four of Hearts",
+        "King of Diamonds"]}
 """
 ```
 
+The above example will generate a section header and code block with syntax highlighted code examples. Six spaces or three tabs are placed before the example code. Unit tests will also automatically run on provided sample code by default.
+
 Run `mix docs` to generate the documentation for your package.
+
+# Basic Unit Testing
+
+Tests are a first-class citizen in Elixir, which at this point seems to be batteries-included to a ludicrous degree. I couldn't be happier with what I am seeing so far.
+
+When the project was created, mix automatically created a `cards_text.exs` file. Populate it with this simple test.
+
+```ex
+defmodule CardsTest do
+  use ExUnit.Case
+  doctest Cards
+
+  test "the truth" do
+    assert 2 + 2 == 5
+  end
+end
+```
+
+```
+PS C:\Users\Developer\Documents\Elixir\cards> mix test
+
+
+  1) test the truth (CardsTest)
+     test/cards_test.exs:5
+     Assertion with == failed
+     code:  assert 2 + 2 == 5
+     left:  4
+     right: 5
+     stacktrace:
+       test/cards_test.exs:6: (test)
+
+
+Finished in 0.03 seconds (0.00s async, 0.03s sync)
+1 test, 1 failure
+```
+
+_Very nice!_
+
+You may have noticed the line `doctest Cards` - this automatically pulls unit tests from the code examples provided in the documentation we just wrote for our functions in `cards.ex`.
+
+For example, a **doctest** for the `contains?/2` function:
+
+```ex
+@doc """
+  Checks a deck of cards for a unique card.
+
+  ## Examples
+      iex> deck = Cards.create_deck()
+      iex> Cards.contains?(deck, "King of Hearts")
+      true
+"""
+def contains?(deck, card), do: Enum.member?(deck, card)
+```
+
+A **regular** unit test asserting that the deck has 20 cards:
+
+```ex
+test "create_deck makes 20 cards" do
+  deck_length = Cards.create_deck() |> length
+  assert deck_length == 20
+end
+```
+
+The **refute** function provides a negative assertion.
+
+```ex
+test "shuffling a deck randomizes it" do
+  deck = Cards.create_deck
+  refute deck == Cards.shuffle(deck)
+end
+```
+
+<!-- Maps -->
