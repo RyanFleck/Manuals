@@ -32,14 +32,58 @@ Follow this [install guide.](https://hexdocs.pm/phoenix/installation.html)
 
 # High Level Bullets
 
-See [Elixir School: Basics](https://elixirschool.com/en/lessons/basics/basics)
+See [Elixir School: Basics](https://elixirschool.com/en/lessons/basics/basics) -- a high-level rundown of the Elixir syntax:
 
 - Types work intuitively, like in other languages
+- Code is organized into groups of pure functions called modules
 - Function and operator names have two components: a name and the arity, for example: `++/2`
 - Lists are implemented as linked lists, and [prepending](https://elixirschool.com/en/lessons/basics/collections#lists-0) is faster than appending
 - The head and tail of a list can be grabbed with `hd` and `tl` functions
 - [Maps](https://elixirschool.com/en/lessons/basics/collections#maps-6) are the key-value store, allow keys of any type, are defined with `%{}`
-- Hugo [highlights](https://gohugo.io/content-management/syntax-highlighting/#list-of-chroma-highlighting-languages) Elixir syntax with `elixir`, `exs`, or `ex`## Elixir Basics
+- Hugo [highlights](https://gohugo.io/content-management/syntax-highlighting/#list-of-chroma-highlighting-languages) Elixir syntax with `elixir`, `exs`, or `ex`
+- For-loops are called comprehensions (`for val <- vals do`)
+- Pipe operator enables clean function chaining (`|>`)
+
+**What's good about Elixir?**
+
+- Clear, minimal, and intuitive syntax, especially compared to Erlang
+- Ludicrously batteries-included language, more on that below
+- Implicit returns means cleaner and less code
+- Pattern matching is strict and powerful and forces good habits
+- The pipe operator clarifies long chains of functions
+- Testing is built in and very easy to use
+- Tests can be automatically pulled from the documentation
+
+# Thinking in Elixir
+
+Elixir is **functional**. An OO approach to a card deck might look like this:
+
+```
+class Card
+  string suit
+  string value
+
+class Deck
+  Card[] cards
+  f shuffle()
+  f deal() -> Card
+  f save() -> Card[]
+  f load(Card[])
+```
+
+An OO approach would dictate that the deck contents are stored in an instance of Deck, and can be manipulated with the class functions.
+
+The functional approach would look like this:
+
+```
+module Cards
+  f create_deck() -> String[]
+  f shuffle(String[]) -> String[]
+  f save(String[]) -> Path
+  f load(Path) -> String[]
+```
+
+There are no classes or instances of classes. The module is a collection of pure functions (methods) and have no internal state.
 
 # "Mix"
 
@@ -91,36 +135,6 @@ Strings and Lists are simple and recognizable from Python.
 
 Use **double quotes**.
 
-# Thinking in Elixir
-
-Elixir is **functional**. An OO approach to a card deck might look like this:
-
-```
-class Card
-  string suit
-  string value
-
-class Deck
-  Card[] cards
-  f shuffle()
-  f deal() -> Card
-  f save() -> Card[]
-  f load(Card[])
-```
-
-An OO approach would dictate that the deck contents are stored in an instance of Deck, and can be manipulated with the class functions.
-
-The functional approach would look like this:
-
-```
-module Cards
-  f create_deck() -> String[]
-  f shuffle(String[]) -> String[]
-  f save(String[]) -> Path
-  f load(Path) -> String[]
-```
-
-There are no classes or instances of classes. The module is a collection of pure functions (methods) and have no internal state.
 
 # Methods
 
@@ -471,18 +485,12 @@ Using [ex_doc](https://github.com/elixir-lang/ex_doc) allows developers to expor
 
 ```ex
 @doc """
-  Shuffles and deals a `hand_size` of cards 
-    and the remainder of the deck in a second list.
+  Checks a deck of cards for a unique card.
 
   ## Examples
-
-      iex(71)> Cards.create_hand(3)
-      {["Four of Clubs", "Ace of Hearts", "Two of Clubs"],
-      ["Three of Diamonds", "Two of Diamonds", "Four of Spades", "King of Clubs",
-        "Three of Spades", "King of Hearts", "King of Spades", "Ace of Spades",
-        "Three of Hearts", "Ace of Clubs", "Two of Hearts", "Four of Diamonds",
-        "Three of Clubs", "Two of Spades", "Ace of Diamonds", "Four of Hearts",
-        "King of Diamonds"]}
+      iex> deck = Cards.create_deck()
+      iex> Cards.contains?(deck, "King of Hearts")
+      true
 """
 ```
 
