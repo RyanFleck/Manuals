@@ -274,3 +274,64 @@ defmodule Cards do
   def contains?(deck, card), do: Enum.member?(deck, card)
 end
 ```
+
+# Pattern Matching
+
+**Pattern matching is Elixir's replacement for variable assignment.**
+ 
+ Pattern matching is used **anytime you use the equals sign.**
+
+```ex
+def deal(deck, hand_size), do: Enum.split(deck, hand_size)
+```
+
+```
+iex(43)> Cards.deal(Cards.create_deck, 5)
+{["Ace of Clubs", "Ace of Diamonds", "Ace of Hearts", "Ace of Spades",
+  "King of Clubs"],
+ ["King of Diamonds", "King of Hearts", "King of Spades", "Two of Clubs",
+  "Two of Diamonds", "Two of Hearts", "Two of Spades", "Three of Clubs",
+  "Three of Diamonds", "Three of Hearts", "Three of Spades", "Four of Clubs",
+  "Four of Diamonds", "Four of Hearts", "Four of Spades"]}
+```
+
+Two lists have been returned within a **tuple**, represented with curly braces. Each position in a returned tuple will have a predictable output.
+
+These can be captured with a line like:
+
+```ex
+{ hand, rest_of_deck } = Cards.deal(Cards.create_deck, 5)
+```
+
+Let's run that in the interactive console to hammer the point home:
+
+```
+iex(44)> { hand, rest_of_deck } = Cards.deal(Cards.create_deck, 5)
+iex(45)> hand
+["Ace of Clubs", "Ace of Diamonds", "Ace of Hearts", "Ace of Spades",
+ "King of Clubs"]
+iex(46)> rest_of_deck
+["King of Diamonds", "King of Hearts", "King of Spades", "Two of Clubs",
+ "Two of Diamonds", "Two of Hearts", "Two of Spades", "Three of Clubs",
+ "Three of Diamonds", "Three of Hearts", "Three of Spades", "Four of Clubs",
+ "Four of Diamonds", "Four of Hearts", "Four of Spades"]
+ ```
+
+This also works with lists:
+
+```
+iex(47)> arr1 = [ "blergh", 123, :can ]
+["blergh", 123, :can]
+iex(48)> [ a ] = arr1
+** (MatchError) no match of right hand side value: ["blergh", 123, :can]
+    (stdlib 4.0.1) erl_eval.erl:496: :erl_eval.expr/6
+    iex:48: (file)
+iex(48)> [ a, b, c ] = arr1
+["blergh", 123, :can]
+iex(49)> a
+"blergh"
+iex(50)> b
+123
+iex(51)> c
+:can
+```
