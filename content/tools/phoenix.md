@@ -10,6 +10,15 @@ title: Phoenix
 
 I've decided to go all in on Phoenix/Elixir for my next few projects.
 
+**Elixir** is syntactic sugar for Erlang. 
+Elixir actually transpiles to Erlang and runs on Erlang's [BEAM](https://www.erlang.org/blog/a-brief-beam-primer/) VM.
+BEAM stands for _**B**ogdan's **E**rlang **A**bstract **M**achine_, or more recently, _**B**jörn's **E**rlang **A**bstract **M**achine_, after the maintainers.
+The BEAM itself is akin to Java's JVM.
+
+> Erlang is a programming language used to build massively scalable soft real-time systems with requirements on high availability. Some of its uses are in telecoms, banking, e-commerce, computer telephony and instant messaging. Erlang's runtime system has built-in support for concurrency, distribution and fault tolerance. -- [erlang.org](https://erlang.org)
+
+**Phoenix** is a web framework that utilizes Elixir and the BEAM to give developers an extremely performant, reliable, stable, and fun to work with web development experience.
+
 Luckily my current employer has excellent learning resources, so I have access to a few courses on Elixir and Phoenix. Focus #1 is to get a solid understanding of Elixir basics: how to write, test, and use the toolbox.
 
 # Installation
@@ -335,3 +344,135 @@ iex(50)> b
 iex(51)> c
 :can
 ```
+
+Interestingly, if we put a hard-coded value on the left hand side, Elixir will require the right hand side to have the same value in the right-hand spot. 
+
+```
+iex(60)> ["red", color] = ["red", "blue"]
+["red", "blue"]
+iex(61)> ["redx", color] = ["red", "blue"] 
+** (MatchError) no match of right hand side value: ["red", "blue"]
+    (stdlib 4.0.1) erl_eval.erl:496: :erl_eval.expr/6
+    iex:61: (file)
+```
+
+
+# Saving to the Filesystem
+
+```ex
+def save(deck, filename) do
+  binary = :erlang.term_to_binary(deck)
+  File.write(filename, binary)
+end
+```
+
+To load the file, we can do essentially the opposite.
+
+```ex
+def load(filename) do
+  { _ok, binary } = File.read(filename)
+  :erlang.binary_to_term(binary)
+end
+```
+
+...and it's the easiest pickle/unpickle I've ever seen. But we should handle the error cases potentially presented in `_ok` with some **pattern matching** in the next section.
+
+# Case Statements
+
+The load function could be cleaned up like so
+to handle all error cases. `:error` and `:ok` are atoms (a primitive)
+that are commonly used to handle control flow in Elixir programs.
+
+```ex
+def load(filename) do
+  {status, binary} = File.read(filename)
+  case status do
+    :ok -> :erlang.binary_to_term(binary)
+    :error -> "File doesn't exist or is corrupted."
+  end
+end
+```
+
+This can be further condensed to:
+
+```ex
+def load(filename) do
+  case File.read(filename) do
+    {:ok, binary} -> :erlang.binary_to_term(binary)
+    {:error, reason} -> "File doesn't exist or is corrupted. (#{reason})"
+  end
+end
+```
+
+This only makes sense if you remember that Elixir pattern matching both compares and assigns remaining elements. If `:ok` cannot be matched to the returned result from `File.read`, the next case is checked.
+
+Warnings about unused variables can be dismissed by placing an underscore before the variable.
+
+```ex
+{:error, _reason} -> "File doesn't exist or is corrupted."
+```
+
+Removing reason entirely will cause the pattern matching to fail with this error:
+
+```
+iex(65)> Cards.load("test")
+** (CaseClauseError) no case clause matching: {:error, :eisdir}
+    (cards 0.1.0) lib/cards.ex:20: Cards.load/1
+    iex:65: (file)
+```
+
+# Pipe Operator
+
+The pipe operator (`|>`) automatically passes the result of a function as the first argument to the next function. Perfecto!
+
+So something like this:
+
+```ex
+def create_hand(hand_size) do
+  deck = create_deck()
+  shuffled = shuffle(deck)
+  deal(shuffled, hand_size)
+end
+```
+
+Can be rewritten to:
+
+```ex
+def create_hand(hand_size) do
+  create_deck()
+  |> shuffle()
+  |> deal(hand_size)
+end
+```
+
+Gotta love it.
+
+# Documentation
+
+Using [ex_doc](https://github.com/elixir-lang/ex_doc) allows developers to export a clean pile of documentation, pulling comments and details from the source code. To install the ex_doc package, add a tuple to your project's `mix.exs` file with the following content:
+
+```ex
+{:ex_doc, "~> 0.29.1"}
+```
+
+...and run `mix deps.get` to install the package.
+
+
+**Module Documentation** gives an overview of the entire module and defines a purpose for the child functions.
+
+```ex
+@moduledoc """
+  Provides methods for creating and handling a deck of cards.
+"""
+```
+
+**Function Documentation** documents the purpose of individual functions.
+
+```ex
+@doc """
+  Shuffles and deals a `hand_size` of cards 
+    and the remainder of the deck in a second list.
+"""
+```
+
+Run `mix docs` to generate the documentation for your package.
