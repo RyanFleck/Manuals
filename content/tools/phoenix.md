@@ -771,9 +771,70 @@ code .
 The program will look something like:
 
 ```ex
-md5_hash(username)
-|> get_numbers
+generate_numbers(username)
 |> pick_color
 |> build_grid
 |> grid_to_image
+```
+
+We can start this program with these lines. Using built-in libraries, we convert a string to an MD5 hash, then a list of 8-bit numbers.
+
+```ex
+defmodule Identicon do
+  def main(input) do
+    input
+    |> hash_input
+  end
+
+  @doc """
+  Converts an input string to a reproducible list of numbers
+  ## Examples
+    iex> Identicon.hash_input("ryan")
+    [16, 199, 204, 199, 164, 240, 175, 240, 60, 145, 92, 72, 85, 101, 185, 218]
+  """
+  def hash_input(input) do
+    :crypto.hash(:md5, input)
+    |> :binary.bin_to_list
+  end
+end
+```
+
+# Structs
+
+Structs are like maps, with two additional advantages:
+1. Default values
+2. Additional compile-time checks
+
+In a new file called `lib/image.ex` create a new module:
+
+```ex
+defmodule Identicon.Image do
+  defstruct hex: nil
+end
+```
+
+This can be called as `%Identicon.Image{}`
+
+```
+iex(5)> %Identicon.Image{}
+%Identicon.Image{hex: nil}
+```
+
+This can be initialized with an entity provided for the `hex` value, but attempting to add other values like in a map will throw errors.
+
+Modify the `hash_input` function to return an Image struct:
+
+```ex
+def hash_input(input) do
+  hex = :crypto.hash(:md5, input)
+  |> :binary.bin_to_list
+  %Identicon.Image{hex: hex}
+end
+```
+
+```
+iex(7)> Identicon.main("test")
+%Identicon.Image{
+  hex: [9, 143, 107, 205, 70, 33, 211, 115, 202, 222, 78, 131, 38, 39, 180, 246]
+}
 ```
