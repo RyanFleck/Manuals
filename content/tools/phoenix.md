@@ -4,6 +4,9 @@ date: 2022-12-09T16:20:00.000-07:00
 image: "/content-cover-images/coffee-phone.jpg"
 summary: Phoenix and Elixir.
 title: Phoenix
+aliases:
+  - "/ex/"
+  - "/e/"
 ---
 
 # Introduction
