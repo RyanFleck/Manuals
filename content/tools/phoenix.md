@@ -9,13 +9,9 @@ title: Phoenix
 
 # Introduction
 
-Luckily my current employer has excellent learning resources, so I have access to a few courses on Elixir and Phoenix. This one was last updated in December 2022 and is taught by *Stephen Grider*.
+I've decided to go all in on Phoenix/Elixir for my next few projects.
 
-> I'm not going to lie to you, Elixir and Phoenix are both **tough**, I guarantee you they are unlike any other programming language and framework you've seen before.
-
-Course repo: [github.com/StephenGrider/ElixirCode](https://github.com/StephenGrider/ElixirCode)
-
-Focus #1 is to get a solid understanding of Elixir basics: how to write, test, and use the toolbox.
+Luckily my current employer has excellent learning resources, so I have access to a few courses on Elixir and Phoenix. Focus #1 is to get a solid understanding of Elixir basics: how to write, test, and use the toolbox.
 
 # Installation
 
@@ -42,7 +38,7 @@ See [Elixir School: Basics](https://elixirschool.com/en/lessons/basics/basics)
 
 # Hello World
 
-In Powershell, run:
+In [Powershell](https://elixirforum.com/t/iex-in-windows-powershell/14622), run:
 
 ```
 mix new cards
@@ -72,3 +68,85 @@ iex(2)>
 Congrats, you have _called a method by property in the Cards module._
 
 Note that Elixir implements **implicit return** of the last value.
+
+Run `recompile` in interactive Elixir to, er, recompile.
+
+Strings and Lists are simple and recognizable from Python. 
+
+```ex
+["Ace", "Two", "Three"]
+"String"
+```
+
+Use **double quotes**.
+
+# Thinking in Elixir
+
+Elixir is **functional**. An OO approach to a card deck might look like this:
+
+```
+class Card
+  string suit 
+  string value 
+
+class Deck
+  Card[] cards
+  f shuffle()
+  f deal() -> Card
+  f save() -> Card[]
+  f load(Card[])
+```
+
+An OO approach would dictate that the deck contents are stored in an instance of Deck, and can be manipulated with the class functions.
+
+The functional approach would look like this:
+
+```
+module Cards
+  f create_deck() -> String[]
+  f shuffle(String[]) -> String[]
+  f save(String[]) -> Path
+  f load(Path) -> String[]
+```
+
+There are no classes or instances of classes. The module is a collection of pure functions (methods) and have no internal state.
+
+# Methods
+
+```ex
+def shuffle(deck) do
+  # ...
+end
+```
+
+Function and operator names have two components: a name and the arity, for example: `++/2`. The compiler will be angered if you attempt to run a function with the incorrect arity.
+```
+iex(4)> Cards.shuffle()
+** (UndefinedFunctionError) 
+  function Cards.shuffle/0 is undefined or private.
+  Did you mean:
+
+      * shuffle/1
+```
+
+We can utilize a method in the standard library - go to the [Elixir Docs](https://elixir-lang.org/docs) and searching for shuffle, you'll find the [Enum](https://hexdocs.pm/elixir/1.0.5/Enum.html) module.
+
+```ex
+def shuffle(deck) do
+  Enum.shuffle(deck)
+end
+```
+
+Ezpz. No import is required as Enum is in the standard library.
+
+```
+iex(4)> recompile
+Compiling 1 file (.ex)
+:ok
+iex(5)> deck = Cards.create_deck  
+["Ace", "Two", "Three"]
+iex(6)> deck
+["Ace", "Two", "Three"]
+iex(7)> Cards.shuffle(deck)
+["Two", "Three", "Ace"]
+```
