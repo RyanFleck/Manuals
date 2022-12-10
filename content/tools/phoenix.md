@@ -90,6 +90,7 @@ There are no classes or instances of classes. The module is a collection of pure
 **Mix** is the Elixir command line build tool. Useful commands:
 
 - `mix new <project name>` creates a new project.
+- `mix test` runs unit tests.
 
 # Hello World
 
@@ -569,4 +570,129 @@ test "shuffling a deck randomizes it" do
 end
 ```
 
+# Sample Program: Cards
+
+Here's the first sample/learning program we've written over the previous few sections.
+
+**--- cards.ex**
+
+```ex
+defmodule Cards do
+  @moduledoc """
+    Provides methods for creating and handling a deck of cards.
+  """
+
+  @doc """
+  Creates a list representing a deck of playing cards.
+  """
+  def create_deck do
+    values = ["Ace", "King", "Two", "Three", "Four"]
+    suits = ["Clubs", "Diamonds", "Hearts", "Spades"]
+    for value <- values, suit <- suits, do: "#{value} of #{suit}"
+  end
+
+  def shuffle(deck), do: Enum.shuffle(deck)
+
+  @doc """
+    Checks a deck of cards for a unique card.
+
+    ## Examples
+        iex> deck = Cards.create_deck()
+        iex> Cards.contains?(deck, "King of Hearts")
+        true
+  """
+  def contains?(deck, card), do: Enum.member?(deck, card)
+
+  def deal(deck, hand_size), do: Enum.split(deck, hand_size)
+
+  def save(deck, filename) do
+    binary = :erlang.term_to_binary(deck)
+    File.write(filename, binary)
+  end
+
+  def load(filename) do
+    case File.read(filename) do
+      {:ok, binary} -> :erlang.binary_to_term(binary)
+      {:error, reason} -> "File doesn't exist or is corrupted. (#{reason})"
+    end
+  end
+
+  @doc """
+    Shuffles and deals a `hand_size` of cards
+      and the remainder of the deck in a second list.
+  """
+  def create_hand(hand_size) do
+    create_deck()
+    |> shuffle()
+    |> deal(hand_size)
+  end
+
+  def create_hand() do
+    create_hand(5)
+  end
+end
+```
+
+**--- cards_test.exs**
+
+```ex
+defmodule CardsTest do
+  use ExUnit.Case
+  doctest Cards
+
+  test "create_deck makes 20 cards" do
+    deck_length = Cards.create_deck() |> length
+    assert deck_length == 20
+  end
+
+  test "shuffling a deck randomizes it" do
+    deck = Cards.create_deck
+    refute deck == Cards.shuffle(deck)
+  end
+end
+```
+
+**Run example:**
+
+```
+iex> Cards.create_hand
+{["Four of Clubs", "Two of Diamonds", "Three of Clubs", "Ace of Diamonds",
+  "King of Spades"],
+ ["Two of Hearts", "Four of Diamonds", "Two of Spades", "King of Diamonds",
+  "Ace of Hearts", "Two of Clubs", "Ace of Spades", "Three of Spades",
+  "Four of Spades", "Three of Hearts", "King of Hearts", "Four of Hearts",
+  "Ace of Clubs", "Three of Diamonds", "King of Clubs"]}
+```
+
 <!-- Maps -->
+
+# Maps
+
+Maps store key-value pairs and follow a lot of pattern matching rules.
+
+```
+iex> properties = %{ height: "4ft", weight: "700lbs", hair: "black" }
+%{hair: "black", height: "4ft", weight: "700lbs"}
+iex> properties.weight
+"700lbs"
+iex> %{ weight: fatass } = properties
+%{hair: "black", height: "4ft", weight: "700lbs"}
+iex> fatass
+"700lbs"
+```
+
+Updating maps is a little more complex then just:
+
+```
+iex(9)> properties.height = "7ft"
+** (CompileError) iex:9: cannot invoke remote function 
+  properties.height/0 inside a match
+    (more error message below this but removing for brevity.)
+```
+
+Maps can be **updated** in two ways:
+
+1. `Map.put(map, key, value)` creates a new map with the new value.
+1. `%{ properties | height: "7ft" }` uses `head | tail` syntax.
+
+To **add** new keys, you can also use `Map.put`.
