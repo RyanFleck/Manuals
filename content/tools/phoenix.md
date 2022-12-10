@@ -696,3 +696,84 @@ Maps can be **updated** in two ways:
 1. `%{ properties | height: "7ft" }` uses `head | tail` syntax.
 
 To **add** new keys, you can also use `Map.put`.
+
+# Keyword Lists
+
+> A keyword list is a list that consists exclusively of two-element tuples. 
+> The first element of these tuples is known as the key, and it must be an atom. The second element, known as the value, can be any term. -- [elixir docs](https://hexdocs.pm/elixir/1.12/Keyword.html)
+
+```
+iex(12)> colors = [{:primary, "red"}, {:secondary, "green"}]
+[primary: "red", secondary: "green"]
+iex(13)> colors[:primary]
+"red"
+```
+
+Keyword lists can also be defined with this syntax.
+
+```
+iex(14)> colors2 = [primary: "yellow", secondary: "magenta"]
+[primary: "yellow", secondary: "magenta"]
+```
+
+Unlike Python, and like Ruby, lispy Elixir has multiple methods to complete the same task.
+
+Interestingly, duplicate keywords are allowed:
+
+```
+iex(15)> colors3 = [primary: "yellow", secondary: "magenta", primary: "yellow"] 
+[primary: "yellow", secondary: "magenta", primary: "yellow"]
+```
+
+Maps do **not** allow this:
+
+```
+iex(16)> properties = %{ weight: "200lbs", hair: "black", hair: "blue"} 
+warning: key :hair will be overridden in map
+  iex:16
+
+%{hair: "blue", weight: "200lbs"}
+```
+
+This interesting property is useful when running database queries with Ecto:
+
+```
+iex> User.find_where([
+  where: user.age > 10,
+  where: user.subscribed == true
+])
+```
+
+If the last argument of a function is a keyword list, the the brackets can be **removed**. Either just the square ones, or both.
+
+```
+iex> User.find_where where: user.age > 10, where: user.subscribed == true
+```
+
+...Elixir still interprets both these syntax configurations as a single key-value list passed to the function.
+
+
+# Bootcamp Project II
+
+Start a new Elixir project called **identicon**:
+
+```
+mix new identicon
+cd identicon
+mix test
+code .
+```
+
+**Requirements:**
+1. An identicon is a 250x250px image formed by a 5x5 grid of colored-in squares and mirrored about the middle of the image.
+2. The image will not be random, but generated from a seed which is the username. The username should generate the same identicon each time. This means the image does not need to be stored.
+
+The program will look something like:
+
+```ex
+md5_hash(username)
+|> get_numbers
+|> pick_color
+|> build_grid
+|> grid_to_image
+```
