@@ -136,7 +136,6 @@ Strings and Lists are simple and recognizable from Python.
 
 Use **double quotes**.
 
-
 # Methods
 
 ```ex
@@ -685,7 +684,7 @@ Updating maps is a little more complex then just:
 
 ```
 iex(9)> properties.height = "7ft"
-** (CompileError) iex:9: cannot invoke remote function 
+** (CompileError) iex:9: cannot invoke remote function
   properties.height/0 inside a match
     (more error message below this but removing for brevity.)
 ```
@@ -699,7 +698,7 @@ To **add** new keys, you can also use `Map.put`.
 
 # Keyword Lists
 
-> A keyword list is a list that consists exclusively of two-element tuples. 
+> A keyword list is a list that consists exclusively of two-element tuples.
 > The first element of these tuples is known as the key, and it must be an atom. The second element, known as the value, can be any term. -- [elixir docs](https://hexdocs.pm/elixir/1.12/Keyword.html)
 
 ```
@@ -721,14 +720,14 @@ Unlike Python, and like Ruby, lispy Elixir has multiple methods to complete the 
 Interestingly, duplicate keywords are allowed:
 
 ```
-iex(15)> colors3 = [primary: "yellow", secondary: "magenta", primary: "yellow"] 
+iex(15)> colors3 = [primary: "yellow", secondary: "magenta", primary: "yellow"]
 [primary: "yellow", secondary: "magenta", primary: "yellow"]
 ```
 
 Maps do **not** allow this:
 
 ```
-iex(16)> properties = %{ weight: "200lbs", hair: "black", hair: "blue"} 
+iex(16)> properties = %{ weight: "200lbs", hair: "black", hair: "blue"}
 warning: key :hair will be overridden in map
   iex:16
 
@@ -752,7 +751,6 @@ iex> User.find_where where: user.age > 10, where: user.subscribed == true
 
 ...Elixir still interprets both these syntax configurations as a single key-value list passed to the function.
 
-
 # Bootcamp Project II
 
 Start a new Elixir project called **identicon**:
@@ -765,6 +763,7 @@ code .
 ```
 
 **Requirements:**
+
 1. An identicon is a 250x250px image formed by a 5x5 grid of colored-in squares and mirrored about the middle of the image.
 2. The image will not be random, but generated from a seed which is the username. The username should generate the same identicon each time. This means the image does not need to be stored.
 
@@ -799,9 +798,10 @@ defmodule Identicon do
 end
 ```
 
-# Structs
+# Structs & Pattern Matching
 
 Structs are like maps, with two additional advantages:
+
 1. Default values
 2. Additional compile-time checks
 
@@ -838,3 +838,52 @@ iex(7)> Identicon.main("test")
   hex: [9, 143, 107, 205, 70, 33, 211, 115, 202, 222, 78, 131, 38, 39, 180, 246]
 }
 ```
+
+Let's pull some data out of this struct.
+
+By **always using pattern matching** we can extract the first few values.
+
+To pattern match you must **perfectly describe the incoming entity on the right of the '`=`' on the left.**
+
+```ex
+def pick_color(input) do
+  # Pattern match to pull out the hex property.
+  %Identicon.Image{ hex: hex_list } = input
+  [r, g, b] = hex_list  # <== will throw a big error
+    # ^^ because the entire pattern on the right is not matched.
+  [r, g, b | _tail] = hex_list  # <== will work correctly
+  [r, g, b]
+end
+```
+
+Which can be further condensed to:
+
+```ex
+def pick_color(input) do
+  %Identicon.Image{ hex: [r, g, b | _tail] } = input
+  [r, g, b]
+end
+```
+
+Update the `defstruct` line in `image.ex`:
+
+```ex
+defstruct hex: nil, color: nil
+```
+
+Change the final line in `pick_color` to:
+
+```ex
+%Identicon.Image{ image | color: {r, g, b}}
+```
+
+Arguments can also be pattern matched.
+
+```ex
+def pick_color(%Identicon.Image{hex: [r, g, b | _tail]} = image) do
+  %Identicon.Image{image | color: {r, g, b}}
+end
+```
+
+_Every method argument can be pattern matched._
+
