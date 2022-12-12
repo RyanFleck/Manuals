@@ -163,6 +163,10 @@ table,
   margin-top: 1em;
 }
 
+/* div.highlight > pre {
+  margin-bottom: 1em;
+} */
+
 blockquote {
   font-style: italic;
   color: rgb(69, 0, 197);

@@ -887,3 +887,316 @@ end
 
 _Every method argument can be pattern matched._
 
+```
+iex(16)> Identicon.main("test")
+%Identicon.Image{
+  hex: [9, 143, 107, 205, 70, 33, 211, 115,
+    202, 222, 78, 131, 38, 39, 180, 246],
+  color: {9, 143, 107}
+}
+```
+
+# Nested Lists
+
+Here's a brief introduction to how to create and handle "grids" of data.
+
+Remember, we're passing this `hex` property which stores a list of numbers to a function that must convert it into a 5x5 grid of numbers mirrored about the y axis. Something like:
+
+```
+1 2 3 2 1
+4 5 6 5 4
+etc...
+```
+
+Code first:
+
+```ex
+def mirror_row([a, b, c]), do: [a, b, c, b, a]
+
+def build_grid(%Identicon.Image{hex: hex} = image) do
+  grid =
+    hex
+    |> Enum.chunk_every(3)
+    |> Enum.filter(fn e -> length(e) == 3 end)
+    |> Enum.map(&mirror_row/1)
+    # ^^ ick, I don't like syntax that at all, why?
+    |> List.flatten()
+    |> Enum.with_index()
+
+  %Identicon.Image{image | grid: grid}
+end
+```
+
+Let's walk through that transformation line by line.
+
+```
+[209, 107, 225, 173, 190, 129, 143, 34, 222, 175, 46, 227, 48, 79, 233, 179]
+```
+
+1. Break this list into sublists of length 3.
+
+```ex
+|> Enum.chunk_every(3)
+```
+
+```
+[
+  [209, 107, 225],
+  [173, 190, 129],
+  [143, 34, 222],
+  [175, 46, 227],
+  [48, 79, 233],
+  [179]
+]
+```
+
+2. Remove lists that are not of length 3.
+
+```ex
+|> Enum.filter(fn e -> length(e) == 3 end)
+```
+
+```
+[
+  [209, 107, 225],
+  [173, 190, 129],
+  [143, 34, 222],
+  [175, 46, 227],
+  [48, 79, 233]
+]
+```
+
+3. Apply the `mirror_row` function to each sublist by passing the function by reference to `Enum.map`.
+
+```ex
+|> Enum.map(&mirror_row/1)
+```
+
+```
+[
+  [209, 107, 225, 107, 209],
+  [173, 190, 129, 190, 173],
+  [143, 34, 222, 34, 143],
+  [175, 46, 227, 46, 175],
+  [48, 79, 233, 79, 48]
+]
+```
+
+4. Collapse the sublists back into the parent list.
+
+```ex
+|> List.flatten()
+```
+
+```
+[209, 107, 225, 107, 209, 173, 190, 129,
+ 190, 173, 143, 34, 222, 34, 143, 175,
+  46, 227, 46, 175, 48, 79, 233, 79, 48]
+```
+
+5. Convert each element to a tuple with the element value and its indice.
+
+```ex
+|> Enum.with_index()
+```
+
+```
+[
+  {209, 0}, {107, 1}, {225, 2}, {107, 3}, {209, 4},
+  {173, 5}, {190, 6}, {129, 7}, {190, 8}, {173, 9},
+  {143, 10}, {34, 11}, {222, 12}, {34, 13}, {143, 14},
+  {175, 15}, {46, 16}, {227, 17}, {46, 18}, {175, 19},
+  {48, 20}, {79, 21}, {233, 22}, {79, 23}, {48, 24}
+]
+```
+
+...finally the function returns a new Image struct with the new grid value included.
+
+We could just as easily do some of these steps outside as an overall transformation process on the Image building pipeline, like adding this function as another piped function at the end of main:
+
+```ex
+def filter_odd_squares(%Identicon.Image{grid: grid} = image) do
+  filtered_grid =
+    Enum.filter(grid, fn {a, _b} ->
+      rem(a, 2) == 0
+    end)
+
+  %Identicon.Image{image | grid: filtered_grid}
+end
+```
+
+Or as a bit of a claustrophobic one-liner:
+
+```ex
+def filter_odd_squares(%Identicon.Image{grid: g} = image) do
+  %Identicon.Image{image | grid: Enum.filter(g, fn {a, _b} -> rem(a, 2) == 0 end)}
+end
+```
+
+# More List Processing
+
+Let's take the list of "pixels to color" from the previous section and turn it into an actionable set of co-ordinates to paint on a 250x250 pixel grid by providing the top-left and bottom-right points of each 50x50 square.
+
+```ex
+def build_pixel_map(%Identicon.Image{grid: grid} = image) do
+  pixel_map =
+    Enum.map(grid, fn {_value, index} ->
+      horizontal = rem(index, 5) * 50
+      vertical = div(index, 5) * 50
+      top_left = {horizontal, vertical}
+      bottom_right = {horizontal + 50, vertical + 50}
+      {top_left, bottom_right}
+    end)
+
+  %Identicon.Image{image | pixel_map: pixel_map}
+end
+```
+
+This will add the following data structure to our Image struct:
+
+```
+[
+  {{0, 0}, {50, 50}},
+  {{100, 0}, {150, 50}},
+  {{200, 0}, {250, 50}},
+  {{50, 50}, {100, 100}},
+  {{100, 50}, {150, 100}},
+  {{150, 50}, {200, 100}},
+  {{50, 100}, {100, 150}},
+  {{100, 100}, {150, 150}},
+  {{150, 100}, {200, 150}},
+  {{50, 150}, {100, 200}},
+  {{100, 150}, {150, 200}},
+  {{150, 150}, {200, 200}}
+]
+```
+
+# The EGD Image Drawing Library
+
+Documentation can be found at
+[erlang.org/docs/18/man/egd](https://www.erlang.org/docs/18/man/egd.html)
+
+First, we must 'download and install the library' in two steps:
+
+```ex
+{:egd, github: "erlang/egd"}  # 1. add this to your deps
+```
+
+2. Run `mix deps.get` to download the new dependency. The latest compatible version should be automatically fetched.
+
+By adding the following two functions to our image processing pipeline, we write the generated coordinates to an image file!
+
+```ex
+def draw_image(%Identicon.Image{color: color, pixel_map: pixel_map}) do
+  image = :egd.create(250, 250)
+  fill = :egd.color(color)
+
+  Enum.each(pixel_map, fn {start, stop} ->
+    :egd.filledRectangle(image, start, stop, fill)
+  end)
+
+  :egd.render(image)
+end
+
+def save_image(image, filename) do
+  File.write("#{filename}.png", image)
+end
+```
+
+Here are four examples of generated Identicons:
+
+![](/identicons.png)
+
+The next section lists the full sample code.
+
+# Sample Program: Identicons
+
+**--- identicon.ex**
+
+```ex
+defmodule Identicon do
+  def main(input) do
+    input
+    |> hash_input
+    |> pick_color
+    |> build_grid
+    |> filter_odd_squares
+    |> build_pixel_map
+    |> draw_image
+    |> save_image(input)
+  end
+
+  def save_image(image, filename) do
+    File.write("#{filename}.png", image)
+  end
+
+  def draw_image(%Identicon.Image{color: color, pixel_map: pixel_map}) do
+    image = :egd.create(250, 250)
+    fill = :egd.color(color)
+
+    Enum.each(pixel_map, fn {start, stop} ->
+      :egd.filledRectangle(image, start, stop, fill)
+    end)
+
+    :egd.render(image)
+  end
+
+  def build_pixel_map(%Identicon.Image{grid: grid} = image) do
+    pixel_map =
+      Enum.map(grid, fn {_value, index} ->
+        horizontal = rem(index, 5) * 50
+        vertical = div(index, 5) * 50
+        top_left = {horizontal, vertical}
+        bottom_right = {horizontal + 50, vertical + 50}
+        {top_left, bottom_right}
+      end)
+
+    %Identicon.Image{image | pixel_map: pixel_map}
+  end
+
+  def hash_input(input) do
+    hex =
+      :crypto.hash(:md5, input)
+      |> :binary.bin_to_list()
+
+    %Identicon.Image{hex: hex}
+  end
+
+  def pick_color(%Identicon.Image{hex: [r, g, b | _tail]} = image) do
+    %Identicon.Image{image | color: {r, g, b}}
+  end
+
+  def build_grid(%Identicon.Image{hex: hex} = image) do
+    grid =
+      hex
+      |> Enum.chunk_every(3)
+      |> Enum.filter(fn e -> length(e) == 3 end)
+      |> Enum.map(&mirror_row/1)
+      # ^^ ick, I don't like syntax that at all, why?
+      |> List.flatten()
+      |> Enum.with_index()
+
+    %Identicon.Image{image | grid: grid}
+  end
+
+  def filter_odd_squares(%Identicon.Image{grid: g} = image) do
+    %Identicon.Image{
+      image
+      | grid:
+          Enum.filter(g, fn {a, _b} ->
+            rem(a, 2) == 0
+          end)
+    }
+  end
+
+  def mirror_row([a, b, c]), do: [a, b, c, b, a]
+end
+```
+
+**--- image.ex**
+
+```ex
+defmodule Identicon.Image do
+  defstruct hex: nil, color: nil, grid: nil, pixel_map: nil
+end
+```
