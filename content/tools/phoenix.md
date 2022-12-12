@@ -1200,3 +1200,43 @@ defmodule Identicon.Image do
   defstruct hex: nil, color: nil, grid: nil, pixel_map: nil
 end
 ```
+
+# Installing Phoenix
+
+1. Install Phoenix
+2. Install NodeJS
+3. Install PostgreSQL or Docker (for a Postgres container.)
+
+The instructor suggests using **Phoenix 1.2**
+
+Ensure you are checking the docs for this specific version on the Phoenix [hexdocs.pm/phoenix/1.2.5/](https://hexdocs.pm/phoenix/1.2.5/Phoenix.html)
+
+```
+mix archive.install https://github.com/phoenixframework/archives/raw/master/phoenix_new-1.2.5.ez
+```
+
+On **Windows**:
+
+```
+powershell
+  -Command "Invoke-WebRequest https://github.com/phoenixframework/archives/raw/master/phoenix_new-1.2.5.ez
+  -OutFile phoenix_new-1.2.5.ez"
+
+mix archive.install ./phoenix_new-1.2.5.ez
+```
+
+Install NVM to manage a verson of NodeJS.
+
+```sh
+nvm install latest
+nvm use 19.2.0  # whichever version 'latest' installs
+```
+
+Make sure you have a Postgres database available.
+
+# Phoenix
+
+**Phoenix** is a web framework, like **Django** for Python or **Rails** for Ruby.
+
+
+
