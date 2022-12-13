@@ -1201,7 +1201,13 @@ defmodule Identicon.Image do
 end
 ```
 
-# Installing Phoenix 1.2
+# Phoenix
+
+Phoenix is a web application framework. Like Python's _Django_ or Ruby's _Rails_, Elixir has found _Phoenix_ to be the premier tool for web development. Elixir has some distinct advantages over these other languages.
+
+**There are weird things about Phoenix that you need to understand in order to understand the framework.** These things are marked with the symbol **(MAGIC)**.
+
+# Phoenix 1.2: Installation
 
 The instructor suggests using **Phoenix 1.2**
 Ensure you are checking the docs for this specific version on the Phoenix [hexdocs.pm/phoenix/1.2.5/](https://hexdocs.pm/phoenix/1.2.5/Phoenix.html)
@@ -1239,9 +1245,9 @@ docker run --name phoenix-125-db -p 5432:5432
 
 Finally, run `ecto create` and enjoy your new Phoenix project.
 
-# Project Creation Record
+# Bootcamp Project III Creation Logs
 
-**You should probably skip this section.** Next one: [Phoenix](#phoenix).
+**You should probably skip this section.**
 
 If you've followed the setup steps above, you should be able to run `phoenix.new` without issues. I've included this as reference in case I run into a problem in the future and it's due to some deprecated library that was warned about here.
 
@@ -1294,12 +1300,12 @@ Generated file_system app
 Compiling 1 file (.ex)
 Generated connection app
 ==> gettext
-warning: the dependency :gettext requires Elixir "~> 1.11" 
+warning: the dependency :gettext requires Elixir "~> 1.11"
   but you are running on v1.5.3
 Compiling 1 file (.yrl)
 Compiling 1 file (.erl)
 Compiling 21 files (.ex)
-warning: function Kernel.ParallelCompiler.async/1 is 
+warning: function Kernel.ParallelCompiler.async/1 is
  undefined or private
   lib/gettext/compiler.ex:430
 
@@ -1327,8 +1333,8 @@ Generated db_connection app
 Compiling 13 files (.ex)
 Generated phoenix_pubsub app
 ===> Compiling cowlib
-src/cow_multipart.erl:392: Warning: call to 
-  crypto:rand_bytes/1 will fail, since it was removed 
+src/cow_multipart.erl:392: Warning: call to
+  crypto:rand_bytes/1 will fail, since it was removed
     in 20.0; use crypto:strong_rand_bytes/1
 
 ===> Compiling cowboy
@@ -1355,7 +1361,7 @@ Compiling 8 files (.ex)
 Generated phoenix_html app
 ==> phoenix
 Compiling 60 files (.ex)
-warning: String.lstrip/2 is deprecated, use 
+warning: String.lstrip/2 is deprecated, use
   String.trim_leading/2 with a binary as second argument
   lib/phoenix/template.ex:376
 
@@ -1406,6 +1412,62 @@ PS C:\Users\Developer\Documents\Elixir\discuss> mix phoenix.server
 [info] Sent 200 in 47ms
 ```
 
-# Phoenix
+...now we can start learning Phoenix in earnest.
 
-**Phoenix** is a web framework, like **Django** for Python or **Rails** for Ruby.
+This training material is very engaging; hopefully Phoenix 1.2 is similar enough to the current 1.5 that the lessons will carry over.
+
+# Phoenix 1.2: EEX Templates and MVC
+
+Unlike modern SPA + API configurations, Phoenix is monolithic.
+Unlike older server-side templates, Phoenix does not send a brand new HTML page to the user each time a large action is taken.
+Phoenix is a hybrid that combines the best of SPAs and the best of SSR.
+
+This section deals with the `web/templates` folder.
+
+The **layout** subfolder holds `app.html.eex` which contains the base for all HTML pages within the application.
+
+At this point it might be smart to install the [Phoenix Framework](https://marketplace.visualstudio.com/items?itemName=phoenixframework.phoenix) VSCode extension and follow the instructions to add emmet support for eex files.
+
+EEX templates work like HTML for the most part, but have plenty of special extra syntax to work with the backend.
+
+**MVC typically works like this:**
+
+0. **Model**: shape of the raw data in the database
+0. **View**: organizes and displays the model data
+0. **Controller**: manages the other two and state data
+
+Phoenix 1.2 starts off with an empty models folder, a couple views, one template, and one controller. Oh, right, these additional components are also needed:
+
+0. **Templates**: used by views to render pages
+0. **Routers**: directs users to indicated pages
+
+Our Phoenix app starts with one router. Lines 16-20 read:
+
+```ex
+scope "/", Discuss do
+  pipe_through :browser # Use the default browser stack
+
+  get "/", PageController, :index
+end
+```
+
+**What does this do?** The router will take an incoming request, look through the rules, and pick the matching path. Here, when someone makes a **get** request to the root (`/`) it will find the module called **PageController** and run the `:index` function on it. That controller looks like this:
+
+```ex
+defmodule Discuss.PageController do
+  use Discuss.Web, :controller
+
+  def index(conn, _params) do
+    render conn, "index.html"
+  end
+end
+```
+
+The request lifecycle at a high level (request data is passed down through these like a function chain) is something like:
+
+- **Router** handles an incoming request
+- **Controller** grabs model data from the database
+- **View** renders a template and sends a response
+
+**(MAGIC)** **Views and Templates are related by name.** A view named 'PageView' will rely on a subfolder in the templates folder called 'page'.
+Every file in the corresponding folder will be added as functions to the view when Phoenix boots.
