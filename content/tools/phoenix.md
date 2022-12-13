@@ -1201,42 +1201,209 @@ defmodule Identicon.Image do
 end
 ```
 
-# Installing Phoenix
-
-1. Install Phoenix
-2. Install NodeJS
-3. Install PostgreSQL or Docker (for a Postgres container.)
+# Installing Phoenix 1.2
 
 The instructor suggests using **Phoenix 1.2**
-
 Ensure you are checking the docs for this specific version on the Phoenix [hexdocs.pm/phoenix/1.2.5/](https://hexdocs.pm/phoenix/1.2.5/Phoenix.html)
 
-```
-mix archive.install https://github.com/phoenixframework/archives/raw/master/phoenix_new-1.2.5.ez
-```
+Phoenix 1.2 is **old** so we'll need to prep a time machine. See [this article I wrote](https://ryanfleck.ca/2022/phoenix-125-on-windows/)
+and
+[this forum post](https://elixirforum.com/t/setting-up-an-elixir-environment-for-phoenix-1-2-development)
+to see how I figured this out.
+The instructions here are for Windows 10.
 
-On **Windows**:
-
-```
-powershell
-  -Command "Invoke-WebRequest https://github.com/phoenixframework/archives/raw/master/phoenix_new-1.2.5.ez
-  -OutFile phoenix_new-1.2.5.ez"
-
-mix archive.install ./phoenix_new-1.2.5.ez
-```
-
-Install NVM to manage a verson of NodeJS.
+0. Install Erlang 20.3
+1. Install Elixir 1.5.3
+2. Install NodeJS 8.11.3
+3. Install Phoenix
+4. Use Docker to spin up a Postgres 9 container
 
 ```sh
-nvm install latest
-nvm use 19.2.0  # whichever version 'latest' installs
+choco install erlang --version=20.3
+choco install elixir --version=1.5.3
+nvm install 8.11.3
+nvm use 8.11.3
+npm i -g brunch@2  # forcing brunch 2 fixes build errors
+
+# This is all one line, reload your shell first
+mix archive.install
+  https://github.com/phoenixframework/archives/raw/master/phoenix_new.ez
 ```
 
-Make sure you have a Postgres database available.
+Spin up a Postgres 9 container in Docker.
+
+```
+docker run --name phoenix-125-db -p 5432:5432
+  -e POSTGRES_PASSWORD=<pwd> -d postgres:9
+```
+
+Finally, run `ecto create` and enjoy your new Phoenix project.
+
+# Project Creation Record
+
+If you've followed the setup steps above, you should be able to run `phoenix.new` without issues. I've included this as reference in case I run into a problem in the future and it's due to some deprecated library that was warned about here.
+
+```
+PS C:\Users\Developer\Documents\Elixir\discuss> elixir -v
+Erlang/OTP 20 [erts-9.3] [64-bit] [smp:8:8] [ds:8:8:10] [async-threads:10]
+
+Elixir 1.5.3
+
+PS C:\Users\Developer\Documents\Elixir> mix phoenix.new discuss
+* creating discuss/config/config.exs
+* creating discuss/config/dev.exs
+* creating discuss/config/prod.exs
+  ... lots more files ...
+* creating discuss/web/views/layout_view.ex
+* creating discuss/web/views/page_view.ex
+
+Fetch and install dependencies? [Yn] Y
+* running mix deps.get
+* running npm install && node node_modules/brunch/bin/brunch build
+
+We are all set! Run your Phoenix application:
+
+    $ cd discuss
+    $ mix phoenix.server
+
+You can also run your app inside IEx (Interactive Elixir) as:
+
+    $ iex -S mix phoenix.server
+
+Before moving on, configure your database in config/dev.exs and run:
+
+    $ mix ecto.create
+```
+
+Open **mix.exs** and remove `:gettext` from the compilers list.
+
+If your database is up and running, initialize the db.
+
+```
+PS C:\Users\Developer\Documents\Elixir> mix ecto.create
+** (Mix) The task "ecto.create" could not be found
+PS C:\Users\Developer\Documents\Elixir> cd discuss
+PS C:\Users\Developer\Documents\Elixir\discuss> code .
+PS C:\Users\Developer\Documents\Elixir\discuss> mix ecto.create
+==> file_system
+Compiling 7 files (.ex)
+Generated file_system app
+==> connection
+Compiling 1 file (.ex)
+Generated connection app
+==> gettext
+warning: the dependency :gettext requires Elixir "~> 1.11" 
+  but you are running on v1.5.3
+Compiling 1 file (.yrl)
+Compiling 1 file (.erl)
+Compiling 21 files (.ex)
+warning: function Kernel.ParallelCompiler.async/1 is 
+ undefined or private
+  lib/gettext/compiler.ex:430
+
+Generated gettext app
+===> Compiling ranch
+===> Compiling poolboy
+==> decimal
+Compiling 4 files (.ex)
+Generated decimal app
+warning: String.strip/1 is deprecated, use String.trim/1
+  c:/Users/Developer/Documents/Elixir/discuss/deps/poison/mix.exs:4
+
+==> poison
+Compiling 4 files (.ex)
+warning: Integer.to_char_list/2 is deprecated, use Integer.to_charlist/2
+  lib/poison/encoder.ex:161
+
+warning: HashDict.size/1 is deprecated, use maps and the Map module instead
+  lib/poison/encoder.ex:283
+
+Generated poison app
+==> db_connection
+Compiling 23 files (.ex)
+Generated db_connection app
+Compiling 13 files (.ex)
+Generated phoenix_pubsub app
+===> Compiling cowlib
+src/cow_multipart.erl:392: Warning: call to 
+  crypto:rand_bytes/1 will fail, since it was removed 
+    in 20.0; use crypto:strong_rand_bytes/1
+
+===> Compiling cowboy
+==> mime
+Compiling 2 files (.ex)
+Generated mime app
+==> plug
+Compiling 44 files (.ex)
+warning: Atom.to_char_list/1 is deprecated, use Atom.to_charlist/1
+  lib/plug/builder.ex:186
+
+warning: Kernel.to_char_list/1 is deprecated, use Kernel.to_charlist/1
+  lib/plug/adapters/cowboy.ex:220
+
+warning: Kernel.to_char_list/1 is deprecated, use Kernel.to_charlist/1
+  lib/plug/adapters/cowboy.ex:238
+
+warning: String.rstrip/1 is deprecated, use String.trim_trailing/1
+  lib/plug/templates/debugger.html.eex:635
+
+Generated plug app
+==> phoenix_html
+Compiling 8 files (.ex)
+Generated phoenix_html app
+==> phoenix
+Compiling 60 files (.ex)
+warning: String.lstrip/2 is deprecated, use 
+  String.trim_leading/2 with a binary as second argument
+  lib/phoenix/template.ex:376
+
+warning: String.strip/1 is deprecated, use String.trim/1
+  lib/phoenix/code_reloader.ex:169
+
+warning: String.rjust/2 is deprecated, use String.pad_leading/2
+  lib/phoenix/router/console_formatter.ex:34
+
+warning: String.ljust/2 is deprecated, use String.pad_trailing/2
+  lib/phoenix/router/console_formatter.ex:35
+
+warning: String.ljust/2 is deprecated, use String.pad_trailing/2
+  lib/phoenix/router/console_formatter.ex:36
+
+warning: String.strip/1 is deprecated, use String.trim/1
+  lib/phoenix/router/helpers.ex:269
+
+Generated phoenix app
+==> phoenix_live_reload
+Compiling 4 files (.ex)
+Generated phoenix_live_reload app
+==> postgrex
+Compiling 62 files (.ex)
+Generated postgrex app
+==> ecto
+Compiling 70 files (.ex)
+Generated ecto app
+==> phoenix_ecto
+Compiling 6 files (.ex)
+Generated phoenix_ecto app
+==> discuss
+Compiling 12 files (.ex)
+Generated discuss app
+The database for Discuss.Repo has been created
+```
+
+Given all this completed without error, start your local server and gaze upon a Phoenix 1.2 project template!
+
+```
+PS C:\Users\Developer\Documents\Elixir\discuss> mix phoenix.server
+[info] Running Discuss.Endpoint with Cowboy using http://localhost:4000
+16:56:32 - info: compiled 6 files into 2 files, copied 3 in 1.1 sec
+[info] GET /
+[debug] Processing by Discuss.PageController.index/2
+  Parameters: %{}
+  Pipelines: [:browser]
+[info] Sent 200 in 47ms
+```
 
 # Phoenix
 
 **Phoenix** is a web framework, like **Django** for Python or **Rails** for Ruby.
-
-
-
