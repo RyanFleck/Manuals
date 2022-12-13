@@ -1241,6 +1241,8 @@ Finally, run `ecto create` and enjoy your new Phoenix project.
 
 # Project Creation Record
 
+**You should probably skip this section.** Next one: [Phoenix](#phoenix).
+
 If you've followed the setup steps above, you should be able to run `phoenix.new` without issues. I've included this as reference in case I run into a problem in the future and it's due to some deprecated library that was warned about here.
 
 ```
