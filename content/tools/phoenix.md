@@ -1470,4 +1470,90 @@ The request lifecycle at a high level (request data is passed down through these
 - **View** renders a template and sends a response
 
 **(MAGIC)** **Views and Templates are related by name.** A view named 'PageView' will rely on a subfolder in the templates folder called 'page'.
-Every file in the corresponding folder will be added as functions to the view when Phoenix boots.
+Every file in the corresponding folder will be added as functions to the view when Phoenix boots. Models and Controllers are also related by name.
+
+In Django, this all has to be done manually and is boilerplate work. The invisible magic here saves time, but is important to note.
+
+**Follow the naming conventions.**
+
+# Phoenix 1.2 & IEX Interactive Shell
+
+Phoenix can be opened in IEX for live debugging and running of functions currently in the works. Phoenix already live reloads, so the shell is moreso useful for debugging than general development.
+
+```
+PS C:\Users\Developer\Documents\Elixir\discuss> iex.bat -S mix phoenix.server
+[info] Running Discuss.Endpoint with Cowboy using http://localhost:4000
+Interactive Elixir (1.5.3) - press Ctrl+C to exit (type h() ENTER for help)
+
+iex(1)> 19:34:00 - info: compiled 6 files into 2 files, copied 3 in 972 ms
+iex(1)> [info] GET /
+iex(1)> [debug] Processing by Discuss.PageController.index/2
+  Parameters: %{}
+  Pipelines: [:browser]
+iex(1)> [info] Sent 200 in 47ms
+
+iex(2)> Discuss.PageView.render("index.html")
+{:safe,
+ [[["" | "<div>\n  <h2>"] | "Welcome to Kektronics Supernova"] |
+  "</h2>\n</div>\n"]}
+```
+
+# Phoenix 1.2: Model Essentials
+
+Phoenix has a typical model and migration system. You can generate migration files from the command line:
+
+```
+> mix ecto.gen.migration add_topics
+* creating priv/repo/migrations
+* creating priv/repo/migrations/20221213030625_add_topics.exs
+```
+
+Migrations are datestamped on the filename so they run in the correct order when a database is being updated.
+
+Opening this new migration file reveals almost nothing:
+
+```ex
+defmodule Discuss.Repo.Migrations.AddTopics do
+  use Ecto.Migration
+
+  def change do
+
+  end
+end
+```
+
+Add this in `change`:
+
+```ex
+    create table(:topics) do
+      add :title, :string
+    end
+```
+
+...and that'll make a simple table of topics with an id and a column called `:title` of type `:string`. Now we can run the migration to create the tables in the connected database:
+
+```
+> mix ecto.migrate
+[info] == Running Discuss.Repo.Migrations.AddTopics.change/0 forward
+[info] create table topics
+[info] == Migrated in 0.0s
+```
+
+If you'd like to confirm this worked, login to your postgres instance and run:
+
+```sql
+select * from topics;
+```
+
+# Phoenix 1.2: A Complete MVC Page
+
+Let's show a form to a user and save some data to our database.
+
+We need to:
+
+1. Add a route in our router file to direct the user to the new page.
+2. Add a controller method to handle this request.
+3. Make a new template to show the form to the user.
+4. Create a topic model that can hold all the data in the form.
+5. Make a new controller and view to manage things related to 'topics'.
+
