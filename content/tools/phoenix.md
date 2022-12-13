@@ -1201,6 +1201,7 @@ defmodule Identicon.Image do
 end
 ```
 
+
 # Phoenix
 
 Phoenix is a web application framework. Like Python's _Django_ or Ruby's _Rails_, Elixir has found _Phoenix_ to be the premier tool for web development. Elixir has some distinct advantages over these other languages.
@@ -1556,4 +1557,96 @@ We need to:
 3. Make a new template to show the form to the user.
 4. Create a topic model that can hold all the data in the form.
 5. Make a new controller and view to manage things related to 'topics'.
+
+## Add Route
+
+Add this to your `Discuss.Router` under the line for the index:
+
+```ex
+get "/topics/new", TopicController, :new
+```
+
+...like before, this format dictates that when a user goes to the path indicated, Phoenix will give the request to the `new` function on the `TopicController`.
+
+Here are some conventional routes and their corresponding controller functions:
+
+- `:new` - `GET /topics/new`
+- `:create` - `POST /topics`
+- `:index` - `GET /topics`
+- `:delete` - `DELETE /topics/12`
+- `:edit` - `GET /topics/12/edit`
+- `:update` - `PUT /topics/12`
+
+...since this isn't an API, some of these may seem a bit unusual to PWA + API builders, as it is a mix of pages and API actions -- though all of the GET requests will return pages for the above conventions.
+
+At this point the instructor has stressed that **Phoenix will work well for you if you follow these conventions.**
+
+## Add Controller & Model
+
+Create a new file called `web/controllers/topic_controller.ex`
+
+**Always use the singular form of the noun when naming things.**
+
+```ex
+defmodule Discuss.TopicController do
+  use Discuss.Web, :controller   # <== What's this?
+
+  def new() do
+
+  end
+end
+```
+
+
+These keywords are used to pull additional functionality into modules.
+
+- `import` -- copy all the functions to the current module
+- `alias` -- make a shortcut to a module, functions become available as if they were within the module, but are not available to call by using the module
+- `use` -- like import, but with fancy setup, it's complicated
+
+If we check `page_controller.ex` we can see:
+
+```ex
+defmodule Discuss.PageController do
+  use Discuss.Web, :controller
+
+  def index(conn, _params) do
+    render conn, "index.html"
+  end
+end
+```
+
+If we check `web.ex` we can see:
+
+```ex
+def controller do
+  quote do
+    use Phoenix.Controller
+
+    alias Discuss.Repo
+    import Ecto
+    import Ecto.Query
+
+    import Discuss.Router.Helpers
+    import Discuss.Gettext
+  end
+end
+```
+
+Looks like we need to steal the `use` definition from the other controller so we can also give our module the properties and functions of a controller.
+
+...what's `quote do`?
+
+**Aw shit -- we just got our first taste of metaprogramming.**
+
+> Quote and Unquote: This guide aims to introduce the meta-programming techniques available in Elixir. The ability to represent an Elixir program by its own data structures is at the heart of meta-programming.   
+> -- **[elixir-lang.org](https://elixir-lang.org/getting-started/meta/quote-and-unquote.html)**
+
+...so I guess **use** must apply the quoted operations. Slick.
+
+
+## Add View & Template
+
+x
+
 
