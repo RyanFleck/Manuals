@@ -1201,19 +1201,20 @@ defmodule Identicon.Image do
 end
 ```
 
-
 # Phoenix
 
 Phoenix is a web application framework. Like Python's _Django_ or Ruby's _Rails_, Elixir has found _Phoenix_ to be the premier tool for web development. Elixir has some distinct advantages over these other languages.
 
 **There are weird things about Phoenix that you need to understand in order to understand the framework.** These things are marked with the symbol **(MAGIC)**.
 
+**There are other weird things about Phoenix that you need to understand that make the framework clearer and easier to modify.** These things are marked with the symbol **(ANTI-MAGIC)**.
+
 # Phoenix 1.2: Installation
 
 The instructor suggests using **Phoenix 1.2**
 Ensure you are checking the docs for this specific version on the Phoenix [hexdocs.pm/phoenix/1.2.5/](https://hexdocs.pm/phoenix/1.2.5/Phoenix.html)
 
-Phoenix 1.2 is **old** so we'll need to prep a time machine. See [this article I wrote](https://ryanfleck.ca/2022/phoenix-125-on-windows/)
+Phoenix 1.2 is **old** (2017!) so we'll need to prep a time machine. See [this article I wrote](https://ryanfleck.ca/2022/phoenix-125-on-windows/)
 and
 [this forum post](https://elixirforum.com/t/setting-up-an-elixir-environment-for-phoenix-1-2-development)
 to see how I figured this out.
@@ -1434,13 +1435,13 @@ EEX templates work like HTML for the most part, but have plenty of special extra
 **MVC typically works like this:**
 
 0. **Model**: shape of the raw data in the database
-0. **View**: organizes and displays the model data
-0. **Controller**: manages the other two and state data
+1. **View**: organizes and displays the model data
+2. **Controller**: manages the other two and state data
 
 Phoenix 1.2 starts off with an empty models folder, a couple views, one template, and one controller. Oh, right, these additional components are also needed:
 
 0. **Templates**: used by views to render pages
-0. **Routers**: directs users to indicated pages
+1. **Routers**: directs users to indicated pages
 
 Our Phoenix app starts with one router. Lines 16-20 read:
 
@@ -1581,7 +1582,7 @@ Here are some conventional routes and their corresponding controller functions:
 
 At this point the instructor has stressed that **Phoenix will work well for you if you follow these conventions.**
 
-## Add Controller & Model
+## Add Controller
 
 Create a new file called `web/controllers/topic_controller.ex`
 
@@ -1597,12 +1598,13 @@ defmodule Discuss.TopicController do
 end
 ```
 
-
 These keywords are used to pull additional functionality into modules.
 
 - `import` -- copy all the functions to the current module
 - `alias` -- make a shortcut to a module, functions become available as if they were within the module, but are not available to call by using the module
 - `use` -- like import, but with fancy setup, it's complicated
+
+[=> elixir-lang.org: alias, require, and import](https://elixir-lang.org/getting-started/alias-require-and-import.html)
 
 If we check `page_controller.ex` we can see:
 
@@ -1639,14 +1641,256 @@ Looks like we need to steal the `use` definition from the other controller so we
 
 **Aw shit -- we just got our first taste of metaprogramming.**
 
-> Quote and Unquote: This guide aims to introduce the meta-programming techniques available in Elixir. The ability to represent an Elixir program by its own data structures is at the heart of meta-programming.   
+> Quote and Unquote: This guide aims to introduce the meta-programming techniques available in Elixir. The ability to represent an Elixir program by its own data structures is at the heart of meta-programming.  
 > -- **[elixir-lang.org](https://elixir-lang.org/getting-started/meta/quote-and-unquote.html)**
 
 ...so I guess **use** must apply the quoted operations. Slick.
 
+Add `conn` and `params` to our new function in our Topic controller:
 
-## Add View & Template
+```ex
+defmodule Discuss.TopicController do
+  use Discuss.Web, :controller
 
-x
+  def new(conn, _params) do
+    IO.puts "+++++"
+    IO.inspect conn  # pretty print the data structure
+  end
+end
+```
+
+By logging the `conn` parameter we can see a `Plug.Conn` struct that is passed to us at this point in the Phoenix function pipeline. Some bits are shortened/redacted but I've left it mostly intact.
+
+(**(ANTI-MAGIC)** The exposure of the definitions for model, view, controller, router, and channel in `web.ex` means it is easy to write shared behavior for all your functions. Hiding these definitions within the framework would have prevented that.)
+
+This `Conn` struct is the center of Phoenix.
+
+```
+%Plug.Conn{adapter: {Plug.Adapters.Cowboy.Conn, :...}, assigns: %{},
+ before_send: [#Function<0.7415431/1 in Plug.CSRFProtection.call/2>,
+  #Function<4.18464706/1 in Phoenix.Controller.fetch_flash/2>,
+  #Function<0.112984571/1 in Plug.Session.before_send/2>,
+  #Function<1.120023888/1 in Plug.Logger.call/2>,
+  #Function<0.34983904/1 in Phoenix.LiveReloader.before_send_inject_reloader/2>],
+ body_params: %{},
+ cookies: %{
+   "_hello_key" => " ( hidden ) ",
+   "csrftoken" => " ( hidden ) ",
+   "messages" => "  ( hidden ) "},
+ halted: false, host: "localhost", method: "GET", owner: #PID<0.598.0>,
+ params: %{}, path_info: ["topics", "new"], path_params: %{},
+ peer: {{127, 0, 0, 1}, 63690}, port: 4000,
+ private: %{Discuss.Router => {[], %{}}, :phoenix_action => :new,
+   :phoenix_controller => Discuss.TopicController,
+   :phoenix_endpoint => Discuss.Endpoint, :phoenix_flash => %{},
+   :phoenix_format => "html", :phoenix_layout => {Discuss.LayoutView, :app},
+   :phoenix_pipelines => [:browser],
+   :phoenix_route => #Function<1.51542571/1 in Discuss.Router.match_route/4>,
+   :phoenix_router => Discuss.Router, :phoenix_view => Discuss.TopicView,
+   :plug_session => %{}, :plug_session_fetch => :done}, query_params: %{},
+ query_string: "", remote_ip: {127, 0, 0, 1},
+ req_cookies: %{
+   "_hello_key" => " ( hidden ) ",
+   "csrftoken" => " ( hidden ) ",
+   "messages" => "  ( hidden ) "},
+ req_headers: [{"host", "localhost:4000"}, {"connection", "keep-alive"},
+  {"cache-control", "max-age=0"}, {"upgrade-insecure-requests", "1"},
+  {"user-agent",
+   "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36"},
+  {"accept",
+   "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8"},
+  {"sec-gpc", "1"}, {"sec-fetch-site", "same-origin"},
+  {"sec-fetch-mode", "navigate"}, {"sec-fetch-user", "?1"},
+  {"sec-fetch-dest", "document"},
+  {"referer", "http://localhost:4000/topics/new"},
+  {"accept-encoding", "gzip, deflate, br"},
+  {"accept-language", "en-US,en;q=0.9"},
+ request_path: "/topics/new", resp_body: nil, resp_cookies: %{},
+ resp_headers: [{"cache-control", "max-age=0, private, must-revalidate"},
+  {"x-request-id", "ddks9ld8b768m8mbfqjgnnp6grtv8eq7"},
+  {"x-frame-options", "SAMEORIGIN"}, {"x-xss-protection", "1; mode=block"},
+  {"x-content-type-options", "nosniff"}], scheme: :http, script_name: [],
+ secret_key_base: " ( hidden ) ",
+ state: :unset, status: nil}
+```
+
+The `params` arg looks like this:
+
+```
+[debug] Processing by Discuss.TopicController.new/2
+  Parameters: %{}
+  Pipelines: [:browser]
+%{}
+```
+
+## Add Model
+
+Here we'll add a model with a changeset and validations.
+
+Create `models/topic.ex` with:
+
+1. The model **schema**.
+2. A **changeset** function.
+
+```ex
+defmodule Discuss.Topic do
+  use Discuss.Web, :model
+
+  # Step 1
+  schema "topics" do
+    field :title, :string
+  end
+
+  # Step 2
+  def changeset(struct, params \\ %{}) do
+    struct
+    |> cast(params, [:title])
+    |> validate_required([:title])
+  end
+
+end
+```
+
+The instructor says `changeset` structure is one of the
+most challenging parts of Phoenix to understand and work with.
+
+Rather than store a complete and mutated copy of an object being modified, Phoenix produces changesets.
+
+**Important:** `//` is how you provide default arguments in Elixir. Above, an empty map is provided. Otherwise it will default to `nil`.
+
+Update the `TopicController` to read:
+
+```ex
+defmodule Discuss.TopicController do
+  use Discuss.Web, :controller
+  alias Discuss.Topic
+
+  def new(_conn, _params) do
+    changeset = Topic.changeset(%Topic{}, %{})
+    render conn, "new.html"  # (not created yet)
+  end
+end
+```
+
+# Add View & Template
+
+1. Create `/web/views/topic_view.ex` and add:
 
 
+```ex
+defmodule Discuss.TopicView do
+  use Discuss.Web, :view
+end
+```
+
+2. Make a new directory `/web/templates/topic`
+3. In this directory make `new.html.eex`
+
+We can use Elixir code to make the form for us.
+
+```ex
+<%= form_for @changeset, topic_path(@conn, :create), fn f -> %>
+<% end %>
+```
+
+...crap, what?
+
+This is actually this elixir, with template syntax:
+
+```ex
+form_for(@changeset, topic_path(@conn, :create), fn f -> "" end)
+```
+
+The function `topic_path` will be explained later.
+
+**Important:** Things prefixed here with `@` refer to variables passed to the template by the render function. Some variables are passed automatically.
+
+Change the render line and add a bit more to the heex template:
+
+```ex
+    render conn, "new.html", changeset: changeset
+```
+
+
+```ex
+<h3>New Topic</h3>
+<%= form_for @changeset, topic_path(@conn, :create), fn f -> %>
+    <div class="form-group">
+        <%= text_input f, :title, placeholder: "Title", class: "form-control" %>
+    </div>
+    <%= submit "Save Topic", class: "btn btn-primary" %>
+<% end %>```ex
+<%= form_for @changeset, topic_path(@conn, :create), fn f -> %>
+
+<% end %>
+```
+
+Next, copy this line to your router:
+
+```ex
+post "/topics", TopicController, :create
+```
+
+If you run `mix phoenix.routes` you'll see:
+
+```
+> mix phoenix.routes
+ page_path  GET   /            Discuss.PageController :index
+topic_path  GET   /topics/new  Discuss.TopicController :new
+topic_path  POST  /topics      Discuss.TopicController :create
+```
+
+Note the term `topic_path` here. This path helper takes the first and last elements on this line to reduce errors when sending forms around.
+
+Finally, let's start to finish the `create` method:
+
+```ex
+def create(conn, %{"topic" => topic}) do
+  changeset = Topic.changeset(%Topic{}, topic)
+  case Repo.insert(changeset) do
+    {:ok, post} -> IO.inspect(post)
+    {:error, err_changeset} -> IO.inspect(err_changeset)
+  end
+end
+```
+
+...this still throws an error, but we can see a record is inserted by logging the success and error messages:
+
+```
+[info] POST /topics
+[debug] Processing by Discuss.TopicController.create/2
+  Parameters: %{"_csrf_token" => " ( hidden ) ",
+    "_utf8" => "Γ£ô", 
+    "topic" => %{"title" => "Test 2"}}
+  Pipelines: [:browser]
+[debug] QUERY OK db=0.0ms
+INSERT INTO "topics" ("title") VALUES ($1) RETURNING "id" ["Test 2"]
+%Discuss.Topic{__meta__: #Ecto.Schema.Metadata<:loaded, "topics">, id: 1,
+ title: "Test 2"}
+[info] Sent 500 in 109ms
+```
+
+We still want to redirect users to the topic list on success, or show validation errors and remain on the page in that case.
+
+To render errors, add this to the EEX:
+
+```ex
+<%= error_tag f, :title %>
+```
+
+And update the controller:
+
+```ex
+def create(conn, %{"topic" => topic}) do
+  changeset = Topic.changeset(%Topic{}, topic)
+  case Repo.insert(changeset) do
+    # X
+    {:ok, post} -> IO.inspect(post)
+    # Return the changeset with errors if they exist
+    {:error, err_changeset} -> render conn, "new.html", changeset: err_changeset
+  end
+end
+```
+...the tutorial stops here and we are supposed to fill the success case in the next part of the tutorial, after we build the list view.
+
+**END**
