@@ -15,9 +15,14 @@
     <ul>
       {{ range .Pages.ByTitle }} {{ if (not .Params.unlisted)}}
       <li>
-        <a href="{{ .Permalink }}">
+        <a href="{{ .Permalink }}" class="manual-link">
           <!-- Title -->
-          {{ .Title }}
+            <b>{{ .Title }}</b>
+          <small>
+            [{{ if .Lastmod }}Updated {{ .Lastmod.UTC.Format "2006-01-02" }},
+            {{end}}{{.WordCount}} words,
+            ~{{ .ReadingTime}}m skim]
+          </small>
           <!-- Draft Badge -->
           {{ if .Draft }}<span style="color: red">&=</span>{{ end }}
         </a>

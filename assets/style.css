@@ -167,6 +167,10 @@ table,
   margin-bottom: 1em;
 } */
 
+.manual-link > small {
+  color: #8e65d9;
+}
+
 blockquote {
   font-style: italic;
   color: rgb(69, 0, 197);
