@@ -1772,10 +1772,9 @@ defmodule Discuss.TopicController do
 end
 ```
 
-# Add View & Template
+## Add View & Template
 
 1. Create `/web/views/topic_view.ex` and add:
-
 
 ```ex
 defmodule Discuss.TopicView do
@@ -1811,8 +1810,7 @@ Change the render line and add a bit more to the heex template:
     render conn, "new.html", changeset: changeset
 ```
 
-
-```ex
+````ex
 <h3>New Topic</h3>
 <%= form_for @changeset, topic_path(@conn, :create), fn f -> %>
     <div class="form-group">
@@ -1823,7 +1821,7 @@ Change the render line and add a bit more to the heex template:
 <%= form_for @changeset, topic_path(@conn, :create), fn f -> %>
 
 <% end %>
-```
+````
 
 Next, copy this line to your router:
 
@@ -1860,7 +1858,7 @@ end
 [info] POST /topics
 [debug] Processing by Discuss.TopicController.create/2
   Parameters: %{"_csrf_token" => " ( hidden ) ",
-    "_utf8" => "Γ£ô", 
+    "_utf8" => "Γ£ô",
     "topic" => %{"title" => "Test 2"}}
   Pipelines: [:browser]
 [debug] QUERY OK db=0.0ms
@@ -1891,6 +1889,136 @@ def create(conn, %{"topic" => topic}) do
   end
 end
 ```
+
 ...the tutorial stops here and we are supposed to fill the success case in the next part of the tutorial, after we build the list view.
+
+## Add Home/List Template & View
+
+It's breaking RESTful conventions a bit, but we're going to route users who come to the site to the list of topics. Update your router:
+
+```
+get "/", TopicController, :index
+```
+
+...at this point you could delete the controller, view, and templates for _Page_.
+
+[Ecto 2.0.5 Documentation](https://hexdocs.pm/ecto/2.0.5/Ecto.html)
+
+Tutorial guy wants us to use [Repo.all](https://hexdocs.pm/ecto/2.0.5/Ecto.Repo.html#c:all/2) which cannot be a good long term solution but will be fine to prove a point.
+
+```ex
+def index(conn, _params) do
+  # Render a list of all the topics in the database.
+  # If unaliased, Discuss.Repo.all(Discuss.Topic)
+  render conn, "index.html", topics: Repo.all(Topic)
+end
+```
+
+Add a new template: `/templates/topic/index.html.eex`
+
+```html
+<h2>Topics</h2>
+<ul class="collection">
+  <!-- Let's iterate through the *topics* list -->
+  <%= for topic <- @topics do %>
+  <li class="collection-item"><%= topic.title %></li>
+  <% end %>
+</ul>
+```
+
+...works good!
+
+**Let's finish our `/topics/new` page.**
+
+## Link the Pages
+
+Redirect to index after topic creation:
+
+```ex
+def create(conn, %{"topic" => topic}) do
+  changeset = Topic.changeset(%Topic{}, topic)
+  case Repo.insert(changeset) do
+    {:ok, post} ->
+      conn
+      |> put_flash(:info, "Topic Created")
+      |> redirect(to: topic_path(conn, :index))
+    {:error, err_changeset} ->
+      render conn, "new.html", changeset: err_changeset
+  end
+end
+```
+
+The `put_flash` function allows us to show one-time messages to our user, like "topic created". Now the user will be redirected to the home page with a flash message after they submit a new topic.
+
+(He adds some new stuff to `app.html.eex`)
+
+```html
+<!-- Compiled and minified CSS -->
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"
+/>
+<!-- Compiled and minified JavaScript -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+<!-- Compiled and minified JavaScript -->
+<link
+  rel="stylesheet"
+  href="https://fonts.googleapis.com/icon?family=Material+Icons"
+/>
+```
+
+At the bottom of `topic/index.html.eex` place this button with an elixir link/path reference:
+
+```ex
+<div class="fixed-action-btn">
+    <%= link to: topic_path(@conn, :new), 
+      class: "btn-floating btn-large waves-effect waves-light red" do %>
+        <i class="material-icons">add</i> 
+    <% end %>
+</div>
+
+```
+
+...sweet, we're **all wired up!**
+
+## Router Wildcards & Edit Page
+
+What to do if we want to edit or update our records?
+
+```ex
+# Typically (For example: (conn, :edit, 12))
+topic_path(connn, :action, id)
+
+# In router
+get "/topics/:id/edit", TopicController, :edit
+#            :id -> this is a wildcard matcher
+#                   and will show up in params
+
+# In Topic Controller
+# (Reminder that params keys are strings)
+def edit(conn, %{"id" => topic_id}) do
+  # Load an existing/complete 'changeset' from the database.
+  topic = Repo.get(Topic, topic_id)
+  changeset = Topic.changeset(topic)
+  # Send it out, bound to a new template we'll make now
+  render conn, "edit.html", changeset: changeset, topic: topic
+end
+```
+
+...and write that template:
+
+```ex
+<h3>Edit Topic</h3>
+<%= form_for @changeset, topic_path(@conn, :update, @topic), fn f -> %>
+    <div class="form-group">
+        <%= text_input f, :title, placeholder: "Title", class: "form-control" %>
+        <p style="color: red">
+        <%= error_tag f, :title %>
+        </p>
+    </div>
+    <%= submit "Save Topic", class: "btn btn-primary" %>
+<% end %>
+```
+
 
 **END**
