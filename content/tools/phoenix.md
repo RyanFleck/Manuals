@@ -2081,7 +2081,7 @@ topic_path  DELETE  /:id       Discuss.TopicController :delete
 
 **Do note that we haven't implemented `:show` or `:delete` yet.**
 
-## Delete
+## Delete Button
 
 ```ex
 def delete(conn, %{"id" => topic_id}) do
@@ -2100,7 +2100,9 @@ The `topic_path` helper always sends a GET request so you must add an additional
 
 Adding that delete method specification means Phoenix will insert a full form at this point in the code to submit the DELETE request to the backend.
 
-...there you have it, `TopicController`.
+## Completed MVC Page 
+
+**--- web/controllers/topic_controller.ex**
 
 ```ex
 defmodule Discuss.TopicController do
@@ -2161,5 +2163,141 @@ defmodule Discuss.TopicController do
   end
 end
 ```
+**--- web/models/topic.ex**
+
+```ex
+defmodule Discuss.Topic do
+  use Discuss.Web, :model
+
+  schema "topics" do
+    field :title, :string
+  end
+
+  def changeset(struct, params \\ %{}) do
+    struct
+    |> cast(params, [:title])
+    |> validate_required([:title])
+  end
+end
+```
+
+**--- priv/repo/migrations/20221213030625_add_topics.exs**
+
+```ex
+defmodule Discuss.Repo.Migrations.AddTopics do
+  use Ecto.Migration
+
+  def change do
+    create table(:topics) do
+      add :title, :string
+    end
+  end
+end
+```
+**--- web/views/topic_view.ex**
+
+```ex
+defmodule Discuss.TopicView do
+  use Discuss.Web, :view
+end
+```
+
+**--- web/templates/index.html.eex**
+
+```html
+<h2>Topics</h2>
+
+<ul class="collection">
+
+    <!-- Let's iterate through the *topics* list -->
+    <%= for topic <- @topics do %>
+        <li class="collection-item">
+            <%= topic.title %>
+            <div class="right">
+                <%= link "Edit", to: topic_path(@conn, :edit, topic) %>
+                <%= link "Delete", 
+                  to: topic_path(@conn, :delete, topic), 
+                  method: :delete %>
+            </div> 
+        </li>
+    <% end %>
+
+</ul>
+
+<div class="fixed-action-btn">
+    <%= link to: topic_path(@conn, :new), 
+        class: "btn-floating btn-large waves-effect waves-light red" do %>
+        <i class="material-icons">add</i> 
+    <% end %>
+</div>
+```
+
+**--- web/templates/edit.html.eex**
+
+```html
+<h3>Edit Topic</h3>
+<%= form_for @changeset, topic_path(@conn, :update, @topic), fn f -> %>
+    <div class="form-group">
+        <%= text_input f, :title, placeholder: "Title", class: "form-control" %>
+        <p style="color: red">
+        <%= error_tag f, :title %>
+        </p>
+    </div>
+    <%= submit "Save Topic", class: "btn btn-primary" %>
+<% end %>
+```
+
+**--- web/templates/new.html.eex**
+
+```html
+<h3>New Topic</h3>
+<%= form_for @changeset, topic_path(@conn, :create), fn f -> %>
+    <div class="form-group">
+        <%= text_input f, :title, placeholder: "Title", class: "form-control" %>
+        <p style="color: red">
+        <%= error_tag f, :title %>
+        </p>
+    </div>
+    <%= submit "Save Topic", class: "btn btn-primary" %>
+<% end %>
+```
+
+**--- web/router.ex**
+
+```ex
+defmodule Discuss.Router do
+  use Discuss.Web, :router
+
+  pipeline :browser do
+    plug :accepts, ["html"]
+    plug :fetch_session
+    plug :fetch_flash
+    plug :protect_from_forgery
+    plug :put_secure_browser_headers
+  end
+
+  pipeline :api do
+    plug :accepts, ["json"]
+  end
+
+  scope "/", Discuss do
+    pipe_through :browser # Use the default browser stack
+
+    # get "/", TopicController, :index
+    # get "/topics/new", TopicController, :new
+    # post "/topics", TopicController, :create
+    # get "/topics/:id/edit", TopicController, :edit
+    # put "/topics/:id", TopicController, :update
+    resources "/", TopicController
+  end
+
+  # Other scopes may use custom stacks.
+  # scope "/api", Discuss do
+  #   pipe_through :api
+  # end
+end
+```
+
+
 
 **END**
