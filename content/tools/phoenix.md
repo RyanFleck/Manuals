@@ -1971,9 +1971,9 @@ At the bottom of `topic/index.html.eex` place this button with an elixir link/pa
 
 ```ex
 <div class="fixed-action-btn">
-    <%= link to: topic_path(@conn, :new), 
+    <%= link to: topic_path(@conn, :new),
       class: "btn-floating btn-large waves-effect waves-light red" do %>
-        <i class="material-icons">add</i> 
+        <i class="material-icons">add</i>
     <% end %>
 </div>
 
@@ -2020,5 +2020,146 @@ end
 <% end %>
 ```
 
+...and write the controller for the update action:
+
+```ex
+def update(conn, %{"topic" => topic, "id" => id}) do
+  # We fetch the original record from the repository first? Ok.
+  old_topic = Repo.get(Topic, id)
+  changeset = Topic.changeset(old_topic, topic)
+  # Push the update to the database:
+  case Repo.update(changeset) do
+    {:ok, _topic} ->
+      conn
+      |> put_flash(:info, "Topic Updated")
+      |> redirect(to: topic_path(conn, :index))
+    {:error, err_changeset} ->
+      render conn, "edit.html",
+        changeset: err_changeset, topic: old_topic
+  end
+end
+```
+
+**This doesn't handle an id not found error.** Fine for now.
+
+To add an edit button to your index type:
+
+```html
+<div class="right">
+  <%= link "Edit", to: topic_path(@conn, :edit, topic) %>
+</div> 
+```
+
+Since we have followed RESTful conventions, we can actually use the `resources` tool to generate **all our routes** rather than adding a delete function at this point in the game:
+
+```ex
+scope "/", Discuss do
+  pipe_through :browser # Use the default browser stack
+
+  # get "/", TopicController, :index
+  # get "/topics/new", TopicController, :new
+  # post "/topics", TopicController, :create
+  # get "/topics/:id/edit", TopicController, :edit
+  # put "/topics/:id", TopicController, :update
+  resources "/", TopicController
+end
+```
+```
+mix phoenix.routes
+Compiling 8 files (.ex)
+topic_path  GET     /          Discuss.TopicController :index
+topic_path  GET     /:id/edit  Discuss.TopicController :edit
+topic_path  GET     /new       Discuss.TopicController :new
+topic_path  GET     /:id       Discuss.TopicController :show
+topic_path  POST    /          Discuss.TopicController :create
+topic_path  PATCH   /:id       Discuss.TopicController :update
+            PUT     /:id       Discuss.TopicController :update
+topic_path  DELETE  /:id       Discuss.TopicController :delete
+```
+
+...because we're using route helpers, we don't need to go back through our application to change all the paths for different actions. 
+
+**Do note that we haven't implemented `:show` or `:delete` yet.**
+
+## Delete
+
+```ex
+def delete(conn, %{"id" => topic_id}) do
+  Repo.get!(Topic, topic_id) |> Repo.delete!
+end
+```
+
+The `topic_path` helper always sends a GET request so you must add an additional argument in your list view to ensure it sends a DELETE request.
+
+```html
+<div class="right">
+  <%= link "Edit", to: topic_path(@conn, :edit, topic) %>
+  <%= link "Delete", to: topic_path(@conn, :delete, topic), method: :delete %>
+</div> 
+```
+
+Adding that delete method specification means Phoenix will insert a full form at this point in the code to submit the DELETE request to the backend.
+
+...there you have it, `TopicController`.
+
+```ex
+defmodule Discuss.TopicController do
+  use Discuss.Web, :controller
+  alias Discuss.Topic
+
+  def index(conn, _params) do
+    # Render a list of all the topics in the database.
+    # If unaliased, Discuss.Repo.all(Discuss.Topic)
+    render conn, "index.html", topics: Repo.all(Topic)
+  end
+
+  def new(conn, _params) do
+    changeset = Topic.changeset(%Topic{}, %{})
+    render conn, "new.html", changeset: changeset
+  end
+
+  def create(conn, %{"topic" => topic}) do
+    changeset = Topic.changeset(%Topic{}, topic)
+    case Repo.insert(changeset) do
+      {:ok, _post} ->
+        conn
+        |> put_flash(:info, "Topic Created")
+        |> redirect(to: topic_path(conn, :index))
+      {:error, err_changeset} -> render conn, "new.html", changeset: err_changeset
+    end
+  end
+
+  def edit(conn, %{"id" => topic_id}) do
+    # Load an existing/complete 'changeset' from the database.
+    topic = Repo.get!(Topic, topic_id)
+    changeset = Topic.changeset(topic)
+    # Send it out, bound to a new template we'll make now
+    render conn, "edit.html", changeset: changeset, topic: topic
+  end
+
+  def update(conn, %{"topic" => topic, "id" => id}) do
+    # We fetch the original record from the repository first? Ok.
+    old_topic = Repo.get!(Topic, id)
+    changeset = Topic.changeset(old_topic, topic)
+    # Push the update to the database:
+    case Repo.update(changeset) do
+      {:ok, _topic} ->
+        conn
+        |> put_flash(:info, "Topic Updated")
+        |> redirect(to: topic_path(conn, :index))
+      {:error, err_changeset} ->
+        render conn, "edit.html",
+          changeset: err_changeset, topic: old_topic
+    end
+  end
+
+  def delete(conn, %{"id" => topic_id}) do
+    Repo.get!(Topic, topic_id) |> Repo.delete!
+    conn
+    |> put_flash(:info, "Topic Deleted")
+    |> redirect(to: topic_path(conn, :index))
+  end
+end
+```
 
 **END**
