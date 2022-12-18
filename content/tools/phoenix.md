@@ -2298,6 +2298,136 @@ defmodule Discuss.Router do
 end
 ```
 
+# Phoenix 1.2: OAuth Authentication
+
+Generally, the steps are:
+
+1. The user clicks "login with X service" and is redirected
+2. X service's website asks the user to login there
+3. With a successful X login, the user is redirected back to our site
+4. Our backend uses the provided code to fetch user details from service X if the user does not already exist in our system
+5. The user is created or found and logged in
+
+First, install `ueberauth` and the `ueberauth_github` authentication strategy.
+
+Add the following lines to your deps and run `mix deps.get`.
+
+```ex
+{:ueberauth, "~> 0.3"},
+{:ueberauth_github, "~> 0.4"},
+```
+
+Mix will install many packages.
+
+```
+New:
+  ueberauth 0.5.0
+  ueberauth_github 0.7.0
+  certifi 2.9.0
+  hackney 1.18.1
+  idna 6.1.1
+  metrics 1.0.1
+  mimerl 1.2.0
+  oauth2 0.9.4
+  parse_trans 3.3.1
+  ssl_verify_fun 1.1.6
+  unicode_util_compat 0.7.0
+  ```
+
+...the latest `ueberauth` is `0.7` but mix chose to install `0.5`.
+
+
+## Configure Ueberauth Library
+
+At [github.com/settings/developers](https://github.com/settings/developers), register a new OAuth App:
+
+```
+Application name: Elixir-Discuss
+Homepage URL: https://discuss.ryanfleck.ca
+Application description: OAuth practice.
+Auth callback URL: http://localhost:4000/auth/github/callback
+```
+
+In `mix.exs` add:
+
+```ex
+# Ensure ueberauth and ueberauth_github are in your apps 
+def application do
+  [mod: {Discuss, []},
+    applications: [:phoenix, :phoenix_pubsub, :phoenix_html,
+      :cowboy, :logger, :gettext, :phoenix_ecto, :postgrex,
+      :ueberauth, :ueberauth_github]]
+end
+```
+
+In `config/config.exs`, add:
+
+```ex
+config :ueberauth, Ueberauth,
+  providers: [
+    github: { Ueberauth.Strategy.Github, []}
+  ]
+
+config :ueberauth, Ueberauth.Strategy.Github.OAuth,
+  client_id: " < your client ID from Github > ",
+  client_secret: " < your client secret from Github > "
+```
+
+We can worry about hiding the keys later.
+
+Setup is done.
+
+# Add OAuth Controller & Routes
+
+Create `controllers/auth_controller.ex`.
+
+```ex
+defmodule Discuss.AuthController do
+  use Discuss.Web, :controller
+  plug Ueberauth
+end
+```
+
+The topic of `plug` will be touched on later.
+
+**Ueberauth assumes that you will write a `callback` function in your controller. Writing this function fulfills that contract.**
+
+For now:
+
+```ex
+def callback(conn, params) do
+  IO.puts "++++++++++++++++++"
+  IO.inspect(conn.assigns)
+  IO.puts "++++++++++++++++++"
+  IO.inspect(params)
+  IO.puts "++++++++++++++++++"
+end
+```
+
+Let's add a new router for this controller:
+
+```ex
+scope "/auth", Discuss do
+  pipe_through :browser
+
+  # "Request" is defined automatically by Ueberauth
+  # This functions the first step of the auth flow
+  get "/:provider", AuthController, :request
+  
+  # Github/other provider will call this URL.
+  get "/:provider/callback", AuthController, :callback
+
+end
+```
+
+```
+ auth_path  GET     /auth/:provider           Discuss.AuthController :request
+ auth_path  GET     /auth/:provider/callback  Discuss.AuthController :callback
+ ```
+
+The login endpoint will now work up until the `callback` function.
+
+
 
 
 **END**
