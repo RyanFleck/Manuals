@@ -2045,9 +2045,7 @@ end
 To add an edit button to your index type:
 
 ```html
-<div class="right">
-  <%= link "Edit", to: topic_path(@conn, :edit, topic) %>
-</div> 
+<div class="right"><%= link "Edit", to: topic_path(@conn, :edit, topic) %></div>
 ```
 
 Since we have followed RESTful conventions, we can actually use the `resources` tool to generate **all our routes** rather than adding a delete function at this point in the game:
@@ -2064,6 +2062,7 @@ scope "/", Discuss do
   resources "/", TopicController
 end
 ```
+
 ```
 mix phoenix.routes
 Compiling 8 files (.ex)
@@ -2077,7 +2076,7 @@ topic_path  PATCH   /:id       Discuss.TopicController :update
 topic_path  DELETE  /:id       Discuss.TopicController :delete
 ```
 
-...because we're using route helpers, we don't need to go back through our application to change all the paths for different actions. 
+...because we're using route helpers, we don't need to go back through our application to change all the paths for different actions.
 
 **Do note that we haven't implemented `:show` or `:delete` yet.**
 
@@ -2093,14 +2092,14 @@ The `topic_path` helper always sends a GET request so you must add an additional
 
 ```html
 <div class="right">
-  <%= link "Edit", to: topic_path(@conn, :edit, topic) %>
-  <%= link "Delete", to: topic_path(@conn, :delete, topic), method: :delete %>
-</div> 
+  <%= link "Edit", to: topic_path(@conn, :edit, topic) %> <%= link "Delete", to:
+  topic_path(@conn, :delete, topic), method: :delete %>
+</div>
 ```
 
 Adding that delete method specification means Phoenix will insert a full form at this point in the code to submit the DELETE request to the backend.
 
-## Completed MVC Page 
+## Completed MVC Page
 
 **--- web/controllers/topic_controller.ex**
 
@@ -2163,6 +2162,7 @@ defmodule Discuss.TopicController do
   end
 end
 ```
+
 **--- web/models/topic.ex**
 
 ```ex
@@ -2194,6 +2194,7 @@ defmodule Discuss.Repo.Migrations.AddTopics do
   end
 end
 ```
+
 **--- web/views/topic_view.ex**
 
 ```ex
@@ -2208,27 +2209,23 @@ end
 <h2>Topics</h2>
 
 <ul class="collection">
-
-    <!-- Let's iterate through the *topics* list -->
-    <%= for topic <- @topics do %>
-        <li class="collection-item">
-            <%= topic.title %>
-            <div class="right">
-                <%= link "Edit", to: topic_path(@conn, :edit, topic) %>
-                <%= link "Delete", 
-                  to: topic_path(@conn, :delete, topic), 
-                  method: :delete %>
-            </div> 
-        </li>
-    <% end %>
-
+  <!-- Let's iterate through the *topics* list -->
+  <%= for topic <- @topics do %>
+  <li class="collection-item">
+    <%= topic.title %>
+    <div class="right">
+      <%= link "Edit", to: topic_path(@conn, :edit, topic) %> <%= link "Delete",
+      to: topic_path(@conn, :delete, topic), method: :delete %>
+    </div>
+  </li>
+  <% end %>
 </ul>
 
 <div class="fixed-action-btn">
-    <%= link to: topic_path(@conn, :new), 
-        class: "btn-floating btn-large waves-effect waves-light red" do %>
-        <i class="material-icons">add</i> 
-    <% end %>
+  <%= link to: topic_path(@conn, :new), class: "btn-floating btn-large
+  waves-effect waves-light red" do %>
+  <i class="material-icons">add</i>
+  <% end %>
 </div>
 ```
 
@@ -2237,14 +2234,11 @@ end
 ```html
 <h3>Edit Topic</h3>
 <%= form_for @changeset, topic_path(@conn, :update, @topic), fn f -> %>
-    <div class="form-group">
-        <%= text_input f, :title, placeholder: "Title", class: "form-control" %>
-        <p style="color: red">
-        <%= error_tag f, :title %>
-        </p>
-    </div>
-    <%= submit "Save Topic", class: "btn btn-primary" %>
-<% end %>
+<div class="form-group">
+  <%= text_input f, :title, placeholder: "Title", class: "form-control" %>
+  <p style="color: red"><%= error_tag f, :title %></p>
+</div>
+<%= submit "Save Topic", class: "btn btn-primary" %> <% end %>
 ```
 
 **--- web/templates/new.html.eex**
@@ -2252,14 +2246,11 @@ end
 ```html
 <h3>New Topic</h3>
 <%= form_for @changeset, topic_path(@conn, :create), fn f -> %>
-    <div class="form-group">
-        <%= text_input f, :title, placeholder: "Title", class: "form-control" %>
-        <p style="color: red">
-        <%= error_tag f, :title %>
-        </p>
-    </div>
-    <%= submit "Save Topic", class: "btn btn-primary" %>
-<% end %>
+<div class="form-group">
+  <%= text_input f, :title, placeholder: "Title", class: "form-control" %>
+  <p style="color: red"><%= error_tag f, :title %></p>
+</div>
+<%= submit "Save Topic", class: "btn btn-primary" %> <% end %>
 ```
 
 **--- web/router.ex**
@@ -2332,10 +2323,9 @@ New:
   parse_trans 3.3.1
   ssl_verify_fun 1.1.6
   unicode_util_compat 0.7.0
-  ```
+```
 
 ...the latest `ueberauth` is `0.7` but mix chose to install `0.5`.
-
 
 ## Configure Ueberauth Library
 
@@ -2351,7 +2341,7 @@ Auth callback URL: http://localhost:4000/auth/github/callback
 In `mix.exs` add:
 
 ```ex
-# Ensure ueberauth and ueberauth_github are in your apps 
+# Ensure ueberauth and ueberauth_github are in your apps
 def application do
   [mod: {Discuss, []},
     applications: [:phoenix, :phoenix_pubsub, :phoenix_html,
@@ -2377,7 +2367,7 @@ We can worry about hiding the keys later.
 
 Setup is done.
 
-# Add OAuth Controller & Routes
+## Add OAuth Controller & Routes
 
 Create `controllers/auth_controller.ex`.
 
@@ -2413,7 +2403,7 @@ scope "/auth", Discuss do
   # "Request" is defined automatically by Ueberauth
   # This functions the first step of the auth flow
   get "/:provider", AuthController, :request
-  
+
   # Github/other provider will call this URL.
   get "/:provider/callback", AuthController, :callback
 
@@ -2423,10 +2413,283 @@ end
 ```
  auth_path  GET     /auth/:provider           Discuss.AuthController :request
  auth_path  GET     /auth/:provider/callback  Discuss.AuthController :callback
- ```
+```
 
 The login endpoint will now work up until the `callback` function.
 
+I modified my login/auth endpoint to kick us back to the homescreen. Even though the authentication flow is technically 'complete' by doing this, the user is not logged in and has no account in our database. This is mostly for debugging.
+
+```ex
+defmodule Discuss.AuthController do
+  use Discuss.Web, :controller
+  plug Ueberauth
+
+  def callback(conn, params) do
+    IO.puts "++++++++++++++++++"
+    IO.inspect(conn.assigns)
+    IO.puts "++++++++++++++++++"
+    IO.inspect(params)
+    IO.puts "++++++++++++++++++"
+    conn
+    |> put_flash(:info, "Welcome back!")
+    |> redirect(to: topic_path(conn, :index))
+  end
+end
+```
+
+Navigate to `/auth/github` and login to Github.
+
+If we watch the logs, we'll see:
+
+```
+[info] GET /auth/github
+[debug] Processing by Discuss.AuthController.request/2
+  Parameters: %{"provider" => "github"}
+  Pipelines: [:browser]
+[info] Sent 302 in 0┬╡s
+[debug] Discuss.AuthController halted in Ueberauth.call/2
+[info] GET /auth/github/callback
+[debug] Processing by Discuss.AuthController.callback/2
+  Parameters: %{"code" => " < hidden > ", "provider" => "github"}
+  Pipelines: [:browser]
+++++++++++++++++++
+%{ueberauth_auth: %Ueberauth.Auth{credentials: %Ueberauth.Auth.Credentials{expires: false,
+    expires_at: nil, other: %{}, refresh_token: nil, scopes: [""], secret: nil,
+    token: " < hidden > ", token_type: "Bearer"},
+   extra: %Ueberauth.Auth.Extra{raw_info: %{token: %OAuth2.AccessToken{access_token: " < hidden > ",
+       expires_at: nil, other_params: %{"scope" => ""}, refresh_token: nil,
+       token_type: "Bearer"},
+      user: %{"avatar_url" => "https://avatars.githubusercontent.com/u/28709508?v=4",
+        "bio" => "Consultant @IBM", "blog" => "https://ryanfleck.ca",
+        "company" => "IBM", "created_at" => "2017-05-15T14:34:41Z",
+        "email" => "ryan.fleck@protonmail.com",
+        "events_url" => "https://api.github.com/users/RyanFleck/events{/privacy}",
+        "followers" => 41,
+        "followers_url" => "https://api.github.com/users/RyanFleck/followers",
+        "following" => 90,
+        "following_url" => "https://api.github.com/users/RyanFleck/following{/other_user}",
+        "gists_url" => "https://api.github.com/users/RyanFleck/gists{/gist_id}",
+        "gravatar_id" => "", "hireable" => nil,
+        "html_url" => "https://github.com/RyanFleck", "id" => 28709508,
+        "location" => "Canada", "login" => "RyanFleck", "name" => "Ryan Fleck",
+        "node_id" => " < hidden > ",
+        "organizations_url" => "https://api.github.com/users/RyanFleck/orgs",
+        "public_gists" => 21, "public_repos" => 81,
+        "received_events_url" => "https://api.github.com/users/RyanFleck/received_events",
+        "repos_url" => "https://api.github.com/users/RyanFleck/repos",
+        "site_admin" => false,
+        "starred_url" => "https://api.github.com/users/RyanFleck/starred{/owner}{/repo}",
+        "subscriptions_url" => "https://api.github.com/users/RyanFleck/subscriptions",
+        "twitter_username" => nil, "type" => "User",
+        "updated_at" => "2022-12-15T04:04:20Z",
+        "url" => "https://api.github.com/users/RyanFleck"}}},
+   info: %Ueberauth.Auth.Info{description: "Consultant @IBM",
+    email: "ryan.fleck@protonmail.com", first_name: nil,
+    image: "https://avatars.githubusercontent.com/u/28709508?v=4",
+    last_name: nil, location: "Canada", name: "Ryan Fleck",
+    nickname: "RyanFleck", phone: nil,
+    urls: %{api_url: "https://api.github.com/users/RyanFleck",
+      avatar_url: "https://avatars.githubusercontent.com/u/28709508?v=4",
+      blog: "https://ryanfleck.ca",
+      events_url: "https://api.github.com/users/RyanFleck/events{/privacy}",
+      followers_url: "https://api.github.com/users/RyanFleck/followers",
+      following_url: "https://api.github.com/users/RyanFleck/following{/other_user}",
+      gists_url: "https://api.github.com/users/RyanFleck/gists{/gist_id}",
+      html_url: "https://github.com/RyanFleck",
+      organizations_url: "https://api.github.com/users/RyanFleck/orgs",
+      received_events_url: "https://api.github.com/users/RyanFleck/received_events",
+      repos_url: "https://api.github.com/users/RyanFleck/repos",
+      starred_url: "https://api.github.com/users/RyanFleck/starred{/owner}{/repo}",
+      subscriptions_url: "https://api.github.com/users/RyanFleck/subscriptions"}},
+   provider: :github, strategy: Ueberauth.Strategy.Github, uid: < hidden >}}
+++++++++++++++++++
+%{"code" => " < hidden > ", "provider" => "github"}
+++++++++++++++++++
+[info] Sent 302 in 625ms
+[info] GET /
+```
+
+**Awesome.** That was easy.
+
+...the first logged property here, `conn.assigns`, contains a bunch of data put there by ueberauth. This is also where **we** should stash additional data about the connection.
+
+## User Table Migrations & Model
+
+```
+> mix ecto.gen.migration add_users
+* creating priv/repo/migrations
+* creating priv/repo/migrations/20221219181732_add_users.exs
+```
+
+Open `20221219181732_add_users.exs` and add:
+
+```ex
+defmodule Discuss.Repo.Migrations.AddUsers do
+  use Ecto.Migration
+
+  def change do
+    create table(:users) do
+      add :email, :string
+      add :provider, :string
+      add :token, :string
+
+      # This adds created_at and last_modified fields
+      timestamps()
+    end
+  end
+end
+```
+
+Finally, migrate the changes.
+
+```
+> mix ecto.migrate
+[info] == Running Discuss.Repo.Migrations.AddUsers.change/0 forward
+[info] create table users
+[info] == Migrated in 0.0s
+```
+
+Add a `user.ex` model and add the following:
+
+```ex
+defmodule Discuss.User do
+  use Discuss.Web, :model
+
+  # We ALWAYS need to define two things in a model:
+  # 1. Schema, 2. Changeset
+
+  schema "users" do
+    field :email, :string
+    field :provider, :string
+    field :token, :string
+    timestamps()
+  end
+
+  def changeset(struct, params \\ %{}) do
+    # Cast the struct and params, then validate the fields
+    struct
+    |> cast(params, [:email, :provider, :token])
+    |> validate_required([:email, :provider, :token])
+  end
+
+end
+```
+
+
+
+## Update the AuthController
+
+We need to accesss some of the data pulled from `ueberauth` on the `conn.assigns` object to create or authenticate our user.
+
+From the auth object, we want the user's token and email.
+
+```ex
+def callback(conn, params) do
+  # Pull the 'auth' struct off the connection.
+  %{assigns: %{ueberauth_auth: auth}} = conn
+  user_params = %{
+    token: auth.credentials.token,
+    email: auth.info.email,
+    provider: auth.provider
+  }
+  IO.puts "++++++++++++++++++"
+  IO.inspect(user_params)
+  IO.puts "++++++++++++++++++"
+  conn
+  |> put_flash(:info, "Welcome back!")
+  |> redirect(to: topic_path(conn, :index))
+end
+```
+
+```
+%{email: "ryan.fleck@protonmail.com", provider: :github,
+  token: "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"}
+```
+
+Next, prepare the changeset:
+
+```ex
+# In the module, just type 'User' instead of 'Discuss.User'
+alias Discuss.User
+
+  # Make our changeset:
+  changeset = User.changeset(%User{}, user_params)
+```
+
+Define a **private function** with **defp**!
+
+(**ASIDE**) _I think if I were to build an application, it would use a variety of OAuth methods, but every valid method would need to be linked to an email, the email would dictate unique users, and if an email was registered in duplicate I would prompt users to sign in with (that original provider) and autheticate their new provider from there._
+
+_The user table would just contain an email, and separate provider tables would exist for each provider, and users would be able to add as many providers as they wanted to their accounts to enable additional features._
+
+We will use the `get_by` function to search for existing users with the email provided by Github.
+
+**The authentication plan:**
+
+1. User OAuths with Github
+2. We insert the records into Postgres
+3. Database record gets an ID for the user
+4. That ID is placed in the user cookie
+5. Cookie is sent back to the server on repeated requests  
+   (This is a **session**)
+
+Cookies are on encrypted strings and are not user editable.
+
+```ex
+defmodule Discuss.AuthController do
+  use Discuss.Web, :controller
+  plug Ueberauth
+
+  # Just type 'User' instead of 'Discuss.User'
+  alias Discuss.User
+
+  def callback(conn, params) do
+    # Pull the 'auth' struct off the connection.
+    %{assigns: %{ueberauth_auth: auth}} = conn
+    user_params = %{
+      token: auth.credentials.token,
+      email: auth.info.email,
+      provider: Atom.to_string(auth.provider)
+    }
+
+    IO.inspect(user_params)
+
+    # Make our changeset:
+    changeset = User.changeset(%User{}, user_params)
+
+    # TODO: Insert records.
+    signin(conn, changeset)
+
+    conn
+    |> put_flash(:info, "Welcome back!")
+    |> redirect(to: topic_path(conn, :index))
+  end
+
+  defp insert_or_update_user(changeset) do
+    # If this returns nil, we should add the user, otherwise it'll return a user
+    case Repo.get_by(User, email: changeset.changes.email) do
+      nil -> Repo.insert(changeset)
+      user -> {:ok, user}  # (same return format as repo.get_by)
+    end
+  end
+
+  defp signin(conn, changeset) do
+    case insert_or_update_user(changeset) do
+      {:ok, user} ->
+        conn
+        |> put_flash(:info, "Welcome back! (You are logged in.)")
+        |> put_session(:user_id, user.id)  # we add the user ID to the session.
+        |> redirect(to: topic_path(conn, :index))
+        # Now the user is 'logged in'.
+      {:error, reason } ->
+        IO.inspect(reason)
+        conn
+        |> put_flash(:error, "Failed to sign in.")
+        |> redirect(to: topic_path(conn, :index))
+    end
+  end
+end
+```
 
 
 
