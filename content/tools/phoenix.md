@@ -31,7 +31,6 @@ The content on this page is largely pulled from other sources and collected here
 1. [Stephen Grider's "Complete Elixir and Phoenix Bootcamp"](https://www.udemy.com/course/the-complete-elixir-and-phoenix-bootcamp-and-tutorial/)
 2. Notes from [elixirforum.com](https://elixirforum.com/) with refs given
 
-
 # Installation
 
 Install [Elixir.](https://elixir-lang.org/install.html)
@@ -2976,7 +2975,7 @@ Checking our records, we can now see that new records have the `user_id` associa
 
 ```
 id   title                         user_id
-9    "Yeeehaw Conspiracy"          nil	
+9    "Yeeehaw Conspiracy"          nil
 11   "Test ID with association 2"  1
 ```
 
@@ -2988,19 +2987,17 @@ The list view `/topic/index.html.eex` can now be updated:
 <h2>Topics</h2>
 
 <ul class="collection">
-
-    <!-- Let's iterate through the *topics* list -->
-    <%= for topic <- @topics do %>
-        <li class="collection-item">
-            <%= topic.title %>
-            <%= if @conn.assigns.user.id == topic.user_id do %>
-            <div class="right">
-                <%= link "Edit", to: topic_path(@conn, :edit, topic) %>
-                <%= link "Delete", to: topic_path(@conn, :delete, topic), method: :delete %>
-            </div> 
-            <% end %>
-        </li>
+  <!-- Let's iterate through the *topics* list -->
+  <%= for topic <- @topics do %>
+  <li class="collection-item">
+    <%= topic.title %> <%= if @conn.assigns.user.id == topic.user_id do %>
+    <div class="right">
+      <%= link "Edit", to: topic_path(@conn, :edit, topic) %> <%= link "Delete",
+      to: topic_path(@conn, :delete, topic), method: :delete %>
+    </div>
     <% end %>
+  </li>
+  <% end %>
 </ul>
 ```
 
@@ -3013,7 +3010,7 @@ We must also enforce ownership on edit, update, and delete. We can do this with 
 Add to the topic controller:
 
 ```ex
-plug :check_post_owner when 
+plug :check_post_owner when
   action in [:update, :edit, :delete]
 ```
 
@@ -3053,10 +3050,86 @@ Our router already implements `resources` so the path to 'get' a single item is 
 
 ```ex
 def show(conn, %{"id" => topic_id}) do
-  topic = Repo.get(Topic, topic_id)
-  render conn, "show.html", topic
+  topic = Repo.get!(Topic, topic_id)
+  render conn, "show.html", topic: topic
 end
 ```
 
+Now in `topic/show.html.eex` write:
+
+```html
+<%= @topic.title %>
+```
+
+And add links to this page in `topic/index.html.eex` like so:
+
+```html
+(id=<%= topic.id %>)
+<%= link topic.title, to: topic_path(@conn, :show, topic) %>
+```
+
+Navigating to a topic should work now.
+
+Let's add our comments migration:
+
+```
+> mix ecto.gen.migration add_comments
+* creating priv/repo/migrations
+* creating priv/repo/migrations/20221220221319_add_comments.exs
+```
+
+Write the migration and run it:
+
+```ex
+defmodule Discuss.Repo.Migrations.AddComments do
+  use Ecto.Migration
+
+  def change do
+    create table(:comments) do
+      add :content, :string
+      add :user_id, references(:users)
+      add :topic_id, references(:topics)
+      
+      timestamps()
+    end
+  end
+end
+```
+```
+> mix ecto.migrate
+[info] == Running Discuss.Repo.Migrations.AddComments.change/0 forward
+[info] create table comments
+[info] == Migrated in 0.0s
+```
+
+Create `models/comment.ex` and add:
+
+```ex
+defmodule Discuss.Comment do
+  use Discuss.Web, :model
+
+  schema "comments" do
+    field :content, :string
+    belongs_to :user, Discuss.User
+    belongs_to :topic, Discuss.Topic
+
+    timestamps()
+  end
+
+  def changeset(struct, params \\ %{}) do
+    struct
+    |> cast(params, [:content])
+    |> validate_required([:content])
+  end
+end
+```
+
+In the `User` and `Topic` models add:
+
+```ex
+has_many :comments, Discuss.Comment
+```
+
+...the relational structure is complete.
 
 **END**
