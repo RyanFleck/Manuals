@@ -1216,6 +1216,8 @@ Phoenix is a web application framework. Like Python's _Django_ or Ruby's _Rails_
 
 **There are other weird things about Phoenix that you need to understand that make the framework clearer and easier to modify.** These things are marked with the symbol **(ANTI-MAGIC)**.
 
+The creator of Phoenix is an individual named **Chris McCord**. Currently he works at **Fly.io**, and it would be good before starting to read this article that touches on the [history of Phoenix and LiveView](https://fly.io/blog/how-we-got-to-liveview/).
+
 # Phoenix 1.2: Installation
 
 The instructor suggests using **Phoenix 1.2**
@@ -3070,6 +3072,8 @@ And add links to this page in `topic/index.html.eex` like so:
 
 Navigating to a topic should work now.
 
+## Adding Comments
+
 Let's add our comments migration:
 
 ```
@@ -3131,5 +3135,8 @@ has_many :comments, Discuss.Comment
 ```
 
 ...the relational structure is complete.
+
+
+
 
 **END**
