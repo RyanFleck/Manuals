@@ -2575,8 +2575,6 @@ defmodule Discuss.User do
 end
 ```
 
-
-
 ## Update the AuthController
 
 We need to accesss some of the data pulled from `ueberauth` on the `conn.assigns` object to create or authenticate our user.
@@ -2691,6 +2689,223 @@ defmodule Discuss.AuthController do
 end
 ```
 
+## Plugs in Phoenix 1.2
 
+Plugs transform requests. Each plug does a small transformation on the connection struct.
+
+**Module plugs** are standalone, better for organizing large plugs, better for use in multiple controllers.
+
+**Function plugs** are better for use in a single controller.
+
+**Create the directory `/web/controllers/plugs`.** Add `plugs/set_user.ex`, and let's start to assemble our first plug to help with our authentication process. Start the plug like this:
+
+```ex
+defmodule Discuss.Plugs.SetUser do
+  import Plug.Conn
+  import Phoenix.Controller
+
+  alias Discuss.Repo
+  alias Discuss.User
+
+  # A plug module must define init and call functions
+
+  def init(_params) do
+  end
+
+  def call(conn, _params) do
+  end
+
+end
+```
+
+The **cond** statement (heh, lisp vibes,) evaluates each statement in a similar form to **case** and executes the first statement that evaluates as true.
+
+Similar to react, Elixir handles booleans compared with `&&` like react, where it returns the first false or the final true.
+
+The finished plug to grab the user from the session looks like:
+
+```ex
+defmodule Discuss.Plugs.SetUser do
+  import Plug.Conn
+  import Phoenix.Controller
+
+  alias Discuss.Repo
+  alias Discuss.User
+
+  # A plug module must define init and call functions
+
+  def init(_params) do
+  end
+
+  def call(conn, _params) do
+
+    # get_session comes from Phoenix.Controller
+    user_id = get_session(conn, :user_id)
+
+    # Cond implicitly returns a connection
+    #  with or without a user attached
+    cond do
+      user = user_id && Repo.get(User, user_id) ->
+        # assign is a helper to update the assigns struct
+        # assign comes from Plug.Conn
+        assign(conn, :user, user)
+      true ->
+        assign(conn, :user, nil)
+    end
+  end
+end
+```
+
+At the end of your `:browser` pipeline, add:
+
+```ex
+plug Discuss.Plugs.SetUser
+```
+
+Nice.
+
+## Showing Login Status
+
+In `app.html.eex` the navbar can be augmented with:
+
+```html
+<nav class="light-blue">
+  <div class="nav-wrapper container">
+    <a href="/" class="brand-logo">Discussions</a>
+    <ul class="right">
+      <!-- is the user signed in or not? -->
+      <%= if @conn.assigns[:user] do %>
+      <li>Logout</li>
+      <% else %>
+      <li>
+        <%= link "Sign in with Github", to: auth_path(@conn, :request, :github)
+        %>
+      </li>
+      <% end %>
+    </ul>
+  </div>
+</nav>
+```
+
+**(MAGIC)** Like `topic_path` before, `auth_path` will enable us to call methods within the Auth controller.
+
+## Logging Out
+
+Add the following to your router:
+
+```
+# Logout route
+get "/signout", AuthController, :signout
+```
+
+...at the **top**. If you add it after the other routes, it will assume that you want to use the 'signout' provider. Not good!
+
+Add this to `AuthController`:
+
+```ex
+def signout(conn, changeset) do
+  conn
+  # My guess: |> put_session(:user_id, nil)
+  # This instead drops all session data:
+  |> configure_session(drop: true)
+  |> redirect(to: topic_path(conn, :index))
+end
+```
+
+Our **Github OAuth flow is complete!**
+
+## Securing User Data: Controller Scope Plugs
+
+Let's make sure:
+
+- Only users who are signed in can view the 'create post' page and submit a post.
+- Users can ony edit their own posts.
+
+Make a new plug called `RequireAuth`.
+
+```ex
+defmodule Discuss.Plugs.RequireAuth do
+  import Plug.Conn  # gives halt
+  import Phoenix.Controller  # gives put_flash and redirect
+
+  alias Discuss.Router.Helpers
+
+  def init(_params) do
+  end
+
+  def call(conn, _params) do
+    # If you are signed in, carry on, else go home
+    if conn.assigns[:user] do
+      conn  # returning the conn object is how you end a plug
+    else
+      conn
+      |> put_flash(:error, "You must be logged in to do that.")
+      # Use 'Helpers'
+      |> redirect_to(to: Helpers.topic_path(conn, :index))
+      |> halt()  # SEND IT BACK NOW. From Plug.Conn
+      # halt: plugs can end a connection before they get to the controller
+    end
+  end
+end
+```
+
+How do we only apply this plug to particular routes?
+
+To plug this to every handler in a module we'd include it at the top under the `use`/`alias` statements like so:
+
+```ex
+defmodule Discuss.TopicController do
+  use Discuss.Web, :controller
+  alias Discuss.Topic
+  plug Discuss.Plugs.RequireAuth
+  # ...
+```
+
+We will add a **guard clause** to ensure it only runs on specific actions.
+
+```ex
+plug Discuss.Plugs.RequireAuth when
+  action in [:new, :create, :edit, :update, :delete]
+```
+
+...and it works.
+
+## Who Owns That Post? (Update Migration)
+
+A single user can make many topics. A topic only belongs to one user. A one-to-many relation is best.
+
+Let's add a column to our table of topics called `user_id`.
+
+First, create the migration file.
+
+```
+> mix ecto.gen.migration add_user_id_to_topics
+Generated discuss app
+* creating priv/repo/migrations
+* creating priv/repo/migrations/20221220050357_add_user_id_to_topics.exs
+```
+
+Write the migration.
+
+```ex
+defmodule Discuss.Repo.Migrations.AddUserIdToTopics do
+  use Ecto.Migration
+
+  def change do
+    alter table(:topics) do
+      add :user_id, references(:users)
+    end
+  end
+end
+```
+
+Run the migration.
+
+```
+> mix ecto.migrate
+[info] == Running Discuss.Repo.Migrations.AddUserIdToTopics.change/0 forward
+[info] alter table topics
+[info] == Migrated in 0.0s
+```
 
 **END**
