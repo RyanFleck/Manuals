@@ -24,6 +24,14 @@ The BEAM itself is akin to Java's JVM.
 
 Luckily my current employer has excellent learning resources, so I have access to a few courses on Elixir and Phoenix. Focus #1 is to get a solid understanding of Elixir basics: how to write, test, and use the toolbox.
 
+## Source Material
+
+The content on this page is largely pulled from other sources and collected here for reference. Here are the largest sources. Please let me know if you'd like me to take things down for copyright purposes.
+
+1. [Stephen Grider's "Complete Elixir and Phoenix Bootcamp"](https://www.udemy.com/course/the-complete-elixir-and-phoenix-bootcamp-and-tutorial/)
+2. Notes from [elixirforum.com](https://elixirforum.com/) with refs given
+
+
 # Installation
 
 Install [Elixir.](https://elixir-lang.org/install.html)
@@ -2942,6 +2950,113 @@ SELECT u0."id", u0."email", u0."provider", u0."token", u0."inserted_at", u0."upd
  updated_at: ~N[2022-12-19 20:49:03.477000]}
 ```
 
-**(ANTI-MAGIC)** Whenever we fetch an item from the database with associations, Phoenix by default will **not** load the associated records.
+**(ANTI-MAGIC)** Whenever we fetch an item from the database with associations, Phoenix by default will **not** load the associated records. More code must be written to fetch these additional relations.
+
+In the Topic Controller, we will use [build_assoc/3](https://hexdocs.pm/ecto/2.0.5/Ecto.html#build_assoc/3) to add the user to the topic struct:
+
+```ex
+def create(conn, %{"topic" => topic}) do
+  # current user is conn.assigns[:user] or conn.assigns.user
+  # old:  changeset = Topic.changeset(%Topic{}, topic)
+  changeset = conn.assigns.user
+  |> build_assoc(:topics)
+  |> Topic.changeset(topic)
+
+  case Repo.insert(changeset) do
+    {:ok, _post} ->
+      conn
+      |> put_flash(:info, "Topic Created")
+      |> redirect(to: topic_path(conn, :index))
+    {:error, err_changeset} -> render conn, "new.html", changeset: err_changeset
+  end
+end
+```
+
+Checking our records, we can now see that new records have the `user_id` association correctly set:
+
+```
+id   title                         user_id
+9    "Yeeehaw Conspiracy"          nil	
+11   "Test ID with association 2"  1
+```
+
+Good, the **association with the user is now saved to the db.**
+
+The list view `/topic/index.html.eex` can now be updated:
+
+```html
+<h2>Topics</h2>
+
+<ul class="collection">
+
+    <!-- Let's iterate through the *topics* list -->
+    <%= for topic <- @topics do %>
+        <li class="collection-item">
+            <%= topic.title %>
+            <%= if @conn.assigns.user.id == topic.user_id do %>
+            <div class="right">
+                <%= link "Edit", to: topic_path(@conn, :edit, topic) %>
+                <%= link "Delete", to: topic_path(@conn, :delete, topic), method: :delete %>
+            </div> 
+            <% end %>
+        </li>
+    <% end %>
+</ul>
+```
+
+Comparing `@conn.assigns.user.id == topic.user_id` allows us to only show options that won't cause the user to be error-redirected.
+
+We must also enforce ownership on edit, update, and delete. We can do this with another plug.
+
+## Who Can Edit That Post? (Function Plugs)
+
+Add to the topic controller:
+
+```ex
+plug :check_post_owner when 
+  action in [:update, :edit, :delete]
+```
+
+...this will check the current module for a function plug called `check_post_owner`.
+
+Now just write the function plug and things will work:
+
+```ex
+# FUNCTION PLUG
+def check_post_owner(conn, _params) do
+  # If the post has the same user_id as the user, pass, otherwise halt
+  %{params: %{"id" => topic_id}} = conn
+
+  if Repo.get(Topic, topic_id).user_id == conn.assigns.user.id do
+    conn
+  else
+    conn
+    |> put_flash(:error, "You do not own that resource.")
+    |> redirect(to: topic_path(conn, :index))
+    |> halt()
+  end
+end
+```
+
+# Phoenix 1.2: Websockets
+
+We're going to add commenting functionality to our topics, and use websockets to send live updates to anybody viewing the page, so the topic stays updated.
+
+It's going to work something like this:
+
+1. User fills out a comment form and hits 'submit'
+2. Server receives emitted websocket event
+3. Server catches event and creates comment
+4. Server emits event with new list of comments to all clients
+
+Our router already implements `resources` so the path to 'get' a single item is already set to the atom `:show` and we just need to write the function in our topic controller.
+
+```ex
+def show(conn, %{"id" => topic_id}) do
+  topic = Repo.get(Topic, topic_id)
+  render conn, "show.html", topic
+end
+```
+
 
 **END**
