@@ -2908,4 +2908,40 @@ Run the migration.
 [info] == Migrated in 0.0s
 ```
 
+Django does actually have a better ORM from this perspective: migrations are created automatically as models are edited and updated. This does not negate the advantages of Phoenix. Still, we must manually set up this relationship in Phoenix in the User model:
+
+```ex
+# -> in models/user.ex
+schema "users" do
+  field :email, :string
+  field :provider, :string
+  field :token, :string
+  has_many :topics, Discuss.Topic
+
+  timestamps()
+end
+
+# -> in models/topic.ex
+schema "topics" do
+  field :title, :string
+  belongs_to :user, Discuss.User
+end
+```
+
+```
+> iex.bat -S mix
+Interactive Elixir (1.5.3) - press Ctrl+C to exit (type h() ENTER for help)
+iex(1)> Discuss.Repo.get(Discuss.User, 1)
+[debug] QUERY OK source="users" db=0.0ms
+SELECT u0."id", u0."email", u0."provider", u0."token", u0."inserted_at", u0."updated_at" FROM "users" AS u0 WHERE (u0."id" = $1) [1]
+%Discuss.User{__meta__: #Ecto.Schema.Metadata<:loaded, "users">,
+ email: " < email > ", id: 1,
+ inserted_at: ~N[2022-12-19 20:49:03.464000], provider: "github",
+ token: " < token > ",
+ topics: #Ecto.Association.NotLoaded<association :topics is not loaded>,
+ updated_at: ~N[2022-12-19 20:49:03.477000]}
+```
+
+**(ANTI-MAGIC)** Whenever we fetch an item from the database with associations, Phoenix by default will **not** load the associated records.
+
 **END**
