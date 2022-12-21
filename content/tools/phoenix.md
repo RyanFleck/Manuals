@@ -1945,5 +1945,70 @@ has_many :comments, Discuss.Comment
 
 Channels must implement **join** and **handle_in**. Join is run when a user initially joins a channel. Handle-in is invoked whenever an event comes from the user's client.
 
+**If we want to use Elixir with any sort of PWA we'll likely use channels to move data back and forth.**
+
+The default Phoenix socket implementation has two sides:
+
+**--- socket.js** for the client side
+
+```js
+import {Socket} from "phoenix"
+
+let socket = new Socket("/socket", {params: {token: window.userToken}})
+
+socket.connect()
+
+// Now that you are connected, you can join channels with a topic:
+let channel = socket.channel("topic:subtopic", {})
+channel.join()
+  .receive("ok", resp => { console.log("Joined successfully", resp) })
+  .receive("error", resp => { console.log("Unable to join", resp) })
+
+export default socket
+```
+
+**--- user_socket.ex** for the server side
+
+
+```ex
+defmodule Discuss.UserSocket do
+  use Phoenix.Socket
+
+  # channel "room:*", Discuss.RoomChannel
+
+  transport :websocket, Phoenix.Transports.WebSocket
+  
+  def connect(_params, socket) do
+    {:ok, socket}
+  end
+
+  def id(_socket), do: nil
+end
+```
+
+...both of these have loads of comments and disabled code with instructions, which have been removed as we'll explain the necessary additions.
+
+For this implementation we'll just be implementing a single channel per resource, and that resource in this case is `Comments`.
+
+Create the file `web/channels/comments_channel.ex` and write:
+
+```ex
+defmodule Discuss.CommentsChannel do
+  use Discuss.Web, :channel
+
+  def join(), do: end
+  def handle_in(), do: end
+end
+```
+
+Add this line to `user_socket.ex` below the commented channel line:
+
+```ex
+channel "comments:*", Discuss.CommentsChannel
+```
+
+The `*` here is a **wildcard** meaning all matching traffic will be forwarded to the `CommentsChannel` module.
+
+Docs: [Phoenix 1.2.5 - join(topic, auth_msg, arg2)](https://hexdocs.pm/phoenix/1.2.5/Phoenix.Channel.html#c:join/3)
 
 **END**
