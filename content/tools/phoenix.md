@@ -2007,8 +2007,57 @@ Add this line to `user_socket.ex` below the commented channel line:
 channel "comments:*", Discuss.CommentsChannel
 ```
 
-The `*` here is a **wildcard** meaning all matching traffic will be forwarded to the `CommentsChannel` module.
+The `*` here is a **wildcard** meaning all matching traffic to this route will be forwarded to the `CommentsChannel` module.
 
 Docs: [Phoenix 1.2.5 - join(topic, auth_msg, arg2)](https://hexdocs.pm/phoenix/1.2.5/Phoenix.Channel.html#c:join/3)
+
+Join is called whenever a JavaScript client attempts to join a channel.
+
+To see the most basic working example, modify `comments_channel.ex` to read:
+
+```ex
+defmodule Discuss.CommentsChannel do
+  use Discuss.Web, :channel
+
+  def join(name, _params, socket) do
+    IO.puts("+++++++++++++++++++++++++++++++++++++++++++++")
+    IO.puts(name)
+    {:ok, %{ test: "value1" }, socket}
+  end
+  def handle_in() do
+
+  end
+end
+```
+
+In `socket.js` change `socket.channel`'s string argument to `"comments:1"`.
+
+In `app.js` uncomment the final line to import the socket.
+
+If you run your app, the browser console will now show:
+
+```
+Joined successfully {test: 'value1'}
+```
+
+The server console will show: 
+
+```
+[info] Sent 200 in 0┬╡s
++++++++++++++++++++++++++++++++++++++++++++++
+[info] JOIN comments:1 to Discuss.CommentsChannel
+  Transport:  Phoenix.Transports.WebSocket
+  Parameters: %{}
+comments:1
+[info] Replied comments:1 :ok
+```
+
+How this is all working:
+
+1. When the web app is opened, `socket.js` is run and attempts to join the channel `comments:1`.
+2. On the server side, the UserSocket handles all socket calls. A channel is defined to handle requests to `comments:*` and all requests are automatically accepted and passed to CommentsChannel.
+3. CommentsChannel prints the name of the channel and sends back a map.
+4. The map is printed as part of the success case on the client side.
+
 
 **END**
