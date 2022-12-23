@@ -2,7 +2,6 @@
 
 /* JBM */
 
-/*
 @font-face {
   font-family: "JetBrains Mono";
   src: url("/fonts/jbm/web/woff2/JetBrainsMono-Regular.woff2") format("woff2"),
@@ -32,7 +31,6 @@
   font-style: italic;
   font-display: swap;
 }
-*/
 
 /* CSS RESET: https://github.com/hankchizljaw/modern-css-reset */
 /* Box sizing rules */
@@ -128,7 +126,7 @@ span {
   /* These are not enforced if not important, wcyd? */
   -webkit-font-smoothing: antialiased !important;
   -moz-osx-font-smoothing: auto !important;
-  font-family: "SFMono-Regular", Consolas, Monaco, "Liberation Mono",
+  font-family: "JetBrains Mono", "SFMono-Regular", Consolas, Monaco, "Liberation Mono",
     "Noto Mono", Menlo, Courier, "Courier New", monospace !important;
   font-variant-ligatures: normal;
   -webkit-font-feature-settings: "liga" on, "calt" on;
@@ -235,7 +233,7 @@ ol {
 
 code {
   color: rgb(121, 10, 10);
-  font-family: "SFMono-Regular", Consolas, Monaco, "Liberation Mono",
+  font-family: "JetBrains Mono", "SFMono-Regular", Consolas, Monaco, "Liberation Mono",
     "Noto Mono", Menlo, Courier, "Courier New", monospace !important;
 }
 

@@ -913,7 +913,7 @@ Adding that delete method specification means Phoenix will insert a full form at
 
 ## Completed MVC Page
 
-**--- web/controllers/topic_controller.ex**
+**-> web/controllers/topic_controller.ex**
 
 ```ex
 defmodule Discuss.TopicController do
@@ -975,7 +975,7 @@ defmodule Discuss.TopicController do
 end
 ```
 
-**--- web/models/topic.ex**
+**-> web/models/topic.ex**
 
 ```ex
 defmodule Discuss.Topic do
@@ -993,7 +993,7 @@ defmodule Discuss.Topic do
 end
 ```
 
-**--- priv/repo/migrations/20221213030625_add_topics.exs**
+**-> priv/repo/migrations/20221213030625_add_topics.exs**
 
 ```ex
 defmodule Discuss.Repo.Migrations.AddTopics do
@@ -1007,7 +1007,7 @@ defmodule Discuss.Repo.Migrations.AddTopics do
 end
 ```
 
-**--- web/views/topic_view.ex**
+**-> web/views/topic_view.ex**
 
 ```ex
 defmodule Discuss.TopicView do
@@ -1015,7 +1015,7 @@ defmodule Discuss.TopicView do
 end
 ```
 
-**--- web/templates/index.html.eex**
+**-> web/templates/index.html.eex**
 
 ```html
 <h2>Topics</h2>
@@ -1041,7 +1041,7 @@ end
 </div>
 ```
 
-**--- web/templates/edit.html.eex**
+**-> web/templates/edit.html.eex**
 
 ```html
 <h3>Edit Topic</h3>
@@ -1053,7 +1053,7 @@ end
 <%= submit "Save Topic", class: "btn btn-primary" %> <% end %>
 ```
 
-**--- web/templates/new.html.eex**
+**-> web/templates/new.html.eex**
 
 ```html
 <h3>New Topic</h3>
@@ -1065,7 +1065,7 @@ end
 <%= submit "Save Topic", class: "btn btn-primary" %> <% end %>
 ```
 
-**--- web/router.ex**
+**-> web/router.ex**
 
 ```ex
 defmodule Discuss.Router do
@@ -1842,7 +1842,7 @@ def check_post_owner(conn, _params) do
 end
 ```
 
-# Phoenix 1.2: Websockets
+# Phoenix 1.2: Channels 
 
 We're going to add commenting functionality to our topics, and use websockets to send live updates to anybody viewing the page, so the topic stays updated.
 
@@ -1877,7 +1877,7 @@ And add links to this page in `topic/index.html.eex` like so:
 
 Navigating to a topic should work now.
 
-## Adding Comments
+## Adding the Comment Model
 
 Let's add our comments migration:
 
@@ -1942,7 +1942,7 @@ has_many :comments, Discuss.Comment
 
 ...the relational structure is complete.
 
-## Channels
+## Setting Up Channels
 
 Channels must implement **join** and **handle_in**. Join is run when a user initially joins a channel. Handle-in is invoked whenever an event comes from the user's client.
 
@@ -1950,7 +1950,7 @@ Channels must implement **join** and **handle_in**. Join is run when a user init
 
 The default Phoenix socket implementation has two sides:
 
-**--- socket.js** for the client side
+**-> socket.js** for the client side
 
 ```js
 import { Socket } from "phoenix";
@@ -1973,7 +1973,7 @@ channel
 export default socket;
 ```
 
-**--- user_socket.ex** for the server side
+**-> user_socket.ex** for the server side
 
 ```ex
 defmodule Discuss.UserSocket do
@@ -2109,7 +2109,7 @@ comment:hello
 %{"hi" => "this is new data!"}
 ```
 
-# Channels: Propagating Updates
+## Joining the Correct Channel
 
 Now we will completely refactor our client side Javascript to a class that takes the topic ID as an argument and joins the correct channel, then grabs the latest few comments and loads new ones when they are sent.
 
@@ -2151,5 +2151,26 @@ import "./socket";
 ...so the file is simply executed.
 
 The reason we are building things this way is because we only want this Javascript to run when a _show_ template is opened.
+
+When opening a show view, the console will now show:
+
+```
+[info] Sent 200 in 0┬╡s
+[info] JOIN comments:3 to Discuss.CommentsChannel
+  Transport:  Phoenix.Transports.WebSocket
+  Parameters: %{}
+```
+
+## Sending Data to the Client
+
+**(MAGIC)** Here's another really great **pattern matching** example to ensure the client joins the correct channel:
+
+```ex
+def join("comments:" <> topic_id, _params, socket) do
+  {:ok, %{ test: "value1" }, socket}
+end
+```
+
+This will **pattern match the string** and extract the number on the end into the variable `topic_id`. In any other language, this operation would take at least a couple more lines. Not so with Elixir!!! Magic `<>`.
 
 **END**
