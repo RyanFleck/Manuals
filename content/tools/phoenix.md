@@ -1842,7 +1842,7 @@ def check_post_owner(conn, _params) do
 end
 ```
 
-# Phoenix 1.2: Channels 
+# Phoenix 1.2: Channels
 
 We're going to add commenting functionality to our topics, and use websockets to send live updates to anybody viewing the page, so the topic stays updated.
 
@@ -2161,16 +2161,175 @@ When opening a show view, the console will now show:
   Parameters: %{}
 ```
 
-## Sending Data to the Client
+## Sending Data to the Server
+
+Let's create a simple little form to create comments.
+
+(On my personal site, when I write my own commenting engine, do a little check when creating a new comment-area to see if the page really exists on one of my own domains. Authenticate with GitHub and permanently ban users if they post more than 3 comments in 3 seconds.)
+
+(As a side project, you could scale this to an advance wars type of game. Would be cool to ramp that up to a battlesnake model.)
+
+Update `show.html.eex`:
+
+```html
+<h5><%= @topic.title %></h5>
+
+<div class="input-field">
+  <textarea id="comment-textarea" class="materialize-textarea"></textarea>
+  <button id="submit-comment" class="btn">Add Comment</button>
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function(){
+    window.createSocket(<%= @topic.id %>);
+  });
+</script>
+```
+
+Update `socket.js`:
+
+```js
+socket.connect();
+
+function createSocket(topicId) {
+  let channel = socket.channel(`comments:${topicId}`, {});
+  channel
+    .join()
+    .receive("ok", (resp) => {
+      console.log("Joined successfully", resp);
+    })
+    .receive("error", (resp) => {
+      console.log("Unable to join", resp);
+    });
+
+  const textArea = document.getElementById("comment-textarea");
+  const submitBtn = document.getElementById("submit-comment");
+
+  submitBtn.addEventListener("click", function () {
+    const content = textArea.value;
+    channel.push("comment:add", { content: content });
+  });
+}
+window.createSocket = createSocket;
+```
+
+```
+[info] Replied comments:3 :ok
++++++++++++++++++
+comment:add
+%{"content" => "asdf"}
+```
+
+Nice. Let's extract that and add it to the database.
+
+**(MAGIC)** there is no state stored in an object, but the **socket struct is much like our connection struct and can hold some data for us.**
+
+We use an `assign` to stash the topic info in our socket.
+
+We stash the comment value in the database when we receive it.
+
+```ex
+defmodule Discuss.CommentsChannel do
+  use Discuss.Web, :channel
+  alias Discuss.{Topic, Comment}
+
+  def join("comments:" <> topic_id_str, _params, socket) do
+    topic_id = String.to_integer(topic_id_str)
+    topic = Repo.get(Topic, topic_id)
+    {:ok, %{ test: "value1" }, assign(socket, :topic, topic)}
+  end
+
+  def handle_in(name, %{"content" => content}, socket) do
+    topic = socket.assigns.topic
+
+    changeset = topic
+    # build an empty comment associated with our topic
+    |> build_assoc(:comments)
+    # add in the content from the user
+    |> Comment.changeset(%{ content: content })
+
+    case Repo.insert(changeset) do
+      {:ok, comment} ->
+        {:reply, :ok, socket}
+      {:error, _reason} ->
+        {:reply, {:error, %{errors: changeset}}, socket}
+    end
+  end
+end
+```
+
+```
+[debug] QUERY OK db=0.0ms
+INSERT INTO "comments" ("content","topic_id","inserted_at","updated_at") VALUES ($1,$2,$3,$4) RETURNING "id"
+["first comment!", 3, {{2022, 12, 23}, {19, 49, 20, 390000}}, {{2022, 12, 23}, {19, 49, 20, 390000}}]
+[debug] QUERY OK db=16.0ms
+```
+
+## Sending Data Back to the Client
 
 **(MAGIC)** Here's another really great **pattern matching** example to ensure the client joins the correct channel:
 
 ```ex
 def join("comments:" <> topic_id, _params, socket) do
-  {:ok, %{ test: "value1" }, socket}
-end
 ```
 
-This will **pattern match the string** and extract the number on the end into the variable `topic_id`. In any other language, this operation would take at least a couple more lines. Not so with Elixir!!! Magic `<>`.
+This will **pattern match the string** and extract the number on the end into the variable `topic_id`. In any other language, this operation would take at least a couple more lines. Not so with Elixir!!! Magic `<>`. Unfortunately it does still pull it out as a string, so we'll need to specify that conversion.
+
+...unfortunately at this point the Poison encoder will blow up if we just try and fling the Topic struct we get back from the database (using `Repo.get` with our topic id,) back to the client.
+
+Though we _could_ prerender the comments on the template, we are going to render all the comments via the socket for simplicity.
+
+Let's first grab the comments associated with the article:
+
+```ex
+topic_id = String.to_integer(topic_id_str)
+topic = Repo.get(Topic, topic_id)
+  |> Repo.preload(:comments)
+
+{:ok, %{ comments: topic.comments }, 
+  assign(socket, :topic, topic)}
+```
+
+...trying to run this now and return `topic.comments` will throw a huge error. The JSON form of the model must be specified. This can be done by specifying the fields to send in `comment.ex` with one line:
+
+```ex
+@derive {Poison.Encoder, only: [:content, :inserted_at]}
+```
+The browser will now show the comments like so:
+
+```js
+{
+  inserted_at: '2022-12-23T19:49:20.390000',
+  content: 'first comment!'
+},
+{
+  inserted_at: '2022-12-23T21:45:40.959000',
+  content: 'Wow this is great'
+}
+```
+
+**Great.**
+
+Now let's render them. Add this to your show html:
+
+```html
+<ul id="comments" class="collection"></ul>
+```
+...and pass `resp.comments` into a function like this:
+
+```js
+function renderComments(comments) {
+  const output = comments.map((comment) => {
+    return `<li class="collection-item">
+      ${comment.content}
+    </li>`;
+  });
+
+  document.getElementById("comments").innerHTML = output.join("");
+}
+```
+
+## Broadcasting Updates to All Users
+
 
 **END**
