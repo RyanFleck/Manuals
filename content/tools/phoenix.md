@@ -2286,7 +2286,7 @@ topic_id = String.to_integer(topic_id_str)
 topic = Repo.get(Topic, topic_id)
   |> Repo.preload(:comments)
 
-{:ok, %{ comments: topic.comments }, 
+{:ok, %{ comments: topic.comments },
   assign(socket, :topic, topic)}
 ```
 
@@ -2295,6 +2295,7 @@ topic = Repo.get(Topic, topic_id)
 ```ex
 @derive {Poison.Encoder, only: [:content, :inserted_at]}
 ```
+
 The browser will now show the comments like so:
 
 ```js
@@ -2315,6 +2316,7 @@ Now let's render them. Add this to your show html:
 ```html
 <ul id="comments" class="collection"></ul>
 ```
+
 ...and pass `resp.comments` into a function like this:
 
 ```js
@@ -2331,5 +2333,38 @@ function renderComments(comments) {
 
 ## Broadcasting Updates to All Users
 
+Before the OK reply in `handle_in` add:
+
+```ex
+broadcast!(
+  socket,
+  "comments:#{socket.assigns.topic.id}:new",
+  %{ comment: comment }
+  )
+```
+
+This event will be broadcast to everyone else on the socket. On the client side, add this line to your `createSocket` function:
+
+```js
+channel.on(`comments:${topicId}:new`, renderComment);
+```
+
+And outside that:
+
+```js
+function renderComment(resp) {
+  document.getElementById("comments").innerHTML += commentTemplate(
+    resp.comment.content
+  );
+}
+
+function commentTemplate(text) {
+  return `<li class="collection-item">
+      ${text}
+    </li>`;
+}
+```
+
+Broadcast will now function. Beautifully.
 
 **END**
