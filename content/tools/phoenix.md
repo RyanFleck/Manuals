@@ -2059,5 +2059,53 @@ How this is all working:
 3. CommentsChannel prints the name of the channel and sends back a map.
 4. The map is printed as part of the success case on the client side.
 
+If you **add a button** to the show template, like so:
+
+```html
+<button id="ping0">Ping!</button>
+```
+
+And write a `handle_in` function:
+
+```ex
+defmodule Discuss.CommentsChannel do
+  use Discuss.Web, :channel
+
+  def join(name, _params, socket) do
+    {:ok, %{ test: "value1" }, socket}
+  end
+
+  def handle_in(name, message, socket) do
+    IO.puts("+++++++++++++++++")
+    IO.puts(name)
+    IO.inspect(message)
+    {:reply, :ok, socket} # reply to the user, all is fine.
+  end
+end
+```
+
+...and finally write some js to push an update when that button is clicked...
+
+```js
+document.getElementById("ping0").addEventListener('click', function() {
+  channel.push('comment:hello', { hi: "this is new data!" });
+});
+```
+
+...you will see the channel update on the server side:
+
+```
+[info] JOIN comments:1 to Discuss.CommentsChannel
+  Transport:  Phoenix.Transports.WebSocket
+  Parameters: %{}
+[info] Replied comments:1 :ok
++++++++++++++++++
+comment:hello
+%{"hi" => "this is new data!"}
+```
+
+# Channels: Propagating Updates
+
+x
 
 **END**
