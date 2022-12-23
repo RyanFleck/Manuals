@@ -10,7 +10,7 @@ title: Phoenix
 
 Phoenix is a web application framework. Like Python's _Django_ or Ruby's _Rails_, Elixir has found _Phoenix_ to be the premier tool for web development. Elixir has some distinct advantages over these other languages.
 
-[See all of my Elixir notes in the **Elixir Manual**.]({{< ref "/languages/elixir.md" >}}) 
+[See all of my Elixir notes in the **Elixir Manual**.]({{< ref "/languages/elixir.md" >}})
 It would be good to read the _Elixir_ manual first if you are not familiar with the language,
 as it explains why the language is so special, along with how to consider problems with the
 constraints provided by the functional language.
@@ -1871,8 +1871,8 @@ Now in `topic/show.html.eex` write:
 And add links to this page in `topic/index.html.eex` like so:
 
 ```html
-(id=<%= topic.id %>)
-<%= link topic.title, to: topic_path(@conn, :show, topic) %>
+(id=<%= topic.id %>) <%= link topic.title, to: topic_path(@conn, :show, topic)
+%>
 ```
 
 Navigating to a topic should work now.
@@ -1898,12 +1898,13 @@ defmodule Discuss.Repo.Migrations.AddComments do
       add :content, :string
       add :user_id, references(:users)
       add :topic_id, references(:topics)
-      
+
       timestamps()
     end
   end
 end
 ```
+
 ```
 > mix ecto.migrate
 [info] == Running Discuss.Repo.Migrations.AddComments.change/0 forward
@@ -1952,23 +1953,27 @@ The default Phoenix socket implementation has two sides:
 **--- socket.js** for the client side
 
 ```js
-import {Socket} from "phoenix"
+import { Socket } from "phoenix";
 
-let socket = new Socket("/socket", {params: {token: window.userToken}})
+let socket = new Socket("/socket", { params: { token: window.userToken } });
 
-socket.connect()
+socket.connect();
 
 // Now that you are connected, you can join channels with a topic:
-let channel = socket.channel("topic:subtopic", {})
-channel.join()
-  .receive("ok", resp => { console.log("Joined successfully", resp) })
-  .receive("error", resp => { console.log("Unable to join", resp) })
+let channel = socket.channel("topic:subtopic", {});
+channel
+  .join()
+  .receive("ok", (resp) => {
+    console.log("Joined successfully", resp);
+  })
+  .receive("error", (resp) => {
+    console.log("Unable to join", resp);
+  });
 
-export default socket
+export default socket;
 ```
 
 **--- user_socket.ex** for the server side
-
 
 ```ex
 defmodule Discuss.UserSocket do
@@ -1977,7 +1982,7 @@ defmodule Discuss.UserSocket do
   # channel "room:*", Discuss.RoomChannel
 
   transport :websocket, Phoenix.Transports.WebSocket
-  
+
   def connect(_params, socket) do
     {:ok, socket}
   end
@@ -2040,7 +2045,7 @@ If you run your app, the browser console will now show:
 Joined successfully {test: 'value1'}
 ```
 
-The server console will show: 
+The server console will show:
 
 ```
 [info] Sent 200 in 0┬╡s
@@ -2087,8 +2092,8 @@ end
 ...and finally write some js to push an update when that button is clicked...
 
 ```js
-document.getElementById("ping0").addEventListener('click', function() {
-  channel.push('comment:hello', { hi: "this is new data!" });
+document.getElementById("ping0").addEventListener("click", function () {
+  channel.push("comment:hello", { hi: "this is new data!" });
 });
 ```
 
@@ -2106,6 +2111,45 @@ comment:hello
 
 # Channels: Propagating Updates
 
-x
+Now we will completely refactor our client side Javascript to a class that takes the topic ID as an argument and joins the correct channel, then grabs the latest few comments and loads new ones when they are sent.
+
+```js
+socket.connect();
+
+function createSocket(topicId) {
+  let channel = socket.channel(`comments:${topicId}`, {});
+  channel
+    .join()
+    .receive("ok", (resp) => {
+      console.log("Joined successfully", resp);
+    })
+    .receive("error", (resp) => {
+      console.log("Unable to join", resp);
+    });
+}
+
+window.createSocket = createSocket;
+```
+
+Now we can mix Elixir, HTML, and JS to set this up client side:
+
+```html
+<%= @topic.title %>
+<script>
+  document.addEventListener("DOMContentLoaded", function(){
+    window.createSocket(<%= @topic.id %>);
+  });
+</script>
+```
+
+Finally, update the `app.js` file's last line to read:
+
+```js
+import "./socket";
+```
+
+...so the file is simply executed.
+
+The reason we are building things this way is because we only want this Javascript to run when a _show_ template is opened.
 
 **END**
