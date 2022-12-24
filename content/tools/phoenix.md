@@ -2367,4 +2367,116 @@ function commentTemplate(text) {
 
 Broadcast will now function. Beautifully.
 
+## Socket Authentication
+
+So far comments are being added with zero authentication. Whoops!
+
+To do this, we'll get the client-side Javascript to send back a token we embed into the layout. The user will be added to the socket once the token is verified.
+
+In the head of `app.html.eex` add:
+
+```html
+<script>
+  <%= if @conn.assigns.user do %>
+    window.userToken = "<%= Phoenix.Token.sign(Discuss.Endpoint, "key", @conn.assigns.user.id) %>"
+  <% end %>
+</script>
+```
+
+**Phoenix already assumes the token will be made available like this.**
+
+```js
+let socket = new Socket("/socket", { params: { token: window.userToken } });
+```
+
+In `user_socket.ex` modify the connect function:
+
+```ex
+def connect(%{"token" => token}, socket) do
+  {:ok, socket}
+end
+```
+
+...to then associate this with the user, we need to use `build_assoc` in an ugly way like this:
+
+```ex
+|> build_assoc(:comments, user_id: socket.assigns.user_id)
+```
+
+Done.
+
+
+## Loading User Profiles with Comments
+
+As easy as:
+
+```ex
+|> build_assoc(:comments, user_id: socket.assigns.user_id)
+```
+
+Update the Poison encoders:
+
+```ex
+# In Comment
+@derive {Poison.Encoder, only: [:content, :inserted_at, :user]}
+
+# In User
+@derive {Poison.Encoder, only: [:email]}
+```
+
+Updating your `commentTemplate` function will render the user email at the end of each comment.
+
+```js
+function commentTemplate(comment) {
+  let email = "Anon";
+  if(comment.user){
+    email = comment.user.email
+  }
+
+  return `<li class="collection-item">
+      ${comment.content}
+      <div class="secondary-content">${email}</div>
+    </li>`;
+}
+```
+
+# Phoenix 1.3
+
+[phoenixframework.org/blog/phoenix-1-3-0-released](https://www.phoenixframework.org/blog/phoenix-1-3-0-released)
+
+Differences in Phoenix 1.3:
+
+- New command shortcuts (`phoenix -> phx`)
+- New directory structure
+  - Web folder is split (biz logic, web communication)
+  - Client assets folder moved
+
+In our _Discuss_ application, we had three models: _Users, Topics,_ and _Comments_. With **Contexts**, these models would be grouped by systems, so _Users_ and _Topics & Comments_ would be split into **two** separate contexts, and not three, perhaps named **Accounts** and **Posts**.
+
+You could then spin up the models like so:
+
+```
+mix phx.gen.html <Context> <Model> <table> [fields <title:type>]
+
+mix phx.gen.html Accounts User users email:string
+mix phx.gen.html Discussions Topic topics title:string
+mix phx.gen.html Discussions Comment comments content:string
+```
+
+This automatically creates not only the (for example,) User schema/model in one file, it also creates CRUD function helpers in the higher context for easy manipulation of the model.
+
+**The Context serves as a high-level interface for working with all models within a system.**
+
+# Phoenix 1.6
+
+The latest version.
+
+- **Phoenix LiveView**
+- 
+
+## Phoenix LiveView
+
+add content
+
+
 **END**
