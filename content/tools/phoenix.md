@@ -2440,6 +2440,10 @@ function commentTemplate(comment) {
 }
 ```
 
+## Project Files
+
+Download the [.zip](/discuss.zip)
+
 # Phoenix 1.3
 
 [phoenixframework.org/blog/phoenix-1-3-0-released](https://www.phoenixframework.org/blog/phoenix-1-3-0-released)
