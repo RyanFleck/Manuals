@@ -1210,6 +1210,11 @@ end
 
 # Phoenix
 
-The most major Elixir topic has its own manual in the tools section, as originally it took up far more than half of this webpage.
+The most major Elixir topic has its own manual in the tools section, as originally it took up far more than half of this webpage and certainly deserved its own 'tools' page:
 
 [See all of my Phoenix notes in the **Phoenix Manual**.]({{< ref "/tools/phoenix.md" >}})
+
+# Other Projects & Tutorials
+
+1. Crypto Trading Bot [[book]](https://book.elixircryptobot.com/) [[video]](https://elixirforum.com/t/create-a-cryptocurrency-trading-bot-in-elixir/32313)
+1. PHX LiveView Messenger [[article]](https://curiosum.com/blog/elixir-phoenix-liveview-messenger-part-2)
