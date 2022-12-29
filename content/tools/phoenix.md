@@ -2409,7 +2409,6 @@ end
 
 Done.
 
-
 ## Loading User Profiles with Comments
 
 As easy as:
@@ -2433,8 +2432,8 @@ Updating your `commentTemplate` function will render the user email at the end o
 ```js
 function commentTemplate(comment) {
   let email = "Anon";
-  if(comment.user){
-    email = comment.user.email
+  if (comment.user) {
+    email = comment.user.email;
   }
 
   return `<li class="collection-item">
@@ -2488,11 +2487,33 @@ I'll be adding notes here with my personal experiences and successes/failures us
 
 - Store 'latest seen message' in User-Convo through model.
 
-## Phoenix LiveView 0.17.2
+## Cool Feature: Seeds
+
+Every Phoenix project has a `priv/repo/seeds.exs` directory.
+
+```
+# Script for populating the database. You can run it as:
+#
+#     mix run priv/repo/seeds.exs
+#
+# Inside the script, you can read and write to any of your
+# repositories directly:
+#
+#     HighTowerV3.Repo.insert!(%HighTowerV3.SomeSchema{})
+#
+# We recommend using the bang functions (`insert!`, `update!`
+# and so on) as they will fail if something goes wrong.
+```
+
+...hot damn, that's very useful for nuking the database and starting again from scratch. I'd done this with scripts in the past, but it's nice to see it was thought of here.
+
+
+
+## Phoenix LiveView 0.17.2 Example 1
 
 I'm taking a break from attempting to build my first chat application, _High Tower,_ to take a tutorial. I have a weak grip on Ecto and how it handles complex relationships.
 
-Notes from this  [PHX LiveView Tutorial](https://curiosum.com/blog/elixir-phoenix-liveview-messenger-part-2)
+Notes from this [PHX LiveView Tutorial](https://curiosum.com/blog/elixir-phoenix-liveview-messenger-part-2)
 and other sources.
 
 ```sh
@@ -2504,9 +2525,9 @@ docker run --name phoenix-dev-db -p 5432:5432
 Here's a description of what we are building:
 
 > We want to store users communicating messages between them. Each message is part of a conversation, which is associated with two or more users, with a message always having a specified sender.
-> 
+>
 > As in most modern instant messaging apps, we want a "Message Seen" feature that tracks which conversation members have seen a message, in which every information about who's seen a message has a specific timestamp.
-> 
+>
 > We would also like to have a Slack-like emoji reaction system, in which any conversation member can react to a message with one or more defined emojis, all of which have a name and a Unicode representation.
 
 Let's bootstrap our schemas and migrations with the following commands:
@@ -2537,15 +2558,15 @@ Everything else is in the **Chat context**.
 At a high level, our Chat object only contains a _title_.
 
 ```sh
-mix phx.gen.context Chat Conversation chat_conversations 
+mix phx.gen.context Chat Conversation chat_conversations
   title:string
 ```
 
 ConversationMember is something like a _through-model_ that relates users to conversations, and includes an additional bit of information to store the admins of the chat.
 
 ```sh
-mix phx.gen.context Chat ConversationMember chat_conversation_members 
-  conversation_id:references:chat_conversations 
+mix phx.gen.context Chat ConversationMember chat_conversation_members
+  conversation_id:references:chat_conversations
   user_id:references:auth_users
   owner:boolean
 ```
@@ -2553,8 +2574,8 @@ mix phx.gen.context Chat ConversationMember chat_conversation_members
 Message references a conversation and user, and holds the message content.
 
 ```sh
-mix phx.gen.context Chat Message chat_messages 
-  conversation_id:references:chat_conversations 
+mix phx.gen.context Chat Message chat_messages
+  conversation_id:references:chat_conversations
   user_id:references:auth_users
   content:text
 ```
@@ -2562,27 +2583,27 @@ mix phx.gen.context Chat Message chat_messages
 All of our Emoji are stored in a table as well:
 
 ```sh
-mix phx.gen.context Chat Emoji chat_emojis 
-  key:string 
+mix phx.gen.context Chat Emoji chat_emojis
+  key:string
   unicode:string
 ```
 
 Our reactions reference three different tables:
 
 ```sh
-mix phx.gen.context Chat MessageReaction chat_message_reactions 
-  message_id:references:chat_messages 
-  user_id:references:auth_users 
+mix phx.gen.context Chat MessageReaction chat_message_reactions
+  message_id:references:chat_messages
+  user_id:references:auth_users
   emoji_id:references:chat_emojis
 ```
 
 Seen similarly is a relation between users and messages.
 
-(**[!!]** Jeez, this table will be absolutely massive. Rows = messages * users in a channel. With 100 users, this table will be 100 times the length of the messages table, unless it only references the _latest message the user has seen,_ but it would be **better to store that in the ConversationMember data.**)
+(**[!!]** Jeez, this table will be absolutely massive. Rows = messages \* users in a channel. With 100 users, this table will be 100 times the length of the messages table, unless it only references the _latest message the user has seen,_ but it would be **better to store that in the ConversationMember data.**)
 
 ```sh
-mix phx.gen.context Chat SeenMessage chat_seen_messages 
-  user_id:references:auth_users 
+mix phx.gen.context Chat SeenMessage chat_seen_messages
+  user_id:references:auth_users
   message_id:references:chat_messages
 ```
 
@@ -2592,6 +2613,460 @@ This will all add **20 files and 1,412 LoC.**
 
 **Oh, this app simply does not use many to many Ecto functions.** Let's follow through anyhow.
 
+Here are the changes that were made:
 
+**Conversation** didn't need a schema change, you can just put has_many to indicate a foreignkey on another model.
+
+```diff
++++ b/lib/high_tower_v3/chat/conversation.ex
+defmodule HighTowerV3.Chat.Conversation do
+   use Ecto.Schema
+   import Ecto.Changeset
+
++  # Simplify appearance of Schema
++  alias HighTowerV3.Chat.{ConversationMember, Message}
++
+   schema "chat_conversations" do
+     field :title, :string
+
++    has_many :conversation_members, ConversationMember
++    has_many :messages, Message
++
+     timestamps()
+   end
+```
+
+```diff
++++ b/lib/high_tower_v3/chat/conversation_member.ex
+@@ -2,10 +2,17 @@ defmodule HighTowerV3.Chat.ConversationMember do
+   use Ecto.Schema
+   import Ecto.Changeset
+
++  # Simplify appearance of Schema
++  alias HighTowerV3.Chat.Conversation
++  alias HighTowerV3.Auth.User
++
+   schema "chat_conversation_members" do
+     field :owner, :boolean, default: false
+-    field :conversation_id, :id
+-    field :user_id, :id
++    # field :conversation_id, :id
++    # field :user_id, :id
++
++    belongs_to :user, User
++    belongs_to :conversation, Conversation
+
+     timestamps()
+   end
+@@ -13,7 +20,9 @@ defmodule HighTowerV3.Chat.ConversationMember do
+   @doc false
+   def changeset(conversation_member, attrs) do
+     conversation_member
+-    |> cast(attrs, [:owner])
+-    |> validate_required([:owner])
++    |> cast(attrs, [:owner, :conversation_id, :user_id])
++    |> validate_required([:owner, :conversation_id, :user_id])
++    |> unique_constraint(:user, name: :chat_conversation_members_conversation_id_user_id_index)
++    |> unique_constraint(:conversation_id, name: :chat_conversation_members_owner)
+   end
+ end
+
+```
+
+```diff
++++ b/lib/high_tower_v3/chat/message.ex
+@@ -1,11 +1,21 @@
+ defmodule HighTowerV3.Chat.Message do
++  alias HighTowerV3.Chat.SeenMessage
++  alias Hex.API.User
++  alias HighTowerV3.Chat.Conversation
+   use Ecto.Schema
+   import Ecto.Changeset
+
++  alias HighTowerV3.Auth.User
++  alias HighTowerV3.Chat.{Conversation, SeenMessage, MessageReaction}
++
+   schema "chat_messages" do
+     field :content, :string
+-    field :conversation_id, :id
+-    field :user_id, :id
++
++    belongs_to :conversation, Conversation
++    belongs_to :user, User
++
++    has_many :seen_messages, SeenMessage
++    has_many :message_reactions, MessageReaction
+
+     timestamps()
+   end
+@@ -13,7 +23,7 @@ defmodule HighTowerV3.Chat.Message do
+   @doc false
+   def changeset(message, attrs) do
+     message
+-    |> cast(attrs, [:content])
+-    |> validate_required([:content])
++    |> cast(attrs, [:content, :conversation_id, :user_id])
++    |> validate_required([:content, :conversation_id, :user_id])
+   end
+ end
+```
+
+```diff
++++ b/lib/high_tower_v3/chat/message_reaction.ex
+@@ -2,11 +2,13 @@ defmodule HighTowerV3.Chat.MessageReaction do
+   use Ecto.Schema
+   import Ecto.Changeset
+
+-  schema "chat_message_reactions" do
++  alias HighTowerV3.Auth.User
++  alias HighTowerV3.Chat.{Message, Emoji}
+
+-    field :message_id, :id
+-    field :user_id, :id
+-    field :emoji_id, :id
++  schema "chat_message_reactions" do
++    belongs_to :message, Message
++    belongs_to :user, User
++    belongs_to :emoji, Emoji
+
+     timestamps()
+   end
+@@ -14,7 +16,10 @@ defmodule HighTowerV3.Chat.MessageReaction do
+   @doc false
+   def changeset(message_reaction, attrs) do
+     message_reaction
+-    |> cast(attrs, [])
+-    |> validate_required([])
++    |> cast(attrs, [:user_id, :emoji_id, :message_id])
++    |> validate_required([:user_id, :emoji_id, :message_id])
++    |> unique_constraint(:emoji_id,
++      name: :chat_message_reactions_user_id_message_id_emoji_id_index
++    )
+   end
+ end
+
+```
+
+```diff
++++ b/lib/high_tower_v3/chat/seen_message.ex
+@@ -2,10 +2,12 @@ defmodule HighTowerV3.Chat.SeenMessage do
+   use Ecto.Schema
+   import Ecto.Changeset
+
+-  schema "chat_seen_messages" do
++  alias HighTowerV3.Auth.User
++  alias HighTowerV3.Chat.Message
+
+-    field :user_id, :id
+-    field :message_id, :id
++  schema "chat_seen_messages" do
++    belongs_to :user, User
++    belongs_to :message, Message
+
+     timestamps()
+   end
+@@ -13,7 +15,7 @@ defmodule HighTowerV3.Chat.SeenMessage do
+   @doc false
+   def changeset(seen_message, attrs) do
+     seen_message
+-    |> cast(attrs, [])
+-    |> validate_required([])
++    |> cast(attrs, [:user_id, :message_id])
++    |> validate_required([:user_id, :message_id])
+   end
+ end
+```
+
+```diff
++++ b/priv/repo/migrations/20221229163822_create_auth_users.exs
+@@ -3,9 +3,11 @@ defmodule HighTowerV3.Repo.Migrations.CreateAuthUsers do
+
+   def change do
+     create table(:auth_users) do
+-      add :nickname, :string
++      add :nickname, :string, null: false
+
+       timestamps()
+     end
++
++    create unique_index(:auth_users, [:nickname])
+   end
+ end
+```
+
+```diff
++++ b/priv/repo/migrations/20221229163823_create_chat_conversations.exs
+@@ -3,7 +3,7 @@ defmodule HighTowerV3.Repo.Migrations.CreateChatConversations do
+
+   def change do
+     create table(:chat_conversations) do
+-      add :title, :string
++      add :title, :string, null: false
+
+       timestamps()
+     end
+```
+
+```diff
++++ b/priv/repo/migrations/20221229163827_create_chat_conversation_members.exs
+@@ -4,13 +4,22 @@ defmodule HighTowerV3.Repo.Migrations.CreateChatConversationMembers do
+   def change do
+     create table(:chat_conversation_members) do
+       add :owner, :boolean, default: false, null: false
+-      add :conversation_id, references(:chat_conversations, on_delete: :nothing)
+-      add :user_id, references(:auth_users, on_delete: :nothing)
++      add :conversation_id, references(:chat_conversations, on_delete: :nothing), null: false
++      add :user_id, references(:auth_users, on_delete: :nothing), null: false
+
+       timestamps()
+     end
+
+     create index(:chat_conversation_members, [:conversation_id])
+     create index(:chat_conversation_members, [:user_id])
++
++    # New
++    # Ensure each user can only be associated with a conversation once.
++    create unique_index(:chat_conversation_members, [:conversation_id, :user_id])
++    # Ensure each conversation can only have a single owner.
++    create unique_index(:chat_conversation_members, [:conversation_id],
++      where: "owner = TRUE",
++      name: "chat_conversation_members_owner"
++    )
+   end
+ end
+
+```
+
+```diff
++++ b/priv/repo/migrations/20221229163829_create_chat_messages.exs
+@@ -4,8 +4,8 @@ defmodule HighTowerV3.Repo.Migrations.CreateChatMessages do
+   def change do
+     create table(:chat_messages) do
+       add :content, :text
+-      add :conversation_id, references(:chat_conversations, on_delete: :nothing)
+-      add :user_id, references(:auth_users, on_delete: :nothing)
++      add :conversation_id, references(:chat_conversations, on_delete: :nothing), null: false
++      add :user_id, references(:auth_users, on_delete: :nothing), null: false
+
+       timestamps()
+     end
+```
+
+```diff
++++ b/priv/repo/migrations/20221229163831_create_chat_emojis.exs
+@@ -3,8 +3,8 @@ defmodule HighTowerV3.Repo.Migrations.CreateChatEmojis do
+
+   def change do
+     create table(:chat_emojis) do
+-      add :key, :string
+-      add :unicode, :string
++      add :key, :string, null: false
++      add :unicode, :string, null: false
+
+       timestamps()
+     end
+```
+
+```diff
++++ b/priv/repo/migrations/20221229163833_create_chat_message_reactions.exs
+@@ -3,9 +3,9 @@ defmodule HighTowerV3.Repo.Migrations.CreateChatMessageReactions do
+
+   def change do
+     create table(:chat_message_reactions) do
+-      add :message_id, references(:chat_messages, on_delete: :nothing)
+-      add :user_id, references(:auth_users, on_delete: :nothing)
+-      add :emoji_id, references(:chat_emojis, on_delete: :nothing)
++      add :message_id, references(:chat_messages, on_delete: :nothing), null: false
++      add :user_id, references(:auth_users, on_delete: :nothing), null: false
++      add :emoji_id, references(:chat_emojis, on_delete: :nothing), null: false
+
+       timestamps()
+     end
+@@ -13,5 +13,7 @@ defmodule HighTowerV3.Repo.Migrations.CreateChatMessageReactions do
+     create index(:chat_message_reactions, [:message_id])
+     create index(:chat_message_reactions, [:user_id])
+     create index(:chat_message_reactions, [:emoji_id])
++
++    create unique_index(:chat_message_reactions, [:user_id, :message_id, :emoji_id])
+   end
+ end
+```
+
+```diff
++++ b/priv/repo/migrations/20221229163834_create_chat_seen_messages.exs
+@@ -3,13 +3,14 @@ defmodule HighTowerV3.Repo.Migrations.CreateChatSeenMessages do
+
+   def change do
+     create table(:chat_seen_messages) do
+-      add :user_id, references(:auth_users, on_delete: :nothing)
+-      add :message_id, references(:chat_messages, on_delete: :nothing)
++      add :user_id, references(:auth_users, on_delete: :nothing), null: false
++      add :message_id, references(:chat_messages, on_delete: :nothing), null: false
+
+       timestamps()
+     end
+
+     create index(:chat_seen_messages, [:user_id])
+     create index(:chat_seen_messages, [:message_id])
++    create unique_index(:chat_seen_messages, [:user_id, :message_id])
+   end
+ end
+```
+
+One new thing I learned from this article is the concept of a **seed file** that contains a bunch of commands to bootstrap a development database. I've modified it a touch from the tutorial:
+
+```ex
+alias HighTowerV3.Auth.User
+alias HighTowerV3.Chat.{Conversation, ConversationMember}
+alias HighTowerV3.{Auth, Chat}
+
+# Create a user, a conversation, and add members.
+{:ok, %User{id: u1_id}} = Auth.create_user(%{nickname: "User One"})
+
+{:ok, %Conversation{id: conv_id}} = Chat.create_conversation(%{title: "Modern Talking"})
+
+{:ok, %ConversationMember{}} =
+  Chat.create_conversation_member(%{conversation_id: conv_id, user_id: u1_id, owner: true})
+
+# Add a bunch of non-owner users to the conversation.
+for user <- ["Two", "Three", "Four", "Five", "Six"] do
+  {:ok, %User{id: ux_id}} = Auth.create_user(%{nickname: "User " <> user})
+
+  {:ok, %ConversationMember{}} =
+    Chat.create_conversation_member(%{conversation_id: conv_id, user_id: ux_id, owner: false})
+end
+```
+
+Cool.
+
+**Now let's write that liveview. In the router:**
+
+```
+live "/conversations/:conversation_id/users/:user_id", ConversationLive
+```
+
+In new file `/live/conversation_live.ex` do:
+
+```ex
+defmodule HighTowerV3Web.ConversationLive do
+  use HighTowerV3Web, :live_view
+  use Phoenix.HTML
+
+  alias HighTowerV3.{Auth, Chat, Repo}
+
+  # Renders a template from data in assigns
+  def render(assigns) do
+  end
+
+  # Prepares socket assigns needed to render the view
+  def mount(assigns, socket) do
+  end
+
+  # Handle events triggered by the browser
+  def handle_event(event, payload, socket) do
+  end
+
+  # After mount: Read query params, intercept param changes
+  def handle_params(params, uri, socket) do
+  end
+end
+```
+
+Filling this out will give a working (if horrifically authenticated) chat window:
+
+```ex
+defmodule HighTowerV3Web.ConversationLive do
+  use HighTowerV3Web, :live_view
+  use Phoenix.HTML
+
+  alias HighTowerV3.{Repo, Chat, Auth}
+
+  # Renders a template from data in assigns
+  def render(assigns) do
+    ~L"""
+    <div>
+      <div>
+      <b>User name:</b> <%= @user.nickname %>
+      </div>
+      <div>
+        <b>Conversation title:</b> <%= @conversation.title %>
+      </div>
+      <div>
+        <%= f = form_for :message, "#", [phx_submit: "send_message"] %>
+          <%= label f, :content %>
+          <%= text_input f, :content %>
+          <%= submit "Send" %>
+        </form>
+      </div>
+      <div>
+        <b>Messages:</b>
+        <%= for message <- @messages do %>
+          <div>
+            <b><%= message.user.nickname %></b>: <%= message.content %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+    """
+  end
+
+  # Prepares socket assigns needed to render the view
+  def mount(_assigns, socket) do
+    {:ok, socket}
+  end
+
+  # Handle events triggered by the browser
+  def handle_event("send_message", %{"message" => %{"content" => content}}, socket) do
+    %{assigns: %{conversation_id: conversation_id, user_id: user_id, user: user}} = socket
+
+    case Chat.create_message(%{
+           conversation_id: conversation_id,
+           user_id: user_id,
+           content: content
+         }) do
+      {:ok, new_message} ->
+        new_message = %{new_message | user: user}
+        updated_messages = socket.assigns[:messages] ++ [new_message]
+
+        {:noreply, socket |> assign(:messages, updated_messages)}
+
+      {:error, _} ->
+        {:noreply, socket}
+    end
+  end
+
+  # Handle events triggered by the browser
+  def handle_event(_event, _payload, socket) do
+    {:noreply, socket}
+  end
+
+  # After mount: Read query params, intercept param changes
+  def handle_params(%{"conversation_id" => conversation_id, "user_id" => user_id}, _uri, socket) do
+    {:noreply,
+     socket
+     |> assign(:user_id, user_id)
+     |> assign(:conversation_id, conversation_id)
+     |> assign_records()}
+  end
+
+  defp assign_records(%{assigns: %{user_id: user_id, conversation_id: conversation_id}} = socket) do
+    user = Auth.get_user!(user_id)
+
+    conversation =
+      Chat.get_conversation!(conversation_id)
+      |> Repo.preload(messages: [:user], conversation_members: [:user])
+
+    socket
+    # in real life, get user properly with user socket auth
+    |> assign(:user, user)
+    |> assign(:conversation, conversation)
+    # very inefficient
+    |> assign(:messages, conversation.messages)
+  end
+end
+```
+
+
+There is a [Part 3](https://curiosum.com/blog/elixir-phoenix-liveview-messenger-part-3) to this article that we will continue to follow to add PubSub/broadcasting to update each user in a room's chat window in realtime when a message is posted.
 
 **END**
