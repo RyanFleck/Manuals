@@ -2507,8 +2507,6 @@ Every Phoenix project has a `priv/repo/seeds.exs` directory.
 
 ...hot damn, that's very useful for nuking the database and starting again from scratch. I'd done this with scripts in the past, but it's nice to see it was thought of here.
 
-
-
 ## Phoenix LiveView 0.17.2 Example 1
 
 I'm taking a break from attempting to build my first chat application, _High Tower,_ to take a tutorial. I have a weak grip on Ecto and how it handles complex relationships.
@@ -3066,7 +3064,165 @@ defmodule HighTowerV3Web.ConversationLive do
 end
 ```
 
-
 There is a [Part 3](https://curiosum.com/blog/elixir-phoenix-liveview-messenger-part-3) to this article that we will continue to follow to add PubSub/broadcasting to update each user in a room's chat window in realtime when a message is posted.
+
+Luckily in release `1.6` a lot of the pubsub and liveview scaffolding is already done for us.
+
+In the first line of `handle_params` add:
+
+```ex
+HighTowerV3Web.Endpoint.subscribe("conversation_#{conversation_id}")
+```
+
+After the new_message struct is built, add:
+
+```ex
+HighTowerV3Web.Endpoint.broadcast_from!(
+  self(),
+  "conversation_#{conversation_id}",
+  "new_message",
+  new_message
+)
+```
+
+The `broadcast!` function would also broadcast to the current node, which already has the message, so we can save a step for the socket and just add it to the local page manually like before.
+
+Additionally include this function:
+
+```ex
+def handle_info(%{event: "new_message", payload: new_message}, socket) do
+  # Copy the last two lines of code from handle_event. Could be combined to a function.
+  updated_messages = socket.assigns[:messages] ++ [new_message]
+  {:noreply, socket |> assign(:messages, updated_messages)}
+end
+```
+
+...and that's it. The page will broadcast updates to all involved participants. But wait:
+
+> It is a common pattern in distributed programming to treat messages from self() just as if they were coming from anyone else. 
+
+Let's fix that.
+
+Here's the full code now:
+
+```ex
+defmodule HighTowerV3Web.ConversationLive do
+  use HighTowerV3Web, :live_view
+  use Phoenix.HTML
+
+  require Logger
+
+  alias HighTowerV3.{Repo, Chat, Auth}
+
+  # Renders a template from data in assigns
+  def render(assigns) do
+    HighTowerV3Web.ConversationView.render("show.html", assigns)
+  end
+
+  # Prepares socket assigns needed to render the view
+  def mount(_assigns, socket) do
+    {:ok, socket}
+  end
+
+  # Handle events triggered by the browser
+  def handle_event("send_message", %{"message" => %{"content" => content}}, socket) do
+    %{assigns: %{conversation_id: conversation_id, user_id: user_id, user: user}} = socket
+
+    case Chat.create_message(%{
+           conversation_id: conversation_id,
+           user_id: user_id,
+           content: content
+         }) do
+      {:ok, new_message} ->
+        new_message = %{new_message | user: user}
+
+        HighTowerV3Web.Endpoint.broadcast!(
+          "conversation_#{conversation_id}",
+          "new_message",
+          new_message
+        )
+
+        {:noreply, socket}
+
+      {:error, err} ->
+        Logger.error(inspect(err))
+        {:noreply, socket}
+    end
+  end
+
+  # Handle events from pubsub
+  def handle_info(%{event: "new_message", payload: new_message}, socket) do
+    # Copy the last two lines of code from handle_event. Could be combined to a function.
+    updated_messages = socket.assigns[:messages] ++ [new_message]
+    {:noreply, socket |> assign(:messages, updated_messages)}
+  end
+
+  # After mount: Read query params, intercept param changes
+  def handle_params(%{"conversation_id" => conversation_id, "user_id" => user_id}, _uri, socket) do
+    HighTowerV3Web.Endpoint.subscribe("conversation_#{conversation_id}")
+
+    {:noreply,
+     socket
+     |> assign(:user_id, user_id)
+     |> assign(:conversation_id, conversation_id)
+     |> assign_records()}
+  end
+
+  defp assign_records(%{assigns: %{user_id: user_id, conversation_id: conversation_id}} = socket) do
+    user = Auth.get_user!(user_id)
+
+    conversation =
+      Chat.get_conversation!(conversation_id)
+      |> Repo.preload(messages: [:user], conversation_members: [:user])
+
+    socket
+    # in real life, get user properly with user socket auth
+    |> assign(:user, user)
+    |> assign(:conversation, conversation)
+    # very inefficient
+    |> assign(:messages, conversation.messages)
+  end
+end
+```
+
+...and the view:
+
+```ex
+defmodule HighTowerV3Web.ConversationView do
+  use HighTowerV3Web, :view
+end
+```
+
+...and the template:
+
+```html
+<div>
+  <div>
+  <b>User name:</b> <%= @user.nickname %>
+  </div>
+  <div>
+    <b>Conversation title:</b> <%= @conversation.title %>
+  </div>
+  <div>
+    <%= f = form_for :message, "#", [phx_submit: "send_message"] %>
+      <%= label f, :content %>
+      <%= text_input f, :content %>
+      <%= submit "Send" %>
+    </form>
+  </div>
+  <div>
+    <b>Messages:</b>
+    <%= for message <- @messages do %>
+      <div>
+        <b><%= message.user.nickname %></b>: <%= message.content %>
+      </div>
+    <% end %>
+  </div>
+</div>
+```
+
+## LiveView Authentication with Pow
+
+[hexdocs.pm/pow](https://hexdocs.pm/pow/)
 
 **END**
