@@ -64,6 +64,14 @@ With these resources, you lose some control and responsibility, and are paying f
 
 ![](/uploads/screenshot-2023-01-03-at-4-02-01-pm.png)
 
+[learn.microsoft.com/en-us/azure/security/fundamentals/shared-responsibility](https://learn.microsoft.com/en-us/azure/security/fundamentals/shared-responsibility)
+
+**Cloud Types:**
+
+1. **Public Cloud** -- Anybody can sign up with a credit card and use services right away. Azure owns the hardware and the network.
+1. **Private Cloud** -- Only avaialabe to select users in a business, can run on a businesses' private hardware, though looks and acts almost like a public cloud to end users.
+1. **Hybrid Cloud** -- Combination of public and private, usually a network interconnection between on-prem and public or private cloud.
+
 ## Benefits of Cloud Computing
 
 **Learning goals:**
