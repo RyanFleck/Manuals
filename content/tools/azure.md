@@ -49,13 +49,13 @@ Links and Resources:
 
 The **Shared Responsibility Model** relates responsibilities in the cloud environment to a traditional on-premises service deployment, where you are responsible for everything from building and network security to networking and firewalls to the operating systems and authentication, devices, and data. These responsibilities fall away in different ways if you use the cloud.
 
-By using a **Cloud VM** (IaaS^[iaas]), you'll still need to worry about the OS, networking, and the application, but the physical computer and networking is handled.
+By using a **Cloud VM** (IaaS[^iaas]), you'll still need to worry about the OS, networking, and the application, but the physical computer and networking is handled.
 
-^[iaas]: Infrastructure as a Service
+[^iaas]: Infrastructure as a Service
 
-By using an **App Service** (PaaS^[paas]), 
+By using an **App Service** (PaaS[^paas]), 
 
-^[paas]: Platform as a Service
+[^paas]: Platform as a Service
 
 ## Benefits of Cloud Computing
 
