@@ -90,6 +90,8 @@ Pricing will also vary by **region** and **cloud**. Providers try to price their
 
 **OpEX** -- Ongoing Expenditure, like power and cooling
 
+![](/uploads/cloud-on-premises-comparison.png)
+
 
 
 ## Benefits of Cloud Computing
