@@ -48,7 +48,7 @@ Links and Resources:
 
 The **Shared Responsibility Model** relates responsibilities in the cloud environment to a traditional on-premises service deployment, where you are responsible for everything from building and network security to networking and firewalls to the operating systems and authentication, devices, and data. These responsibilities fall away in different ways if you use the cloud.
 
-By using a **Cloud VM** (IaaS[^iaas]), you'll still need to worry about the OS, networking, and the application, but the physical computer and networking is handled.
+By using a **Cloud VM** (IaaS\[^iaas\]), you'll still need to worry about the OS, networking, and the application, but the physical computer and networking is handled.
 
 [^iaas]: Infrastructure as a Service
 
@@ -60,7 +60,9 @@ At a very high level there is **Software as a Service** (SaaS[^saas]) which proh
 
 [^saas]: Software as a Service
 
-With these resources, you lose some control and responsibility, and are paying for a company (Microsoft Azure or others,) to manage those responsibilites for you. The hope is that they manage it competently.
+With these resources, you lose some control and responsibility, and are paying for a company (Microsoft Azure or others,) to manage those responsibilities for you. The hope is that they manage it competently.
+
+![](/uploads/screenshot-2023-01-03-at-4-02-01-pm.png)
 
 ## Benefits of Cloud Computing
 
@@ -118,13 +120,13 @@ With these resources, you lose some control and responsibility, and are paying f
 
 **Learning goals:**
 
-* Describe directory services in Azure, including Microsoft Azure Active Directory (Azure AD), part of Microsoft Entra and Azure Active Directory Domain Services (Azure AD DS) 
-* Describe authentication methods in Azure, including single sign-on (SSO), multifactor authentication, and passwordless 
-* Describe external identities and guest access in Azure 
-* Describe Conditional Access in Microsoft Azure Active Directory (Azure AD), part of Microsoft Entra 
-* Describe Azure role-based access control (RBAC) 
-* Describe the concept of Zero Trust 
-* Describe the purpose of the defense in depth model 
+* Describe directory services in Azure, including Microsoft Azure Active Directory (Azure AD), part of Microsoft Entra and Azure Active Directory Domain Services (Azure AD DS)
+* Describe authentication methods in Azure, including single sign-on (SSO), multifactor authentication, and passwordless
+* Describe external identities and guest access in Azure
+* Describe Conditional Access in Microsoft Azure Active Directory (Azure AD), part of Microsoft Entra
+* Describe Azure role-based access control (RBAC)
+* Describe the concept of Zero Trust
+* Describe the purpose of the defense in depth model
 * Describe the purpose of Microsoft Defender for Cloud
 
 ## Azure Cost Management
