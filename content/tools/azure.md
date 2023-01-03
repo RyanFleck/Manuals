@@ -45,6 +45,10 @@ Links and Resources:
 * Describe the consumption-based model
 * Compare cloud pricing models
 
+**Cloud computing** is the ability to rent computing resources on demand, and only pay for what you use. Microsoft has already made the billion-dollar investment in hardware, networking, etc.
+
+The **Shared Responsibility Model** relates responsibilities in the cloud environment to a traditional on-premises service deployment, where you are responsible for everything from building and network security to networking and firewalls to the operating systems and authentication, devices, and data.
+
 ## Benefits of Cloud Computing
 
 **Learning goals:**
