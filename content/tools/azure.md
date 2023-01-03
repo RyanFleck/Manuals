@@ -4,7 +4,13 @@ draft = true
 image = ""
 summary = "Microsoft's cloud services platform"
 title = "Azure"
-toc = false
+toc = true
 
 +++
 # AZ-900
+
+Learning goals:
+
+* Describe cloud concepts
+* Describe Azure architecture and services
+* Describe Azure management and governance
