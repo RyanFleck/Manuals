@@ -72,6 +72,18 @@ With these resources, you lose some control and responsibility, and are paying f
 1. **Private Cloud** -- Only avaialabe to select users in a business, can run on a businesses' private hardware, though looks and acts almost like a public cloud to end users.
 1. **Hybrid Cloud** -- Combination of public and private, usually a network interconnection between on-prem and public or private cloud.
 
+On-prem, cost can be predicted by adding hardware, power, internet, licensing, and employee costs. In the cloud, cost is based on **consumption**, usually by a number of metrics. A database could be priced by the CPU speed and RAM per minute, the consumed storage, an optional dedicated gateway, and number/size of backups. This algorithmic pricing falls into a few different categories:
+
+1. **Free services** usually exist below a certain usage quota.
+2. **Time** can be used to price many resources, ex. reserve compute
+3. **Per GB** is used to price storage and network egress[^egress]
+4. **Per Operation** for databases and messaging, ex. reads/writes
+5. **Per Execution** for serverless functions
+
+[^egress]: Data flowing out of a network
+
+
+
 ## Benefits of Cloud Computing
 
 **Learning goals:**
