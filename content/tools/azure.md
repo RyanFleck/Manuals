@@ -9,7 +9,15 @@ toc = true
 +++
 # Learning Roadmap
 
+As recommended to me:
+
 ![](/uploads/azure-roadmap.png)
+
+Take these certifications in order:
+
+* AZ-900
+* AZ-104
+* AZ-303
 
 # AZ-900
 
