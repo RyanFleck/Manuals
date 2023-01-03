@@ -98,6 +98,7 @@ The cost savings comes from Microsoft's ability to run servers where power and c
 
 **TCO** -- Total Cost of Ownership
 
+**Autoscaling** can be used in the cloud to ensure your resouces are not **overprovisioned** which is the typical scenario when buying physical hardware to avoid overloaded hardware.
 
 
 ## Benefits of Cloud Computing
@@ -108,6 +109,8 @@ The cost savings comes from Microsoft's ability to run servers where power and c
 * Describe the benefits of reliability and predictability in the cloud
 * Describe the benefits of security and governance in the cloud
 * Describe the benefits of manageability in the cloud
+
+
 
 ## Cloud Service Types
 
