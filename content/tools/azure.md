@@ -21,13 +21,17 @@ Take these certifications in order:
 
 # AZ-900
 
-[udemy.com/course/az900-azure](https://www.udemy.com/course/az900-azure/)
+Notes on [udemy.com/course/az900-azure](https://www.udemy.com/course/az900-azure/), taken January 2023.
 
 Learning goals:
 
 * Describe cloud concepts
 * Describe Azure architecture and services
 * Describe Azure management and governance
+
+Links and Resources:
+
+* Exam requirements: [learn.microsoft.com/en-us/certifications/exams/az-900](https://learn.microsoft.com/en-us/certifications/exams/az-900 "learn.microsoft.com/en-us/certifications/exams/az-900")
 
 ## Describe Cloud Computing
 
