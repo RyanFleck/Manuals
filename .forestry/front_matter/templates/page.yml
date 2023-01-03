@@ -21,4 +21,5 @@ fields:
 pages:
 - content/languages/elixir.md
 - content/tools/aws.md
+- content/tools/azure.md
 - content/tools/maximo.md
