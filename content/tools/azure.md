@@ -92,6 +92,12 @@ Pricing will also vary by **region** and **cloud**. Providers try to price their
 
 ![](/uploads/cloud-on-premises-comparison.png)
 
+[A Business Case for Cloud Migration](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/strategy/cloud-migration-business-case)
+
+The cost savings comes from Microsoft's ability to run servers where power and cooling are cheap, so they can make a profit while still providing the computing service at a far lower TCO.
+
+**TCO** -- Total Cost of Ownership
+
 
 
 ## Benefits of Cloud Computing
