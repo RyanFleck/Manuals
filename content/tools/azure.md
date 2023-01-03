@@ -7,10 +7,60 @@ title = "Azure"
 toc = true
 
 +++
+# Learning Roadmap
+
+![](/uploads/azure-roadmap.png)
+
 # AZ-900
+
+[udemy.com/course/az900-azure](https://www.udemy.com/course/az900-azure/)
 
 Learning goals:
 
 * Describe cloud concepts
 * Describe Azure architecture and services
 * Describe Azure management and governance
+
+## Describe Cloud Computing
+
+tba
+
+## Benefits of Cloud Computing
+
+tba
+
+## Cloud Service Types
+
+tba
+
+## Core Architectural Components of Azure
+
+tba
+
+## Azure Compute and Networking Services
+
+tba
+
+## Azure Storage Services
+
+tba
+
+## Identity, Access, and Security
+
+tba
+
+## Azure Cost Management
+
+tba
+
+## Azure Governanace and Compliance
+
+tba
+
+## Tools for Managing and Deploying Azure Resources
+
+tba
+
+## Monitoring Tools
+
+tba
