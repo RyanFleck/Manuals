@@ -36,44 +36,103 @@ Links and Resources:
 
 ## Describe Cloud Computing
 
-tba
+**Learning goals:**
+
+- Define cloud computing
+- Describe the shared responsibility model
+- Define cloud models, including public, private, and hybrid
+- Identify appropriate use cases for each cloud model
+- Describe the consumption-based model
+- Compare cloud pricing models
 
 ## Benefits of Cloud Computing
 
-tba
+**Learning goals:**
+
+- Describe the benefits of high availability and scalability in the cloud
+- Describe the benefits of reliability and predictability in the cloud
+- Describe the benefits of security and governance in the cloud
+- Describe the benefits of manageability in the cloud
 
 ## Cloud Service Types
 
-tba
+**Learning goals:**
+
+- Describe infrastructure as a service (IaaS)
+- Describe platform as a service (PaaS)
+- Describe software as a service (SaaS)
+- Identify appropriate use cases for each cloud service (IaaS, PaaS, SaaS)
 
 ## Core Architectural Components of Azure
 
-tba
+
+**Learning goals:**
+
+- Describe Azure regions, region pairs, and sovereign regions
+- Describe availability zones
+- Describe Azure datacenters
+- Describe Azure resources and resource groups
+- Describe subscriptions
+- Describe management groups
+- Describe the hierarchy of resource groups, subscriptions, and management groups
+
 
 ## Azure Compute and Networking Services
 
-tba
+
+**Learning goals:**
+
+- Compare compute types, including container instances, virtual machines (VMs), and functions
+- Describe VM options, including Azure Virtual Machines, Azure Virtual Machine Scale Sets, availability sets, and Azure Virtual Desktop
+- Describe resources required for virtual machines
+- Describe application hosting options, including the Web Apps feature of Azure App Service, containers, and virtual machines
+- Describe virtual networking, including the purpose of Azure Virtual Networks, Azure virtual subnets, peering, Azure DNS, Azure VPN Gateway, and Azure ExpressRoute
+- Define public and private endpoints
+
 
 ## Azure Storage Services
 
-tba
+
+**Learning goals:**
+
+- x
+
 
 ## Identity, Access, and Security
 
-tba
+
+**Learning goals:**
+
+- x
+
 
 ## Azure Cost Management
 
-tba
+
+**Learning goals:**
+
+- x
+
 
 ## Azure Governanace and Compliance
 
-tba
+
+**Learning goals:**
+
+- x
+
 
 ## Tools for Managing and Deploying Azure Resources
 
-tba
+
+**Learning goals:**
+
+- x
+
 
 ## Monitoring Tools
 
-tba
+
+**Learning goals:**
+
+- x
