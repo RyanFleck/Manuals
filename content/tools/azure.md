@@ -53,9 +53,15 @@ By using a **Cloud VM** (IaaS[^iaas]), you'll still need to worry about the OS, 
 
 [^iaas]: Infrastructure as a Service
 
-By using an **App Service** (PaaS[^paas]), 
+By using an **App Service** (PaaS[^paas]), you can now allow the cloud service to handle operating system patches and updates.
 
 [^paas]: Platform as a Service
+
+At a very high level there is **Software as a Service** (SaaS[^saas]) which prohibits the control of the network and application, just giving you access to a cloud software from a vendor.
+
+[^saas]: Software as a Service
+
+With these resources, you lose some control and responsibility, and are paying for a company (Microsoft Azure or others,) to manage those responsibilites for you. The hope is that they manage it competently.
 
 ## Benefits of Cloud Computing
 
