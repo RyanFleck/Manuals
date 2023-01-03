@@ -25,13 +25,14 @@ Notes on [udemy.com/course/az900-azure](https://www.udemy.com/course/az900-azure
 
 Learning goals:
 
-* Describe cloud concepts
-* Describe Azure architecture and services
-* Describe Azure management and governance
+* Describe cloud concepts (25–30%)
+* Describe Azure architecture and services (35–40%)
+* Describe Azure management and governance (30–35%)
 
 Links and Resources:
 
 * Exam requirements: [learn.microsoft.com/en-us/certifications/exams/az-900](https://learn.microsoft.com/en-us/certifications/exams/az-900 "learn.microsoft.com/en-us/certifications/exams/az-900")
+* Study guide: [AZ-900 study guide](https://query.prod.cms.rt.microsoft.com/cms/api/am/binary/RE3VwUY)
 
 ## Describe Cloud Computing
 
