@@ -177,6 +177,13 @@ Azure provides **Chaos Studio** to simulate various failures to see how your app
 * Describe management groups
 * Describe the hierarchy of resource groups, subscriptions, and management groups
 
+```
+Management Groups
+ |__ Subscriptions
+      |__ Resource Groups
+           |__ Resources
+```
+
 ### Regions, Region Pairs, and Sovereign Regions
 
 **Regions** are Azure datacenters that exist in or near certain locations in the globe.
@@ -191,16 +198,23 @@ For example:
 
 **Sovereign Regions** are unavailable to most Azure subscribers, like _China_ or _Azure Government (US)_.
 
-### Availability Zones
+### Availability Zones & Datacenters
 
 **Availability Zones** futher subdivide _Regions_. They are separate datacenter buildings within a _Region_. They enable another layer of failover if one datacenter in a region fails and your application is running on multiple _AZs_.
 
-### Azure Datacenters
+Datacenters must be withink 50km of one another to be grouped in a single region.
+
 ### Azure Resources and Resource Groups
-### Subscriptions
-### Management Groups
 
+**Resource Groups** are logical groupings of Azure resources typically based on shared function. 
 
+**Resources can only be part of one group, and must be part of a group.**
+
+### Subscriptions & Management Groups
+
+A **Subscription** is a billing unit. You'd want to have a Subscription for each client that you manage. All resources that are consumed by a subscription will be billed by the owner. Subscriptions can also be used to break up billing into dev/production or by department.
+
+Subscriptions can be organized into nested **Management Groups** to enforce policies and access.
 
 ## Azure Compute and Networking Services
 
