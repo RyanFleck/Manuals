@@ -165,8 +165,6 @@ Azure provides **Chaos Studio** to simulate various failures to see how your app
 
 **SaaS** -- Zero control over what's going on under the hood, you just get access to the application. Like the Azure Portal, Slack, Office 365.
 
-
-
 ## Core Architectural Components of Azure
 
 **Learning goals:**
@@ -178,6 +176,28 @@ Azure provides **Chaos Studio** to simulate various failures to see how your app
 * Describe subscriptions
 * Describe management groups
 * Describe the hierarchy of resource groups, subscriptions, and management groups
+
+### Regions, Region Pairs, and Sovereign Regions
+
+**Regions** are Azure datacenters that exist in or near certain locations in the globe.
+
+**Region Pairs** are designed to have fast connections between them. They are the ideal failover location for running applications. A region pair will never have both _Regions_ down for maintenance.
+
+For example:
+
+1. Canada Central <-> Canada East
+1. US West <-> US East
+1. North Europe <-> West Europe
+
+**Sovereign Regions** are unavailable to most Azure subscribers, like _China_ or _Azure Government (US)_.
+
+### Availability Zones
+### Azure Datacenters
+### Azure Resources and Resource Groups
+### Subscriptions
+### Management Groups
+
+
 
 ## Azure Compute and Networking Services
 
