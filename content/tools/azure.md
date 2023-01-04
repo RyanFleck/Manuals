@@ -110,7 +110,7 @@ The cost savings comes from Microsoft's ability to run servers where power and c
 * Describe the benefits of security and governance in the cloud
 * Describe the benefits of manageability in the cloud
 
-**High Availability**
+### High Availability
 
 Cloud services provide guarantees of reliability that use high availability as a metric. With 44640 minutes in a 31 day month, the following "number of nines" define the contractually allowed downtime:
 
@@ -126,14 +126,24 @@ No amount of money can achieve 100% availability.
 
 **Elasticity** -- The ability of a system to automatically grow and shrink based on application demand. Capacity is kept above user demand.
 
-**Reliability and Predictability:**
+### Reliability and Predictability
 
 **SLA** -- Service Level Agreement: A guarantee of availability, reliability, etc backed with financial compensation (refunds) for failures.
 
-Azure has published timelines and procedures for rollouts of new hardware and software.
+Azure has published timelines and procedures for rollouts of new hardware and software. Tools are provided to deploy applications across multiple regions to address this scheduled downtimes.
+
+Azure provides **Chaos Studio** to simulate various failures to see how your application responds, adapts, or dies.
+
+**Global Availability** can be achieved by deploying your application across the many worldwide Azure datacenters, and this is something that is difficult to achieve for a corporation of any scale.
 
 
+### Security, Governance, Monitoring
 
+- Security is a huge job and offloading it to the cloud reduces costs
+- Azure has AI/ML connection rejection tech
+- Azure has basic DDOS protection for free
+- Azure provides data governance assistance to meet business and government/regulatory requirements around data. Azure Blueprints and Azure Policy can be used to automatically take actions, enforce rules, and create reports.
+- Azure provides monitoring of raised errors and automation to act on them without human intervention
 
 
 ## Cloud Service Types
