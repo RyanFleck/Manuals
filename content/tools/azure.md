@@ -22,13 +22,13 @@ Take these certifications in order:
 
 Notes on [udemy.com/course/az900-azure](https://www.udemy.com/course/az900-azure/), taken January 2023.
 
-Learning goals:
+**Learning Goals:**
 
 * Describe cloud concepts (25–30%)
 * Describe Azure architecture and services (35–40%)
 * Describe Azure management and governance (30–35%)
 
-Links and Resources:
+**Links and Resources:**
 
 * Exam requirements: [learn.microsoft.com/en-us/certifications/exams/az-900](https://learn.microsoft.com/en-us/certifications/exams/az-900 "learn.microsoft.com/en-us/certifications/exams/az-900")
 * Study guide: [AZ-900 study guide](https://query.prod.cms.rt.microsoft.com/cms/api/am/binary/RE3VwUY)
@@ -122,9 +122,9 @@ Cloud services provide guarantees of reliability that use high availability as a
 
 No amount of money can achieve 100% availability.
 
-**Scalability**
+**Scalability** -- The ability of a system to handle growth of users or work; scaling is the ability to add capacity to an application.
 
-> The ability of a system to handle growth of users or work; scaling is the ability to add capacity to an application.
+**Elasticity** -- The ability of a system to automatically grow and shrink based on application demand. Capacity is kept above user demand.
 
 ## Cloud Service Types
 
