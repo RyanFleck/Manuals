@@ -110,7 +110,21 @@ The cost savings comes from Microsoft's ability to run servers where power and c
 * Describe the benefits of security and governance in the cloud
 * Describe the benefits of manageability in the cloud
 
+**High Availability**
 
+Cloud services provide guarantees of reliability that use high availability as a metric. With 44640 minutes in a 31 day month, the following "number of nines" define the contractually allowed downtime:
+
+1. 99.99% available: 4.464 minutes of downtime aka "four nines"
+1. 99.999% available: 0.4464 minutes (26.7 seconds) of downtime
+1. 99.9999% available: 0.04464 minutes (2.67 seconds) of downtime
+
+...etc
+
+No amount of money can achieve 100% availability.
+
+**Scalability**
+
+> The ability of a system to handle growth of users or work; scaling is the ability to add capacity to an application.
 
 ## Cloud Service Types
 
