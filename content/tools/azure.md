@@ -192,6 +192,9 @@ For example:
 **Sovereign Regions** are unavailable to most Azure subscribers, like _China_ or _Azure Government (US)_.
 
 ### Availability Zones
+
+**Availability Zones** futher subdivide _Regions_. They are separate datacenter buildings within a _Region_. They enable another layer of failover if one datacenter in a region fails and your application is running on multiple _AZs_.
+
 ### Azure Datacenters
 ### Azure Resources and Resource Groups
 ### Subscriptions
