@@ -155,6 +155,11 @@ Azure provides **Chaos Studio** to simulate various failures to see how your app
 * Describe software as a service (SaaS)
 * Identify appropriate use cases for each cloud service (IaaS, PaaS, SaaS)
 
+[learn.microsoft.com/en-us/azure/azure-sql/azure-sql-iaas-vs-paas-what-is-overview](https://learn.microsoft.com/en-us/azure/azure-sql/azure-sql-iaas-vs-paas-what-is-overview)
+
+![](/uploads/sqliaas_sql_server_cloud_continuum.png)
+
+
 ## Core Architectural Components of Azure
 
 **Learning goals:**
