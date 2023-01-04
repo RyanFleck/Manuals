@@ -161,7 +161,11 @@ Azure provides **Chaos Studio** to simulate various failures to see how your app
 
 **IaaS** -- Infrastructure as a Service offers compute, networking, and storage resources on demand, where you take full responsiblity for how your application is deployed and for most of the configuration of the underlying resources.
 
-**PaaS** -- Platform as a Service is a complete deployment environment. It doesn't give access to the VM typically, but will provide a wealth of convenience tools to support the web app development lifecycle. Auto deployments from repositories, etc.
+**PaaS** -- Platform as a Service is a complete deployment environment. It doesn't give access to the VM typically, but will provide a wealth of convenience tools to support the web app development lifecycle. Auto deployments from repositories, etc. _You can upload code here and it will run._ Serverless functions fall into this category but you have even less control of where things run -- you don't need to worry about scaling or the correct performance plan.
+
+**SaaS** -- Zero control over what's going on under the hood, you just get access to the application. Like the Azure Portal, Slack, Office 365.
+
+
 
 ## Core Architectural Components of Azure
 
