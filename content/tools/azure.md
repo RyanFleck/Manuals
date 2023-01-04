@@ -140,10 +140,10 @@ Azure provides **Chaos Studio** to simulate various failures to see how your app
 ### Security, Governance, Monitoring
 
 - Security is a huge job and offloading it to the cloud reduces costs
-- Azure has AI/ML connection rejection tech
-- Azure has basic DDOS protection for free
-- Azure provides data governance assistance to meet business and government/regulatory requirements around data. Azure Blueprints and Azure Policy can be used to automatically take actions, enforce rules, and create reports.
-- Azure provides monitoring of raised errors and automation to act on them without human intervention
+- Azure has **AI/ML connection rejection** tech
+- Azure has basic **DDOS protection** for free
+- Azure provides data governance assistance to meet business and government/regulatory requirements around data. **Azure Blueprints** and **Azure Policy** can be used to automatically take actions, enforce rules, and create reports.
+- Azure provides **monitoring of raised errors** and automation to act on them without human intervention
 
 
 ## Cloud Service Types
@@ -155,10 +155,13 @@ Azure provides **Chaos Studio** to simulate various failures to see how your app
 * Describe software as a service (SaaS)
 * Identify appropriate use cases for each cloud service (IaaS, PaaS, SaaS)
 
-[learn.microsoft.com/en-us/azure/azure-sql/azure-sql-iaas-vs-paas-what-is-overview](https://learn.microsoft.com/en-us/azure/azure-sql/azure-sql-iaas-vs-paas-what-is-overview)
-
 ![](/uploads/sqliaas_sql_server_cloud_continuum.png)
 
+[learn.microsoft.com/en-us/azure/azure-sql/azure-sql-iaas-vs-paas-what-is-overview](https://learn.microsoft.com/en-us/azure/azure-sql/azure-sql-iaas-vs-paas-what-is-overview)
+
+**IaaS** -- Infrastructure as a Service offers compute, networking, and storage resources on demand, where you take full responsiblity for how your application is deployed and for most of the configuration of the underlying resources.
+
+**PaaS** -- Platform as a Service is a complete deployment environment. It doesn't give access to the VM typically, but will provide a wealth of convenience tools to support the web app development lifecycle. Auto deployments from repositories, etc.
 
 ## Core Architectural Components of Azure
 
