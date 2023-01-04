@@ -120,11 +120,21 @@ Cloud services provide guarantees of reliability that use high availability as a
 
 ...etc
 
-No amount of money can achieve 100% availability.
+No amount of money can achieve 100% availability. 
 
 **Scalability** -- The ability of a system to handle growth of users or work; scaling is the ability to add capacity to an application.
 
 **Elasticity** -- The ability of a system to automatically grow and shrink based on application demand. Capacity is kept above user demand.
+
+**Reliability and Predictability:**
+
+**SLA** -- Service Level Agreement: A guarantee of availability, reliability, etc backed with financial compensation (refunds) for failures.
+
+Azure has published timelines and procedures for rollouts of new hardware and software.
+
+
+
+
 
 ## Cloud Service Types
 
