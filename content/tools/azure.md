@@ -241,6 +241,21 @@ Subscriptions can be organized into nested **Management Groups** to enforce poli
 
 **Azure Virtual Desktop (AVD)** provides a virtual desktop for work purposes.
 
+### Networking Services 
+
+**Virtual Networks** or **Virtual Private Clouds (VPC) on AWS** emulate a physical network and allow you to work remotely or combine physical networks. Creating a virtual network or **subnets** with different security settings in Azure is just a software configuration as it is all networked physically.
+
+**Address Spaces** define the number of available IP addresses in your VNet, 10.0.0.0/16 indicates a 16 bit subnet mask, giving you the last 16 bits in the address for your IPs (~65k with a 16 bit subnet mask.)
+
+**VPN Gateways** allow you to connect networks together, between on-prem and Azure or your local machine to your business network.
+
+**VNet Peering**
+
+**ExpressRoute** is a high speed PHYSICAL CABLE private connection to Azure.
+
+**Azure DNS** allows you to take control of the DNS records for your domain.
+
+
 ## Azure Storage Services
 
 **Learning goals:**
