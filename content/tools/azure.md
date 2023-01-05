@@ -221,11 +221,25 @@ Subscriptions can be organized into nested **Management Groups** to enforce poli
 **Learning goals:**
 
 * Compare compute types, including container instances, virtual machines (VMs), and functions
-* Describe VM options, including Azure Virtual Machines, Azure Virtual Machine Scale Sets, availability sets, and Azure Virtual Desktop
+* Describe VM options, including Azure Virtual Machines, Azure Virtual Machine Scale Sets (VMSS), availability sets, and Azure Virtual Desktop
 * Describe resources required for virtual machines
 * Describe application hosting options, including the Web Apps feature of Azure App Service, containers, and virtual machines
 * Describe virtual networking, including the purpose of Azure Virtual Networks, Azure virtual subnets, peering, Azure DNS, Azure VPN Gateway, and Azure ExpressRoute
 * Define public and private endpoints
+
+### Compute Types
+
+**Amazon EC2 (Elastic Compute Cloud) is akin to Azure VMs.** With VMs, you can pick from a menu of different CPU types, paired with different amounts of memory and storage. [menu](https://azure.microsoft.com/en-ca/pricing/details/virtual-machines/windows/)
+
+**VM Scale Sets** are a functionality provided for free, though you do need to pay for the consumed vm-hour-storage-memory units. Enables 2+ machines to run the same code and autoscale with more machines (up to 100 by default or 1000 configured.) 
+
+**App Services** (PaaS) runs an application with no knowledge of the underlying hardware apart from basic specs, like Heroku.
+
+**Azure Container Instance (ACI)** can run a single container or a group of containers with Docker Compose.
+
+**Azure Kubernetes Service (AKS)** can run a cluster of containers.
+
+**Azure Virtual Desktop (AVD)** provides a virtual desktop for work purposes.
 
 ## Azure Storage Services
 
