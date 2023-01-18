@@ -6,6 +6,7 @@ title = "Azure"
 toc = true
 
 +++
+
 # Learning Roadmap
 
 As recommended to me:
@@ -14,9 +15,9 @@ As recommended to me:
 
 Take these certifications in order:
 
-* AZ-900
-* AZ-104
-* AZ-303
+- AZ-900
+- AZ-104
+- AZ-303
 
 # AZ-900
 
@@ -24,25 +25,25 @@ Notes on [udemy.com/course/az900-azure](https://www.udemy.com/course/az900-azure
 
 **Learning Goals:**
 
-* Describe cloud concepts (25–30%)
-* Describe Azure architecture and services (35–40%)
-* Describe Azure management and governance (30–35%)
+- Describe cloud concepts (25–30%)
+- Describe Azure architecture and services (35–40%)
+- Describe Azure management and governance (30–35%)
 
 **Links and Resources:**
 
-* Exam requirements: [learn.microsoft.com/en-us/certifications/exams/az-900](https://learn.microsoft.com/en-us/certifications/exams/az-900 "learn.microsoft.com/en-us/certifications/exams/az-900")
-* Study guide: [AZ-900 study guide](https://query.prod.cms.rt.microsoft.com/cms/api/am/binary/RE3VwUY)
+- Exam requirements: [learn.microsoft.com/en-us/certifications/exams/az-900](https://learn.microsoft.com/en-us/certifications/exams/az-900 "learn.microsoft.com/en-us/certifications/exams/az-900")
+- Study guide: [AZ-900 study guide](https://query.prod.cms.rt.microsoft.com/cms/api/am/binary/RE3VwUY)
 
 ## Describe Cloud Computing
 
 **Learning goals:**
 
-* Define cloud computing
-* Describe the shared responsibility model
-* Define cloud models, including public, private, and hybrid
-* Identify appropriate use cases for each cloud model
-* Describe the consumption-based model
-* Compare cloud pricing models
+- Define cloud computing
+- Describe the shared responsibility model
+- Define cloud models, including public, private, and hybrid
+- Identify appropriate use cases for each cloud model
+- Describe the consumption-based model
+- Compare cloud pricing models
 
 **Cloud computing** is the ability to rent computing resources on demand, and only pay for what you use. Microsoft has already made the billion-dollar investment in hardware, networking, etc.
 
@@ -100,15 +101,14 @@ The cost savings comes from Microsoft's ability to run servers where power and c
 
 **Autoscaling** can be used in the cloud to ensure your resouces are not **overprovisioned** which is the typical scenario when buying physical hardware to avoid overloaded hardware.
 
-
 ## Benefits of Cloud Computing
 
 **Learning goals:**
 
-* Describe the benefits of high availability and scalability in the cloud
-* Describe the benefits of reliability and predictability in the cloud
-* Describe the benefits of security and governance in the cloud
-* Describe the benefits of manageability in the cloud
+- Describe the benefits of high availability and scalability in the cloud
+- Describe the benefits of reliability and predictability in the cloud
+- Describe the benefits of security and governance in the cloud
+- Describe the benefits of manageability in the cloud
 
 ### High Availability
 
@@ -120,7 +120,7 @@ Cloud services provide guarantees of reliability that use high availability as a
 
 ...etc
 
-No amount of money can achieve 100% availability. 
+No amount of money can achieve 100% availability.
 
 **Scalability** -- The ability of a system to handle growth of users or work; scaling is the ability to add capacity to an application.
 
@@ -136,7 +136,6 @@ Azure provides **Chaos Studio** to simulate various failures to see how your app
 
 **Global Availability** can be achieved by deploying your application across the many worldwide Azure datacenters, and this is something that is difficult to achieve for a corporation of any scale.
 
-
 ### Security, Governance, Monitoring
 
 - Security is a huge job and offloading it to the cloud reduces costs
@@ -145,15 +144,14 @@ Azure provides **Chaos Studio** to simulate various failures to see how your app
 - Azure provides data governance assistance to meet business and government/regulatory requirements around data. **Azure Blueprints** and **Azure Policy** can be used to automatically take actions, enforce rules, and create reports.
 - Azure provides **monitoring of raised errors** and automation to act on them without human intervention
 
-
 ## Cloud Service Types
 
 **Learning goals:**
 
-* Describe infrastructure as a service (IaaS)
-* Describe platform as a service (PaaS)
-* Describe software as a service (SaaS)
-* Identify appropriate use cases for each cloud service (IaaS, PaaS, SaaS)
+- Describe infrastructure as a service (IaaS)
+- Describe platform as a service (PaaS)
+- Describe software as a service (SaaS)
+- Identify appropriate use cases for each cloud service (IaaS, PaaS, SaaS)
 
 ![](/uploads/sqliaas_sql_server_cloud_continuum.png)
 
@@ -169,13 +167,13 @@ Azure provides **Chaos Studio** to simulate various failures to see how your app
 
 **Learning goals:**
 
-* Describe Azure regions, region pairs, and sovereign regions
-* Describe availability zones
-* Describe Azure datacenters
-* Describe Azure resources and resource groups
-* Describe subscriptions
-* Describe management groups
-* Describe the hierarchy of resource groups, subscriptions, and management groups
+- Describe Azure regions, region pairs, and sovereign regions
+- Describe availability zones
+- Describe Azure datacenters
+- Describe Azure resources and resource groups
+- Describe subscriptions
+- Describe management groups
+- Describe the hierarchy of resource groups, subscriptions, and management groups
 
 ```
 AZURE ARCHITECTURAL HIERARCHY 2022
@@ -208,7 +206,7 @@ Datacenters must be withink 50km of one another to be grouped in a single region
 
 ### Azure Resources and Resource Groups
 
-**Resource Groups** are logical groupings of Azure resources typically based on shared function. 
+**Resource Groups** are logical groupings of Azure resources typically based on shared function.
 
 **Resources can only be part of one group, and must be part of a group.**
 
@@ -222,18 +220,18 @@ Subscriptions can be organized into nested **Management Groups** to enforce poli
 
 **Learning goals:**
 
-* Compare compute types, including container instances, virtual machines (VMs), and functions
-* Describe VM options, including Azure Virtual Machines, Azure Virtual Machine Scale Sets (VMSS), availability sets, and Azure Virtual Desktop
-* Describe resources required for virtual machines
-* Describe application hosting options, including the Web Apps feature of Azure App Service, containers, and virtual machines
-* Describe virtual networking, including the purpose of Azure Virtual Networks, Azure virtual subnets, peering, Azure DNS, Azure VPN Gateway, and Azure ExpressRoute
-* Define public and private endpoints
+- Compare compute types, including container instances, virtual machines (VMs), and functions
+- Describe VM options, including Azure Virtual Machines, Azure Virtual Machine Scale Sets (VMSS), availability sets, and Azure Virtual Desktop
+- Describe resources required for virtual machines
+- Describe application hosting options, including the Web Apps feature of Azure App Service, containers, and virtual machines
+- Describe virtual networking, including the purpose of Azure Virtual Networks, Azure virtual subnets, peering, Azure DNS, Azure VPN Gateway, and Azure ExpressRoute
+- Define public and private endpoints
 
 ### Compute Types
 
 **Amazon EC2 (Elastic Compute Cloud) is akin to Azure VMs.** With VMs, you can pick from a menu of different CPU types, paired with different amounts of memory and storage. [menu](https://azure.microsoft.com/en-ca/pricing/details/virtual-machines/windows/)
 
-**VM Scale Sets** are a functionality provided for free, though you do need to pay for the consumed vm-hour-storage-memory units. Enables 2+ machines to run the same code and autoscale with more machines (up to 100 by default or 1000 configured.) 
+**VM Scale Sets** are a functionality provided for free, though you do need to pay for the consumed vm-hour-storage-memory units. Enables 2+ machines to run the same code and autoscale with more machines (up to 100 by default or 1000 configured.)
 
 **App Services** (PaaS) runs an application with no knowledge of the underlying hardware apart from basic specs, like Heroku.
 
@@ -243,10 +241,10 @@ Subscriptions can be organized into nested **Management Groups** to enforce poli
 
 **Azure Virtual Desktop (AVD)** provides a virtual desktop for work purposes.
 
-### Networking Services 
+### Networking Services
 
 **Virtual Networks** or **Virtual Private Clouds (VPC) on AWS** emulate a physical network and allow you to work remotely or combine physical networks.
-Creating interconnected virtual networks or **subnets** with different security settings in Azure is just a software configuration called *peering* as it is all networked physically.
+Creating interconnected virtual networks or **subnets** with different security settings in Azure is just a software configuration called _peering_ as it is all networked physically.
 
 **Address Spaces** define the number of available IP addresses in your VNet, 10.0.0.0/16 indicates a 16 bit subnet mask, giving you the last 16 bits in the address for your IPs (~65k with a 16 bit subnet mask.)
 
@@ -257,32 +255,30 @@ One-way and two-way traffic can be configured between peered subnets. Global pee
 
 **Private Endpoints** allow you to make a resource accessible only at a [specific IP on a virtual network](https://learn.microsoft.com/en-us/azure/private-link/private-endpoint-overview).
 
-
 **ExpressRoute** is a high speed PHYSICAL CABLE private connection to Azure.
 
 **Azure DNS** allows you to take control of the DNS records for your domain.
-
 
 ## Azure Storage Services
 
 **Learning goals:**
 
-* Compare Azure storage services
-* Describe storage tiers
-* Describe redundancy options
-* Describe storage account options and storage types
-* Identify options for moving files, including AzCopy, Azure Storage Explorer, and Azure File Sync
-* Describe migration options, including Azure Migrate and Azure Data Box
+- Compare Azure storage services
+- Describe storage tiers
+- Describe redundancy options
+- Describe storage account options and storage types
+- Identify options for moving files, including AzCopy, Azure Storage Explorer, and Azure File Sync
+- Describe migration options, including Azure Migrate and Azure Data Box
 
 Blob, disk, file storage.
 
 In an **Azure Storage** account, the most common storage type is general purpose v2 (**GPV2**) which can
-hold blobs, tables, queues, and files. It's the cheapest as well at roughly 2 cents per GB. 
+hold blobs, tables, queues, and files. It's the cheapest as well at roughly 2 cents per GB.
 This is equivalent to **AWS S3**.
 
-**BLOB = Binary Large OBject** 
+**BLOB = Binary Large OBject**
 
-**Blob or Unmanaged Storage** like gpv2 allows you to store objects and be charged by size and egress. Blob storage is organized into *containers* and the access tier, block size, [endpoints,](https://learn.microsoft.com/en-us/azure/storage/common/storage-account-overview#standard-endpoints)
+**Blob or Unmanaged Storage** like gpv2 allows you to store objects and be charged by size and egress. Blob storage is organized into _containers_ and the access tier, block size, [endpoints,](https://learn.microsoft.com/en-us/azure/storage/common/storage-account-overview#standard-endpoints)
 etc can be set on a per-container basis in a storage account. Temporary permissions can be generated for a blob by creating an [SAS key](https://learn.microsoft.com/en-us/azure/storage/blobs/sas-service-create?tabs=dotnet) that allows you to read or write, etc.
 
 **Disk Storage** allows you to take control of a full pre-allocated disk, and you pay for the disk size and speed regardless of usage.
@@ -321,58 +317,97 @@ azcopy copy '<url to source>' '<url to dest>'
 
 **Migration Tools and Strategies:**
 
-1. **Azure Migrate** is a guided experience for IT to migrate their resources to the cloud. It includes tools to *map your current environment* so you'll know what you need to provision in Azure. The tool will make recommendations and raise flags if current tech is unable to be moved in a conventional/easy way.
-2. **Azure Data Box** is for scenarios where massive volumes (Terabytes to Petabytes) of data must be moved to the cloud. Data boxes range in size from a single SSD (8TB) to a box (100TB) to a "Data Box Heavy" on wheels (1PB)
+1. **Azure Migrate** is a guided experience for IT to migrate their resources to the cloud. It includes tools to _map your current environment_ so you'll know what you need to provision in Azure. The tool will make recommendations and raise flags if current tech is unable to be moved in a conventional/easy way.
+2. **Azure Data Box** is for scenarios where massive volumes (Terabytes to Petabytes) of data must be moved to the cloud. Data boxes range in size from a single SSD (8TB) to a box (100TB) to a "Data Box Heavy" on wheels (1PB). The data will be shipped encrypted and uploaded to your account when it arrives.
 
 ![](/uploads/data-box.png)
 
 ## Identity, Access, and Security
 
+<!-- LEARNING GOALS -->
+
 **Learning goals:**
 
-* Describe directory services in Azure, including Microsoft Azure Active Directory (Azure AD), part of Microsoft Entra and Azure Active Directory Domain Services (Azure AD DS)
-* Describe authentication methods in Azure, including single sign-on (SSO), multifactor authentication, and passwordless
-* Describe external identities and guest access in Azure
-* Describe Conditional Access in Microsoft Azure Active Directory (Azure AD), part of Microsoft Entra
-* Describe Azure role-based access control (RBAC)
-* Describe the concept of Zero Trust
-* Describe the purpose of the defense in depth model
-* Describe the purpose of Microsoft Defender for Cloud
+- Describe directory services in Azure, including Microsoft Azure Active Directory (Azure AD), part of Microsoft Entra and Azure Active Directory Domain Services (Azure AD DS)
+- Describe authentication methods in Azure, including single sign-on (SSO), multifactor authentication, and passwordless
+- Describe external identities and guest access in Azure
+- Describe Conditional Access in Microsoft Azure Active Directory (Azure AD), part of Microsoft Entra
+- Describe Azure role-based access control (RBAC)
+- Describe the concept of Zero Trust
+- Describe the purpose of the defense in depth model
+- Describe the purpose of Microsoft Defender for Cloud
+
+<!-- NOTES AND CONTENT -->
+
+Generally, **identity** is a digital representation of an entity that requires access to a system. This could be a person, device, or robot/application. Digital identity requires proof such as a key, password, or certificate. 
+
+**Authentication:** who are you?
+
+**Authorization:** what are you allowed to do?
+
+**Azure AD** is a security protocol used on Azure. It is **identity as a service** (idaas? lol.)
+Much like OAuth, the web server is passed a signed/trusted token it can use to identify the user.
+
+![](/images/azure/authenticationflow.png)
+
+Using Azure AD means skipping writing a complex security system, as AAD includes [MFA](https://learn.microsoft.com/en-us/azure/active-directory/authentication/overview-authentication)
+and plenty of other security measures built in.
+
+Using Azure AD with all your applications offers a centralized, consistent, secure approach to using your org's applications, and even many applications outside your organization or SaaS offerings.
+
+Azure AD has the ability to configure **conditional access** which detects *unusual logins* and can block access or ask for additional information. For example, is the user on the company network? Have they not logged in for years? AAD calls these *signals*.
+
+**MFA: Multi-Factor Authentication** -- Requires two or more pieces of evidence that the user is not an impostor. This can be something you **know** (password), something you **have** (phone), or something you **are** (biometric artifact).
 
 ## Azure Cost Management
 
+<!-- LEARNING GOALS -->
+
 **Learning goals:**
 
-* Describe factors that can affect costs in Azure
-* Compare the Pricing calculator and the Total Cost of Ownership (TCO) calculator
-* Describe the Azure Cost Management and Billing tool
-* Describe the purpose of tags
+- Describe factors that can affect costs in Azure
+- Compare the Pricing calculator and the Total Cost of Ownership (TCO) calculator
+- Describe the Azure Cost Management and Billing tool
+- Describe the purpose of tags
+
+<!-- NOTES AND CONTENT -->
 
 ## Azure Governanace and Compliance
 
+<!-- LEARNING GOALS -->
+
 **Learning goals:**
 
-* Describe the purpose of Azure Blueprints
-* Describe the purpose of Azure Policy
-* Describe the purpose of resource locks
-* Describe the purpose of the Service Trust Portal
+- Describe the purpose of Azure Blueprints
+- Describe the purpose of Azure Policy
+- Describe the purpose of resource locks
+- Describe the purpose of the Service Trust Portal
+
+<!-- NOTES AND CONTENT -->
 
 ## Tools for Managing and Deploying Azure Resources
 
+<!-- LEARNING GOALS -->
+
 **Learning goals:**
 
-* Describe the Azure portal
-* Describe Azure Cloud Shell, including Azure CLI and Azure PowerShell
-* Describe the purpose of Azure Arc
-* Describe Azure Resource Manager and Azure Resource Manager templates (ARM templates)
+- Describe the Azure portal
+- Describe Azure Cloud Shell, including Azure CLI and Azure PowerShell
+- Describe the purpose of Azure Arc
+- Describe Azure Resource Manager and Azure Resource Manager templates (ARM templates)
+
+<!-- NOTES AND CONTENT -->
 
 ## Monitoring Tools
 
+<!-- LEARNING GOALS -->
+
 **Learning goals:**
 
-* Describe the purpose of Azure Advisor
-* Describe Azure Service Health
-* Describe Azure Monitor, including Log Analytics, Azure Monitor alerts, and Application Insights
+- Describe the purpose of Azure Advisor
+- Describe Azure Service Health
+- Describe Azure Monitor, including Log Analytics, Azure Monitor alerts, and Application Insights
 
+<!-- NOTES AND CONTENT -->
 
 # Footnotes
