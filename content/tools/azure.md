@@ -178,6 +178,8 @@ Azure provides **Chaos Studio** to simulate various failures to see how your app
 * Describe the hierarchy of resource groups, subscriptions, and management groups
 
 ```
+AZURE ARCHITECTURAL HIERARCHY 2022
+
 Management Groups
  |__ Subscriptions
       |__ Resource Groups
@@ -243,13 +245,18 @@ Subscriptions can be organized into nested **Management Groups** to enforce poli
 
 ### Networking Services 
 
-**Virtual Networks** or **Virtual Private Clouds (VPC) on AWS** emulate a physical network and allow you to work remotely or combine physical networks. Creating a virtual network or **subnets** with different security settings in Azure is just a software configuration as it is all networked physically.
+**Virtual Networks** or **Virtual Private Clouds (VPC) on AWS** emulate a physical network and allow you to work remotely or combine physical networks.
+Creating interconnected virtual networks or **subnets** with different security settings in Azure is just a software configuration called *peering* as it is all networked physically.
 
 **Address Spaces** define the number of available IP addresses in your VNet, 10.0.0.0/16 indicates a 16 bit subnet mask, giving you the last 16 bits in the address for your IPs (~65k with a 16 bit subnet mask.)
 
 **VPN Gateways** allow you to connect networks together, between on-prem and Azure or your local machine to your business network.
 
-**VNet Peering**
+**VNet Peering** enables the interconnection of vnets.
+One-way and two-way traffic can be configured between peered subnets. Global peering is possible but costs money for bandwidth: egress from zone A, and ingress to zone B.
+
+**Private Endpoints** allow you to make a resource accessible only at a [specific IP on a virtual network](https://learn.microsoft.com/en-us/azure/private-link/private-endpoint-overview).
+
 
 **ExpressRoute** is a high speed PHYSICAL CABLE private connection to Azure.
 
@@ -266,6 +273,52 @@ Subscriptions can be organized into nested **Management Groups** to enforce poli
 * Describe storage account options and storage types
 * Identify options for moving files, including AzCopy, Azure Storage Explorer, and Azure File Sync
 * Describe migration options, including Azure Migrate and Azure Data Box
+
+Blob, disk, file storage.
+
+In an **Azure Storage** account, the most common storage type is general purpose v2 (**GPV2**) which can
+hold blobs, tables, queues, and files. It's the cheapest as well at roughly 2 cents per GB. 
+This is equivalent to **AWS S3**.
+
+**BLOB = Binary Large OBject** 
+
+**Blob or Unmanaged Storage** like gpv2 allows you to store objects and be charged by size and egress. Blob storage is organized into *containers* and the access tier, block size, [endpoints,](https://learn.microsoft.com/en-us/azure/storage/common/storage-account-overview#standard-endpoints)
+etc can be set on a per-container basis in a storage account. Temporary permissions can be generated for a blob by creating an [SAS key](https://learn.microsoft.com/en-us/azure/storage/blobs/sas-service-create?tabs=dotnet) that allows you to read or write, etc.
+
+**Disk Storage** allows you to take control of a full pre-allocated disk, and you pay for the disk size and speed regardless of usage.
+
+**Access tiers** - hot, cool, archive -- the cool tier is half the price, but is slower and costs more to access. Archive tier is ~10% of the cost of hot storage, but may take hours to access.
+
+Performance tiers - premium, standard
+
+Location - keep close to your application instances
+
+**Redundancy** - multiple replicated copies of files in different regions. Options include:
+
+1. **LRS** -- Locally-redundant storage, multiple disks in one datacenter, the default.
+1. **GRS** -- Geo-redundant storage, disks in different regions, good for backups.
+1. **ZRS** -- Zone-redundant storage, disks in different zones, good for high availability.
+1. **GZRS** -- Geo-zone-redundant storage, good for critical data.
+
+Failover - automatically using a storage backup
+
+**Data Lake Storage Gen 2** enables hierarchical namespaces and access to parts of a ludicrously large virtual filesystem.
+
+**To move files, there are four options available:**
+
+1. Blob container view, for development.
+2. **Azure Storage Explorer/Browser** which allows you to see all files in a storage account and manipulate them.
+3. **AzCopy** allows you to copy data between storage accounts on the Azure network to prevent egress and ingress fees. It can run within the Azure cloud shell, or locally to move things to and from the cloud. With a blob SAS and container SAS, you can copy a blob to a new container. You can even copy from other clouds or anything with a URL.
+4. **Azure File Sync** is uses to synchronize on-premise disks with **cloud file shares**.
+
+```pwsh
+# PowerShell (pwsh) AZCopy Example
+
+azcopy -?  # see if it's installed
+
+azcopy copy '<url to source>' '<url to dest>'
+```
+
 
 ## Identity, Access, and Security
 
@@ -314,5 +367,6 @@ Subscriptions can be organized into nested **Management Groups** to enforce poli
 * Describe the purpose of Azure Advisor
 * Describe Azure Service Health
 * Describe Azure Monitor, including Log Analytics, Azure Monitor alerts, and Application Insights
+
 
 # Footnotes

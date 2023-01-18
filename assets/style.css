@@ -81,6 +81,13 @@ picture {
   display: block;
 }
 
+img {
+  /* border: 1px solid #ecd873; */
+  border: 1px solid black;
+  border-radius: 5px;
+  box-shadow: none;
+}
+
 /* Inherit fonts for inputs and buttons */
 input,
 button,
@@ -103,7 +110,7 @@ select {
 
 /* Page HTML/CSS */
 html {
-  scroll-behavior: smooth;
+  /* scroll-behavior: smooth; */
   overflow-y: scroll;
   padding: 0.5rem;
   font-size: 15px;
