@@ -357,7 +357,23 @@ Using Azure AD with all your applications offers a centralized, consistent, secu
 
 Azure AD has the ability to configure **conditional access** which detects *unusual logins* and can block access or ask for additional information. For example, is the user on the company network? Have they not logged in for years? AAD calls these *signals*.
 
-**MFA: Multi-Factor Authentication** -- Requires two or more pieces of evidence that the user is not an impostor. This can be something you **know** (password), something you **have** (phone), or something you **are** (biometric artifact).
+**MFA: Multi-Factor Authentication** -- Requires *two or more* pieces of evidence that the user is not an impostor. This can be something you **know** (password), something you **have** (phone), or something you **are** (biometric artifact).
+
+**Passwordless authentication** attempts to reduce the inconvenience of MFA while retaining the security benefits. Essentially MFA without passwords as an auth option. Can be simple games while carefully checking *signals* like the device.
+
+Azure **RBAC** (role based access control) allows administrators to enable granular access to all the Azure services for a variety of roles. Readonly to storage for business roles, control over virtual machines for developers, the ability to create and destroy VMs and storage for developer admins, etc. It's easy to create custom permissions and roles. It is rare to manage permissions on an individual level, it is far more common to use roles.
+
+**Common Azure Permissions:**
+
+1. **Reader** -- Can read
+1. **Contributor** -- Can read and write
+1. **Owner** -- Can assign permissions to other users
+
+**Zero Trust** means providing many security thresholds within a service or between applications, with everything locked by default, only enabling access to exactly what is needed to complete work. The principles of zero trust are:
+
+1. Verify explicitly
+1. Use least priviliged access
+1. Assume [your network has been] breached
 
 ## Azure Cost Management
 
