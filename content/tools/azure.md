@@ -65,7 +65,9 @@ With these resources, you lose some control and responsibility, and are paying f
 
 ![](/uploads/screenshot-2023-01-03-at-4-02-01-pm.png)
 
-[learn.microsoft.com/en-us/azure/security/fundamentals/shared-responsibility](https://learn.microsoft.com/en-us/azure/security/fundamentals/shared-responsibility)
+**↑** A diagram with 
+[shared responsibility](https://learn.microsoft.com/en-us/azure/security/fundamentals/shared-responsibility)
+by cloud model.
 
 **Cloud Types:**
 
@@ -93,7 +95,8 @@ Pricing will also vary by **region** and **cloud**. Providers try to price their
 
 ![](/uploads/cloud-on-premises-comparison.png)
 
-[A Business Case for Cloud Migration](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/strategy/cloud-migration-business-case)
+**↑** A [Business Case](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/strategy/cloud-migration-business-case)
+for Cloud Migration.
 
 The cost savings comes from Microsoft's ability to run servers where power and cooling are cheap, so they can make a profit while still providing the computing service at a far lower TCO.
 
@@ -155,7 +158,9 @@ Azure provides **Chaos Studio** to simulate various failures to see how your app
 
 ![](/uploads/sqliaas_sql_server_cloud_continuum.png)
 
-[learn.microsoft.com/en-us/azure/azure-sql/azure-sql-iaas-vs-paas-what-is-overview](https://learn.microsoft.com/en-us/azure/azure-sql/azure-sql-iaas-vs-paas-what-is-overview)
+**↑** A diagram showing 
+[cloud service types](https://learn.microsoft.com/en-us/azure/azure-sql/azure-sql-iaas-vs-paas-what-is-overview)
+that can run on Azure.
 
 **IaaS** -- Infrastructure as a Service offers compute, networking, and storage resources on demand, where you take full responsiblity for how your application is deployed and for most of the configuration of the underlying resources.
 
@@ -322,6 +327,8 @@ azcopy copy '<url to source>' '<url to dest>'
 
 ![](/uploads/data-box.png)
 
+**↑** Options for migrating data to Azure.
+
 ## Identity, Access, and Security
 
 <!-- LEARNING GOALS -->
@@ -350,7 +357,7 @@ Much like OAuth, the web server is passed a signed/trusted token it can use to i
 
 ![](/images/azure/authenticationflow.png)
 
-Using Azure AD means skipping writing a complex security system, as AAD includes [MFA](https://learn.microsoft.com/en-us/azure/active-directory/authentication/overview-authentication)
+**↑** Using Azure AD means skipping writing a complex security system, as AAD includes [MFA](https://learn.microsoft.com/en-us/azure/active-directory/authentication/overview-authentication)
 and plenty of other security measures built in.
 
 Using Azure AD with all your applications offers a centralized, consistent, secure approach to using your org's applications, and even many applications outside your organization or SaaS offerings.
@@ -372,8 +379,18 @@ Azure **RBAC** (role based access control) allows administrators to enable granu
 **Zero Trust** means providing many security thresholds within a service or between applications, with everything locked by default, only enabling access to exactly what is needed to complete work. The principles of zero trust are:
 
 1. Verify explicitly
-1. Use least priviliged access
+1. Use least privileged access
 1. Assume [your network has been] breached
+
+**JIT:** Just in Time -- only grant permissions when needed
+
+**JEA:** Just Enough Access -- don't over-provision access
+
+**Defense in depth** is to provide ample security within the network: encryption, segmentation, threat detection, etc.
+
+![](/images/azure/security-policy.png)
+
+**↑** A map of Microsoft's zero trust policy security model.
 
 ## Azure Cost Management
 
