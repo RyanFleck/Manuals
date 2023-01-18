@@ -360,9 +360,9 @@ Much like OAuth, the web server is passed a signed/trusted token it can use to i
 **↑** Using Azure AD means skipping writing a complex security system, as AAD includes [MFA](https://learn.microsoft.com/en-us/azure/active-directory/authentication/overview-authentication)
 and plenty of other security measures built in.
 
-Using Azure AD with all your applications offers a centralized, consistent, secure approach to using your org's applications, and even many applications outside your organization or SaaS offerings.
+Azure AD offers a centralized, consistent, secure approach to using your org's applications, and even many applications outside your organization or SaaS offerings.
 
-Azure AD has the ability to configure **conditional access** which detects *unusual logins* and can block access or ask for additional information. For example, is the user on the company network? Have they not logged in for years? AAD calls these *signals*.
+AAD has the ability to configure **conditional access** which detects *unusual logins* and can block access or ask for additional information. For example, is the user on the company network? Have they not logged in for years? AAD calls these *signals*.
 
 **MFA: Multi-Factor Authentication** -- Requires *two or more* pieces of evidence that the user is not an impostor. This can be something you **know** (password), something you **have** (phone), or something you **are** (biometric artifact).
 
@@ -386,11 +386,35 @@ Azure **RBAC** (role based access control) allows administrators to enable granu
 
 **JEA:** Just Enough Access -- don't over-provision access
 
-**Defense in depth** is to provide ample security within the network: encryption, segmentation, threat detection, etc.
 
 ![](/images/azure/security-policy.png)
 
-**↑** A map of Microsoft's zero trust policy security model.
+**↑** A map of Microsoft's [zero trust](https://www.microsoft.com/en-us/security/business/zero-trust) policy security model.
+
+1. **Applications** should have appropriate user powers and monitor users.
+1. **Data** should be encrypted and access should be restricted
+1. **Infrastructure** should be monitored to detect attacks and unusual usage
+
+Provide ample security within the network: encryption, segmentation, threat detection, etc.
+
+The **Defense in Depth** principle means applying security best practices at every level of an organization:
+
+1. Physical -- locks and room access
+1. Identity -- Azure AD
+1. Network -- ddos, firewalls, subnets, deny by default
+1. Compute -- limit RDP use, access, keep servers up to date
+1. Apps -- APIs are well written and secure
+1. Data -- Tightly scoped vnet access
+
+Azure provides many tools for each category.
+
+![](/images/azure/defense-in-depth.jpg)
+
+**↑** Sample *defense in depth* slide showing security layers.
+
+
+**Microsoft Defender for Cloud** provides security, posture management, and threat detection. By paying per resource per month (~$15USD per server) Microsoft provides an in-depth security analysis and monitoring of the resource.
+
 
 ## Azure Cost Management
 
@@ -404,6 +428,47 @@ Azure **RBAC** (role based access control) allows administrators to enable granu
 - Describe the purpose of tags
 
 <!-- NOTES AND CONTENT -->
+
+Billing is calculated from a broad variety of factors depending on the service. Many services have a free tier or are free below a certain limit, like virtual networks, load balancing, basic AAD, and free-tier web apps. Using pay-by-consumption or serverless models can save organizations a lot of money -- one million executions of an Azure Function will cost ~$0.20 USD. Per second billing is used for resources like VMs and disks.
+
+Pricing can be made more stable with a 1 -> 3 year commitment in reserved VM instances. Long-term contracts can be made to reduce storage, VM, networking costs. 
+
+**Azure is priced to increase cloud utilization.**
+
+Ingress (inbound data) is almost always **free** for obvious reasons.
+
+1PB of data would cost **~$52,000 USD** to remove from Azure.
+
+The Azure [Pricing Calculator](https://azure.microsoft.com/en-ca/pricing/calculator/)
+allows consultants to make an educated guess about the costs of a service.
+As Azure's pricing changes, the cost of provisioned services will change, so the pricing calculator must be used with this in mind.
+
+
+![](/images/azure/pricing-calculator-1.png)
+
+**↑** The 2022 **Azure Pricing Calculator** homepage.
+
+![](/images/azure/pricing-calculator-2.png)
+
+**↑** The calculator provides common scenarios.
+
+**TCO: Total Cost of Ownership** can be estimated with the [Azure TCO Calculator](https://azure.microsoft.com/en-ca/pricing/tco/calculator/) and is oriented towards comparing current on-prem costs with a potential Azure re-deployment. It attempts to factor in power, networking costs, hardware costs, software licenses, and IT personnel costs to determine if the client will attain a *hybrid benefit* from moving some or all of their workload to Azure.
+
+**Resource Tags** can be used to organize which department the bills for a certain resource are sent. Tags can be used for many other things, but they are particularly useful for billing as dashboards can show cost by tag.
+
+**HELLO SIR YOU HAVE REACHED THE BILLING DEPARTMENT SIR WHAT IS YOUR BILLING CODE SIR!?**
+
+### Dashboards for Cost Management & Billing
+
+Running costs can be viewed and analyzed with free Azure tools. Budgets can be specified, payments tracked, and recommendations given by the system. The dashboard can provide spending estimates and configurable alerts.
+
+![](/images/azure/azure-cost-mgmt.png)
+
+**↑** An [example dashboard](https://azure.microsoft.com/en-us/products/cost-management/#overview)
+showing spending analytics.
+
+Reports can be scheduled showing resource usage.
+
 
 ## Azure Governanace and Compliance
 
