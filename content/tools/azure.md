@@ -309,16 +309,22 @@ Failover - automatically using a storage backup
 1. Blob container view, for development.
 2. **Azure Storage Explorer/Browser** which allows you to see all files in a storage account and manipulate them.
 3. **AzCopy** allows you to copy data between storage accounts on the Azure network to prevent egress and ingress fees. It can run within the Azure cloud shell, or locally to move things to and from the cloud. With a blob SAS and container SAS, you can copy a blob to a new container. You can even copy from other clouds or anything with a URL.
-4. **Azure File Sync** is uses to synchronize on-premise disks with **cloud file shares**.
+4. **Azure File Sync** is uses to synchronize on-premise disks with **cloud file shares**. Fileshares are typically connected to via the [SMB](https://learn.microsoft.com/en-us/windows/win32/fileio/microsoft-smb-protocol-and-cifs-protocol-overview) protocol, [NTLM v2](https://learn.microsoft.com/en-us/windows-server/security/kerberos/ntlm-overview) authentication, and [AES-128-GCM](https://www.aes-gcm.com/) encryption. To set this up with a storage account, add a storage sync service, and install the file sync agent on the target.
 
-```pwsh
-# PowerShell (pwsh) AZCopy Example
+```ps1
+# PowerShell (.ps1) AZCopy Example
 
 azcopy -?  # see if it's installed
 
 azcopy copy '<url to source>' '<url to dest>'
 ```
 
+**Migration Tools and Strategies:**
+
+1. **Azure Migrate** is a guided experience for IT to migrate their resources to the cloud. It includes tools to *map your current environment* so you'll know what you need to provision in Azure. The tool will make recommendations and raise flags if current tech is unable to be moved in a conventional/easy way.
+2. **Azure Data Box** is for scenarios where massive volumes (Terabytes to Petabytes) of data must be moved to the cloud. Data boxes range in size from a single SSD (8TB) to a box (100TB) to a "Data Box Heavy" on wheels (1PB)
+
+![](/uploads/data-box.png)
 
 ## Identity, Access, and Security
 
