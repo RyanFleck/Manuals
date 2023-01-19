@@ -456,7 +456,12 @@ As Azure's pricing changes, the cost of provisioned services will change, so the
 
 **Resource Tags** can be used to organize which department the bills for a certain resource are sent. Tags can be used for many other things, but they are particularly useful for billing as dashboards can show cost by tag.
 
-**HELLO SIR YOU HAVE REACHED THE BILLING DEPARTMENT SIR WHAT IS YOUR BILLING CODE SIR!?**
+_\*BRRRING!\* \*BRRRING!\* \*CLICK!\* \*SHFHFHFUF-FLE-SHUFFLFL!\*_
+
+**HELLO SIR** YOU HAVE REACHED **THE BILLING DEPARTMENT SIR** WHAT IS YOUR BILLING CODE SIR!?
+**SIR!? ARE YOU THERE SIR!?!?** HELLO??? SIR!?
+
+_\*CLICK!\*_
 
 ### Dashboards for Cost Management & Billing
 
@@ -480,6 +485,11 @@ Reports can be scheduled showing resource usage.
 - Describe the purpose of Azure Policy
 - Describe the purpose of resource locks
 - Describe the purpose of the Service Trust Portal
+
+A company may have certain IT rules that they want to implement. Azure provides a variety of tools to enforce these policies programmatically. For instance: _Ensure all servers have at least one daily backup._
+
+This rule can either be enforced socially, with an email to IT, or programmatically in Azure, with tools like those listed in the learning goals above which will now be explored.
+
 
 <!-- NOTES AND CONTENT -->
 
