@@ -500,7 +500,7 @@ This rule can either be enforced socially, with an email to IT, or programmatica
 
 You can also *write your own policies* to help prevent unsafe practices and limit costs.
 
-**Resource locks:** You can mark a resouce as read only to ensure other users cannot modify the state of the VM, delete it, or modify its properties. You can ensure only a limited subset of people can apply and remove locks.
+**Resource Locks:** You can mark a resouce as read only to ensure other users cannot modify the state of the VM, delete it, or modify its properties. You can ensure only a limited subset of people can apply and remove locks.
 
 The **Service Trust Portal** holds all the [documents](https://servicetrust.microsoft.com) related to Azure's compliance towards regulations and standards. It even contains **blueprints** for certain applications and industries, like healthcare or US Government.
 
@@ -518,6 +518,43 @@ The **Service Trust Portal** holds all the [documents](https://servicetrust.micr
 - Describe Azure Resource Manager and Azure Resource Manager templates (ARM templates)
 
 <!-- NOTES AND CONTENT -->
+
+**Azure Portal:** Available at portal.azure.com, Microsoft provides a web GUI for creating and managing all Azure resources.
+
+**Azure Cloud Shell, CLI, Powershell:** At a certain point, resources may become too numerous to manage via the portal, and so can be partially or completely managed via the cloud shell over Powershell or Bash. It can be accessed directly at [cloudshell.azure.com](https://cloudshell.azure.com).
+
+Some command examples:
+
+```sh
+# az is the Azure CLI
+$ az webapp list
+# to create resources:
+# az <target> <action>
+
+# Create a Resource Group
+$ az group create --name NewRG --location eastus
+
+# Create a VM
+$ az vm create  
+    --resource-group NewRG 
+    --name LearningVM 
+    --image Win2019DataCenter
+    --public-ip-sku Standard
+    --admin-username xXgoliathXx
+
+# Open port 80 on the VM
+az vm open-port 
+    --port 80 
+    --resource-group NewRG 
+    --name LearningVM
+
+# Wipe the Resource Group
+az group delete --name newrg
+```
+
+**Azure Arc:**
+
+**Azure Resource Manager:**
 
 ## Monitoring Tools
 
