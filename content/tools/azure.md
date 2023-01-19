@@ -490,6 +490,10 @@ A company may have certain IT rules that they want to implement. Azure provides 
 
 This rule can either be enforced socially, with an email to IT, or programmatically in Azure, with tools like those listed in the learning goals above which will now be explored.
 
+**Azure Blueprint** provides a way to standardize the creation and management of subscriptions. It can create and enforce security rules, resource groups, and policies across a set of subscriptions that can be per client or just per department.
+
+**Azure Policy** provides a way to programmatically define these rules. 
+
 
 <!-- NOTES AND CONTENT -->
 
