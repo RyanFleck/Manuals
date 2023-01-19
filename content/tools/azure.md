@@ -492,8 +492,17 @@ This rule can either be enforced socially, with an email to IT, or programmatica
 
 **Azure Blueprint** provides a way to standardize the creation and management of subscriptions. It can create and enforce security rules, resource groups, and policies across a set of subscriptions that can be per client or just per department.
 
-**Azure Policy** provides a way to programmatically define these rules. 
+**Azure Policy** provides a way to programmatically define and enforce these rules. For example, you can mandate:
 
+- A mininum SQL server version
+- Limit which virtual machine SKUs can be used
+- Define required tags and their default values
+
+You can also *write your own policies* to help prevent unsafe practices and limit costs.
+
+**Resource locks:** You can mark a resouce as read only to ensure other users cannot modify the state of the VM, delete it, or modify its properties. You can ensure only a limited subset of people can apply and remove locks.
+
+The **Service Trust Portal** holds all the [documents](https://servicetrust.microsoft.com) related to Azure's compliance towards regulations and standards. It even contains **blueprints** for certain applications and industries, like healthcare or US Government.
 
 <!-- NOTES AND CONTENT -->
 
