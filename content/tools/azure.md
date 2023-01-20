@@ -552,9 +552,11 @@ az vm open-port
 az group delete --name newrg
 ```
 
-**Azure Arc:**
+**Azure Arc:** Allows you to manage on-prem infrastructure or resouces in other clouds like GCP or AWS. SQL Servers, Kubernetes clusters, etc. Azure Stack HCI refers to edges on private clouds. 
 
-**Azure Resource Manager:**
+**ARM: Azure Resource Manager:** The service that runs underneath Azure Portal/CLI/Cloud Shell that can be manipulated with the aforementioned tools or a set of APIs. When creating a resource, you'll have the option to click either *create* or a button that says **'Download a template for automation'** which presents a JSON document with all of the parameters you entered within the wizard. This is an **ARM Template**.
+
+**ARM Templates** which describe the creation of a resource can be used in a script or added to your personal **Template Library** which will catalogue all the resource creation guides you've saved within it. Microsoft also provides a collection of common blank templates.
 
 ## Monitoring Tools
 
