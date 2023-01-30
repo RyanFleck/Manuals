@@ -556,7 +556,7 @@ az group delete --name newrg
 
 **ARM: Azure Resource Manager:** The service that runs underneath Azure Portal/CLI/Cloud Shell that can be manipulated with the aforementioned tools or a set of APIs. When creating a resource, you'll have the option to click either *create* or a button that says **'Download a template for automation'** which presents a JSON document with all of the parameters you entered within the wizard. This is an **ARM Template**.
 
-**ARM Templates** which describe the creation of a resource can be used in a script or added to your personal **Template Library** which will catalogue all the resource creation guides you've saved within it. Microsoft also provides a collection of common blank templates.
+**ARM Templates** which describe the creation of a resource can be used in a script or added to your personal **Template Library** which will catalogue all the resource creation guides you've saved within it. Microsoft also provides a collection of common blank templates. ARM Templates are very powerful and can be tweaked and customize to completely automate deployments. They can be organized by version, and changes can be noted alongside version numbers.
 
 ## Monitoring Tools
 
@@ -569,5 +569,17 @@ az group delete --name newrg
 - Describe Azure Monitor, including Log Analytics, Azure Monitor alerts, and Application Insights
 
 <!-- NOTES AND CONTENT -->
+
+**Azure Advisor** checks the resources you are using and provides cost saving recommendations. It applies common security checks to your machines and suggests common best practices and warns about vulnerable ports and addresses. 
+
+**Azure Service Health** provides information on how the _Azure Service Itself_ is running and can be **configured to send you alerts** about how the services are running globally and inform you of any outages.
+
+**Azure Monitor** is a centralized dashboard that allows you to monitor all of your Azure services. Monitors that check things frequently will incur a cost. You can write custom queries to check all of the data that is collected by Azure about your resources in the course of running them.
+
+## AZ-900 Practice Q&A
+
+# ARM Templates and Scripted Environment Initialization
+
+From the AZ-900 course, it became clear that not only could systems be spun up with Terraforms, etc, but also ARM templates. This section is dedicated to findings and recipes for setting up cloud environments for legacy applications within Azure.
 
 # Footnotes
