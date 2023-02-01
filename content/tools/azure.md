@@ -576,10 +576,28 @@ az group delete --name newrg
 
 **Azure Monitor** is a centralized dashboard that allows you to monitor all of your Azure services. Monitors that check things frequently will incur a cost. You can write custom queries to check all of the data that is collected by Azure about your resources in the course of running them.
 
-## AZ-900 Practice Q&A
+From the AZ-900 course, it became clear that not only could systems be spun up with Terraforms, etc, but also ARM templates. 
+A section could be dedicated to findings and recipes for setting up cloud environments for legacy applications within Azure.
 
-# ARM Templates and Scripted Environment Initialization
+## AZ-900 Practice Q&A Notes
 
-From the AZ-900 course, it became clear that not only could systems be spun up with Terraforms, etc, but also ARM templates. This section is dedicated to findings and recipes for setting up cloud environments for legacy applications within Azure.
+_Blank for now._
+
+# Azure Cloud Migration Summit 2023
+
+On February 1st and 2nd 2023, I had the pleasure of attending the _Azure Cloud Migration Summit_ hosted by IBM and Microsoft. I got to hear from teams working with many interesting private and public clients. Here are some of the important things I learned from the conference.
+
+**(All client information has been censored and/or removed.)**
+
+IBM's _Azure Migration Factory_ process has seen great success in replatforming, moderninzing, and re-architecting client applications as they move from on-prem to Azure.
+
+[Sudhir Jain](https://www.linkedin.com/in/sudhir-jain-4325a236/) gave a good talk on _Industry 4.0 Solutions in Manufacturing with MAS_. Smart factories can eternally stream data from sensors via Azure IoT to an Azure data lake to then be analyzed by PowerBI. IBM Maximo Visual Inspection Edge can be deployed to identify parts within picking systems and errors.
+
+[Eric Stoltze](https://www.linkedin.com/in/ericstoltze/) of [Neudesic](https://www.neudesic.com/) gave an excellent summary of some specific client wins in the USA and abroad.
+
+[Carmen Summers](https://www.linkedin.com/in/carmen-summers-1833901/) gave a good talk on _Solution Plays_ to assist clients with their cloud migration journey.
+
+- Microsoft Azure sales is paid based on consumption.
+- Consumption may be lowered as customers optimize their applications for the cloud, but this is **good** because the client is saving money, and is likely to remain in the cloud.
 
 # Footnotes
