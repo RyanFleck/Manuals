@@ -49,23 +49,23 @@ Notes on [udemy.com/course/az900-azure](https://www.udemy.com/course/az900-azure
 
 The **Shared Responsibility Model** relates responsibilities in the cloud environment to a traditional on-premises service deployment, where you are responsible for everything from building and network security to networking and firewalls to the operating systems and authentication, devices, and data. These responsibilities fall away in different ways if you use the cloud.
 
-By using a **Cloud VM** (IaaS\[^iaas\]), you'll still need to worry about the OS, networking, and the application, but the physical computer and networking is handled.
+By using a **Cloud VM** (IaaS[^iaas]), you'll still need to worry about the OS, networking, and the application, but the physical computer and networking is handled.
 
-[^iaas]: Infrastructure as a Service
+[^iaas]: Acronym: **IaaS: Infrastructure as a Service:** The cloud provides networked hardware but does not manage the software running on the systems.
 
 By using an **App Service** (PaaS[^paas]), you can now allow the cloud service to handle operating system patches and updates.
 
-[^paas]: Platform as a Service
+[^paas]: Acronym: **PaaS: Platform as a Service:** Provides a basis for common services or easy deployment of code while the cloud manages the underlying OS and maintaining/monitoring the running software, handles upgrades and automatic deployments, etc.
 
 At a very high level there is **Software as a Service** (SaaS[^saas]) which prohibits the control of the network and application, just giving you access to a cloud software from a vendor.
 
-[^saas]: Software as a Service
+[^saas]: Acronym: **SaaS: Software as a Service:** A managed application running in the cloud with no client control of the resources consumed by the application, deployment, etc.
 
 With these resources, you lose some control and responsibility, and are paying for a company (Microsoft Azure or others,) to manage those responsibilities for you. The hope is that they manage it competently.
 
 ![](/uploads/screenshot-2023-01-03-at-4-02-01-pm.png)
 
-**↑** A diagram with 
+**↑** A diagram with
 [shared responsibility](https://learn.microsoft.com/en-us/azure/security/fundamentals/shared-responsibility)
 by cloud model.
 
@@ -151,14 +151,14 @@ Azure provides **Chaos Studio** to simulate various failures to see how your app
 
 **Learning goals:**
 
-- Describe infrastructure as a service (IaaS)
-- Describe platform as a service (PaaS)
-- Describe software as a service (SaaS)
+- Describe infrastructure as a service (IaaS[^iaas])
+- Describe platform as a service (PaaS[^paas])
+- Describe software as a service (SaaS[^saas])
 - Identify appropriate use cases for each cloud service (IaaS, PaaS, SaaS)
 
 ![](/uploads/sqliaas_sql_server_cloud_continuum.png)
 
-**↑** A diagram showing 
+**↑** A diagram showing
 [cloud service types](https://learn.microsoft.com/en-us/azure/azure-sql/azure-sql-iaas-vs-paas-what-is-overview)
 that can run on Azure.
 
@@ -346,7 +346,7 @@ azcopy copy '<url to source>' '<url to dest>'
 
 <!-- NOTES AND CONTENT -->
 
-Generally, **identity** is a digital representation of an entity that requires access to a system. This could be a person, device, or robot/application. Digital identity requires proof such as a key, password, or certificate. 
+Generally, **identity** is a digital representation of an entity that requires access to a system. This could be a person, device, or robot/application. Digital identity requires proof such as a key, password, or certificate.
 
 **Authentication:** who are you?
 
@@ -362,11 +362,11 @@ and plenty of other security measures built in.
 
 Azure AD offers a centralized, consistent, secure approach to using your org's applications, and even many applications outside your organization or SaaS offerings.
 
-AAD has the ability to configure **conditional access** which detects *unusual logins* and can block access or ask for additional information. For example, is the user on the company network? Have they not logged in for years? AAD calls these *signals*.
+AAD has the ability to configure **conditional access** which detects _unusual logins_ and can block access or ask for additional information. For example, is the user on the company network? Have they not logged in for years? AAD calls these _signals_.
 
-**MFA: Multi-Factor Authentication** -- Requires *two or more* pieces of evidence that the user is not an impostor. This can be something you **know** (password), something you **have** (phone), or something you **are** (biometric artifact).
+**MFA: Multi-Factor Authentication** -- Requires _two or more_ pieces of evidence that the user is not an impostor. This can be something you **know** (password), something you **have** (phone), or something you **are** (biometric artifact).
 
-**Passwordless authentication** attempts to reduce the inconvenience of MFA while retaining the security benefits. Essentially MFA without passwords as an auth option. Can be simple games while carefully checking *signals* like the device.
+**Passwordless authentication** attempts to reduce the inconvenience of MFA while retaining the security benefits. Essentially MFA without passwords as an auth option. Can be simple games while carefully checking _signals_ like the device.
 
 Azure **RBAC** (role based access control) allows administrators to enable granular access to all the Azure services for a variety of roles. Readonly to storage for business roles, control over virtual machines for developers, the ability to create and destroy VMs and storage for developer admins, etc. It's easy to create custom permissions and roles. It is rare to manage permissions on an individual level, it is far more common to use roles.
 
@@ -385,7 +385,6 @@ Azure **RBAC** (role based access control) allows administrators to enable granu
 **JIT:** Just in Time -- only grant permissions when needed
 
 **JEA:** Just Enough Access -- don't over-provision access
-
 
 ![](/images/azure/security-policy.png)
 
@@ -410,11 +409,9 @@ Azure provides many tools for each category.
 
 ![](/images/azure/defense-in-depth.jpg)
 
-**↑** Sample *defense in depth* slide showing security layers.
-
+**↑** Sample _defense in depth_ slide showing security layers.
 
 **Microsoft Defender for Cloud** provides security, posture management, and threat detection. By paying per resource per month (~$15USD per server) Microsoft provides an in-depth security analysis and monitoring of the resource.
-
 
 ## Azure Cost Management
 
@@ -431,7 +428,7 @@ Azure provides many tools for each category.
 
 Billing is calculated from a broad variety of factors depending on the service. Many services have a free tier or are free below a certain limit, like virtual networks, load balancing, basic AAD, and free-tier web apps. Using pay-by-consumption or serverless models can save organizations a lot of money -- one million executions of an Azure Function will cost ~$0.20 USD. Per second billing is used for resources like VMs and disks.
 
-Pricing can be made more stable with a 1 -> 3 year commitment in reserved VM instances. Long-term contracts can be made to reduce storage, VM, networking costs. 
+Pricing can be made more stable with a 1 -> 3 year commitment in reserved VM instances. Long-term contracts can be made to reduce storage, VM, networking costs.
 
 **Azure is priced to increase cloud utilization.**
 
@@ -443,7 +440,6 @@ The Azure [Pricing Calculator](https://azure.microsoft.com/en-ca/pricing/calcula
 allows consultants to make an educated guess about the costs of a service.
 As Azure's pricing changes, the cost of provisioned services will change, so the pricing calculator must be used with this in mind.
 
-
 ![](/images/azure/pricing-calculator-1.png)
 
 **↑** The 2022 **Azure Pricing Calculator** homepage.
@@ -452,7 +448,7 @@ As Azure's pricing changes, the cost of provisioned services will change, so the
 
 **↑** The calculator provides common scenarios.
 
-**TCO: Total Cost of Ownership** can be estimated with the [Azure TCO Calculator](https://azure.microsoft.com/en-ca/pricing/tco/calculator/) and is oriented towards comparing current on-prem costs with a potential Azure re-deployment. It attempts to factor in power, networking costs, hardware costs, software licenses, and IT personnel costs to determine if the client will attain a *hybrid benefit* from moving some or all of their workload to Azure.
+**TCO: Total Cost of Ownership** can be estimated with the [Azure TCO Calculator](https://azure.microsoft.com/en-ca/pricing/tco/calculator/) and is oriented towards comparing current on-prem costs with a potential Azure re-deployment. It attempts to factor in power, networking costs, hardware costs, software licenses, and IT personnel costs to determine if the client will attain a _hybrid benefit_ from moving some or all of their workload to Azure.
 
 **Resource Tags** can be used to organize which department the bills for a certain resource are sent. Tags can be used for many other things, but they are particularly useful for billing as dashboards can show cost by tag.
 
@@ -473,7 +469,6 @@ Running costs can be viewed and analyzed with free Azure tools. Budgets can be s
 showing spending analytics.
 
 Reports can be scheduled showing resource usage.
-
 
 ## Azure Governanace and Compliance
 
@@ -498,7 +493,7 @@ This rule can either be enforced socially, with an email to IT, or programmatica
 - Limit which virtual machine SKUs can be used
 - Define required tags and their default values
 
-You can also *write your own policies* to help prevent unsafe practices and limit costs.
+You can also _write your own policies_ to help prevent unsafe practices and limit costs.
 
 **Resource Locks:** You can mark a resouce as read only to ensure other users cannot modify the state of the VM, delete it, or modify its properties. You can ensure only a limited subset of people can apply and remove locks.
 
@@ -535,26 +530,26 @@ $ az webapp list
 $ az group create --name NewRG --location eastus
 
 # Create a VM
-$ az vm create  
-    --resource-group NewRG 
-    --name LearningVM 
+$ az vm create
+    --resource-group NewRG
+    --name LearningVM
     --image Win2019DataCenter
     --public-ip-sku Standard
     --admin-username xXgoliathXx
 
 # Open port 80 on the VM
-az vm open-port 
-    --port 80 
-    --resource-group NewRG 
+az vm open-port
+    --port 80
+    --resource-group NewRG
     --name LearningVM
 
 # Wipe the Resource Group
 az group delete --name newrg
 ```
 
-**Azure Arc:** Allows you to manage on-prem infrastructure or resouces in other clouds like GCP or AWS. SQL Servers, Kubernetes clusters, etc. Azure Stack HCI refers to edges on private clouds. 
+**Azure Arc:** Allows you to manage on-prem infrastructure or resouces in other clouds like GCP or AWS. SQL Servers, Kubernetes clusters, etc. Azure Stack HCI refers to edges on private clouds.
 
-**ARM: Azure Resource Manager:** The service that runs underneath Azure Portal/CLI/Cloud Shell that can be manipulated with the aforementioned tools or a set of APIs. When creating a resource, you'll have the option to click either *create* or a button that says **'Download a template for automation'** which presents a JSON document with all of the parameters you entered within the wizard. This is an **ARM Template**.
+**ARM: Azure Resource Manager:** The service that runs underneath Azure Portal/CLI/Cloud Shell that can be manipulated with the aforementioned tools or a set of APIs. When creating a resource, you'll have the option to click either _create_ or a button that says **'Download a template for automation'** which presents a JSON document with all of the parameters you entered within the wizard. This is an **ARM Template**.
 
 **ARM Templates** which describe the creation of a resource can be used in a script or added to your personal **Template Library** which will catalogue all the resource creation guides you've saved within it. Microsoft also provides a collection of common blank templates. ARM Templates are very powerful and can be tweaked and customize to completely automate deployments. They can be organized by version, and changes can be noted alongside version numbers.
 
@@ -570,13 +565,13 @@ az group delete --name newrg
 
 <!-- NOTES AND CONTENT -->
 
-**Azure Advisor** checks the resources you are using and provides cost saving recommendations. It applies common security checks to your machines and suggests common best practices and warns about vulnerable ports and addresses. 
+**Azure Advisor** checks the resources you are using and provides cost saving recommendations. It applies common security checks to your machines and suggests common best practices and warns about vulnerable ports and addresses.
 
 **Azure Service Health** provides information on how the _Azure Service Itself_ is running and can be **configured to send you alerts** about how the services are running globally and inform you of any outages.
 
 **Azure Monitor** is a centralized dashboard that allows you to monitor all of your Azure services. Monitors that check things frequently will incur a cost. You can write custom queries to check all of the data that is collected by Azure about your resources in the course of running them.
 
-From the AZ-900 course, it became clear that not only could systems be spun up with Terraforms, etc, but also ARM templates. 
+From the AZ-900 course, it became clear that not only could systems be spun up with Terraforms, etc, but also ARM templates.
 A section could be dedicated to findings and recipes for setting up cloud environments for legacy applications within Azure.
 
 ## AZ-900 Practice Q&A Notes
