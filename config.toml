@@ -6,7 +6,6 @@ theme = "RCF-Pure"
 pygmentsCodeFences = true
 sectionPagesMenu = "main"
 pygmentsStyle = "perldoc"
-enableGitInfo = true
 
 # All manuals on this site are available from the root.
 [permalinks]

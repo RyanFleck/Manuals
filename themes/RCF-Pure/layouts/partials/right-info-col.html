@@ -19,9 +19,8 @@
           <!-- Title -->
             <b>{{ .Title }}</b>
           <small>
-            [{{ if .Lastmod }}Updated {{ .Lastmod.UTC.Format "2006-01-02" }},
-            {{end}}{{.WordCount}} words,
-            ~{{ .ReadingTime}}m skim]
+            ~{{ .ReadingTime}}m skim,
+            {{.WordCount}} words
           </small>
           <!-- Draft Badge -->
           {{ if .Draft }}<span style="color: red">&=</span>{{ end }}
