@@ -11,7 +11,7 @@ toc = true
 
 As recommended to me:
 
-![](/uploads/azure-roadmap.png)
+![Cloud journey roadmap provided by a colleague](/uploads/azure-roadmap.png)
 
 Take these certifications in order:
 
@@ -63,11 +63,8 @@ At a very high level there is **Software as a Service** (SaaS[^saas]) which proh
 
 With these resources, you lose some control and responsibility, and are paying for a company (Microsoft Azure or others,) to manage those responsibilities for you. The hope is that they manage it competently.
 
-![](/uploads/screenshot-2023-01-03-at-4-02-01-pm.png)
 
-**↑** A diagram with
-[shared responsibility](https://learn.microsoft.com/en-us/azure/security/fundamentals/shared-responsibility)
-by cloud model.
+![A diagram with [shared responsibility](https://learn.microsoft.com/en-us/azure/security/fundamentals/shared-responsibility) by cloud model.](/uploads/screenshot-2023-01-03-at-4-02-01-pm.png)
 
 **Cloud Types:**
 
@@ -93,10 +90,8 @@ Pricing will also vary by **region** and **cloud**. Providers try to price their
 
 **OpEX** -- Ongoing Expenditure, like power and cooling
 
-![](/uploads/cloud-on-premises-comparison.png)
+![A [Business Case](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/strategy/cloud-migration-business-case) for Cloud Migration.](/uploads/cloud-on-premises-comparison.png)
 
-**↑** A [Business Case](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/strategy/cloud-migration-business-case)
-for Cloud Migration.
 
 The cost savings comes from Microsoft's ability to run servers where power and cooling are cheap, so they can make a profit while still providing the computing service at a far lower TCO.
 

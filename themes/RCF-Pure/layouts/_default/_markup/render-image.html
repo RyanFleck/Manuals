@@ -1,0 +1,11 @@
+<figure>
+  <a href="{{ .Destination | safeURL }}"  target="_blank" rel="noopener noreferrer">
+    <img src="{{ .Destination | safeURL }}" alt="{{ .Text | plainify }}" {{ with .Title}} title="{{ . | plainify }}"{{ end }} loading="lazy" />
+  </a>
+
+  {{ if .Title }}
+  <figcaption>↑ {{ .Title | safeHTML }}</figcaption>
+  {{ else if .Text }} 
+  <figcaption>↑ {{ .Text | safeHTML }}</figcaption>
+  {{ end }}
+</figure>
