@@ -176,7 +176,8 @@ figure img {
 figcaption {
   font-size: 0.9rem;
   color: #a19762;
-  margin-left: 10px;
+  margin-left: 0.7rem;
+  margin-top: 0.2rem;
 }
 
 figcaption a {

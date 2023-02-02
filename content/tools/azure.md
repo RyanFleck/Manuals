@@ -11,7 +11,7 @@ toc = true
 
 As recommended to me:
 
-![Cloud journey roadmap provided by a colleague](/uploads/azure-roadmap.png)
+![Cloud journey roadmap provided by an IBM colleague](/uploads/azure-roadmap.png)
 
 Take these certifications in order:
 
@@ -151,11 +151,7 @@ Azure provides **Chaos Studio** to simulate various failures to see how your app
 - Describe software as a service (SaaS[^saas])
 - Identify appropriate use cases for each cloud service (IaaS, PaaS, SaaS)
 
-![](/uploads/sqliaas_sql_server_cloud_continuum.png)
-
-**↑** A diagram showing
-[cloud service types](https://learn.microsoft.com/en-us/azure/azure-sql/azure-sql-iaas-vs-paas-what-is-overview)
-that can run on Azure.
+![A diagram showing [cloud service types](https://learn.microsoft.com/en-us/azure/azure-sql/azure-sql-iaas-vs-paas-what-is-overview) that can run on Azure.](/uploads/sqliaas_sql_server_cloud_continuum.png)
 
 **IaaS** -- Infrastructure as a Service offers compute, networking, and storage resources on demand, where you take full responsiblity for how your application is deployed and for most of the configuration of the underlying resources.
 
@@ -320,9 +316,8 @@ azcopy copy '<url to source>' '<url to dest>'
 1. **Azure Migrate** is a guided experience for IT to migrate their resources to the cloud. It includes tools to _map your current environment_ so you'll know what you need to provision in Azure. The tool will make recommendations and raise flags if current tech is unable to be moved in a conventional/easy way.
 2. **Azure Data Box** is for scenarios where massive volumes (Terabytes to Petabytes) of data must be moved to the cloud. Data boxes range in size from a single SSD (8TB) to a box (100TB) to a "Data Box Heavy" on wheels (1PB). The data will be shipped encrypted and uploaded to your account when it arrives.
 
-![](/uploads/data-box.png)
+![Options for migrating data to Azure.](/uploads/data-box.png)
 
-**↑** Options for migrating data to Azure.
 
 ## Identity, Access, and Security
 
@@ -350,10 +345,8 @@ Generally, **identity** is a digital representation of an entity that requires a
 **Azure AD** is a security protocol used on Azure. It is **identity as a service** (idaas? lol.)
 Much like OAuth, the web server is passed a signed/trusted token it can use to identify the user.
 
-![](/images/azure/authenticationflow.png)
-
-**↑** Using Azure AD means skipping writing a complex security system, as AAD includes [MFA](https://learn.microsoft.com/en-us/azure/active-directory/authentication/overview-authentication)
-and plenty of other security measures built in.
+![Using Azure AD means skipping writing a complex security system, as AAD includes [MFA](https://learn.microsoft.com/en-us/azure/active-directory/authentication/overview-authentication)
+and plenty of other security measures built in.](/images/azure/authenticationflow.png)
 
 Azure AD offers a centralized, consistent, secure approach to using your org's applications, and even many applications outside your organization or SaaS offerings.
 
@@ -381,9 +374,7 @@ Azure **RBAC** (role based access control) allows administrators to enable granu
 
 **JEA:** Just Enough Access -- don't over-provision access
 
-![](/images/azure/security-policy.png)
-
-**↑** A map of Microsoft's [zero trust](https://www.microsoft.com/en-us/security/business/zero-trust) policy security model.
+![A map of Microsoft's [zero trust](https://www.microsoft.com/en-us/security/business/zero-trust) policy security model.](/images/azure/security-policy.png)
 
 1. **Applications** should have appropriate user powers and monitor users.
 1. **Data** should be encrypted and access should be restricted
@@ -402,9 +393,7 @@ The **Defense in Depth** principle means applying security best practices at eve
 
 Azure provides many tools for each category.
 
-![](/images/azure/defense-in-depth.jpg)
-
-**↑** Sample _defense in depth_ slide showing security layers.
+![Sample _defense in depth_ slide showing security layers.](/images/azure/defense-in-depth.jpg)
 
 **Microsoft Defender for Cloud** provides security, posture management, and threat detection. By paying per resource per month (~$15USD per server) Microsoft provides an in-depth security analysis and monitoring of the resource.
 
@@ -435,13 +424,9 @@ The Azure [Pricing Calculator](https://azure.microsoft.com/en-ca/pricing/calcula
 allows consultants to make an educated guess about the costs of a service.
 As Azure's pricing changes, the cost of provisioned services will change, so the pricing calculator must be used with this in mind.
 
-![](/images/azure/pricing-calculator-1.png)
+![The 2022 **Azure Pricing Calculator** homepage.](/images/azure/pricing-calculator-1.png)
 
-**↑** The 2022 **Azure Pricing Calculator** homepage.
-
-![](/images/azure/pricing-calculator-2.png)
-
-**↑** The calculator provides common scenarios.
+![The calculator provides common scenarios.](/images/azure/pricing-calculator-2.png)
 
 **TCO: Total Cost of Ownership** can be estimated with the [Azure TCO Calculator](https://azure.microsoft.com/en-ca/pricing/tco/calculator/) and is oriented towards comparing current on-prem costs with a potential Azure re-deployment. It attempts to factor in power, networking costs, hardware costs, software licenses, and IT personnel costs to determine if the client will attain a _hybrid benefit_ from moving some or all of their workload to Azure.
 
@@ -458,10 +443,7 @@ _\*CLICK!\*_
 
 Running costs can be viewed and analyzed with free Azure tools. Budgets can be specified, payments tracked, and recommendations given by the system. The dashboard can provide spending estimates and configurable alerts.
 
-![](/images/azure/azure-cost-mgmt.png)
-
-**↑** An [example dashboard](https://azure.microsoft.com/en-us/products/cost-management/#overview)
-showing spending analytics.
+![An [example dashboard](https://azure.microsoft.com/en-us/products/cost-management/#overview) showing spending analytics.](/images/azure/azure-cost-mgmt.png)
 
 Reports can be scheduled showing resource usage.
 
