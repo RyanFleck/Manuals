@@ -23,6 +23,8 @@ Take these certifications in order:
 
 Notes on [udemy.com/course/az900-azure](https://www.udemy.com/course/az900-azure/), taken January 2023.
 
+![I received this credential on February 22nd, 2023. [Credly badge](https://www.credly.com/badges/bf41835d-fa5a-44df-a1f5-521e3c211235).](/images/azure/azure-fundamentals-certified.png)
+
 **Learning Goals:**
 
 - Describe cloud concepts (25–30%)
