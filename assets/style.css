@@ -193,6 +193,10 @@ figcaption {
   text-decoration: underline;
 }
 
+.footnotes {
+  padding-top: 3rem;
+}
+
 figcaption a {
   /* color: red; */
   color: #7f5bc3;
