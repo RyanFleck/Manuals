@@ -585,7 +585,3 @@ IBM's _Azure Migration Factory_ process has seen great success in replatforming,
 
 - Microsoft Azure sales is paid based on consumption.
 - Consumption may be lowered as customers optimize their applications for the cloud, but this is **good** because the client is saving money, and is likely to remain in the cloud.
-
-<!-- Footnotes, leave alone! -->
-
-# Footnotes

@@ -166,6 +166,7 @@ nav > ol,
 .footnotes > ol,
 table,
 figure,
+div.footnotes,
 #footer {
   margin: 0 auto;
   max-width: 600px;
@@ -181,6 +182,13 @@ figcaption {
   color: #a19762;
   margin-left: 0.7rem;
   margin-top: 0.2rem;
+}
+
+.footnotes::before {
+  content: "Footnotes";
+  font-size: 2rem;
+  font-weight: bold;
+  text-decoration: underline;
 }
 
 figcaption a {
