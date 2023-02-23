@@ -9,19 +9,23 @@ toc = true
 
 # Learning Roadmap
 
-As recommended to me:
+As a growing Software Architect I was recommended to pursue:
 
 ![Cloud journey roadmap provided by an IBM colleague](/uploads/azure-roadmap.png)
 
-Take these certifications in order:
+**Certification Checklist:**
 
-- AZ-900
+- AZ-900 ✔
 - AZ-104
 - AZ-303
 
 # AZ-900
 
-Notes on [udemy.com/course/az900-azure](https://www.udemy.com/course/az900-azure/), taken January 2023.
+The [AZ-900: Microsoft Azure Fundamentals](https://learn.microsoft.com/en-us/certifications/exams/az-900/) exam is an entry-level credential to prove knowledge of the fundamentals of Microsoft's Azure cloud computing platform.
+
+> Azure Fundamentals exam is an opportunity to prove knowledge of cloud concepts, Azure services, Azure workloads, security and privacy in Azure, as well as Azure pricing and support. Candidates should be familiar with the general technology concepts, including concepts of networking, storage, compute, application support, and application development.
+
+I began studying for this exam by taking an [AZ-900 prep course on Udemy](https://www.udemy.com/course/az900-azure/) in January 2023 and passed the in-person exam a month later.
 
 ![I received this credential on February 22nd, 2023. [Credly badge](https://www.credly.com/badges/bf41835d-fa5a-44df-a1f5-521e3c211235).](/images/azure/azure-fundamentals-certified.png)
 
@@ -35,6 +39,9 @@ Notes on [udemy.com/course/az900-azure](https://www.udemy.com/course/az900-azure
 
 - Exam requirements: [learn.microsoft.com/en-us/certifications/exams/az-900](https://learn.microsoft.com/en-us/certifications/exams/az-900 "learn.microsoft.com/en-us/certifications/exams/az-900")
 - Study guide: [AZ-900 study guide](https://query.prod.cms.rt.microsoft.com/cms/api/am/binary/RE3VwUY)
+- Practice questions: [ExamTopics AZ-900 Q&A](https://www.examtopics.com/exams/microsoft/az-900/view/1/)
+
+An IBM colleague warned me that **just taking the Udemy course is insufficient to pass** the AZ-900 exam. Consider finding lots of additional practice questions, and focus on the specific services used to build solutions to client problems.
 
 ## Describe Cloud Computing
 
@@ -65,7 +72,6 @@ At a very high level there is **Software as a Service** (SaaS[^saas]) which proh
 
 With these resources, you lose some control and responsibility, and are paying for a company (Microsoft Azure or others,) to manage those responsibilities for you. The hope is that they manage it competently.
 
-
 ![A diagram with [shared responsibility](https://learn.microsoft.com/en-us/azure/security/fundamentals/shared-responsibility) by cloud model.](/uploads/screenshot-2023-01-03-at-4-02-01-pm.png)
 
 **Cloud Types:**
@@ -93,7 +99,6 @@ Pricing will also vary by **region** and **cloud**. Providers try to price their
 **OpEX** -- Ongoing Expenditure, like power and cooling
 
 ![A [Business Case](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/strategy/cloud-migration-business-case) for Cloud Migration.](/uploads/cloud-on-premises-comparison.png)
-
 
 The cost savings comes from Microsoft's ability to run servers where power and cooling are cheap, so they can make a profit while still providing the computing service at a far lower TCO.
 
@@ -319,7 +324,6 @@ azcopy copy '<url to source>' '<url to dest>'
 2. **Azure Data Box** is for scenarios where massive volumes (Terabytes to Petabytes) of data must be moved to the cloud. Data boxes range in size from a single SSD (8TB) to a box (100TB) to a "Data Box Heavy" on wheels (1PB). The data will be shipped encrypted and uploaded to your account when it arrives.
 
 ![Options for migrating data to Azure.](/uploads/data-box.png)
-
 
 ## Identity, Access, and Security
 
@@ -553,9 +557,17 @@ az group delete --name newrg
 From the AZ-900 course, it became clear that not only could systems be spun up with Terraforms, etc, but also ARM templates.
 A section could be dedicated to findings and recipes for setting up cloud environments for legacy applications within Azure.
 
-## AZ-900 Practice Q&A Notes
+<!-- AZ104 -->
 
-_Blank for now._
+# AZ-104
+
+The [AZ-104: Microsoft Azure Administrator](https://learn.microsoft.com/en-us/certifications/exams/az-104/) exam is an associate-level credential that certifies knowledge on the management of a corporate Azure subscription.
+
+> Candidates for this exam should have subject matter expertise in implementing, managing, and monitoring an organization’s Microsoft Azure environment, including virtual networks, storage, compute, identity, security, and governance.
+
+> An Azure administrator often serves as part of a larger team dedicated to implementing an organization's cloud infrastructure. Azure administrators also coordinate with other roles to deliver Azure networking, security, database, application development, and DevOps solutions.
+
+I am currently working towards this credential.
 
 # Azure Cloud Migration Summit 2023
 
@@ -573,5 +585,7 @@ IBM's _Azure Migration Factory_ process has seen great success in replatforming,
 
 - Microsoft Azure sales is paid based on consumption.
 - Consumption may be lowered as customers optimize their applications for the cloud, but this is **good** because the client is saving money, and is likely to remain in the cloud.
+
+<!-- Footnotes, leave alone! -->
 
 # Footnotes

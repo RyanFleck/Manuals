@@ -159,8 +159,10 @@ h4,
 h5,
 h6,
 p,
-ul,
-ol,
+body > ul,
+body > ol,
+nav > ul,
+nav > ol,
 table,
 figure,
 #footer {
@@ -240,9 +242,13 @@ h6 {
   text-decoration: underline;
 }
 
-ul,
+nav ul,
 ol {
   list-style: decimal-leading-zero;
+}
+
+ul {
+  list-style: square;
 }
 
 .navbar-brand {
