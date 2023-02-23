@@ -872,5 +872,3 @@ by gazing too affectionately at the reflection on this black mirror.
 > Of the world for ever, it seems.[^1] <br />
 
 [^1]: From [Ode](https://www.poetryfoundation.org/poets/arthur-oshaughnessy) by Arthur O'Shaughnessy
-
-# References

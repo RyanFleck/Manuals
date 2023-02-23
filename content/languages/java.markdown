@@ -546,4 +546,3 @@ See [hello_world](https://docs.oracle.com/javafx/2/get_started/hello_world.htm) 
 | Initialize  | To include data or fill a method body after declaration. |
 | Instantiate | To use a defined class to create an object.              |
 
-# References

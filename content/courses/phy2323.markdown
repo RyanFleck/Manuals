@@ -277,7 +277,3 @@ Reading week.
 # Side Effects
 
 Interesting experiments that occur as a result of knowledge gained in the classroom will be documented here, if any are completed.
-
-<br />
-<!-- References are generated, please leave this header. -->
-# References

@@ -705,9 +705,6 @@ Error in `monodevelop': free(): invalid pointer: 0x00007f629c001a80
 
 Running `apt-get build-dep monodevelop` fixed all of my stability problems.
 
-# References
-
-Many are from "C# 5.0 in a Nutshell" 5e. J. and B. Albahari, O'Reilly 2012.
 
 [^1]: "C# 5.0 in a Nutshell" 5e. **Page 17.** Type Basics.
 [^2]: "C# 5.0 in a Nutshell" 5e. **Page 106.** Generics.

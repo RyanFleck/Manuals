@@ -277,7 +277,3 @@ $$
 $$
 
 MathJax is wicked.
-
-<br />
-<!-- References are generated, please leave this header. -->
-# References

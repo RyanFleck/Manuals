@@ -57,4 +57,3 @@ Common ORMs:
 However, this page is about _moving away from ORMs_, so I'll not be discussing
 the usage of any of these libraries on this page.
 
-# References
