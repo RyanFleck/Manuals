@@ -35,6 +35,18 @@ Chapter summaries and important notes from my own learning.
 - 2.4 Errors
 - 2.5 Designing Programs
 
+Scheme uses parentheses `( )` or round brackets to organize programs. A set of parentheses encloses an **expression**.
+
+Expressions can take in a number of variables:
+
+```scm
+(define (area-of-disk r)
+  (* 3.14 r r))
+
+(define (area-of-ring outer-r inner-r)
+  (- (area-of-disk outer-r) (area-of-disk inner-r)))
+```
+
 ```scm
 ; Exercise 2.2.1.   Define the program Fahrenheit->Celsius,
 ; which consumes a temperature measured in Fahrenheit and
@@ -46,6 +58,17 @@ Chapter summaries and important notes from my own learning.
 
 (convert-gui fahrenheit->celsius)
 ```
+
+Scheme allows you to represent fractions directly as well:
+
+```scm
+(define (fahrenheit->celsius x)
+  (* (- x 32) 5/9 ))
+```
+
+...though I'm not a huge fan of that.
+
+Inexact numbers are represented with an `#i` in front.
 
 ### 3 Programs are Function Plus Variable Definitions
 
