@@ -23,9 +23,9 @@ Chapter summaries and important notes from my own learning.
 
 ## I Processing Simple Forms of Data
 
-> Some programs are as small as essays. Others are like sets of encyclopedias. Writing good essays and books requires careful planning, and writing good programs does, too. Small or large, a good program cannot be created by tinkering around. It must be carefully designed.
-
 ### 1 Students, Teachers, and Computers
+
+> Some programs are as small as essays. Others are like sets of encyclopedias. Writing good essays and books requires careful planning, and writing good programs does, too. Small or large, a good program cannot be created by tinkering around. It must be carefully designed.
 
 ### 2 Numbers, Expressions, Simple Programs
 
@@ -37,6 +37,12 @@ Chapter summaries and important notes from my own learning.
 
 Scheme uses parentheses `( )` or round brackets to organize programs. A set of parentheses encloses an **expression**.
 
+_Parenthesized expressions._
+
+```scm
+(operator input... )
+```
+
 Expressions can take in a number of variables:
 
 ```scm
@@ -46,6 +52,8 @@ Expressions can take in a number of variables:
 (define (area-of-ring outer-r inner-r)
   (- (area-of-disk outer-r) (area-of-disk inner-r)))
 ```
+
+If it's not in parentheses it's an _atom._
 
 ```scm
 ; Exercise 2.2.1.   Define the program Fahrenheit->Celsius,
@@ -69,6 +77,61 @@ Scheme allows you to represent fractions directly as well:
 ...though I'm not a huge fan of that.
 
 Inexact numbers are represented with an `#i` in front.
+
+Here's a word problem and my solution:
+
+> Company XYZ & Co. pays all its employees $12 per hour. A typical employee works between 20 and 65 hours per week. Develop a program that determines the wage of an employee from the number of hours of work.
+
+```scm
+(define (wage h)
+  (* 12 h))
+
+(define (tax gross-pay)
+  (* 0.15 gross-pay))
+
+(define (subtract-taxes net-pay)
+  (- net-pay (tax net-pay)))
+
+(define (net-pay h)
+  (subtract-taxes (wage h)))
+```
+
+My solution is slightly more efficient than [the solution](https://htdp.org/2003-09-26/Solutions/taxed-wage.html) as it does not recompute the gross pay by including the `subtract-taxes` function.
+
+**Designing programs** is something that must be done intentionally and with care. SICP provides a **Design Recipe** which can be followed to yield reliably useful programs.
+
+> We need to determine what's relevant in the problem statement and what we can ignore. We need to understand what the program consumes, what it produces, and how it relates inputs to outputs. We must know, or find out, whether Scheme provides certain basic operations for the data that our program is to process. If not, we might have to develop auxiliary programs that implement these operations. Finally, once we have a program, we must check whether it actually performs the intended computation.
+
+Here is [Figure 3](https://htdp.org/2003-09-26/Book/curriculum-Z-H-5.html#node_sec_2.5), the example recipe:
+
+```scm
+;; Contract: area-of-ring : number number  ->  number
+
+;; Purpose: to compute the area of a ring whose radius is
+;; outer and whose hole has a radius of inner
+
+;; Example: (area-of-ring 5 3) should produce 50.24
+
+;; Definition: [refines the header]
+(define (area-of-ring outer inner)
+  (- (area-of-disk outer)
+     (area-of-disk inner)))
+
+;; Tests:
+(area-of-ring 5 3)
+;; expected value
+50.24
+```
+
+A summary of these phases is provided in [Figure 4](https://htdp.org/2003-09-26/Book/curriculum-Z-H-5.html#node_fig_Temp_22) in this section of the textbook, but I'll summarize here quickly:
+
+- The **Contract** names the function and specifies the class of the input and output data
+- The **Purpose** explains the name
+- The **Example** lists a sample use case
+- The **Definition** is a scheme expression
+- Finally, **Tests** ensure output is correct
+
+(Funny, Elixir has real good support for inline tests with  the `doctest` feature. Makes me miss Elixir.)
 
 ### 3 Programs are Function Plus Variable Definitions
 
