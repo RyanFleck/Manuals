@@ -37,9 +37,39 @@ Flavors differentiate themselves with the features they offer the business and d
 
 # Administration
 
-```sql
-SHOW DATABASES;
+It's easy to install PostgreSQL on alpine linux with this set of commands. This will install the database system, add it as a default program to run, and open the firewall to allow external access to the database.
+
+```bash
+sudo su
+apk update
+apk add postgresql
+service start postgresql
+rc-update add postgresql default
+ufw allow postgresql/tcp
 ```
+
+You can then find the configuration files by writing:
+
+```bash
+psql -U postgres -c 'SHOW config_file'
+#  /etc/postgresql/postgresql.conf
+
+psql -U postgres -c 'SHOW data_directory'
+#  /var/lib/postgresql/13/data
+```
+
+Enable remote connections with these actions:
+
+```bash
+echo "host all all 0.0.0.0/0 md5" >> /var/lib/postgresql/13/data/pg_hba.conf
+
+echo "listen_addresses='*'" >> /var/lib/postgresql/13/data/postgresql.conf
+```
+
+Locking this down once you find you can connect is a good idea.
+
+Check [this](https://luppeng.wordpress.com/2020/02/28/install-and-start-postgresql-on-alpine-linux/) and [that](https://www.loggly.com/use-cases/postgresql-logs-logging-setup-and-troubleshooting/) for further setup guidance.
+
 
 # Commands
 
