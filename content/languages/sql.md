@@ -70,6 +70,7 @@ Locking this down once you find you can connect is a good idea.
 
 Check [this](https://luppeng.wordpress.com/2020/02/28/install-and-start-postgresql-on-alpine-linux/) and [that](https://www.loggly.com/use-cases/postgresql-logs-logging-setup-and-troubleshooting/) for further setup guidance.
 
+For running commands use [DbGate](https://dbgate.org/)
 
 # Commands
 
