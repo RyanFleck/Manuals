@@ -72,9 +72,63 @@ Check [this](https://luppeng.wordpress.com/2020/02/28/install-and-start-postgres
 
 For running commands use [DbGate](https://dbgate.org/)
 
+In the `psql` shell you can create, list, and drop whole databases. Use caution with these commands.
+
+```
+postgres=# CREATE DATABASE chicken_coop;
+CREATE DATABASE
+
+postgres=# \l
+                               List of databases
+     Name     |  Owner   | Encoding | Collate |  Ctype  |   Access privileges
+--------------+----------+----------+---------+---------+-----------------------
+ chicken_coop | postgres | UTF8     | C       | C.UTF-8 |
+ dog_app      | ryan     | UTF8     | C       | C.UTF-8 |
+ pet_shop     | ryan     | UTF8     | C       | C.UTF-8 |
+ postgres     | postgres | UTF8     | C       | C.UTF-8 |
+
+postgres=# DROP DATABASE chicken_coop;
+DROP DATABASE
+```
+
+To change the database you are in use `\c`.
+
+```
+postgres=# \c dog_app
+You are now connected to database "dog_app" as user "postgres".
+```
+
+From here you can use your usual SQL commands. Show tables with `\dt`.
+
 # Commands
 
 This section contains a short usage guide for each of the common SQL commands, with one or two composition examples.
+
+## TABLE Commands
+
+### CREATE a table
+
+```sql
+CREATE TABLE <name> (
+  column_name type,
+  column_name type,
+  column_name type,
+  column_name type
+);
+
+CREATE TABLE tweets (
+  username VARCHAR(100),
+  tweet_content VARCHAR(140),
+  favourites INT
+);
+```
+
+### ALTER a table
+
+```sql
+ALTER TABLE <table> ADD <column name> <type>;
+ALTER TABLE <table> RENAME TO <new_table_name>;
+```
 
 ## SELECT
 
@@ -100,38 +154,6 @@ UPDATE <table> SET <column>=<value>, <column2>=<value> WHERE <condition>;
 DELETE FROM <table> WHERE <condition>;
 ```
 
-## CREATE DATABASE
-
-```sql
-CREATE DATABASE <database name>;
-```
-
-## DROP DATABASE
-
-_**DON'T F@#%!NG DO THIS!**_
-
-```sql
-SHOW DATABASES; -- List all existing databases
-DROP DATABASE <name>;
-```
-
-## CREATE TABLE
-
-```sql
-CREATE TABLE <name> (
-  column_name type,
-  column_name type,
-  column_name type,
-  column_name type
-);
-```
-
-## ALTER TABLE
-
-```sql
-ALTER TABLE <table> ADD <column name> <type>;
-```
-
 ## INSERT INTO
 
 ## DROP TABLE
@@ -144,7 +166,7 @@ ALTER TABLE <table> ADD <column name> <type>;
 
 This is just awesome. Included because people should think ethically about the things they create, especially fintech software.
 
-> "I could have edited the list down to just those aspects that seem relevant to coding, but that would put me in the position of editing and redacting Benedict of Nursia, as if I were wiser than he. And I considered that. But in the end, I thought it better to include the whole thing without change (other than translation into English). In the preface, I tried to make clear that the introspective aspects could be safely glossed over."   
+> "I could have edited the list down to just those aspects that seem relevant to coding, but that would put me in the position of editing and redacting Benedict of Nursia, as if I were wiser than he. And I considered that. But in the end, I thought it better to include the whole thing without change (other than translation into English). In the preface, I tried to make clear that the introspective aspects could be safely glossed over."
 > \- **Richard Hipp**
 
 ## 1. History
