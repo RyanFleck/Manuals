@@ -34,6 +34,7 @@ Flavors differentiate themselves with the features they offer the business and d
 * SQL keywords are **not case sensitive**
 * Every statement must end with a semicolon
 * Table names don't seem to be case sensitive
+* Use single quotes
 
 # Administration
 
@@ -142,6 +143,25 @@ SELECT <columns or * for all> FROM <table>;
 SELECT * FROM products;
 ```
 
+## INSERT
+
+Given a table, provide the columns and data you'd like to insert.
+
+```sql
+INSERT INTO some_table(col1, col2) VALUES ('data1', 111);
+
+CREATE TABLE people (
+    first_name VARCHAR(100),
+    last_name VARCHAR(100),
+    age int
+);
+
+INSERT INTO people(first_name, last_name, age) VALUES 
+    ('Michael', 'Sweeny', 23),
+    ('Phillip', 'Frond', 38),
+    ('Calvin', 'Kleinfelter', 65);
+```
+
 ## UPDATE
 
 ```sql
@@ -161,6 +181,27 @@ DELETE FROM <table> WHERE <condition>;
 ## CREATE INDEX
 
 ## DROP INDEX
+
+# Table Design
+
+When designing tables, many different constraints can be provided.
+
+`NOT NULL` ensures there cannot be an empty insertion and cannot be null. With no default value, an insert without this value will fail.
+
+```sql
+CREATE TABLE glargons (
+    name VARCHAR(100) NOT NULL,
+    age int
+);
+```
+
+```
+playground=# \d glorgons
+ name   | character varying(100) |           | not null |
+ age    | integer                |           |          |
+```
+
+`DEFAULT <value>` provides ... a default value.
 
 # SQLite Code of Ethics
 
