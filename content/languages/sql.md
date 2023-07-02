@@ -176,6 +176,31 @@ DELETE FROM <table> WHERE <condition>;
 
 ## INSERT INTO
 
+Here's a sample table:
+
+```sql
+CREATE TABLE employees (
+    id BIGSERIAL PRIMARY KEY,
+    last_name VARCHAR(100) NOT NULL,
+    first_name VARCHAR(100) NOT NULL,
+    middle_name VARCHAR(100),
+    age INT NOT NULL,
+    current_status VARCHAR(100) NOT NULL DEFAULT 'employed'
+);
+```
+
+Providing the requred values and allowing the defaults to autopopulate:
+
+```
+# insert into employees(first_name, last_name, age) values ('greg', 'torbo', 21);
+INSERT 0 1
+# select * from employees;
+ id | last_name | first_name | middle_name | age | current_status
+----+-----------+------------+-------------+-----+----------------
+  1 | torbo     | greg       |             |  21 | employed
+```
+
+
 ## DROP TABLE
 
 ## CREATE INDEX
@@ -183,6 +208,25 @@ DELETE FROM <table> WHERE <condition>;
 ## DROP INDEX
 
 # Table Design
+
+## Primary Key
+
+Can be provided in either of these formats:
+
+```sql
+CREATE TABLE board_members (
+  member_id int PRIMARY KEY, -- option one
+  name VARCHAR(100),
+  age INT,
+  PRIMARY KEY(member_id) -- option two
+);
+```
+
+This is also a good place to use `AUTO_INCREMENT` in other databases, which provides a default of the next integer. Postgres provides the `SERIAL` type which has the same function.
+
+## Constraints
+
+[PostgreSQL Constraints](https://www.postgresql.org/docs/current/ddl-constraints.html)
 
 When designing tables, many different constraints can be provided.
 
