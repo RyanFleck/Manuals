@@ -382,3 +382,8 @@ h6:hover > .header-anchor-link {
 #footer-data div {
   font-size: 0.8rem;
 }
+
+table {
+  text-align: left;
+  border-spacing: 4px;
+}
