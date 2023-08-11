@@ -50,6 +50,12 @@ Here, the charts were created by selecting profit then region and profit then pr
 
 The formatting options gives access to data labels, colors, axis settings, etc.
 
+![Cities or lat/long can be picked up automatically](/images/powerbi/cities.png)
+
+# Data Cleanup / ETL
+
+<!-- Video 5 5:00 -->
+
 # Resources
 
 1. [O'Reilly 'Power BI Masterclass' by Daniel Weikert](https://learning.oreilly.com/videos/power-bi-masterclass/9781789533095/)
