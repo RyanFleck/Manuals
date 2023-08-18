@@ -10,7 +10,15 @@ title: "Power BI"
 
 Power BI is a collaborative cloud Excel that also allows the querying of data from databases and sharing of 'dashboards' which enables up-to-date visualisations of the data manipulated by the user.
 
-Power BI uses [Power Query](https://learn.microsoft.com/en-us/power-query/) to manipulate data.
+**Power BI has a learning curve.** You must learn:
+
+- [M](https://learn.microsoft.com/en-us/powerquery-m/) for ETL (Extract, Transform, Load)
+- [DAX](https://learn.microsoft.com/en-us/dax/dax-overview) for modeling
+- [Kimball Star Schema](https://learn.microsoft.com/en-us/power-bi/guidance/star-schema) for data structures
+
+As is customary for Microsoft products, there is insanity built in, and some naming conventions and design decisions make less than zero sense. _It is what it is._
+
+Power BI uses [Power Query](https://learn.microsoft.com/en-us/power-query/) which itself uses the [M](https://learn.microsoft.com/en-us/powerquery-m/) language under the hood to manipulate data.
 
 # The Interface
 
@@ -149,6 +157,27 @@ For instance, duplicating and splitting a column with "name" into first and last
 #"Changed Type1" = Table.TransformColumnTypes(#"Split Column by Delimiter",{{"Customer Name - Copy.1", type text}, {"Customer Name - Copy.2", type text}}),
 #"Renamed Columns" = Table.RenameColumns(#"Changed Type1",{{"Customer Name - Copy.1", "Customer First Name"}, {"Customer Name - Copy.2", "Customer Last Name"}})
 ```
+
+There are also many date functions.
+
+**Make sure you always duplicate the target column before applying any of these operations.**
+
+When **Merging** tables, you can choose the join type. Clicking the expand function will allow you to settle the rows from the join into the original table.
+
+**Calculated columns** and measures can be added to your data with **Home** > **New Measure** which allows you to enter a DAX query. You can move these measures to different tables by changing the home table in the _Measure tools_ tab.
+
+```dax
+Total Quantity Sold = SUM(Sales[Quantity])
+Total Sales = SUMX(Sales, Sales[Quantity] * Sales[Price])
+```
+
+
+
+# Importing Web Tables
+
+PowerBI can import HTML tables from any website, given a URL. The HTML table can be pulled into the query editor like any other table.
+
+**New Source** > **Web**
 
 # The M Language
 
