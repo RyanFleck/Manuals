@@ -126,6 +126,30 @@ Hitting save will yield a page where parameters can be entered.
 
 Invoking the function creates the table as requested. Rename and move the table as desired.
 
+Looking at our _Sales_ table in the advanced editor shows the following:
+
+```pq
+let
+    Source = Sales_2015,
+    #"Appended Query" = Table.Combine({Source, Sales_2016, Sales_2017}),
+    #"Sorted Rows" = Table.Sort(#"Appended Query",{{"Purchase Date", Order.Ascending}})
+in
+    #"Sorted Rows"
+```
+
+These lines each appear as an _applied step_ in the section to the right of the table view in the query editor.
+
+From here, you can perform many other operations like removing rows, splitting columns (by delimeter, position, etc,) duplicate columns,
+
+For instance, duplicating and splitting a column with "name" into first and last name:
+
+```pq
+ #"Duplicated Column" = Table.DuplicateColumn(#"Changed Type", "Customer Name", "Customer Name - Copy"),
+#"Split Column by Delimiter" = Table.SplitColumn(#"Duplicated Column", "Customer Name - Copy", Splitter.SplitTextByEachDelimiter({" "}, QuoteStyle.Csv, false), {"Customer Name - Copy.1", "Customer Name - Copy.2"}),
+#"Changed Type1" = Table.TransformColumnTypes(#"Split Column by Delimiter",{{"Customer Name - Copy.1", type text}, {"Customer Name - Copy.2", type text}}),
+#"Renamed Columns" = Table.RenameColumns(#"Changed Type1",{{"Customer Name - Copy.1", "Customer First Name"}, {"Customer Name - Copy.2", "Customer Last Name"}})
+```
+
 # The M Language
 
 **M** is the language used by the Power Query engine.
@@ -151,3 +175,5 @@ in
 # Resources
 
 1. [O'Reilly 'Power BI Masterclass' by Daniel Weikert](https://learning.oreilly.com/videos/power-bi-masterclass/9781789533095/)
+
+There is a [Power Query / M Language](https://marketplace.visualstudio.com/items?itemName=PowerQuery.vscode-powerquery) VS Code extension.
