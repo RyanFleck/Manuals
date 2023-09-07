@@ -27,6 +27,77 @@ To expand my programming horizons, I chose to read a book on _CLisp_, which was 
 
 Whichever LISP you use, I recommend using the `rlwrap` program to enhance your working experience. Running, for instance, `rlwrap guile` adds history, readline and bracket matching to the REPL, which can be a huge quality-of-life improvement.
 
+# Emacs on Windows
+
+...I know, I know, heresey. I'm typing this in VS Code too. Still trying to get some quicklisp packages working via SLIME.
+
+First install Chocolatey, the package manager, then run this command:
+
+```ps2
+choco install sbcl pyenv-win nvm.install elixir git -y
+choco install emacs imagemagick msys2 -y
+```
+
+Open the msys2 shell and run:
+
+```
+pacman -S mingw-w64-x86_64-openssl
+```
+
+Add that .dll to the PATH:
+
+```
+C:\tools\msys64\mingw64\bin
+```
+
+Add something like this to your Emacs config:
+
+```lisp
+;; Ryan's Windows EMACS Config
+;; C-M-x to interpret a function, have fun.
+
+;; Add package repository for installing slime, etc.
+(add-to-list 'package-archives
+             '("melpa-stable" . "https://stable.melpa.org/packages/") t)
+(package-initialize)
+
+(require 'package)
+(require 'srefactor)
+(require 'srefactor-lisp)
+
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(custom-enabled-themes nil)
+ '(package-selected-packages '(srefactor slime)))
+
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(default ((t (:family "Noto Mono" :foundry "outline" :slant normal :weight normal :height 120 :width normal)))))
+
+;; (setq inferior-lisp-program "/opt/sbcl/bin/sbcl")
+(setq inferior-lisp-program (executable-find "sbcl"))
+
+(add-to-list 'load-path "~/AppData/Roaming/slime")
+(require 'slime-autoloads)
+
+(load (expand-file-name "~/quicklisp/slime-helper.el"))
+;; Replace "sbcl" with the path to your implementation
+
+;; Semantic Refactor keybindings
+(global-set-key (kbd "M-RET o") 'srefactor-lisp-one-line)
+(global-set-key (kbd "M-RET m") 'srefactor-lisp-format-sexp)
+(global-set-key (kbd "M-RET d") 'srefactor-lisp-format-defun)
+(global-set-key (kbd "M-RET b") 'srefactor-lisp-format-buffer)
+
+;; (global-set-key (kbd "M-RET b") 'srefactor-lisp-format-buffer)
+```
+
 # **Resource:** Land of Lisp
 
 > Lisp has been hailed as the world’s most powerful programming language, but its cryptic syntax and academic reputation can be enough to scare off even experienced programmers. Those dark days are finally over — Land of Lisp brings the power of functional programming to the people!
