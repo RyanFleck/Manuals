@@ -169,8 +169,11 @@ When **Merging** tables, you can choose the join type. Clicking the expand funct
 ```dax
 Total Quantity Sold = SUM(Sales[Quantity])
 Total Sales = SUMX(Sales, Sales[Quantity] * Sales[Price])
+Total Costs = SUMX(Sales, Sales[Quantity] * RELATED(Product_Data[Cost]))
+Total Profit = [Total Sales] - [Total Costs]
 ```
 
+Now with these measures in place, we can create tables with product name or county as the first row, and show the total sales and profit margin per county or item.
 
 
 # Importing Web Tables
