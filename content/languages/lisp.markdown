@@ -15,21 +15,48 @@ toc: true
 (princ *langs*)
 ```
 
-Bwah, _LISP?_ From the _50s?_ Yes- Lisp is more common than you might think; often the "secret sauce" of successful companies like [Grammarly](https://tech.grammarly.com/blog/running-lisp-in-production) and [Amazon](https://groups.google.com/forum/#!topic/comp.lang.lisp/SD-8ULlEfy0%5B1-25%5D) is a finely crafted lispy back-end. Lisps are beautifully simple and functional tools; the following article contains my impressions as I begin to learn the CLISP dialect. While many speak poorly of its age, there have been a few occasions in the first 30 pages where I've been caught off guard by the effortlessness of construction and computation that lisp provides. I almost cried the first time I saw LISP handle rational numbers.
+Bwah, _LISP?_ From the _50s?_ Yes- Lisp is more common than you might
+think; often the "secret sauce" of successful companies like
+[Grammarly](https://tech.grammarly.com/blog/running-lisp-in-production)
+and
+[Amazon](https://groups.google.com/forum/#!topic/comp.lang.lisp/SD-8ULlEfy0%5B1-25%5D)
+is a finely crafted lispy back-end. Lisps are beautifully simple and
+functional tools; the following article contains my impressions as I
+begin to learn the CLISP dialect. While many speak poorly of its age,
+there have been a few occasions in the first 30 pages where I've been
+caught off guard by the effortlessness of construction and computation
+that lisp provides. I almost cried the first time I saw LISP handle
+rational numbers.
 
-It is important to note that there are many implementations of lisp, each with distinct advantages and disadvantages. For my learning, I'm going to be initially focusing on MIT lisps (adhering to the IEEE 1990 Scheme standard,) and SBCL, as these are what are used in my learning materials. Whether I settle with MIT-Scheme, Racket, Chicken or Guile depends on my mileage with each as I complete practice problems.
+It is important to note that there are many implementations of lisp,
+each with distinct advantages and disadvantages. For my learning, I'm
+going to be initially focusing on MIT lisps (adhering to the IEEE 1990
+Scheme standard,) and SBCL, as these are what are used in my learning
+materials. Whether I settle with MIT-Scheme, Racket, Chicken or Guile
+depends on my mileage with each as I complete practice problems.
 
-This manual contains snippets of all kinds of lisps. If I gravitate towards one in particular, say, Racket or Clojure, I'll breakout the lang-specific jargon into a separate manual. Currently, I am doing most of my learning in **Scheme**.
+This manual contains snippets of all kinds of lisps. If I gravitate
+towards one in particular, say, Racket or Clojure, I'll breakout the
+lang-specific jargon into a separate manual. Currently, I am doing
+most of my learning in **Scheme**.
 
 # Why use Functional Languages?
 
-To expand my programming horizons, I chose to read a book on _CLisp_, which was fantastic. After this I began applying functional techniques everywhere else; these languages change the way you approach problems. I'm now reading through _SICP_ and _Land of Lisp_, and enjoying both immensely.
+To expand my programming horizons, I chose to read a book on _CLisp_,
+which was fantastic. After this I began applying functional techniques
+everywhere else; these languages change the way you approach
+problems. I'm now reading through _SICP_ and _Land of Lisp_, and
+enjoying both immensely.
 
-Whichever LISP you use, I recommend using the `rlwrap` program to enhance your working experience. Running, for instance, `rlwrap guile` adds history, readline and bracket matching to the REPL, which can be a huge quality-of-life improvement.
+Whichever LISP you use, I recommend using the `rlwrap` program to
+enhance your working experience. Running, for instance, `rlwrap guile`
+adds history, readline and bracket matching to the REPL, which can be
+a huge quality-of-life improvement.
 
 # Emacs on Windows
 
-...I know, I know, heresey. I'm typing this in VS Code too. Still trying to get some quicklisp packages working via SLIME.
+...I know, I know, heresey. I'm typing this in VS Code too. Still
+trying to get some quicklisp packages working via SLIME.
 
 First install Chocolatey, the package manager, then run this command:
 
@@ -98,29 +125,79 @@ Add something like this to your Emacs config:
 ;; (global-set-key (kbd "M-RET b") 'srefactor-lisp-format-buffer)
 ```
 
+**Emacs Packages to Install:**
+
+- slime
+- srefactor
+- srefactor-lisp
+- magit
+- org
+- markdown-mode
+- modus-themes (modus-vivendi-tinted)
+
+Take note of [this page on super and hyper
+keys](http://xahlee.info/emacs/emacs/emacs_hyper_super_keys.html) --
+it is good to use your keyboard, whether it is on a MacBook or a full
+mechanical keyboard, to its fullest.
+
+```lisp
+;; On Windows:
+(setq w32-pass-rwindow-to-system nil)
+(setq w32-rwindow-modifier 'super) ; Right Windows key
+
+(setq w32-pass-apps-to-system nil)
+(setq w32-apps-modifier 'hyper) ; Menu/App key
+
+;; On OSX:
+(setq mac-left-option-modifier 'super)
+(setq mac-right-option-modifier 'control)
+(setq mac-command-modifier 'meta)
+(setq ns-function-modifier 'hyper)
+```
+
+Hide your menu, tool, and scroll bars:
+
+```lisp
+(menu-bar-mode -1)
+(tool-bar-mode -1)
+(scroll-bar-mode -1)
+```
+
+
 # **Resource:** Land of Lisp
 
-> Lisp has been hailed as the world’s most powerful programming language, but its cryptic syntax and academic reputation can be enough to scare off even experienced programmers. Those dark days are finally over — Land of Lisp brings the power of functional programming to the people!
+> Lisp has been hailed as the world’s most powerful programming
+> language, but its cryptic syntax and academic reputation can be
+> enough to scare off even experienced programmers. Those dark days
+> are finally over — Land of Lisp brings the power of functional
+> programming to the people!
 
 ![Symbolics KB](https://ryanfleck.github.io/assets/SymbolicsKB.jpg)
 
 # **Resource:** SICP
 
-MIT's _Structure and Interpretation of Computer Programs_ is a classic in the truest sense; the material in the tome has been used in MIT's programs since 1980, and many of the core concepts have diffused out into reality, becoming the core of our global infrastructure. The book is available for free online in many forms.
+MIT's _Structure and Interpretation of Computer Programs_ is a classic
+in the truest sense; the material in the tome has been used in MIT's
+programs since 1980, and many of the core concepts have diffused out
+into reality, becoming the core of our global infrastructure. The book
+is available for free online in many forms.
 
 # Other Resources
 
-1. [Learn X in Y mins: Common Lisp](https://learnxinyminutes.com/docs/common-lisp/)
+1. [Learn X in Y mins: Common
+   Lisp](https://learnxinyminutes.com/docs/common-lisp/)
 
 # CLISP Basics
 
-1. Define a **global variable** with _defparameter_: `(defparameter *xyz* 18)`
+1. Define a **global variable** with _defparameter_: `(defparameter
+   *xyz* 18)`
 
 - AKA top-level definition, dynamic variable, special variable.
 - Don't forget the _earmuffs_!
 - `(defvar *xyz* 18)` will set but not overwrite.
 
-2. Define a **global function** with _defun_: `(defun func_name (args))`
+2. Define a **global function** with _defun_: `(defun func_name
+   (args))`
 
 - Functions appear after `(args)`:
 - `(defun example_function () (commands))`
@@ -136,9 +213,11 @@ MIT's _Structure and Interpretation of Computer Programs_ is a classic in the tr
 - Again, the function only works in the _flet_ list.
 - Multple functions can be defined in the () after _flet_.
 
-5. Like _flet_, _labels_ defines local functions, but also allows recursive calls.
+5. Like _flet_, _labels_ defines local functions, but also allows
+   recursive calls.
 
-A simple number-guessing game, using arithmetic shifts (binary search,) can be written like so with a few global functions:
+A simple number-guessing game, using arithmetic shifts (binary
+search,) can be written like so with a few global functions:
 
 ```cl
 (defparameter *big* 100)
@@ -166,7 +245,8 @@ In higher-order functions, `#'x` stands in for (function x).
 
 # Lisp Syntax
 
-Here is another example program showing parameters being defined, functions being defined, string insertions, comments, and more:
+Here is another example program showing parameters being defined,
+functions being defined, string insertions, comments, and more:
 
 ```cl
 ;;;; Prog5: "Wizard Adventure Game"
@@ -220,7 +300,8 @@ Here is another example program showing parameters being defined, functions bein
 
 # MIT Scheme
 
-The first time you install `mit-scheme` and run the REPL with `scheme`, you'll be greeted with all sorts of hackerisms:
+The first time you install `mit-scheme` and run the REPL with
+`scheme`, you'll be greeted with all sorts of hackerisms:
 
 ```
 MIT/GNU Scheme running under GNU/Linux
@@ -240,7 +321,8 @@ Kill Scheme (y or n)? Yes
 Moriturus te saluto.
 ```
 
-MIT Scheme is recommended for learning and applying the contents of _SICP_.
+MIT Scheme is recommended for learning and applying the contents of
+_SICP_.
 
 ```scheme
 ; To run, execute: scheme < prog6.scm
