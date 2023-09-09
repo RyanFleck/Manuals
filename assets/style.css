@@ -125,6 +125,7 @@ body,
 textarea,
 pre,
 .highlight,
+.src,
 p,
 div,
 code,
@@ -143,6 +144,7 @@ span {
 }
 
 .highlight,
+.src,
 code {
   font-size: 1rem; 
 }
@@ -163,6 +165,8 @@ main > ol,
 main > ul,
 body > ul,
 body > ol,
+body > div ul,
+body > div ol,
 nav > ul,
 nav > ol,
 .footnotes > ol,
@@ -170,9 +174,14 @@ table,
 figure,
 div.footnotes,
 #footer {
-  margin: 0 auto;
-  max-width: 600px;
-  margin-top: 1em;
+    /* margin: 0 auto */
+    max-width: 600px;
+    margin-top: 1em;
+    margin-left: 2rem;
+}
+
+body {
+    /* padding-left: 1em; */
 }
 
 figure img {
@@ -198,13 +207,8 @@ figcaption {
 }
 
 figcaption a {
-  /* color: red; */
   color: #7f5bc3;
 }
-
-/* div.highlight > pre {
-  margin-bottom: 1em;
-} */
 
 .manual-link > small {
   color: #8e65d9;
@@ -282,7 +286,8 @@ code {
     "Noto Mono", Menlo, Courier, "Courier New", monospace !important;
 }
 
-body > div.highlight {
+div.highlight,
+div.src {
   overflow-x: auto;
   padding: 0;
   /*
@@ -291,17 +296,18 @@ body > div.highlight {
   */
 }
 
-body > pre,
-body > div.highlight pre {
-  width: 100%;
-  padding-left: calc(50vw - 310px);
+pre {
+    width: 100%;
+    padding-left: 2rem;
+  /* padding-left: calc(50vw - 310px); */
 }
 
-@media only screen and (min-width: 600px) {
-  li > .highlight {
-    margin-right: calc(310px - 50vw);
-  }
-}
+/* @media only screen and (min-width: 600px) { */
+/*     li > .highlight, */
+/*     li > .src { */
+/*     margin-right: calc(310px - 50vw); */
+/*   } */
+/* } */
 
 pre {
   overflow: auto;
@@ -371,12 +377,39 @@ h6:hover > .header-anchor-link {
 
 /* No header anchor links on mobile */
 @media (max-width: 600px) {
-  html{
-    font-size: 12px;
-  }
-  .header-anchor-link {
-    display: none;
-  }
+    html{
+	font-size: 14px;
+    }
+    .header-anchor-link {
+	display: none;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    p,
+    main > ol,
+    main > ul,
+    body > ul,
+    body > ol,
+    body > div ul,
+    body > div ol,
+    nav > ul,
+    nav > ol,
+    .footnotes > ol,
+    table,
+    figure,
+    div.footnotes,
+    #footer {
+	/* margin: 0 auto */
+	margin-left: 0;
+    }
+    pre {
+	padding-left: 0;
+    }
 }
 
 #footer-data div {
