@@ -19,5 +19,11 @@
     {{- partial "footer.html" . -}}
 
     <!-- Scripts -->
+
+    {{ if eq hugo.Environment "production" }}
+    <!-- Cloudflare Web Analytics -->
+    <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "8eeee5207a2a448588229dbc8187df6b"}'></script>
+    <!-- End Cloudflare Web Analytics -->
+    {{ end }}
   </body>
 </html>
