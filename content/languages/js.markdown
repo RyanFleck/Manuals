@@ -14,7 +14,36 @@ if (prepared == true) {
 }
 ```
 
-# Why use JavaScript?
+# Why use JavaScript? (2024)
+
+JavaScript is a simple multi-paradigm language with broad applications:
+
+- Backend programming and scripting (Node.js or Deno)
+- Frontend programming (Vanilla ES5/6)
+- Web Apps (React or Svelte)
+- Cross-platform mobile apps (React Native)
+- Desktop apps (Electron, React Native)
+- Browser and editor plugins (Chrome, Firefox, VS Code)
+- Web games (Phaser)
+- Data visualization (Observable, D3)
+
+JavaScript (or JS,) is **not** Java. ECMAScript is the standard used to define
+JS and is used interchangeably to refer to the language. 
+
+Most other languages are limited to a single scope, runtime, or
+strength. **With JS, tools have been prepared in almost every domain
+where work needs to be done.** This certainly does **not** mean JS is
+the _best_ tool for any given job - just that it can be used to
+complete the work in question.
+
+JS is **fast**. It is compiled to bytecode and then optimized machine
+code the instant it runs. JS is **fun** to write. JS is
+**accessible** - everybody has a JS interpreter built right into their
+computer, given they have a web browser.
+
+JavaScript is worth learning and using.
+
+# Why use JavaScript? (2017)
 
 When I first began writing JavaScript, I mused: _"Ah, JavaScript; I've had mixed feelings about it for years now. My negative feelings, for the most part, were resentment for what the modern web has become and the unnecessary strain on modern devices that is heavy website javascript. I generally feel that javascript should only be used for a small subset of things, and always trivial; using javascript for anything mission-critical or important is dangerous. I imagine that this is not entirely fair, so I've set out to learn the basics, then some, in order to become competent in what is currently a very popular language._" In a coin flip between _Ruby_ and _JavaScript_, I chose to go with JavaScript knowing that the barrier to others viewing my neat experiments is much lower if the experiments could be viewed easily online.
 

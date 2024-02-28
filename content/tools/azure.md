@@ -23,9 +23,12 @@ colleague](/uploads/azure-roadmap.png)
 
 # Azure Acronyms & Abbreviations
 
+Sorted alphabetically.
+
 | Key   | Value                                                 |
 |-------|-------------------------------------------------------|
 | ACI   | Azure Container Instance                              |
+| ACO   | Actual Cut-Over                                       |
 | AD-DS | Active Directory Domain Services                      |
 | ADF   | Azure Data Factory                                    |
 | AKS   | Azure Kubernetes Service                              |
@@ -34,8 +37,13 @@ colleague](/uploads/azure-roadmap.png)
 | AVD   | Azure Virtual Desktop                                 |
 | AZ    | Azure                                                 |
 | BLOB  | Binary Large OBject                                   |
+| CM    | Configuration Management                              |
 | CapEX | Capital expenditure                                   |
+| DCO   | Dry Cut-Over                                          |
 | DR    | Disaster Recovery                                     |
+| EA    | Enterprise Architecture                               |
+| ECM   | Enterprise Content Management                         |
+| ECMS  | Enterprise Content Management System                  |
 | GPV2  | General Purpose Storage Account V2                    |
 | GRS   | Geo-Redundant Storage                                 |
 | GZRS  | Geo-Zone-Redundant Storage                            |
@@ -43,6 +51,7 @@ colleague](/uploads/azure-roadmap.png)
 | JEA   | Just Enough Access                                    |
 | JIT   | Just in Time                                          |
 | LRS   | Locally Redundant Storage                             |
+| MOC   | Management of Change                                  |
 | NSG   | Network Security Group                                |
 | OpEX  | Operating expenditure                                 |
 | PaaS  | Platform as a service                                 |
@@ -54,6 +63,7 @@ colleague](/uploads/azure-roadmap.png)
 | SAS   | Shared Access Signature                               |
 | SLA   | Service Level Agreeement                              |
 | SMB   | Server Message Block - File and port sharing protocol |
+| SME   | Subject Matter Expert                                 |
 | SSO   | Single Sign-On                                        |
 | SSPR  | Self-Service Password Reset                           |
 | SaaS  | Software as a service                                 |
@@ -63,6 +73,7 @@ colleague](/uploads/azure-roadmap.png)
 | VMSS  | Virtual Machine Scale Set                             |
 | VNet  | Virtual Network                                       |
 | ZRS   | Zone-Redundant Storage                                |
+
 
 
 ```elisp
@@ -944,10 +955,16 @@ Guide](https://learn.microsoft.com/en-us/credentials/certifications/resources/st
 ### Manage Licenses In Microsoft Entra ID
 ### Manage External Users
 ### Configure Self-Service Password Reset (SSPR)
+
+
+
 ## Manage Access To Azure Resources
 ### Manage Built-In Azure Roles
 ### Assign Roles At Different Scopes
 ### Interpret Access Assignments
+
+
+
 ## Manage Azure Subscriptions And Governance
 ### Implement And Manage Azure Policy
 ### Configure Resource Locks
@@ -956,18 +973,50 @@ Guide](https://learn.microsoft.com/en-us/credentials/certifications/resources/st
 ### Manage Subscriptions
 ### Manage Costs By Using Alerts, Budgets, and Advisor
 ### Configure Management Groups
+
+
+
+
 ## Configure Access To Storage
+
+Section 8 in [AZ-104 Udemy Course](https://www.udemy.com/course/70533-azure/).
+
 ### Configure Azure Storage Firewalls And Virtual Networks
 ### Create And Use Shared Access Signature (SAS) Tokens
 ### Configure Stored Access Policies
 ### Manage Access Keys
 ### Configure Identity-Based Access For Azure Files
+
+
+
 ## Configure And Manage Storage Accounts
 ### Create And Configure Storage Accounts
 ### Configure Azure Storage Redundancy
+
+
+| Level | Distribution of Files      |
+|-------|----------------------------|
+| LRS   | Locally-Redundant Storage  |
+| GRS   | Geo-Redundant Storage      |
+| ZRS   | Zone-Redundant Storage     |
+| GZRS  | Geo-Zone-Redundant Storage |
+
+| Access Tier           | Use Case                                  |
+|-----------------------|-------------------------------------------------|
+| Transaction Optimized | Transaction-heavy workloads with higher latency |
+| Hot                   | Frequently accessed data                        |
+| Cool                  |                                                 |
+| Cold                  |                                                 |
+| Archive               |                                                 |
+|                       |                                                 |
+
+
 ### Configure Object Replication
 ### Configure Storage Account Encryption
 ### Manage Data By Using Azure Storage Explorer And AzCopy
+
+
+
 ## Configure Azure Files And Azure Blob Storage
 ### Create And Configure A File Share In Azure Storage
 ### Create And Configure A Container In Blob Storage
@@ -975,12 +1024,18 @@ Guide](https://learn.microsoft.com/en-us/credentials/certifications/resources/st
 ### Configure Snapshots And Soft Delete For Azure Files
 ### Configure Blob Lifecycle Management
 ### Configure Blob Versioning
+
+
+
 ## Automate Deployment Of Resources By Using ARM Templates Or Bicep Files
 ### Interpret An Azure Resource Manager Template Or A Bicep File
 ### Modify An Existing Azure Resource Manager Template
 ### Modify An Existing Bicep File
 ### Deploy Resources By Using An Azure Resource Manager Template Or A Bicep File
 ### Export A Deployment As An ARM Template Or Convert An ARM File To A Bicep File
+
+
+
 ## Create And Configure Virtual Machines
 ### Create A Virtual Machine
 ### Configure Azure Disk Encryption
@@ -989,11 +1044,17 @@ Guide](https://learn.microsoft.com/en-us/credentials/certifications/resources/st
 ### Manage Virtual Machine Disks
 ### Deploy Virtual Machines To Availability Zones And Availability Sets
 ### Deploy And Configure An Azure Virtual Machine Scale Sets
+
+
+
 ## Provision And Manage Containers In The Azure Portal
 ### Create And Manage An Azure Container Registry
 ### Provision A Container By Using Azure Container Instances
 ### Provision A Container By Using Azure Container Apps
 ### Manage Sizing And Scaling For Containers, Including Azure Container Instances/Apps
+
+
+
 ## Create And Configure Azure App Service
 ### Provision An App Service Plan
 ### Configure Scaling For An App Service Plan
@@ -1003,12 +1064,18 @@ Guide](https://learn.microsoft.com/en-us/credentials/certifications/resources/st
 ### Configure Backup For An App Service
 ### Configure Networking Settings For An App Service
 ### Configure Deployment Slots For An App Service
+
+
+
 ## Configure And Manage Virtual Networks In Azure
 ### Create And Configure Virtual Networks And Subnets
 ### Create And Configure Virtual Network Peering
 ### Configure Public IP Addresses
 ### Configure User-Defined Network Routes
 ### Troubleshoot Network Connectivity
+
+
+
 ## Configure Secure Access To Virtual Networks
 ### Create And Configure NSGs and ASGs
 
@@ -1019,10 +1086,16 @@ Guide](https://learn.microsoft.com/en-us/credentials/certifications/resources/st
 ### Implement Azure Bastion
 ### Configure Service Endpoints For Azure Platform As A Service (PaaS)
 ### Configure Private Endpoints For Azure PaaS
+
+
+
 ## Configure Name Resolution And Load Balancing
 ### Configure Azure DNS
 ### Configure An Internal Or Public Load Balancer
 ### Troubleshoot Load Balancing
+
+
+
 
 ## Monitor Resources In Azure
 ### Interpret Metrics In Azure Monitor
@@ -1031,6 +1104,9 @@ Guide](https://learn.microsoft.com/en-us/credentials/certifications/resources/st
 ### Set Up Alert Rules, Action Groups, And Alert Processing Rules In Azure Monitor
 ### Configure And Interpret Monitoring Of Virtual Machines, Storage Accounts, And Networks By Using Azure Monitor Insights
 ### Use Azure Network Watcher And Connection Monitor
+
+
+
 ## Implement Backup And Recovery
 ### Create A Recovery Services Vault
 ### Create An Azure Backup Vault
@@ -1043,17 +1119,225 @@ Guide](https://learn.microsoft.com/en-us/credentials/certifications/resources/st
 
 
 
+## AZ-104 Resources
 
-
-
-
-
-
-
-
-
+1. [Azure documentation](https://learn.microsoft.com/en-us/azure/?product=featured)
+1. [Microsoft Entra ID](https://learn.microsoft.com/en-us/azure/active-directory/)
+1. [Azure Policy](https://learn.microsoft.com/en-us/azure/governance/policy/)
+1. [Azure Storage](https://learn.microsoft.com/en-us/azure/storage/)
+1. [Azure Storage Explorer](https://learn.microsoft.com/en-us/azure/vs-azure-tools-storage-manage-with-storage-explorer)
+1. [Azure Blob Storage](https://learn.microsoft.com/en-us/azure/storage/blobs/)
+1. [ARM templates](https://learn.microsoft.com/en-us/azure/azure-resource-manager/templates/)
+1. [Azure Container Instances](https://learn.microsoft.com/en-us/azure/container-instances/)
+1. [Azure Container Apps](https://learn.microsoft.com/en-us/azure/container-apps/)
+1. [App Service](https://learn.microsoft.com/en-us/azure/app-service/)
+1. [Azure DNS](https://learn.microsoft.com/en-us/azure/dns/)
+1. [Azure Bastion](https://learn.microsoft.com/en-us/azure/bastion/)
+1. [Application Gateway](https://learn.microsoft.com/en-us/azure/application-gateway/)
+1. [Azure Monitor](https://learn.microsoft.com/en-us/azure/azure-monitor/)
+1. [Network Watcher](https://learn.microsoft.com/en-us/azure/network-watcher/)
+1. [Azure Site Recovery](https://learn.microsoft.com/en-us/azure/site-recovery/)
+1. [Azure Backup service](https://learn.microsoft.com/en-us/azure/backup/)
 
 # **AZ-500**: Azure Security Technologies
+
+View the [AZ-500 Study Guide](https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-500).
+
+**Topics**:
+
+- Manage Identity And Access (25–30%)
+- Secure Networking (20–25%)
+- Secure Compute, Storage, And Databases (20–25%)
+- Manage Security Operations (25–30%)
+
+
+
+
+## Manage Microsoft Entra Identities
+### Secure Microsoft Entra Users
+### Secure Microsoft Entra Groups
+### Recommend When To Use External Identities
+### Secure External Identities
+### Implement Microsoft Entra ID Protection
+
+
+
+## Manage Microsoft Entra Authentication
+### Configure Microsoft Entra Verified ID
+### Implement Multi-Factor Authentication (MFA)
+### Implement Passwordless Authentication
+### Implement Password Protection
+### Implement Single Sign-On (SSO)
+### Integrate Single Sign On (SSO) And Identity Providers
+### Recommend And Enforce Modern Authentication Protocols
+
+
+
+## Manage Microsoft Entra Authorization
+### Configure Azure Role Permissions For Management Groups, Subscriptions, Resource Groups, And Resources
+### Assign Microsoft Entra Built-In Roles
+### Assign Azure Built-In Roles
+### Create And Assign Custom Roles, Including Azure Roles And Microsoft Entra Roles
+### Implement And Manage Microsoft Entra Permissions Management
+### Configure Microsoft Entra Privileged Identity Management
+### Configure Role Management And Access Reviews In Microsoft Entra
+### Implement Conditional Access Policies
+
+
+
+## Manage Microsoft Entra Application Access
+### Manage Access To Enterprise Applications In Microsoft Entra ID, Including OAuth Permission Grants
+### Manage Microsoft Entra App Registrations
+### Configure App Registration Permission Scopes
+### Manage App Registration Permission Consent
+### Manage And Use Service Principals
+### Manage Managed Identities For Azure Resources
+### Recommend When To Use And Configure An Microsoft Entra Application Proxy, Including Authentication
+
+
+
+
+## Plan And Implement Security For Virtual Networks
+### Plan And Implement Network Security Groups (NSGs) And Application Security Groups (ASGs)
+### Plan And Implement User-Defined Routes (UDRs)
+### Plan And Implement Virtual Network Peering Or VPN Gateway
+### Plan And Implement Virtual WAN, Including Secured Virtual Hub
+### Secure VPN Connectivity, Including Point-To-Site And Site-To-Site
+### Implement Encryption Over ExpressRoute
+### Configure Firewall Settings On PaaS Resources
+### Monitor Network Security By Using Network Watcher, Including NSG Flow Logging
+
+
+
+## Plan And Implement Security For Private Access To Azure Resources
+### Plan And Implement Virtual Network Service Endpoints
+### Plan And Implement Private Endpoints
+### Plan And Implement Private Link Services
+### Plan And Implement Network Integration For Azure App Service And Azure Functions
+### Plan And Implement Network Security Configs For An App Service Environment (ASE)
+### Plan And Implement Network Security Configs For A SQL Managed Instance
+
+
+
+## Plan And Implement Security For Public Access To Azure Resources
+### Plan And Implement Transport Layer Security (TLS) To Applications, Including Azure App Service And API Management
+### Plan, Implement, And Manage An Azure Firewall, Including Azure Firewall Manager And Firewall Policies
+### Plan And Implement An Azure Application Gateway
+### Plan And Implement An Azure Front Door, Including Content Delivery Network (CDN)
+### Plan And Implement A Web Application Firewall (WAF)
+### Recommend When To Use Azure DDoS Protection Standard
+
+
+
+
+## Plan And Implement Advanced Security For Compute
+### Plan And Implement Remote Access To Public Endpoints, Including Azure Bastion And Just-In-Time (JIT) Virtual Machine (VM) Access
+### Configure Network Isolation For Azure Kubernetes Service (AKS)
+### Secure And Monitor AKS
+### Configure Authentication For AKS
+### Configure Security Monitoring For Azure Container Instances (ACIs)
+### Configure Security Monitoring For Azure Container Apps (ACAs)
+### Manage Access To Azure Container Registry (ACR)
+### Configure Disk Encryption, Including Azure Disk Encryption (ADE), Encryption As Host, And Confidential Disk Encryption
+### Recommend Security Configurations For Azure API Management
+
+
+
+## Plan And Implement Security For Storage
+### Configure Access Control For Storage Accounts
+### Manage Life Cycle For Storage Account Access Keys
+### Select And Configure An Appropriate Method For Access To Azure Files
+### Select And Configure An Appropriate Method For Access To Azure Blob Storage
+### Select And Configure An Appropriate Method For Access To Azure Tables
+### Select And Configure An Appropriate Method For Access To Azure Queues
+### Select And Configure Appropriate Methods For Protecting Against Data Security Threats, Including Soft Delete, Backups, Versioning, And Immutable Storage
+### Configure Bring Your Own Key (BYOK)
+### Enable Double Encryption At The Azure Storage Infrastructure Level
+
+
+
+## Plan And Implement Security For SQL Database and Managed Instances
+### Enable Microsoft Entra Database Authentication
+### Enable Database Auditing
+### Identify Use Cases For The Microsoft Purview Governance Portal
+### Implement Data Classification Of Sensitive Information By Using The Microsoft Purview Governance Portal
+### Plan And Implement Dynamic Masking
+### Implement Transparent Database Encryption (TDE)
+### Recommend When To Use Azure SQL Database Always Encrypted
+
+
+
+
+## Plan, Implement, And Manage Governance For Security
+### Create, Assign, And Interpret Security Policies And Initiatives In Azure Policy
+### Configure Security Settings By Using Azure Blueprints
+### Deploy Secure Infrastructures By Using A Landing Zone
+### Create And Configure An Azure Key Vault
+### Recommend When To Use A Dedicated Hardware Security Module (HSM)
+### Configure Access To Key Vault, Including Vault Access Policies And Azure Role Based Access Control
+### Manage Certificates, Secrets, And Keys
+### Configure Key Rotation
+### Configure Backup And Recovery Of Certificates, Secrets, And Keys
+
+
+
+## Manage Security Posture By Using Microsoft Defender For Cloud
+### Identify And Remediate Security Risks By Using The Microsoft Defender For Cloud Secure Score And Inventory
+### Assess Compliance Against Security Frameworks And Microsoft Defender For Cloud
+### Add Industry And Regulatory Standards To Microsoft Defender For Cloud
+### Add Custom Initiatives To Microsoft Defender For Cloud
+### Connect Hybrid Cloud And Multi-Cloud Environments To Microsoft Defender For Cloud
+### Identify And Monitor External Assets By Using Microsoft Defender External Attack Surface Management
+
+
+
+## Configure And Manage Threat Protection By Using Microsoft Defender For Cloud
+### Enable Workload Protection Services In Microsoft Defender For Cloud, Including Microsoft Defender For Storage, Databases, Containers, App Service, Key Vault, Resource Manager, And DNS
+### Configure Microsoft Defender For Servers
+### Configure Microsoft Defender For Azure SQL Database
+### Manage And Respond To Security Alerts In Microsoft Defender For Cloud
+### Configure Workflow Automation By Using Microsoft Defender For Cloud
+### Evaluate Vulnerability Scans From Microsoft Defender For Server
+
+
+
+## Configure And Manage Security Monitoring And Automation Solutions
+### Monitor Security Events By Using Azure Monitor
+### Configure Data Connectors In Microsoft Sentinel
+### Create And Customize Analytics Rules In Microsoft Sentinel
+### Evaluate Alerts And Incidents In Microsoft Sentinel
+### Configure Automation In Microsoft Sentinel
+
+
+
+
+## AZ-500 Resources
+
+1. [Azure documentation](https://learn.microsoft.com/en-us/azure/?product=featured)
+1. [Microsoft Entra ID](https://learn.microsoft.com/en-us/azure/active-directory/)
+1. [Azure Firewall documentation](https://learn.microsoft.com/en-us/azure/firewall/)
+1. [Azure Firewall Manager documentation](https://learn.microsoft.com/en-us/azure/firewall-manager/)
+1. [Azure Application Gateway documentation](https://learn.microsoft.com/en-us/azure/application-gateway/)
+1. [Azure Front Door and CDN Documentation](https://learn.microsoft.com/en-us/azure/frontdoor/)
+1. [Web Application Firewall documentation](https://learn.microsoft.com/en-us/azure/web-application-firewall/)
+1. [Azure Key Vault documentation](https://learn.microsoft.com/en-us/azure/key-vault/)
+1. [Virtual network service endpoint policies for Azure Storage](https://learn.microsoft.com/en-us/azure/virtual-network/virtual-network-service-endpoint-policies-overview)
+1. [Manage Azure Private Endpoints - Azure Private Link](https://learn.microsoft.com/en-us/azure/private-link/manage-private-endpoint?tabs=manage-private-link-powershell)
+1. [Create a Private Link service by using the Azure portal](https://learn.microsoft.com/en-us/azure/private-link/create-private-link-service-portal)
+1. [Azure DDoS Protection documentation](https://learn.microsoft.com/en-us/azure/ddos-protection/)
+1. [Virtual machines in Azure](https://learn.microsoft.com/en-us/azure/virtual-machines/overview)
+1. [Secure and use policies on virtual machines in Azure](https://learn.microsoft.com/en-us/azure/virtual-machines/security-policy)
+1. [Security - Azure App Service](https://learn.microsoft.com/en-us/azure/app-service/overview-security)
+1. [Azure Policy documentation](https://learn.microsoft.com/en-us/azure/governance/policy/)
+1. [Plan your Defender for Servers deployment](https://learn.microsoft.com/en-us/azure/defender-for-cloud/defender-for-servers-introduction)
+1. [Microsoft Defender for Cloud documentation](https://learn.microsoft.com/en-us/azure/defender-for-cloud/)
+1. [Microsoft Threat Modeling Tool overview](https://learn.microsoft.com/en-us/azure/security/develop/threat-modeling-tool)
+1. [Azure Monitor documentation](https://learn.microsoft.com/en-us/azure/azure-monitor/)
+1. [Microsoft Sentinel documentation](https://learn.microsoft.com/en-us/azure/sentinel/)
+1. [Azure Storage documentation](https://learn.microsoft.com/en-us/azure/storage/)
+1. [Azure Files documentation](https://learn.microsoft.com/en-us/azure/storage/files/)
+1. [Azure SQL documentation](https://learn.microsoft.com/en-us/azure/azure-sql/?view=azuresql)
+
 
 # **AZ-305**: Designing Azure Infrastructure Solutions 
 

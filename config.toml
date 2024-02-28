@@ -26,7 +26,7 @@ pygmentsStyle = "perldoc"
 [markup]
     defaultMarkdownHandler = "goldmark"
     [markup.tableOfContents]
-        endLevel = 5
+        endLevel = 2
         ordered = false
         startLevel = 1
 
