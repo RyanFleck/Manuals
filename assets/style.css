@@ -420,3 +420,9 @@ table {
   text-align: left;
   border-spacing: 4px;
 }
+
+td, th {
+padding-right: 7px;
+
+}
+

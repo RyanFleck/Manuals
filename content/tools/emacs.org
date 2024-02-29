@@ -1,0 +1,17 @@
+#+LAYOUT: docs-manual
+#+TITLE: EMACS
+#+SUMMARY: Magic that your boss will never let you use with a client.
+#+TOC: true
+#+AUTHOR: Ryan Fleck
+#+SEQ_TODO: TODO(t) RECURRING-TODO(r) IN-PROGRESS(p) | DONE(d) CANCELLED(c)
+#+LATEX_HEADER: \usepackage[margin=1in]{geometry}
+#+DRAFT: true
+
+* The Glorious Magic of EMACS
+
+
+| Package | Shortcut    | Action Description |
+|---------+-------------+--------------------|
+| Org     | C-c C-x C-a | Archive branch     |
+| Emacs   | M-x 5 2     | Break out window   |
+

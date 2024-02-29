@@ -7,6 +7,23 @@ toc = true
 
 +++
 
+# What is Microsoft Azure?
+
+Azure is Microsoft's cloud computing offering, enabling businesses to
+run applications, databases, and other services on hardware built,
+maintained, secured, and managed in Microsoft's datacenters.
+
+> The Azure cloud platform is more than 200 products and cloud
+> services designed to help you bring new solutions to life—to solve
+> today’s challenges and create the future. Build, run, and manage
+> applications across multiple clouds, on-premises, and at the edge,
+> with the tools and frameworks of your
+> choice. ([source](https://azure.microsoft.com/en-us/resources/cloud-computing-dictionary/what-is-azure))
+
+Enterprise IT projects will commonly leverage cloud infrastructure,
+making knowledge of Azure, GCP, or AWS a critical skill for
+developers, software architects, and IT personnel alike.
+
 # Learning Roadmap
 
 As a growing Software Architect I was recommended to pursue:
@@ -35,7 +52,7 @@ Sorted alphabetically.
 | ARM   | Azure Resource Manager                                |
 | ASG   | Application Security Group                            |
 | AVD   | Azure Virtual Desktop                                 |
-| AZ    | Azure                                                 |
+| AZ    | Microsoft AZure                                       |
 | BLOB  | Binary Large OBject                                   |
 | CM    | Configuration Management                              |
 | CapEX | Capital expenditure                                   |
@@ -1001,7 +1018,7 @@ Section 8 in [AZ-104 Udemy Course](https://www.udemy.com/course/70533-azure/).
 | ZRS   | Zone-Redundant Storage     |
 | GZRS  | Geo-Zone-Redundant Storage |
 
-| Access Tier           | Use Case                                  |
+| Access Tier           | Use Case                                        |
 |-----------------------|-------------------------------------------------|
 | Transaction Optimized | Transaction-heavy workloads with higher latency |
 | Hot                   | Frequently accessed data                        |
