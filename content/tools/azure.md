@@ -1398,6 +1398,27 @@ cloud migration journey.
   for the cloud, but this is **good** because the client is saving
   money, and is likely to remain in the cloud.
 
+# General Azure Resources
+
+**Websites:**
+
+1. [John Savill's Azure Training YouTube Channel](https://www.youtube.com/@NTFAQGuy)
+
+**Books:**
+
+(Remember to **buy** physical copies of books to *support good authors*.)
+
+1. [Bill Wilder: **Cloud Architecture Patterns**: Using Microsoft Azure](https://libgen.is/book/index.php?md5=8DDCC385A97FD3CE9217FC9D67B7700E)
+
+1. [Ritesh Modi, Jack Lee, Rithin Skaria: **Azure for Architects**: Create secure, scalable, high-availability applications on the cloud, 3e, 2020](https://libgen.is/book/index.php?md5=E9642664D01C8C7F03E0F9AB2B518F78)
+
+1. [John Savill: Microsoft Azure Infrastructure Services for Architects: **Designing Cloud Solutions**, 1e, 2019](https://libgen.is/book/index.php?md5=72660AF27FB023D5E1A67445FCCD4C78)
+
+1. [John Savill: **Mastering Microsoft Azure Infrastructure Services**, 1e, 2015](https://libgen.is/book/index.php?md5=BF93A6260C3486CE1678BF00DC5DA772)
+
+1. [Shijimol Ambi Karthikeyan: **Practical Microsoft Azure IaaS**, 1e](https://libgen.is/book/index.php?md5=30F019E9393CC34844DAB33EC67C36F0)
+
+
 # Formatting MS Study Guides
 
 Using EMACS, it is easy to transform a study guide to a template for

@@ -160,13 +160,21 @@ h3,
 h4,
 h5,
 h6,
-p,
+main > p,
+body > p,
+div.outline-text-1 p,
+div.outline-text-2 p,
+div.outline-text-3 p,
+div.outline-text-4 p,
+div.outline-text-5 p,
 main > ol,
 main > ul,
 body > ul,
 body > ol,
 body > div ul,
 body > div ol,
+body > blockquote,
+main > blockquote,
 nav > ul,
 nav > ol,
 .footnotes > ol,
@@ -178,6 +186,14 @@ div.footnotes,
     max-width: 800px;
     margin-top: 1em;
     margin-left: 2rem;
+}
+
+ul {
+    padding-left: 1.5rem;
+}
+
+nav > ul {
+    padding-left: 3rem;
 }
 
 body {

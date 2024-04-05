@@ -1,75 +1,77 @@
 ---
 toc: true
-draft: true
 date: 2024-02-23T17:40:53-07:00
 image: "/content-cover-images/coffee-phone.jpg"
 summary: "Enterprise scale wizardry."
 title: "Clojure"
 ---
 
+# Philosophy
+
+1. [How startups can move fast with Clojure (by Bradford Cross)](https://www.youtube.com/watch?v=MZy-SNswH2E)
+
+Startups should focus on:
+- Bottom-up programming - focusing on fine grained abstractions and composability
+- Avoiding frameworks and saas tools
+- Focus on individual programmer productivity
+
+**Thought:** Rebuilding things from scratch sucks and Clojure potentially enables better code reuse.
+
 # High-Level Notes
+
+# Rich Hickey Talk Notes
+
+## core.async Channels
+
+Full talk: [infoq.com/presentations/clojure-core-async/](https://www.infoq.com/presentations/clojure-core-async/)
+
+- **Problems and Premise**
+  - Function chains make poor machines
+  - Reasonable programs are organized around processes and queues
+    (conveyance must become first-class.)
+  - Java.util.concurrent queues have lots of problems and costs
+  - You should be able to add machines to make things scale
+  - Sometimes logic relies on shared state
+    - Objects don't fix this, they just put the shared state and
+      functions in one place
+    - Async/Await, Promises, Futures are all handoffs or call/returns
+    
+- **Solutions**
+  - Communicating Sequential Processes (CSP) (Hoare 1978) are the
+    model for Clojure
+  - Constructs:
+    - **chan**nels are queue-like, multi-reader/writer, unbuffered or
+      fixed buffers
+      - Functions to put, take, close, etc.
+    - **thread** gives you a real thread with real blocking
+    - **go** is a logical software thread that can be parked during
+      blocking calls
+    - 
+  - *Friends don't let friends put logic in handlers.*
+  - Basically **use channels to route your data through functions.**
+  
+## Inside core.async Channels
+
+Full talk: [youtu.be/hMEX6lfBeRM](https://youtu.be/hMEX6lfBeRM)
+
+## Simple Made Easy
+
+Full talk: [youtube.com/watch?v=SxdOUGdseq4](https://www.youtube.com/watch?v=SxdOUGdseq4)  
+12 Minute Version: [youtube.com/watch?v=F87PtAoJNtg](https://www.youtube.com/watch?v=F87PtAoJNtg)
 
 # Luminus
 
 ## New Project
 
 Upon creating and generating a new Luminus project and running it once
-in the REPL, here's the tree of directories and files that is
+in the REPL, here is **part** of the tree of directories and files that is
 generated:
 
 ```
-$ tree -a guestbook/
-
 guestbook/
-├── Capstanfile
-├── .clj-kondo
-│   └── .cache
-│       └── v1
-│           ├── clj
-│           │   └── (lots of stuff)
-│           ├── cljc
-│           │   └── (lots of stuff)
-│           ├── cljs
-│           │   └── (lots of stuff)
-│           └── lock
-├── dev-config.edn
-├── Dockerfile
-├── env
-│   ├── dev
-│   │   ├── clj
-│   │   │   ├── guestbook
-│   │   │   │   ├── dev_middleware.clj
-│   │   │   │   └── env.clj
-│   │   │   └── user.clj
-│   │   └── resources
-│   │       ├── config.edn
-│   │       └── logback.xml
-│   ├── prod
-│   │   ├── clj
-│   │   │   └── guestbook
-│   │   │       └── env.clj
-│   │   └── resources
-│   │       ├── config.edn
-│   │       └── logback.xml
-│   └── test
-│       └── resources
-│           ├── config.edn
-│           └── logback.xml
-├── .gitignore
-├── guestbook_dev.db.mv.db
-├── guestbook_test.db.mv.db
-├── guestbook_test.db.trace.db
-├── .lein-failures
-├── .lein-repl-history
-├── log
-│   └── guestbook.log
-├── .lsp
-│   └── .cache
-│       └── db.transit.json
-├── .nrepl-port
-├── Procfile
+│  
 ├── project.clj
-├── README.md
+│  
 ├── resources
 │   ├── docs
 │   │   └── docs.md
@@ -105,39 +107,14 @@ guestbook/
 │           ├── nrepl.clj
 │           └── routes
 │               └── home.clj
-├── target
-│   ├── base+system+user+provided+dev+test+test
-│   │   ├── classes
-│   │   │   └── META-INF
-│   │   │       └── maven
-│   │   │           └── guestbook
-│   │   │               └── guestbook
-│   │   │                   └── pom.properties
-│   │   └── stale
-│   │       └── leiningen.core.classpath.extract-native-dependencies
-│   ├── classes
-│   │   └── META-INF
-│   │       └── maven
-│   │           └── guestbook
-│   │               └── guestbook
-│   │                   └── pom.properties
-│   ├── repl-port
-│   ├── stale
-│   │   └── leiningen.core.classpath.extract-native-dependencies
-│   └── test+test
-│       └── stale
-│           └── leiningen.core.classpath.extract-native-dependencies
 ├── test
 │   └── clj
 │       └── guestbook
 │           ├── db
 │           │   └── core_test.clj
 │           └── handler_test.clj
-├── test-config.edn
-└── .vscode
-    └── settings.json
-
-57 directories, 667 files
+│  
+└── test-config.edn
 ```
 
 # Emacs
