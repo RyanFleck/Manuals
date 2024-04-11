@@ -188,6 +188,20 @@ div.footnotes,
     margin-left: 2rem;
 }
 
+div ol > p,
+div ul > p, 
+div li > p {
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+div li > ul,
+div li > ol {
+    margin-top: 0px;
+    margin-left: 0.5rem;
+}
+
+
 ul {
     padding-left: 1.5rem;
 }
