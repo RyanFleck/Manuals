@@ -40,6 +40,14 @@
   box-sizing: border-box;
 }
 
+h4 {
+    font-size: 1.2rem;
+}
+
+h5, h6, h7 {
+    font-size: 1.1rem;
+}
+
 /* Remove default margin */
 body,
 h1,
@@ -69,6 +77,15 @@ body {
   line-height: 1.4;
 }
 
+pre.example{
+    margin-top: 0;
+}
+
+pre.example::before{
+    content: "=>  ";
+    color: #fba8a8;
+    display: inline-block;
+}
 /* A elements that don't have a class get default styles */
 a:not([class]) {
   text-decoration-skip-ink: auto;
@@ -247,11 +264,12 @@ figcaption a {
 blockquote {
   font-style: italic;
   color: rgb(69, 0, 197);
+  border-left: 2px solid rgb(222 205 255);
+  margin-left: 2rem;
 }
 
-blockquote > p {
-  border-left: 2px solid rgb(222 205 255);
-  padding-left: 10px;
+blockquote p {
+    margin-left: 1rem !important;
 }
 
 .footnotes > hr {

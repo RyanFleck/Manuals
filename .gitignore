@@ -33,3 +33,9 @@ pom.xml.asc
 /.prepl-port
 .hgignore
 .hg/
+
+target/*
+/**/target
+/**/target/*
+
+.nrepl-port

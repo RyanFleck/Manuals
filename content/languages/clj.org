@@ -7,8 +7,10 @@
   :PROPERTIES:
   :CUSTOM_ID: philosophy
   :END:
-1. [[https://www.youtube.com/watch?v=MZy-SNswH2E][How startups can move
-   fast with Clojure (by Bradford Cross)]]
+
+** Improving Productivity
+
+*Video:* [[https://www.youtube.com/watch?v=MZy-SNswH2E][How startups can move fast with Clojure (by Bradford Cross)]]
 
 Startups should focus on: - Bottom-up programming - focusing on fine
 grained abstractions and composability - Avoiding frameworks and saas
@@ -17,13 +19,67 @@ tools - Focus on individual programmer productivity
 *Thought:* Rebuilding things from scratch sucks and Clojure potentially
 enables better code reuse.
 
-* High-Level Notes
+** Subverting the Lisp Curse
+
+#+begin_quote
+Programmers know the benefits of everything and the tradeoffs of nothing  
+
+-- Rich Hickey
+#+end_quote
+
+I've got a particular friend who has an obsession with Clojure - he is
+baffled as to why the entire world doesn't use it. When asked, he may
+say something like "they're all /idiots!/" While no sage myself, I do
+believe that the mentors I have had have wisely guided me regarding
+tool choice, and a variety of factors must be considered along with a
+problem statement.
+
+First, if you don't know: *Video*: [[https://www.youtube.com/watch?v=_J3x5yvQ8yc][What is the Curse of Lisp?]]
+
+*The curse of LISP is that it is too powerful*, promoting hyper
+customized solutions and individualism. A solo developer now has the
+power to bend and flex reality to his whims. The drawback is that this
+causes fewer common tools to emerge - developers can just build them
+themselves fairly easily, leading to a divergence of methods.
+
+Corporations would *not* want to enable this - preferring replaceable
+cogs. This is detailed in the [[https://people.eecs.berkeley.edu/~bh/ssch0/preface.html][intro to Simply Scheme]], and below. The
+Corporations have a very valid point here that must be stressed: The
+goal is to reliably get real work done, not to navel gaze.
+
+I've heard rumours that Clojure subverts this curse with two measures:
+understanding of the problem, and the ability to leverage Java
+libraries. *We're giving it a go regardless, as I want to work in a
+LISP for a minute.*
+
+** Computing Schools of Thought
+
+The the [[https://people.eecs.berkeley.edu/~bh/ssch0/preface.html][intro to Simply Scheme]] provides caricatures of the two major
+schools of thought regarding the teaching of computer science:
+
+#+begin_quote
+*1 - The conservative view:* Computer programs have become too large and
+   complex to encompass in a human mind. Therefore, the job of
+   computer science education is to teach people how to discipline
+   their work in such a way that 500 mediocre programmers can join
+   together and produce a program that correctly meets its
+   specification.
+
+
+*2 - The radical view:* Computer programs have become too large and
+   complex to encompass in a human mind. Therefore, the job of
+   computer science education is to teach people how to expand their
+   minds so that the programs can fit, by learning to think in a
+   vocabulary of larger, more powerful, more flexible ideas than the
+   obvious ones. Each unit of programming thought must have a big
+   payoff in the capabilities of the program.
+#+end_quote
+
+This is posted here for the reader to ponder without comment.
+
+* Rich Hickey Talks
   :PROPERTIES:
-  :CUSTOM_ID: high-level-notes
-  :END:
-* Rich Hickey Talk Notes
-  :PROPERTIES:
-  :CUSTOM_ID: rich-hickey-talk-notes
+  :CUSTOM_ID: rich-hickey-talks
   :END:
 ** core.async Channels
    :PROPERTIES:
@@ -70,20 +126,270 @@ Full talk:
 12 Minute Version:
 [[https://www.youtube.com/watch?v=F87PtAoJNtg][youtube.com/watch?v=F87PtAoJNtg]]
 
+** Clojure
+
+- [[https://clojure.org/guides/learn/syntax#_evaluation][Clojure Evaluation]]
+- [[https://clojure.org/api/cheatsheet][Clojure API Cheat Sheet]]
+
 * Clojure for the Brave and True
+
+- [[https://www.braveclojure.com/clojure-for-the-brave-and-true/][Table of Contents]]
+- [[https://www.braveclojure.com/getting-started][Environment Setup]]
+- [[https://www.braveclojure.com/do-things][Language Fundamentals]]
+- [[https://www.braveclojure.com/concurrency][Advanced Topics]]
+- [[https://www.braveclojure.com/appendix-a][Back Matter]]
+
+All quotes in this section are from this material.
 
 ** Literate Programming
 
 I'll be using [[https://orgmode.org/worg/org-contrib/babel/languages/ob-doc-clojure.html][org-babel-clojure]] to write and run code within this
-manual directly. Learning, remembering, and teaching mix.
+manual directly. Learning, remembering, and teaching now mix.
+
+The [[https://en.wikipedia.org/wiki/Literate_programming][Literate programming]] idea has regained popularity these days in
+the form of data notebooks, and it is certainly to my taste.
+
+If the evaluated result is simple, it'll have a little arrow '=>'
+beside it in the css, though not in the text document on disk.
+
+*Like so:*
 
 #+begin_src clojure
 (+ 1 2 3 4 5)
-
 #+end_src
 
 #+RESULTS:
 : 15
+
+If the result is more complex, like a map, it'll be in a table and
+it's tougher to target with css so I'll be lazy for now and leave it
+sort of unstyled:
+
+#+begin_src clojure
+(vals {:a 1 :b 2})
+(keys {:c 3 :d 4})
+#+end_src
+
+#+RESULTS:
+| (1 2)   |
+| (:c :d) |
+
+...that's OK.
+
+** Chapter 3: Do Things
+
+[[https://www.braveclojure.com/do-things/][Do Things: A Clojure Crash Course]]
+
+Clojure uses the familiar LISP S-Expressions. Literals are valid
+forms.
+
+#+begin_src clojure
+1
+"a string"
+["a" "vector" "of" "strings"]
+{ :a "map" :of "stuff"}
+#+end_src
+
+#+begin_quote
+Clojure uses whitespace to separate operands, and it treats commas as whitespace.
+#+end_quote
+
+Good old s-expressions:
+
+#+begin_src clojure
+(operator operand1 operand2 etc)
+#+end_src
+
+#+begin_quote
+In other languages, different operations might have different
+structures depending on the operator and the operands. For example,
+JavaScript employs a smorgasbord of infix notation, dot operators, and
+parentheses. Clojure’s structure is very simple and consistent by
+comparison. [...] No matter which operator you’re using or what kind
+of data you’re operating on, the structure is the same.
+#+end_quote
+
+*** Control Flow
+
+Enabled with if, cond, when, when-not, and other functions.
+
+#+begin_src clojure
+(def boolean-value true)
+
+(if boolean-value "It's true!" "Lol nope")
+(when boolean-value "Yes")
+(when-not boolean-value "Nope")
+#+end_src
+
+#+RESULTS:
+| "It's true!"             |
+| "Yes"                    |
+
+*When* allows you to execute a form when a value is true and not provide
+a false-case like an if statement.
+
+*** Boolean Mathematics
+
+#+begin_src clojure
+(nil? 1)       ;; => false 
+(nil? nil)     ;; => true
+(true? true)   ;; => true
+(false? true)  ;; => false 
+(true? nil)    ;; => false - nil is falsey
+#+end_src
+
+*Or* returns the first truthy value or the last value:
+
+#+begin_src clojure
+(or nil false :cry :rage :fight :death)
+#+end_src
+
+#+RESULTS:
+: :cry
+
+*And* returns the first falsey value or the last truthy value:
+
+#+begin_src clojure
+(and true 123 :kick :drown false)
+#+end_src
+
+#+RESULTS:
+: false
+
+*** Assignments
+
+Use *def* to bind names in Clojure. 
+
+#+begin_quote
+Notice that I’m using the term *bind*, whereas in other languages you’d
+say you’re assigning a value to a variable. Those other languages
+typically encourage you to perform multiple assignments to the same
+variable.
+
+However, changing the value associated with a name like this can make
+it harder to understand your program’s behavior because it’s more
+difficult to know which value is associated with a name or why that
+value might have changed. Clojure has a set of tools for dealing with
+change, which you’ll learn about in Chapter 10. As you learn Clojure,
+you’ll find that you’ll rarely need to alter a name/value association.
+#+end_quote
+
+#+begin_src clojure
+(def status :my-body-is-ready)
+#+end_src
+
+#+RESULTS:
+: #'org.core/status
+
+*** Types
+
+#+begin_src clojure
+  {:numbers [ 1 2/3 4.5 ]
+   :strings ["Yep" "With escapes! -> \""] }
+#+end_src
+
+#+RESULTS:
+| :numbers | (1 2/3 4.5) | :strings | (Yep With escapes! -> ") |
+
+#+begin_src clojure
+:keywords
+'symbols
+#+end_src
+
+*** Data Structures
+
+Clojure supports four [[https://clojure.org/guides/learn/syntax#_literal_collections][literal collection]] types:
+
+#+begin_src clojure
+'(1 2 3)     ; list
+[1 2 3]      ; vector
+#{1 2 3}     ; set
+{:a 1, :b 2} ; map
+#+end_src
+
+**** Maps
+
+*get* allows you to grab keys, and can return nil or a default:
+
+#+begin_src clojure
+(get {:x 1 :y 2} :y)   ;; => 2
+(get {:x 1 :y 2} :z)   ;; => nil
+(get {:x 1 :y 2} :z 3) ;; => 3
+#+end_src
+
+*get-in* allows you to dig into nested maps:
+
+#+begin_src clojure
+(get-in 
+  {:head 1 :chest {:ribs 10 :cavity {:heart "pumpin'" :lungs 2}}} 
+  [:chest :cavity :heart])
+#+end_src
+
+#+RESULTS:
+: pumpin'
+
+You can use a map like a function:
+
+#+begin_src clojure
+({:what "in" :tar "nation?"} :tar)
+#+end_src
+
+#+RESULTS:
+: nation?
+
+...and *keywords* can be used the same way with a few data structures:
+
+#+begin_src clojure
+(:tar {:what "in" :tar "nation?"})
+#+end_src
+
+#+RESULTS:
+: nation?
+
+#+begin_src clojure
+(:far {:what "in" :tar "nation?"} "no far")
+#+end_src
+
+#+RESULTS:
+: no far
+
+**** Vectors
+
+Vectors are zero-indexed collections like arrays.
+
+#+begin_src clojure
+(def vec1 [1 2 3 4 5])
+(get vec1 0) ;; => 1
+#+end_src
+
+You can use *vector* to make vectors and *conj* to add to them:
+
+#+begin_src clojure
+(def vec2 (vector :weather :is :nice))
+(conj vec2 :today) ;; => [:weather :is :nice :today]
+#+end_src
+
+
+**** Lists
+
+Recall that Clojure is a LISP. Lists can hold anything.
+
+#+begin_src clojure
+(def list1 '(1 2 3 4 5))
+(nth list1 3)  ;; => 4
+#+end_src
+
+Using *conj* on a list adds items to the *beginning*:
+
+#+begin_src clojure
+(conj list1 0) ;; => (0 1 2 3 4 5)
+#+end_src
+
+**** Sets
+
+[[https://www.braveclojure.com/do-things/#Sets][Brave Clojure: Sets]]
+
+Continue here ^^
 
 * Luminus
   :PROPERTIES:
@@ -97,7 +403,7 @@ Upon creating and generating a new Luminus project and running it once
 in the REPL, here is *part* of the tree of directories and files that is
 generated:
 
-#+begin_example
+#+begin_src 
 guestbook/
 │  
 ├── project.clj
@@ -145,7 +451,7 @@ guestbook/
 │           └── handler_test.clj
 │  
 └── test-config.edn
-#+end_example
+#+end_src
 
 * Emacs
   :PROPERTIES:
