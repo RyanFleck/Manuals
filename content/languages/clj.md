@@ -119,15 +119,61 @@ guestbook/
 
 # Emacs
 
-Emacs is my editor of choice. My personal configuration is based off
-of the sensible defaults provided in the [Clojure for the Brave and
-True](https://www.braveclojure.com/) textbook.
+Emacs is my editor of choice. It has unbeatable support for LISPs.
 
 ## Setup
 
+My personal configuration is based off of the sensible defaults provided in the 
+[Clojure for the Brave and True](https://www.braveclojure.com/) textbook.
+
+
 ## Command Cheat Sheet
 
+| Command            | Action                                             |
+|--------------------|----------------------------------------------------|
+| M-x cider          | Prompts for more options                           |
+| M-x cider-jack-in  | Jacks in to current Clojure (clj) project          |
+| C-c C-z            | Jump cursor to REPL                                |
+| C-u C-c C-z        | Jump cursor to REPL *and switch to file namespace* |
+| C-c C-d a          | cider-apropos to remember var names                |
+| C-x 5 2            | Pop out buffer into new window                     |
+| C-c C-k            | Evaluate buffer                                    |
+| C-c C-e            | Evaluate preceding form                            |
+| C-c C-c *or* C-M-x | Evaluate current top-level form                    |
+| C-c C-v r          | Evaluate highlighted region                        |
+| C-c C-b            | Interrupt evaluation                               |
+| M-.                | cider-find-var: Warp to definition under cursor    |
+| C-c C-d d          | Look up documentation for current form             |
+| C-c C-m            | macroexpand-1: Macroexpand the form at point       |
+| C-c M-z            | Eval current buffer and switch to relevant REPL    |
+| C-c M-n r          | Reload all files on classpath                      |
+| M-,                | Return to your pre-jump location                   |
+| M-TAB              | Complete the symbol at point                       |
+| C-c C-q            | Quit CIDER                                         |
+
+
+**Sources:**
+
+1. [Cider Docs: Basic Workflow](https://docs.cider.mx/cider/usage/cider_mode.html#basic-workflow)
+
+
 ## Cider
+
+CIDER is an interactive programming environment for Clojure.
+
+> Traditional programming languages and development environments often
+use a Edit, Compile, Run Cycle. In this environment, the programmer
+modifies the code, compiles it, and then runs it to see if it does
+what she wants. The program is then terminated, and the programmer
+goes back to editing the program further. This cycle is repeated over
+and over until the program behavior conforms to what the programmer
+desires.  Using CIDER’s interactive programming environment, a
+programmer works in a very dynamic and incremental manner. Instead of
+repeatedly editing, compiling, and restarting an application, the
+programmer starts the application once and then adds and updates
+individual Clojure definitions as the program continues to run.[^1]
+
+It looks like this when run:
 
 ```md
 ;; Connected to nREPL server - nrepl://localhost:36099
@@ -197,3 +243,4 @@ True](https://www.braveclojure.com/) textbook.
    1e2p, ISBN: 9781449373320,
    1449373321](https://libgen.is/book/index.php?md5=41D80961BA66DA6A1294AA9624CEA15D)
 
+[^1]: [CIDER: Interactive Programming](https://docs.cider.mx/cider/usage/interactive_programming.html)
