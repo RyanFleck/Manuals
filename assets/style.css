@@ -205,6 +205,10 @@ div.footnotes,
     margin-left: 2rem;
 }
 
+.footnote-body{
+    display: inline-block;
+}
+
 div ol > p,
 div ul > p, 
 div li > p {
@@ -423,6 +427,24 @@ h6:hover > .header-anchor-link {
   opacity: 1;
 }
 
+#footer-data div {
+  font-size: 0.8rem;
+}
+
+table {
+  text-align: left;
+  border-spacing: 4px;
+}
+
+td, th {
+padding-right: 7px;
+
+}
+
+
+
+
+
 /* No header anchor links on mobile */
 @media (max-width: 600px) {
     html{
@@ -438,13 +460,21 @@ h6:hover > .header-anchor-link {
     h4,
     h5,
     h6,
-    p,
+    main > p,
+    body > p,
+    div.outline-text-1 p,
+    div.outline-text-2 p,
+    div.outline-text-3 p,
+    div.outline-text-4 p,
+    div.outline-text-5 p,
     main > ol,
     main > ul,
     body > ul,
     body > ol,
     body > div ul,
     body > div ol,
+    body > blockquote,
+    main > blockquote,
     nav > ul,
     nav > ol,
     .footnotes > ol,
@@ -458,19 +488,14 @@ h6:hover > .header-anchor-link {
     pre {
 	padding-left: 0;
     }
+
+    blockquote {
+        border-left: 2px solid rgb(222 205 255);
+        margin-left: 0.5rem;
+    }
+
+    blockquote p {
+        margin-left: 0.5rem !important;
+    }
+    
 }
-
-#footer-data div {
-  font-size: 0.8rem;
-}
-
-table {
-  text-align: left;
-  border-spacing: 4px;
-}
-
-td, th {
-padding-right: 7px;
-
-}
-

@@ -389,7 +389,42 @@ Using *conj* on a list adds items to the *beginning*:
 
 [[https://www.braveclojure.com/do-things/#Sets][Brave Clojure: Sets]]
 
-Continue here ^^
+#+begin_src clojure
+(def hs1 #{"this is a hash-set" 19 :testing})
+#+end_src
+
+A hash set can only store unique values. Using *conj* to add to a
+hash-set will combine unique values.
+
+#+begin_src clojure
+(conj hs1 19)
+#+end_src
+
+#+RESULTS:
+: #{"this is a hash set" 19 :testing}
+
+#+begin_src clojure
+(hash-set 1 2 3 4 1 2 3 4 5 6)
+(set [1 2 3 4 1 2 3]) 
+#+end_src
+
+#+RESULTS:
+| #{1 4 6 3 2 5} |
+| #{1 4 3 2}     |
+
+Use *get* and *contains?* with hash sets:
+
+#+begin_src clojure
+(contains? hs1 18)
+(contains? hs1 19)
+(get hs1 18) ;; => nil
+(get hs1 19)
+#+end_src
+
+#+RESULTS:
+| false |
+| true  |
+| 19    |
 
 * Luminus
   :PROPERTIES:
@@ -519,7 +554,7 @@ CIDER is an interactive programming environment for Clojure.
 
 It looks like this when run:
 
-#+begin_example
+#+begin_src 
 ;; Connected to nREPL server - nrepl://localhost:36099
 ;; CIDER 1.13.0-snapshot (package: 20231127.825), nREPL 1.0.0
 ;; Clojure 1.11.1, Java 17.0.9
@@ -561,7 +596,7 @@ It looks like this when run:
 ;; You can disable it from appearing on start by setting
 ;; ‘cider-repl-display-help-banner’ to nil.
 ;; ======================================================================
-#+end_example
+#+end_src
 
 * Resources
   :PROPERTIES:
@@ -587,5 +622,4 @@ It looks like this when run:
    reliable, scalable, and maintainable systems*, 1e2p, ISBN:
    9781449373320, 1449373321]]
 
-[fn:1] [[https://docs.cider.mx/cider/usage/interactive_programming.html][CIDER:
-       Interactive Programming]]
+[fn:1] [[https://docs.cider.mx/cider/usage/interactive_programming.html][CIDER: Interactive Programming]]
