@@ -8,21 +8,46 @@ title: SQL
 ---
 # What is SQL?
 
-Structured Query Language (SQL) is used to retrieve and modify information in a **relational database management system** like MySQL, PostgreSQL, [SQLite](https://sqlite.org/codeofethics.html), Microsoft SQL, Oracle, and others. Relational databases store data in large relational tables, where each row must conform to the types specified in the table columns, where cell contents must be either data, nothing, or a reference to a row in another table.
+Structured Query Language (SQL) is used to retrieve and modify
+information in a **relational database management system** like MySQL,
+PostgreSQL, [SQLite](https://sqlite.org/codeofethics.html), Microsoft
+SQL, Oracle, and others. Relational databases store data in large
+relational tables, where each row must conform to the types specified
+in the table columns, where cell contents must be either data,
+nothing, or a reference to a row in another table.
 
-Use the [W3Schools Try-It Editor](https://www.w3schools.com/sql/trysql.asp?filename=trysql_op_or) to tinker with SQL now.
+Typically SQL is pronounced "SEQUEL" as this was its [original
+name](https://web.archive.org/web/20070926212100/http://www.almaden.ibm.com/cs/people/chamberlin/sequel-1974.pdf)
+when invented by Donald Chamberlin and Raymond Boyce at **IBM** in the 70s.
+
+Use the [W3Schools Try-It
+Editor](https://www.w3schools.com/sql/trysql.asp?filename=trysql_op_or)
+to tinker with SQL now.
 
 ## ORMs
 
-Object Relational Mappers (ORMs) are abstractions used by web developers to interact with relational databases.
+Object Relational Mappers (ORMs) are abstractions used by web
+developers to interact with relational databases.
 
-Modern developers could live out a career without ever touching SQL due to the variety of well built ORMs that exist to translate objects built in an object-oriented language to SQL queries for insertion, retrieval, and manipulation. This is unfortunate in the same way a lack of knowledge about a CPU, machine code, assembly languages, or C is unfortunate: It means the programmer in question is operating on blind abstraction. This is obviously useful right up to the moment when performance tuning, a bug, or some other issue necessitating critical introspection of a codebase appears.
+Modern developers could live out a career without ever touching SQL
+due to the variety of well built ORMs that exist to translate objects
+built in an object-oriented language to SQL queries for insertion,
+retrieval, and manipulation. This is unfortunate in the same way a
+lack of knowledge about a CPU, machine code, assembly languages, or C
+is unfortunate: It means the programmer in question is operating on
+blind abstraction. This is obviously useful right up to the moment
+when performance tuning, a bug, or some other issue necessitating
+critical introspection of a codebase appears.
 
 ## Differences Between SQL Flavors
 
-All of the aforementioned DBMS (Database Management System) flavors like MySQL and PostgreSQL use similar dialects of a common SQL standard. Statements are often similar or identical, but each flavor has slight differences in syntax.
+All of the aforementioned DBMS (Database Management System) flavors
+like MySQL and PostgreSQL use similar dialects of a common SQL
+standard. Statements are often similar or identical, but each flavor
+has slight differences in syntax.
 
-Flavors differentiate themselves with the features they offer the business and developer, including:
+Flavors differentiate themselves with the features they offer the
+business and developer, including:
 
 * Special storage functions or data attributes
 * Query speed or general performance
@@ -36,9 +61,16 @@ Flavors differentiate themselves with the features they offer the business and d
 * Table names don't seem to be case sensitive
 * Use single quotes
 
+> For how can I endure to see the evil that will come to my people? Or how can I endure to see the destruction of my countrymen?"
+>  
+> -- Esther 8:6 NKJV
+
 # Administration
 
-It's easy to install PostgreSQL on alpine linux with this set of commands. This will install the database system, add it as a default program to run, and open the firewall to allow external access to the database.
+It's easy to install PostgreSQL on alpine linux with this set of
+commands. This will install the database system, add it as a default
+program to run, and open the firewall to allow external access to the
+database.
 
 ```bash
 sudo su
@@ -69,11 +101,16 @@ echo "listen_addresses='*'" >> /var/lib/postgresql/13/data/postgresql.conf
 
 Locking this down once you find you can connect is a good idea.
 
-Check [this](https://luppeng.wordpress.com/2020/02/28/install-and-start-postgresql-on-alpine-linux/) and [that](https://www.loggly.com/use-cases/postgresql-logs-logging-setup-and-troubleshooting/) for further setup guidance.
+Check
+[this](https://luppeng.wordpress.com/2020/02/28/install-and-start-postgresql-on-alpine-linux/)
+and
+[that](https://www.loggly.com/use-cases/postgresql-logs-logging-setup-and-troubleshooting/)
+for further setup guidance.
 
 For running commands use [DbGate](https://dbgate.org/)
 
-In the `psql` shell you can create, list, and drop whole databases. Use caution with these commands.
+In the `psql` shell you can create, list, and drop whole databases.
+Use caution with these commands.
 
 ```
 postgres=# CREATE DATABASE chicken_coop;
@@ -101,20 +138,20 @@ You are now connected to database "dog_app" as user "postgres".
 
 From here you can use your usual SQL commands. Show tables with `\dt`.
 
-# Commands
+# Basic SQL Commands
 
-This section contains a short usage guide for each of the common SQL commands, with one or two composition examples.
+This section contains a short usage guide for each of the common SQL
+commands, with one or two composition examples.
 
-## TABLE Commands
+## TABLE - CREATE, ALTER, DROP
 
 ### CREATE a table
 
 ```sql
 CREATE TABLE <name> (
   column_name type,
-  column_name type,
-  column_name type,
   column_name type
+  -- ...etc.
 );
 
 CREATE TABLE tweets (
@@ -131,19 +168,20 @@ ALTER TABLE <table> ADD <column name> <type>;
 ALTER TABLE <table> RENAME TO <new_table_name>;
 ```
 
-## SELECT
+### DROP TABLE
 
-Retreives data from a table.
+If a table is no longer required, it can be dropped from the database.
 
-```sql
-SELECT <columns or * for all> FROM <table>;
-```
+- Drop
+- Force drop
 
-```sql
-SELECT * FROM products;
-```
+## INDEX - CREATE, ALTER, DROP
 
-## INSERT
+### CREATE INDEX
+
+### DROP INDEX
+
+## INSERT (Create)
 
 Given a table, provide the columns and data you'd like to insert.
 
@@ -162,20 +200,6 @@ INSERT INTO people(first_name, last_name, age) VALUES
     ('Calvin', 'Kleinfelter', 65);
 ```
 
-## UPDATE
-
-```sql
-UPDATE <table> SET <column>=<value>, <column2>=<value> WHERE <condition>;
-```
-
-## DELETE
-
-```sql
-DELETE FROM <table> WHERE <condition>;
-```
-
-## INSERT INTO
-
 Here's a sample table:
 
 ```sql
@@ -189,7 +213,8 @@ CREATE TABLE employees (
 );
 ```
 
-Providing the requred values and allowing the defaults to autopopulate:
+Providing the requred values and allowing the defaults to
+autopopulate:
 
 ```
 # insert into employees(first_name, last_name, age) values ('greg', 'torbo', 21);
@@ -200,12 +225,39 @@ INSERT 0 1
   1 | torbo     | greg       |             |  21 | employed
 ```
 
+## SELECT (Read)
 
-## DROP TABLE
+Retreives data from a table.
 
-## CREATE INDEX
+```sql
+SELECT <columns or * for all> FROM <table>;
+```
 
-## DROP INDEX
+```sql
+SELECT id, name, description FROM products;
+```
+
+See the section on **querying** for more information.
+
+## UPDATE
+
+Given values and a condition, update rows in a table.
+
+```sql
+UPDATE <table> SET <column>=<value>, <column2>=<value> WHERE <condition>;
+
+UPDATE people SET max_hot_wings=20 WHERE id=8;
+```
+
+## DELETE
+
+The `DELETE FROM` clause enables the conditional removal of rows.
+
+```sql
+DELETE FROM <table> WHERE <condition>;
+
+DELETE FROM people WHERE max_hot_wings < 50;
+```
 
 # Table Design
 
@@ -222,57 +274,375 @@ CREATE TABLE board_members (
 );
 ```
 
-This is also a good place to use `AUTO_INCREMENT` in other databases, which provides a default of the next integer. Postgres provides the `SERIAL` type which has the same function.
+This is also a good place to use `AUTO_INCREMENT` in other databases,
+which provides a default of the next integer. Postgres provides the
+`SERIAL` type which has the same function.
 
 ## Constraints
 
-[PostgreSQL Constraints](https://www.postgresql.org/docs/current/ddl-constraints.html)
+[PostgreSQL
+Constraints](https://www.postgresql.org/docs/current/ddl-constraints.html)
 
 When designing tables, many different constraints can be provided.
 
-`NOT NULL` ensures there cannot be an empty insertion and cannot be null. With no default value, an insert without this value will fail.
+
+When creating a table, you may specify restrictions for data entering
+your tables. For instance, `NOT NULL` or `UNIQUE`.
+
+- `PRIMARY KEY` is meant to be used to uniquely identify rows in
+  lookups, though can only be used once.
+- `UNIQUE` can be used many times and prevents duplicate inserts.
+- `NOT NULL` ensures data is given for the column.
+- `DEFAULT` allows you to provide a value if none is passed.
+
+For instance:
 
 ```sql
-CREATE TABLE glargons (
-    name VARCHAR(100) NOT NULL,
-    age int
+CREATE TABLE media.items (
+  id BIGSERIAL PRIMARY KEY,
+  uuid UUID NOT NULL DEFAULT gen_random_uuid (),
+  created TIMESTAMP NOT NULL DEFAULT NOW(),
+  title TEXT,
+  posted TIMESTAMP,
+  -- foreign keys
+  id_source BIGINT REFERENCES media.sources (id)
 );
 ```
 
-```
-playground=# \d glorgons
- name   | character varying(100) |           | not null |
- age    | integer                |           |          |
+# Querying
+
+The real power of SQL is the composition and filtering of data in
+various tables to produce business-driving insights.
+
+The **lexical** order that queries must be written in is as follows:
+
+| Clause     | Function                                  |
+|:-----------|:------------------------------------------|
+| `SELECT`   | Provide target columns                    |
+| `FROM`     | Provide target table                      |
+| `JOIN`     | Combine tables with columns in common     |
+| `WHERE`    | Filter the results                        |
+| `GROUP BY` | Summarize similar columns                 |
+| `HAVING`   | When group by is used, filter the columns |
+| `ORDER BY` | Sort the results                          |
+| `LIMIT`    | Limit the number of rows returned         |
+
+**SFJWGHOL!?** *San Francisco Jehovah's Witnesses Get High on Life?*
+Ha.
+
+I asked ChatGPT and it gave me a few more good ones:
+
+- Seven Frogs Jump With Great Hops Over Lilies
+- Seven Fluffy Jaguars Wait Gracefully, Holding On Lightly
+- Seven Foxes Jump Wildly, Grabbing Hats Off Logs
+
+```sql
+-- sfjwghol select from join where groupby having orderby limit
 ```
 
-`DEFAULT <value>` provides ... a default value.
+**Execution** order is a different and technical matter.
+
+
+
+## SELECT
+
+```sql
+-- Everything from the table
+SELECT * FROM users;
+
+-- Just a few columns
+SELECT id, name FROM users;
+
+-- Aliased Columns
+SELECT id, hot_wing_max as 'Maximum Hot Wings' FROM users;
+```
+
+## SELECT DISTINCT
+
+The distinct keyword enables the filtering of output to unique values.
+
+```sql
+SELECT DISTINCT province FROM address_book;
+```
+
+## SELECT WHERE
+
+The where keyword is a functional **filter** operation. You can use
+all of the typical comparison operators here: `=`, `!=`, `>`, `<`,
+`>=`, and `<=`. A single `=` sign is used for equality - this ain't
+JavaScript!
+
+```sql
+SELECT * FROM users WHERE hot_sauce_max_temp >= 8;
+```
+
+## SELECT WHERE LIKE
+
+You may pattern-match to filter and find rows in your database. An
+underscore (`_`) will match any character and percent (`%`) will match
+zero or more missing characters.
+
+```sql
+-- Match for 'Eric', 'Erik', etc.
+SELECT * FROM users WHERE name LIKE 'eri_';
+
+-- Match for 'Alice', 'Aaron', etc
+SELECT * FROM users WHERE name LIKE 'a%';
+```
+
+**Note:** `LIKE` is **NOT** case sensitive.
+
+## SELECT WHERE NULL/NOT NULL
+
+For finding data with null column values.
+
+```sql
+-- Find users with a favourite hot sauce
+SELECT * FROM users WHERE favourite_hot_sauce IS NOT NULL;
+
+-- Find users without a favourite hot sauce
+SELECT * FROM users WHERE favourite_hot_sauce IS NULL;
+```
+
+## SELECT WHERE BETWEEN
+
+This clause selects values between the two terms inclusively. To get numbers from 0 to 10, you would query:
+
+```sql
+SELECT * FROM numbers WHERE value BETWEEN 0 AND 10;
+```
+
+This has some interesting behavior with strings - as 'Branch' would be
+past 'B' the next letter must be used to limit a query.
+
+## SELECT WHERE Combinations - AND, OR
+
+`AND` ensures both conditions are met.
+
+```sql
+-- Select people who can eat a lot of very hot wings
+SELECT * FROM users WHERE 
+  hot_sauce_max_temp > 9
+  AND hot_wing_max > 10;
+```
+
+`OR` ensures either condition is met.
+
+```sql
+-- Select people who like specific sauces
+SELECT * FROM users WHERE
+  favourite_hot_sauce = 'Marys'
+  or favourite_hot_sauce = 'Rogers Black Reaper Cherry';
+```
+
+## ORDER BY
+
+Queries that require sorted results can be organized with the `ORDER
+BY` clause.
+
+```sql
+ORDER BY <column> ASC;   -- Ascending  (A->Z)
+ORDER BY <column> DESC;  -- Descending (Z->A)
+
+-- Rank hot sauce enjoyers by max temperature
+SELECT * FROM users WHERE
+  favourite_hot_sauce IS NOT NULL
+  ORDER BY hot_sauce_max_temp DESC;
+```
+
+## LIMIT
+
+Restrict the number of rows returned.
+
+```sql
+SELECT * FROM users WHERE
+  favourite_hot_sauce IS NOT NULL
+  ORDER BY hot_sauce_max_temp DESC
+  LIMIT 3; -- Return only the top 3 spiciest hot sauce enjoyers
+```
+
+## CASE
+
+`CASE` enables control flow in SQL.
+
+```sql
+SELECT <col>,
+ CASE
+  WHEN <col_b> = <something> THEN '<result>'
+  WHEN <col_b> = <something_else> THEN '<result>'
+  ELSE '<result>'
+ END AS <new_col_name>
+FROM <table>;
+```
+
+## Aggregates
+
+Most SQL engines provide at least `COUNT`, `SUM`, `MAX`, `MIN`, `AVG`, and
+`ROUND` as aggregate functions to **reduce** query results.
+
+```sql
+-- Count
+SELECT COUNT(*) AS user_count FROM users;
+
+-- Sum
+SELECT SUM(oz_gold) FROM users;
+
+-- Max/Min/Average
+SELECT MAX(hot_sauce_max_temp) FROM users;
+SELECT MIN(hot_sauce_max_temp) FROM users;
+SELECT AVG(hot_sauce_max_temp) FROM users;
+
+-- Round
+--  Here we round to 2 decimal places
+SELECT name, ROUND(oz_gold, 2) FROM users;
+
+-- Round & Average together
+SELECT ROUND(AVG(oz_gold), 2) FROM users;
+```
+
+### GROUP BY
+
+Rather than getting aggregates for the entire table, we can **group**
+the rows in order to take statistics and averages for rows with common
+properties. 
+
+```sql
+SELECT favourite_hot_sauce, SUM(tacos_eaten) from cantina_users
+  -- WHERE spice_tolerance_rating > 5  -- only count tacos from spice tolerant users
+  GROUP BY favourite_hot_sauce;
+  
+-- favourite_hot_sauce    tacos_eaten
+-------------------------------------
+-- Marcella House Sauce   10,0281
+-- Frank's RedHot         92
+```
+
+In the `GROUP` and `ORDER BY` clauses you may use **column
+references** to simplify your query.
+
+```sql
+select category, price, AVG(downloads) as average_downloads FROM fake_apps
+  where category = 'Travel'
+  group by 1, 2 order by 3 desc;
+```
+
+### HAVING
+
+What if the post-grouping results must be filtered? 
+
+```sql
+SELECT favourite_hot_sauce, SUM(tacos_eaten) as tacos from cantina_users
+  GROUP BY favourite_hot_sauce
+  -- Only count hot sauces that have been used on over 1000 tacos:
+  HAVING tacos > 1000;
+  
+-- In a query, having is          |  here  |
+-- select from join where groupby **having** orderby limit
+```
+
+## JOIN
+
+![Overview of SQL joins by C.L. Moffatt from
+[codeproject.com](https://www.codeproject.com/articles/33052/visual-representation-of-sql-joins), which includes excellent explanations for each diagram as well [(format howto)](https://www.instructables.com/How-to-Remove-the-White-Background-From-Images-Usi/)](/images/sql_joins.png)
+
+### INNER JOIN
+
+Given two tables, ensures that rows are returned which have a matching
+element in both the first and second table. Rows from the first or
+second table with no match will not be included in the result.
+
+### LEFT/RIGHT JOIN
+
+Much like an inner join, but will include the entirety of the first
+(left) or second (right) table during the join, returning some values
+from the other table as `NULL`.
+
+### LEFT/RIGHT JOIN EXCLUDING INNER JOIN
+
+### OUTER JOIN
+
+### OUTER JOIN EXCLUDING INNER JOIN
+
+
+# Engine-Specific Notes
+
+## PostgreSQL
+
+An open-source community-driven version of Oracle DBMS.
+
+## SQLite
+
+An ultralight on-disk SQL implementation.
+
+## Oracle
+
+Enterprise, expensive.
+
+## Microsoft SQL
+
+Also known as **T-SQL** or **Transact-SQL**. Beware - lots of weird bits here. 
 
 # SQLite Code of Ethics
 
-This is just awesome. Included because people should think ethically about the things they create, especially fintech software.
+This is just awesome. Included because people should think ethically
+about the things they create, especially fintech software.
 
-> "I could have edited the list down to just those aspects that seem relevant to coding, but that would put me in the position of editing and redacting Benedict of Nursia, as if I were wiser than he. And I considered that. But in the end, I thought it better to include the whole thing without change (other than translation into English). In the preface, I tried to make clear that the introspective aspects could be safely glossed over."
-> \- **Richard Hipp**
+> "I could have edited the list down to just those aspects that seem
+> relevant to coding, but that would put me in the position of editing
+> and redacting Benedict of Nursia, as if I were wiser than he. And I
+> considered that. But in the end, I thought it better to include the
+> whole thing without change (other than translation into English). In
+> the preface, I tried to make clear that the introspective aspects
+> could be safely glossed over." \- **Richard Hipp**
 
 ## 1. History
 
-This document was originally called a "Code of Conduct" and was created for the purpose of filling in a box on "supplier registration" forms submitted to the SQLite developers by some clients. However, we subsequently learned that "Code of Conduct" has a very specific and almost sacred meaning to some readers, a meaning to which this document does not conform [\[1\]](https://web.archive.org/web/20220122061306/https://www.theregister.co.uk/2018/10/22/sqlite_code_of_conduct/)[\[2\]](https://web.archive.org/web/20220122061306/https://pjmedia.com/news-and-politics/paula-bolyard/2018/10/24/tech-community-outraged-after-sqlite-founder-adopts-christian-code-of-conduct-n61746)[\[3\]](https://web.archive.org/web/20220122061306/https://www.youtube.com/watch?v=S48VzyCwwtk). Therefore this document was renamed to "Code of Ethics", as we are encouraged to do by rule 71 in particular and also rules 2, 8, 9, 18, 19, 30, 66, and in the spirit of all the rest.
+This document was originally called a "Code of Conduct" and was
+created for the purpose of filling in a box on "supplier registration"
+forms submitted to the SQLite developers by some clients. However, we
+subsequently learned that "Code of Conduct" has a very specific and
+almost sacred meaning to some readers, a meaning to which this
+document does not conform
+[\[1\]](https://web.archive.org/web/20220122061306/https://www.theregister.co.uk/2018/10/22/sqlite_code_of_conduct/)[\[2\]](https://web.archive.org/web/20220122061306/https://pjmedia.com/news-and-politics/paula-bolyard/2018/10/24/tech-community-outraged-after-sqlite-founder-adopts-christian-code-of-conduct-n61746)[\[3\]](https://web.archive.org/web/20220122061306/https://www.youtube.com/watch?v=S48VzyCwwtk).
+Therefore this document was renamed to "Code of Ethics", as we are
+encouraged to do by rule 71 in particular and also rules 2, 8, 9, 18,
+19, 30, 66, and in the spirit of all the rest.
 
-This document continues to be used for its original purpose - providing a reference to fill in the "code of conduct" box on supplier registration forms.
+This document continues to be used for its original purpose -
+providing a reference to fill in the "code of conduct" box on supplier
+registration forms.
 
 ## 2. Purpose
 
-The founder of SQLite, and all of the current developers at the time when this document was composed, have pledged to govern their interactions with each other, with their clients, and with the larger SQLite user community in accordance with the "instruments of good works" from chapter 4 of [The Rule of St. Benedict](https://web.archive.org/web/20220122061306/https://en.wikipedia.org/wiki/Rule_of_Saint_Benedict) (hereafter: "The Rule"). This code of ethics has proven its mettle in thousands of diverse communities for over 1,500 years, and has served as a baseline for many civil law codes since the time of Charlemagne.
+The founder of SQLite, and all of the current developers at the time
+when this document was composed, have pledged to govern their
+interactions with each other, with their clients, and with the larger
+SQLite user community in accordance with the "instruments of good
+works" from chapter 4 of [The Rule of St.
+Benedict](https://web.archive.org/web/20220122061306/https://en.wikipedia.org/wiki/Rule_of_Saint_Benedict)
+(hereafter: "The Rule"). This code of ethics has proven its mettle in
+thousands of diverse communities for over 1,500 years, and has served
+as a baseline for many civil law codes since the time of Charlemagne.
 
 ### 2.1. Scope of Application
 
-No one is required to follow The Rule, to know The Rule, or even to think that The Rule is a good idea. The Founder of SQLite believes that anyone who follows The Rule will live a happier and more productive life, but individuals are free to dispute or ignore that advice if they wish.
+No one is required to follow The Rule, to know The Rule, or even to
+think that The Rule is a good idea. The Founder of SQLite believes
+that anyone who follows The Rule will live a happier and more
+productive life, but individuals are free to dispute or ignore that
+advice if they wish.
 
-The founder of SQLite and all current developers have pledged to follow the spirit of The Rule to the best of their ability. They view The Rule as their promise to all SQLite users of how the developers are expected to behave. This is a one-way promise, or covenant. In other words, the developers are saying: "We will treat you this way regardless of how you treat us."
+The founder of SQLite and all current developers have pledged to
+follow the spirit of The Rule to the best of their ability. They view
+The Rule as their promise to all SQLite users of how the developers
+are expected to behave. This is a one-way promise, or covenant. In
+other words, the developers are saying: "We will treat you this way
+regardless of how you treat us."
 
 ## 3. The Rule
 
- 1. First of all, love the Lord God with your whole heart, your whole soul, and your whole strength.
+ 1. First of all, love the Lord God with your whole heart, your whole
+    soul, and your whole strength.
  2. Then, love your neighbor as yourself.
  3. Do not murder.
  4. Do not commit adultery.
@@ -313,15 +683,18 @@ The founder of SQLite and all current developers have pledged to follow the spir
 39. Be not a grumbler.
 40. Be not a detractor.
 41. Put your hope in God.
-42. Attribute to God, and not to self, whatever good you see in yourself.
-43. Recognize always that evil is your own doing, and to impute it to yourself.
+42. Attribute to God, and not to self, whatever good you see in
+    yourself.
+43. Recognize always that evil is your own doing, and to impute it to
+    yourself.
 44. Fear the Day of Judgment.
 45. Be in dread of hell.
 46. Desire eternal life with all the passion of the spirit.
 47. Keep death daily before your eyes.
 48. Keep constant guard over the actions of your life.
 49. Know for certain that God sees you everywhere.
-50. When wrongful thoughts come into your heart, dash them against Christ immediately.
+50. When wrongful thoughts come into your heart, dash them against
+    Christ immediately.
 51. Disclose wrongful thoughts to your spiritual mentor.
 52. Guard your tongue against evil and depraved speech.
 53. Do not love much talking.
@@ -329,10 +702,15 @@ The founder of SQLite and all current developers have pledged to follow the spir
 55. Do not love much or boisterous laughter.
 56. Listen willingly to holy reading.
 57. Devote yourself frequently to prayer.
-58. Daily in your prayers, with tears and sighs, confess your past sins to God, and amend them for the future.
+58. Daily in your prayers, with tears and sighs, confess your past
+    sins to God, and amend them for the future.
 59. Fulfill not the desires of the flesh; hate your own will.
-60. Obey in all things the commands of those whom God has placed in authority over you even though they (which God forbid) should act otherwise, mindful of the Lord's precept, "Do what they say, but not what they do."
-61. Do not wish to be called holy before one is holy; but first to be holy, that you may be truly so called.
+60. Obey in all things the commands of those whom God has placed in
+    authority over you even though they (which God forbid) should act
+    otherwise, mindful of the Lord's precept, "Do what they say, but
+    not what they do."
+61. Do not wish to be called holy before one is holy; but first to be
+    holy, that you may be truly so called.
 62. Fulfill God's commandments daily in your deeds.
 63. Love chastity.
 64. Hate no one.
