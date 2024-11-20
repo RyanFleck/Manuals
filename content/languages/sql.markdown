@@ -475,7 +475,7 @@ SELECT <col>,
 FROM <table>;
 ```
 
-## Aggregates
+## GROUP BY & HAVING (Aggregates)
 
 Most SQL engines provide at least `COUNT`, `SUM`, `MAX`, `MIN`, `AVG`, and
 `ROUND` as aggregate functions to **reduce** query results.
@@ -543,15 +543,31 @@ SELECT favourite_hot_sauce, SUM(tacos_eaten) as tacos from cantina_users
 ## JOIN
 
 ![Overview of SQL joins by C.L. Moffatt from
-[codeproject.com](https://www.codeproject.com/articles/33052/visual-representation-of-sql-joins), which includes excellent explanations for each diagram as well [(format howto)](https://www.instructables.com/How-to-Remove-the-White-Background-From-Images-Usi/)](/images/sql_joins.png)
+[codeproject.com](https://www.codeproject.com/articles/33052/visual-representation-of-sql-joins), which includes excellent explanations for each diagram as well [(format howto)](https://www.instructables.com/How-to-Remove-the-White-Background-From-Images-si/)](/images/sql_joins.png)
 
 ### INNER JOIN
 
+```sql
+SELECT * FROM TableA A
+  INNER JOIN TableB B
+  ON A.Key=B.Key;
+```
+
 Given two tables, ensures that rows are returned which have a matching
-element in both the first and second table. Rows from the first or
+element in **both the first and second table**. Rows from the first or
 second table with no match will not be included in the result.
 
 ### LEFT/RIGHT JOIN
+
+```sql
+SELECT * FROM TableA A
+  LEFT JOIN TableB B     --> Left
+  ON A.Key=B.Key;
+  
+SELECT * FROM TableA A
+  RIGHT JOIN TableB B    --> Right
+  ON A.Key=B.Key;
+```
 
 Much like an inner join, but will include the entirety of the first
 (left) or second (right) table during the join, returning some values
@@ -559,10 +575,94 @@ from the other table as `NULL`.
 
 ### LEFT/RIGHT JOIN EXCLUDING INNER JOIN
 
+```sql
+SELECT * FROM TableA A
+  LEFT JOIN TableB B     --> Left
+  ON A.Key=B.Key
+  WHERE B.Key IS NULL;
+  
+SELECT * FROM TableA A
+  RIGHT JOIN TableB B    --> Right
+  ON A.Key=B.Key
+  WHERE A.Key IS NULL;;
+```
+
+These are useful for finding **all the records that don't have a
+corresponding entry** in the second (right) table (in the case of a
+right excluding join).
+
 ### OUTER JOIN
+
+```sql
+SELECT * FROM TableA A
+  FULL OUTER JOIN TableB B
+  ON A.Key=B.Key;
+```
+
+This returns **everything** from both tables - including rows where
+there is no match in either table.
 
 ### OUTER JOIN EXCLUDING INNER JOIN
 
+```sql
+SELECT * FROM TableA A
+  FULL OUTER JOIN TableB B
+  ON A.Key=B.Key
+  WHERE A.Key IS NULL OR B.Key IS NULL;
+```
+
+This will return all the rows from both tables with no match.
+
+### CROSS JOIN
+
+Joining without any condition combines each row in table A with every
+row in table B. This is known as a *Cartesian product* - it returns
+every possible combination of rows. Cross joins are useful for
+*reducing* a table to come to conclusions.
+
+We could use this to see how many members the taco club had per year
+
+```sql
+SELECT year, COUNT(*) as clubs from taco_club CROSS JOIN club_years_active
+  WHERE join_year <= year AND leave_year >= year 
+  GROUP BY year;
+```
+
+This could yield a result like so:
+
+| year | clubs |
+|------|-------|
+| 1997 | 3     |
+| 1998 | 23    |
+| 1999 | 382   |
+| 2000 | 902   |
+
+## UNION (Combine Similar Tables)
+
+Union enables the joining of tables with the same number of columns
+and data types. Particular columns in two unequal tables can be used
+to form a single table with a `UNION`.
+
+```sql
+-- It was the best of burritos, it was the worst of burritos
+SELECT * FROM best_burritos UNION SELECT * FROM worst_burritos;
+```
+
+## WITH (Provide a Virtual Table)
+
+For instance - count the tacos eaten by all members of each taco club,
+and order with the club that has eaten the most tacos first.
+
+```sql
+WITH club_tacos_eaten AS (
+  SELECT taco_club_fk, SUM(tacos_eaten) as club_tacos_eaten from cantina_users
+  GROUP BY taco_club_fk
+) SELECT * FROM club_tacos_eaten 
+  LEFT JOIN taco_clubs ON taco_clubs.id=club_tacos_eaten.taco_club_fk
+  ORDER BY club_tacos_eaten DESC;
+```
+
+This enables complex, multi-stage queries on data.
 
 # Engine-Specific Notes
 
@@ -572,7 +672,40 @@ An open-source community-driven version of Oracle DBMS.
 
 ## SQLite
 
-An ultralight on-disk SQL implementation.
+An ultralight on-disk SQL implementation. Codecademy's [learn
+sql](https://www.codecademy.com/courses/learn-sql) course is taught
+with this program, and it is extremely easy to run on a student
+machine. Commonly SQLite is used for single-user databases - whether
+that is an automatic weapon on the deck of a ship, an app on a cell
+phone, or a small web application.
+
+Read [this amazing
+article](https://thenewstack.io/the-origin-story-of-sqlite-the-worlds-most-widely-used-database-software/)
+on the origins of SQLite. Here's an excerpt:
+
+> The story begins in a shipyard in Bath, Maine (population: 8,329).
+> Back in the year 2000, Hipp was working for Bath Iron Works, a
+> shipbuilding subsidiary of defense contractor General Dynamics, and
+> was building software for a Navy destroyer (the USS Oscar Austin).
+> The software would operate on crucial data about the ship’s valves
+> (for routing around pipe ruptures), and their stack had included
+> Informix, which unfortunately stopped working whenever the server
+> went down.
+
+> “That was embarrassing,” Hipp recalled to Bell. “A dialog box would
+> pop up, they’d double click on the thing, and a dialog box would pop
+> up that says, ‘Can’t connect to database server.’ It wasn’t our
+> fault — we didn’t have any control over the database server. But
+> what do you do if you can’t connect to the server? So we got the
+> blame all the same, because we were painting the dialog box.”
+
+> And, as Hipp noted, “it’s a warship.” So besides the ship being
+> continually in use, “the idea is it’s supposed to be able to work if
+> you take battle damage! So it’s more than one pipe breaking. **There’s
+> going to be a lot of stuff broken, and people are going to be crazy,
+> and there’s going to be smoke and blood and chaos — and in a
+> situation like that they don’t want a dialog box that says, ‘Cannot
+> connect to database server.'**”
 
 ## Oracle
 

@@ -91,8 +91,6 @@ Sorted alphabetically.
 | VNet  | Virtual Network                                       |
 | ZRS   | Zone-Redundant Storage                                |
 
-
-
 ```elisp
 ;; Sort the acronym table with M-x sort-lines
 (sort-lines nil (region-beginning) (region-end))
@@ -933,6 +931,11 @@ be dedicated to findings and recipes for setting up cloud environments
 for legacy applications within Azure.
 
 <!-- AZ104 -->
+
+# Azure Data Engineering
+## Data Factories
+
+Udemy Course: [Masterclass on Azure Data Factory 2024](https://ibm-learning.udemy.com/course/azure-data-factory-data-engineer-real-time-projects/learn/lecture/37092926#overview)
 
 # **AZ-104**: Azure Administrator
 
