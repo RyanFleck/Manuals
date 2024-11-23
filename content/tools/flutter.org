@@ -1,0 +1,155 @@
+#+LAYOUT: docs-manual
+#+TITLE: Flutter & ClojureDart
+#+SUMMARY: Functional cross-platform mobile development.
+#+TOC: true
+#+AUTHOR: Ryan Fleck
+#+SEQ_TODO: TODO(t) RECURRING-TODO(r) IN-PROGRESS(p) | DONE(d) CANCELLED(c)
+#+LATEX_HEADER: \usepackage[margin=1in]{geometry}
+
+* What is Flutter?
+
+#+begin_quote
+Flutter is an open source framework for building beautiful, natively
+compiled, multi-platform applications from a single codebase.
+#+end_quote
+
+- Read the [[https://docs.flutter.dev/get-started/learn-flutter][Flutter docs]]
+
+* What is ClojureDart?
+
+#+begin_quote
+ClojureDart is a recent Clojure dialect to make native mobile and
+desktop apps using Flutter and the Dart ecosystem.
+#+end_quote
+
+- Read the [[https://github.com/Tensegritics/ClojureDart/blob/main/doc/quick-start.md][ClojureDart quick start]]
+- Read the [[https://github.com/Tensegritics/ClojureDart/blob/main/doc/flutter-quick-start.md][ClojureDart + Flutter quick start]]
+
+* Installation
+
+Developing a Flutter app with ClojureDart involves installing Java,
+Clojure, Android Studio, XCode (on Mac), and finally Flutter. Mobile
+development is complex and requires large, complex toolchains.
+
+- [[https://docs.flutter.dev/get-started/install/windows/mobile][Windows]] (use *choco*)
+- [[https://docs.flutter.dev/get-started/install/linux/android][Linux]] (use *asdf*)
+- [[https://docs.flutter.dev/get-started/install/macos/mobile-ios][MacOS]] (use *brew*)
+
+...then follow the [[https://github.com/Tensegritics/ClojureDart/blob/main/doc/flutter-quick-start.md][ClojureDart Flutter quickstart]].
+
+
+* The Developer Experience Factor (DevX)
+
+When evaluating cross-platform mobile app development systems for a
+side project, I had an eye out for three key features to keep my
+sanity:
+
+1. A short and simple toolchain
+2. Easy to access and develop with hardware features (bluetooth)
+3. Leverage my existing React knowledge
+
+[[/images/cljd/IMG20241117194238-min.jpg]]
+
+After evaluating **React Native** (+ClojureScript) and **Flutter**
+(+ClojureDart) it became abundantly clear that Flutter had a much
+shorter and more stable toolchain, significantly less complex
+dependency management (JS can be hellish, things break often) and a
+more consistent experience across platforms.
+
+[[/images/cljd/IMG20241117191207-min.jpg]]
+
+At first glance, Flutter with ClojureDart seems to be a vastly
+superior way for a solo dev to develop mobile apps. Time will tell if
+this is true or a large misstep.
+
+* Why Use an Intermediate Language?
+
+To reduce the lines of code required to produce a mobile app. Luckily
+the [[https://github.com/D00mch/DartClojure][DartClojure]] project exists to convert dart code to ClojureDart,
+it's built into Calva, and the [[https://github.com/burinc/dartclojure.el?tab=readme-ov-file][dartclojure.el]] Emacs package exists to
+facilitate easy use.
+
+* Notes on the Fundamentals
+
+These are rough, personal notes - read with caution.
+
+- Every Flutter app must start with ~runApp()~.
+
+- There is ~void main(){}~ to start the app.
+
+- The runApp function accepts a *widget tree*. There is no GUI UI
+  builder - everything is done in code. Hooray!
+
+#+begin_src dart
+import 'package:flutter/material.dart';
+
+void main(){
+  runApp(MaterialApp());
+}
+#+end_src
+
+- Instructors are using *screencast mode* in VS Code to help observers
+- Flutter has ~pubspec.lock~ which holds package info and *dependencies*
+
+Here's an extremely basic hello world in *dart*:
+
+#+begin_src dart
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(
+    const MaterialApp(
+      home: Scaffold(
+        backgroundColor: Colors.deepPurple,
+        body: Text('Hello World!'))));
+}
+#+end_src
+
+Hit *debug* in VS Code to run the app.
+
+Here's the *exact equivalent* in clojure-dart:
+
+#+begin_src clojure
+(ns acme.main
+  (:require ["package:flutter/material.dart" :as m]
+            [cljd.flutter :as f]))
+
+(defn main []
+  (f/run
+   (m/MaterialApp
+    .title "Welcome to Flutter")
+    .home
+    (m/Scaffold .backgroundColor m.Colors/deepPurple)
+    .body
+    (m/Text "Let's get coding! Yahoo!")))
+#+end_src
+
+Run ~clj -M:cljd flutter~ to run the app.
+
+See [[file:~/Documents/Flutter_Experiments/clojure-dart/src/acme/main.cljd][main.cljd]] in the test project. Hopefully this makes it clear how
+named arguments are represented in ClojureDart versus plain Dart.
+
+A little more example:
+
+#+begin_src clojure
+(ns acme.main
+  (:require ["package:flutter/material.dart" :as m]
+            [cljd.flutter :as f]))
+
+;; clj -M:cljd flutter
+
+(defn main []
+  (f/run
+   (m/MaterialApp .title "Welcome to Flutter")
+    .home
+    (m/Scaffold .backgroundColor m.Colors/deepPurple)
+    .body
+    (m/Container
+      .decoration (m/BoxDecoration
+                    .gradient (m/LinearGradient
+                                .colors [m.Colors/red m.Colors/white]
+                                .begin m.Alignment/topLeft)))
+    (m/Center)
+    (m/Container .decoration (m/BoxDecoration .color m.Colors/red))
+    (m/Text "Let's get coding! Yahoo!")))
+#+end_src

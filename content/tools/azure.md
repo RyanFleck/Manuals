@@ -937,8 +937,6 @@ for legacy applications within Azure.
 
 - Udemy Course: [Masterclass on Azure Data Factory 2024](https://ibm-learning.udemy.com/course/azure-data-factory-data-engineer-real-time-projects/learn/lecture/37092926#overview)
 - MS Docs: [Data Factory Pipelines & Activities](https://learn.microsoft.com/en-us/azure/data-factory/concepts-pipelines-activities?tabs=data-factory)
-- 
-
 
 **Key Concepts:**
 

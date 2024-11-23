@@ -707,13 +707,18 @@ on the origins of SQLite. Here's an excerpt:
 > situation like that they don’t want a dialog box that says, ‘Cannot
 > connect to database server.'**”
 
-## Oracle
-
-Enterprise, expensive.
-
 ## Microsoft SQL
 
-Also known as **T-SQL** or **Transact-SQL**. Beware - lots of weird bits here. 
+Also known as **T-SQL** or **Transact-SQL**. Beware - lots of weird
+bits here.
+
+- Strings **must** be in **single quotes**. 
+- It seems to enforce using hard brackets around table paths.
+
+## Oracle
+
+Enterprise, expensive. **PostgreSQL** is a suitable migration target
+for Oracle databases.
 
 # SQLite Code of Ethics
 
