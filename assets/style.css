@@ -449,61 +449,21 @@ padding-right: 7px;
 
 }
 
-
-
-
-
 /* No header anchor links on mobile */
-@media (max-width: 600px) {
+@media (max-width: 700px) {
     html{
 	font-size: 14px;
     }
     .header-anchor-link {
 	display: none;
-    }
+    }    
+}
 
-    h1,
-    h2,
-    h3,
-    h4,
-    h5,
-    h6,
-    main > p,
-    body > p,
-    div.outline-text-1 p,
-    div.outline-text-2 p,
-    div.outline-text-3 p,
-    div.outline-text-4 p,
-    div.outline-text-5 p,
-    main > ol,
-    main > ul,
-    body > ul,
-    body > ol,
-    body > div ul,
-    body > div ol,
-    body > blockquote,
-    main > blockquote,
-    nav > ul,
-    nav > ol,
-    .footnotes > ol,
-    table,
-    figure,
-    div.footnotes,
-    #footer {
-	/* margin: 0 auto */
-	margin-left: 0;
+@media (max-width: 500px) {
+    html{
+	font-size: 12px;
     }
-    pre {
-	padding-left: 0;
-    }
-
-    blockquote {
-        border-left: 2px solid rgb(222 205 255);
-        margin-left: 0.5rem;
-    }
-
-    blockquote p {
-        margin-left: 0.5rem !important;
-    }
-    
+    .header-anchor-link {
+	display: none;
+    }    
 }
