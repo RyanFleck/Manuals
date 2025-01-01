@@ -953,6 +953,11 @@ for legacy applications within Azure.
 
 ![The relationship between **data sets**, **activities**, and **pipelines**. Source: [M$](https://learn.microsoft.com/en-us/azure/data-factory/concepts-pipelines-activities?tabs=data-factory)](/images/azure/datafactorycomps.png)
 
+### Weird Limitations
+
+- The **Lookup Activity** supports a max of 5000 rows or 4mb of data returned
+- The **ForEach Activity** supports a max of 100,000 input items
+
 ### Activities: Data Movement (Copy)
 
 Literally just the [Copy Activity](https://learn.microsoft.com/en-us/azure/data-factory/copy-activity-overview).
@@ -1000,6 +1005,7 @@ Here is the full list taken and modified from [these docs](https://learn.microso
 
 The [Execute Pipeline Activity](https://learn.microsoft.com/en-us/azure/data-factory/control-flow-execute-pipeline-activity)
 enables the launching of a new pipeline from an initial pipeline.
+The master pipeline will execute a slave pipeline which 
 
 #### Get Metadata
 
@@ -1033,6 +1039,12 @@ Just like a lisp `cond` or C `switch`.
   1. **ForEach** has a maximum of 100,000 items
   2. You can't nest **ForEeach**
   3. You can't use SetVariable to manage global pipeline variables
+
+#### Script
+
+I mostly use this for small SQL operations.
+
+You may get the error "Argument {0} is null or empty" if your return values do not 
 
 ### Activities: Data Transformation
 

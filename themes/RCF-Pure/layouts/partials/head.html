@@ -10,8 +10,8 @@
   />
 
   <!-- CSS -->
-  {{ $style := resources.Get "style.css" | minify }}
-  <style>{{ $style.Content | safeCSS }}</style>
+  {{ $styles := resources.Get "style.css" | minify | resources.Fingerprint "md5" }}
+  <link rel="stylesheet" href="{{ $styles.Permalink }}">
 
   <script type="application/javascript" src="/scripts.js" async defer></script>
 
@@ -46,6 +46,10 @@
   <meta name="twitter:card" content="summary" />
   <meta name="twitter:creator" content="@RyanFleck_Dev" />
   <meta name="twitter:image:src" content="https://ryanfleck.ca/r.jpg" />
+
+  <!-- HTMX -->
+  {{ $htmx := resources.Get "/js/htmx.min.js" | resources.Minify | resources.Fingerprint "md5" }}
+  <script async defer type="application/javascript" src="{{ $htmx.Permalink }}"></script>
 
   <!-- Privacy Violating Garbage, hope you use Ad-Blockers -->
   <!-- Global site tag (gtag.js) - Google Analytics -->
