@@ -71,10 +71,12 @@ ol[role="list"] {
 }
 
 /* Set core body defaults */
-body {
+html, body {
   min-height: 100vh;
   text-rendering: optimizeSpeed;
   line-height: 1.4;
+  margin: 0px;
+  padding: 0px;
 }
 
 pre.example{
@@ -129,7 +131,6 @@ select {
 html {
   /* scroll-behavior: smooth; */
   overflow-y: scroll;
-  padding: 0.5rem;
   font-size: 15px;
   background: #fffccc;
   color: black;
@@ -326,8 +327,15 @@ ul {
   color: black;
   text-decoration: underline;
   text-decoration-color: black;
-  margin-bottom: 0.2em;
 }
+
+#page-title {
+    padding: 0;
+    margin: 0;
+    margin-left: 2rem;
+    padding-top: 1rem;
+}
+
 .navbar-nav {
   margin-top: 0.3em;
 }

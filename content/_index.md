@@ -1,4 +1,11 @@
-I have decided to collect and organize all of my notes for a variety of courses and subjects in a single public place for easy reference and sharing.
-_If knowledge is gained at great personal cost (in long and tiresome lectures,) why not share the distilled product?_
+**Hello and welcome!**
+
+This site contains my personal notes on a variety of
+[courses](/courses/), [tools](/tools/), [programming
+languages](/languages/), and [cloud computing environments](/tools/).
+They are public for the sake of reference, conversation, and
+correction.
+
+For more narrative-driven articles, see [ryanfleck.ca](https://ryanfleck.ca)
 
 Enjoy and **RTFM!**
