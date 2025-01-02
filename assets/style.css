@@ -62,6 +62,7 @@ blockquote,
 dl,
 dd {
   margin: 0px;
+  padding-right: 1rem;
 }
 
 /* Remove list styles on ul, ol elements with a list role, which suggests default styling will be removed */
@@ -204,6 +205,7 @@ div.footnotes,
     max-width: 800px;
     margin-top: 1em;
     margin-left: 2rem;
+    padding-right: 2rem;
 }
 
 .footnote-body{
