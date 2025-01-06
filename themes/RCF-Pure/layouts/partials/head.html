@@ -13,6 +13,10 @@
   {{ $styles := resources.Get "style.css" | minify | resources.Fingerprint "md5" }}
   <link rel="stylesheet" href="{{ $styles.Permalink }}">
 
+  <!-- Font-Awesome -->
+  <!-- Download at https://fontawesome.com/download and extract to /static/fa/ -->
+  <link href="/fa/css/all.min.css" rel="stylesheet" />
+
   <script type="application/javascript" src="/scripts.js" async defer></script>
 
   <!-- Canonical URL -->

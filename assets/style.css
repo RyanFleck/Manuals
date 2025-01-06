@@ -148,8 +148,7 @@ pre,
 p,
 div,
 code,
-table,
-span {
+table{
   /* These are not enforced if not important, wcyd? */
   -webkit-font-smoothing: antialiased !important;
   -moz-osx-font-smoothing: auto !important;
@@ -305,6 +304,79 @@ a {
   overflow-wrap: break-word;
   word-break: break-word;
   word-wrap: normal;
+  border-radius: 3px;
+}
+
+a:visited{
+    color: #a048b9;
+}
+
+a:hover {
+    background-color: #e2e2ff;
+    text-decoration: underline;
+
+    /* Transitions */
+    transition: color 0.2s;
+    transition: background-color 0.2s;
+}
+
+a:active{
+    color: #d05151;
+    background-color: #ffe9e9;
+}
+
+#jumper {
+    position: fixed;   
+    padding: 10px;
+    background: #fffccc;
+    box-shadow: 0 0 10px #fffccc;
+    border-bottom-left-radius: 1rem;
+    top: 0;
+    right: 0;
+    opacity: 0.4;
+    transition: opacity 0.3s;
+
+}
+
+.jumperstyle{
+    font-size: 16px;
+}
+
+#jumper:hover {
+    opacity: 1;
+    transition: opacity 0.3s;
+}
+
+h1#page-title a:visited {
+    color: black;
+}
+
+.header-anchor-link {
+  opacity: 0;
+  transition: 0.3s;
+
+  /* From Scripts.js */
+  float: left; 
+  margin-left: -20px; 
+  font-size: 0.7em; 
+  padding-top: 0.38em; 
+  padding-right: 0em;
+}
+
+h1:hover > .header-anchor-link,
+h2:hover > .header-anchor-link,
+h3:hover > .header-anchor-link,
+h4:hover > .header-anchor-link,
+h5:hover > .header-anchor-link,
+h6:hover > .header-anchor-link {
+  opacity: 1;
+  transition: 0.5s;
+}
+
+@media (max-width: 600px) {
+  .header-anchor-link {
+    display: none;
+  }
 }
 
 h1,

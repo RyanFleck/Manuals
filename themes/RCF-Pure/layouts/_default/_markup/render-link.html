@@ -1,4 +1,22 @@
-<a href="{{ .Destination | safeHTML }}" 
+<!-- Copied from ryanfleck.ca configs  -->
+<!-- https://gohugo.io/render-hooks/links/ -->
+<a href="{{ .Destination | safeURL }}" 
     {{ with .Title}} title="{{ . }}" {{ end }}
-    {{ if strings.HasPrefix .Destination "http" }} target="_blank" rel="noopener noreferrer" {{ end }}
->{{ .Text | safeHTML }}</a>
+    {{ if strings.HasPrefix .Destination "http" }} target="_blank" rel="noopener" 
+    {{ else }} hx-boost="true" {{ end }}
+>{{- .Text | safeHTML -}}
+  <!-- ICONS for external links -->
+  {{ if or (strings.Contains .Destination "youtube.com")
+           (strings.Contains .Destination "youtu.be")
+           (strings.Contains .Destination "rumble.com") }}
+  <!-- If it is a video - show a video icon -->
+  <i class="fa fa-video fa-2xs" aria-hidden="true"></i> VIDEO
+  {{ else if and (strings.HasPrefix .Destination "http") 
+            (not (strings.Contains .Destination "youtube.com"))
+            (not (strings.Contains .Destination "rumble.com"))
+            (not (strings.HasPrefix .Destination "https://manuals.ryanfleck.ca")) 
+            (not (strings.HasPrefix .Destination "http://localhost:1313")) }}
+  <!-- Otherwise just show an external resource indicator -->
+  <i class="fa fa-external-link fa-2xs" aria-hidden="true"></i>
+  {{ end }}
+</a>

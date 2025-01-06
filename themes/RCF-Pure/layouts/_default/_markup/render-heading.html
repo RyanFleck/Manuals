@@ -1,0 +1,5 @@
+<!-- https://gohugo.io/render-hooks/headings/ -->
+<h{{ .Level }} id="{{ .Anchor }}">
+  {{- .Text | safeHTML -}}
+  <a href="#{{ .Anchor }}" class="header-anchor-link">¶</a>
+</h{{ .Level }}>

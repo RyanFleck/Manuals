@@ -3,6 +3,12 @@
   <a href="{{.Permalink}}" id="title-link"> {{ .Title }} </a>
 </h1>
 
+<div id="jumper" class="jumperstyle">
+  <a href="#body">
+    Top&nbsp;<i class="fa-solid fa-turn-up"></i>
+  </a>
+</div>
+
 {{ if not .Date.IsZero }}
 <p><b>{{ .Date.Format "2006-01-02" }}</b></p>
 {{ end }}

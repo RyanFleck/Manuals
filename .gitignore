@@ -1,3 +1,7 @@
+# Clojure
+/.clj-kondo
+/.lsp
+
 # Binaries for programs and plugins
 *.exe
 *.exe~

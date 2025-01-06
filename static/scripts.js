@@ -122,6 +122,6 @@ function getServerUrl() {
  */
 window.addEventListener("load", function (event) {
   // Feature functions:
-  addAnchorsToHeaders();
+  // addAnchorsToHeaders();
   // setPageViewCounts();
 });

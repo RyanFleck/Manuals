@@ -222,6 +222,7 @@ Enabled with if, cond, when, when-not, and other functions.
 #+end_src
 
 #+RESULTS:
+| #'org.core/boolean-value |
 | "It's true!"             |
 | "Yes"                    |
 
@@ -230,7 +231,7 @@ a false-case like an if statement.
 
 *** Boolean Mathematics
 
-#+begin_src clojure
+#+begin_src clojure :results value
 (nil? 1)       ;; => false 
 (nil? nil)     ;; => true
 (true? true)   ;; => true
@@ -605,6 +606,16 @@ It looks like this when run:
 *Websites:*
 
 1. [[https://www.braveclojure.com/][Clojure for the Brave and True]]
+2. [[https://exercism.org/tracks/clojure/][Clojure on Exercism (Challenges)]]
+3. [[https://luminusweb.com/][Luminus (Web 'Framework')]]
+4. [[https://jobs.braveclojure.com/][Clojure Job Board]]
+5. [[https://ericnormand.me/mini-guide/clojure-regex][Clojure Regex Tutorial]]
+6. [[https://stackoverflow.com/questions/tagged/clojure?tab=Newest][Newest 'Clojure' Questions on Stack Overflow]]
+7. [[https://stackoverflow.com/tags/clojure/info][Clojure on Stack Overflow]]
+8. [[https://app.slack.com/client/T03RZGPFR/C03S1KBA2][Clojure Slack Channel]]
+9. [[https://orgmode.org/worg/org-contrib/babel/languages/ob-doc-clojure.html][Org-Babel Clojure (Literate Programming)]] and [[https://ag91.github.io/blog/2023/08/03/an-easier-way-to-try-out-clojure-libraries-with-ob-clojure-and-cider/][(use case - try out libraries)]]
+10. [[http://quil.info/][Quil: Animations in Clojure]]
+11. [[https://scicloj.github.io/][SciCloj - Clojure Data Science Community]], and their [[https://scicloj.github.io/noj/][Noj]] project
 
 *Books:*
 

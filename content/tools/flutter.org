@@ -15,6 +15,9 @@ compiled, multi-platform applications from a single codebase.
 
 - Read the [[https://docs.flutter.dev/get-started/learn-flutter][Flutter docs]]
 
+Flutter is all about building *widget trees*, with out-of-box and custom
+widgets. Widgets are objects based on classes, which can be extended.
+
 * What is ClojureDart?
 
 #+begin_quote
@@ -32,11 +35,12 @@ Clojure, Android Studio, XCode (on Mac), and finally Flutter. Mobile
 development is complex and requires large, complex toolchains.
 
 - [[https://docs.flutter.dev/get-started/install/windows/mobile][Windows]] (use *choco*)
-- [[https://docs.flutter.dev/get-started/install/linux/android][Linux]] (use *asdf*)
+- [[https://docs.flutter.dev/get-started/install/linux/android][GNU/Linux]] (use *asdf*)
 - [[https://docs.flutter.dev/get-started/install/macos/mobile-ios][MacOS]] (use *brew*)
 
 ...then follow the [[https://github.com/Tensegritics/ClojureDart/blob/main/doc/flutter-quick-start.md][ClojureDart Flutter quickstart]].
 
+On GNU/Linux you will also need the `ninja-build` apt package.
 
 * The Developer Experience Factor (DevX)
 
@@ -73,10 +77,10 @@ facilitate easy use.
 
 These are rough, personal notes - read with caution.
 
+** Hello World
+
 - Every Flutter app must start with ~runApp()~.
-
 - There is ~void main(){}~ to start the app.
-
 - The runApp function accepts a *widget tree*. There is no GUI UI
   builder - everything is done in code. Hooray!
 
@@ -104,6 +108,8 @@ void main() {
         body: Text('Hello World!'))));
 }
 #+end_src
+
+#+RESULTS:
 
 Hit *debug* in VS Code to run the app.
 
@@ -153,3 +159,288 @@ A little more example:
     (m/Container .decoration (m/BoxDecoration .color m.Colors/red))
     (m/Text "Let's get coding! Yahoo!")))
 #+end_src
+
+** Classes, Widgets, Constructor Functions
+
+Typically you want to *break up huge widget trees* by creating your own
+widgets. Here's an example of that refactoring:
+
+#+begin_src dart
+void main() {
+  runApp(MaterialApp(
+    home: Scaffold(
+      backgroundColor: Colors.deepPurple,
+      body: Container(
+        decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              colors: [Colors.blue, Colors.red],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            )),
+        child: const Center(
+            child: Text("Hello World!",
+                style: TextStyle(color: Colors.white, fontSize: 30)))),
+  )));
+}
+#+end_src
+
+Widgets are objects, and creating a new widget is the same as
+*instantiating* a new object from a class.
+
+#+begin_src dart
+void main() {
+  runApp(MaterialApp(
+      home: Scaffold(
+       backgroundColor: Colors.deepPurple,
+       // Replace the body with our new widget
+       body: GradientContainer()
+  )));
+}
+
+class GradientContainer extends StatelessWidget {
+  // MISSING: Constructor Function, see below
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        decoration: // ... //
+        child: const Center(child: Text("Hello World!",
+                style: TextStyle(color: Colors.white, fontSize: 30))));
+  }
+}
+#+end_src
+
+The constructor function defines the data that must be passed to our
+widget.
+
+- Optional args wrapped in ~[]~
+- Default values assigned with ~=~
+- Use ~required~ to ensure named parameters are passed
+
+#+begin_src dart
+// Positional arguments (required by default)
+const GradientContainer(a, b, [c, d=5]); 
+
+// Named arguments
+const GradientContainer({a, required b, c=3});
+
+// Necessary scaffolding
+const GradientContainer({key}): super(key: key);
+
+// Shortcut for the above
+const GradientContainer({super.key});
+#+end_src
+
+*You can add multiple constructor functions to one class.* By providing
+multiple constructors with different defaults, you can easily provide
+shortcuts to instantiating slight variations on your widget.
+
+#+begin_src dart
+GradientContainer.red({super.key, required this.children}) : colors = [Colors.deepOrange, Colors.red];
+#+end_src
+
+*Note:* To organize your project, move your widgets to
+ ~lowercase_name.dart~ files. /This is convention./ They can then be
+ imported into your main view with a line like the following, using
+ your project name:
+
+#+begin_src dart
+import 'package:your_flutter_app/gradient_container.dart';
+#+end_src
+
+While we are discussing conventions, here are a few:
+
+#+begin_src dart
+ClassNames      // Classes start with an uppercase
+variableNames   // Variables start with a lowercase
+
+// Ending a variable with '?' allows it to be null
+var Alignment startAlignment?;
+#+end_src
+
+~const~ means something is a compile-time constant and will not change.
+You cannot use const to 'lock' a widget that depends on variables.
+
+*Pass data into classes* with the constructor function:
+
+#+begin_src dart
+class GradientContainer extends StatelessWidget {
+  const GradientContainer({super.key, required this.children});
+
+  // 'final' means single-assignment
+  final List<Widget> children;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        decoration: const BoxDecoration(
+            gradient: LinearGradient(
+          colors: [Colors.blue, Colors.red],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        )),
+        child: Center(
+            child: c.Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: children)));
+  }
+}
+
+// Usage:
+GradientContainer(children: [
+  Text("Hello World!")
+])
+#+end_src
+
+
+** Functions are also just objects
+
+#+begin_src dart
+(){} // Can be used inline
+
+void rollDice(){}
+#+end_src
+
+
+
+** Stateful vs Stateless Widgets
+
+Long story short: Stateless should be used for elements that *will not
+change* during their rendering lifetimes.
+
+*Flutter will only update the UI if the ~build~ method is executed again.*
+
+Within a stateful widget, the ~setState~ special function must be used
+to prompt a UI update.
+
+#+begin_quote
+"Calling setState notifies the framework that the internal state of
+this object has changed in a way that might impact the user interface
+in this subtree." ([[https://api.flutter.dev/flutter/widgets/State/setState.html][docs]])
+#+end_quote
+
+#+begin_src dart
+import 'package:dchs_flutter_beacon/dchs_flutter_beacon.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart' as c;
+import 'package:dice_roller/gradient_container.dart';
+import 'package:flutter/services.dart';
+import 'dart:math';
+
+class DiceRoller extends StatefulWidget{
+  @override
+  State<StatefulWidget> createState() {
+    return _DiceRollerState();
+  }
+}
+
+// Instantiate objects outside your classes
+final randomizer = Random();
+final beacon = DchsFlutterBeacon();
+
+class _DiceRollerState extends State<DiceRoller> {
+
+  var activeDiceImage = 1;
+
+  String getDiceImagePath(int a){
+    return 'assets/images/dice-$a.png';
+  }
+
+  void rollDice() async {
+    print("Rolling dice...");
+    HapticFeedback.heavyImpact();
+    SystemSound.play(SystemSoundType.alert);
+    
+    // setState prompts a UI update inside this StatefulWidget
+    setState(() {
+      activeDiceImage = randomizer.nextInt(6) + 1;
+      print("Rolled a $activeDiceImage");
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return GradientContainer.red(
+        children: [
+
+          // A button as a child
+              TextButton(
+                onPressed: rollDice, // Onpressed can run a function
+                style: TextButton.styleFrom(
+                padding: EdgeInsets.all(20),
+                foregroundColor: Colors.white,
+                textStyle: const TextStyle(fontSize: 28)
+                ),
+              child: const Text("Roll Now"))
+        ]);
+  }
+}
+
+#+end_src
+
+** Images and assets
+
+You may include assets organized however you want in your project, but
+they must be mentioned in your ~pubspec.yaml~ file like so:
+
+#+begin_src yaml
+flutter:
+  # To add assets to your application, add an assets section:
+  assets:
+    - assets/images/example-1.png
+    - assets/images/example-2.png
+#+end_src
+
+These can be included like so:
+
+#+begin_src dart
+Image.asset('assets/images/example-2.png')
+#+end_src
+
+
+
+** Futures and Async/Await
+
+https://dart.dev/libraries/async/async-await#example-asynchronous-functions
+
+
+
+** Package Management
+
+In the project root you can run something like this:
+
+#+begin_src bash
+flutter pub add dhcs_flutter_beacon
+#+end_src
+
+To add a library like [[https://pub.dev/packages/dchs_flutter_beacon][dhcs_flutter_beacon]] ([[https://github.com/dariocavada/dchs_flutter_beacon][gh]]) to your project.
+
+** SQLite
+
+Per this [[https://docs.flutter.dev/cookbook/persistence/sqlite][flutter cookbook article]], you can store and retrieve data
+from SQLite with the ~sqflite~ package.
+
+#+begin_src bash
+flutter pub add sqflite path
+#+end_src
+
+** Reading and Writing Files
+
+Per the flutter cookbook article '[[https://docs.flutter.dev/cookbook/persistence/reading-writing-files][reading and writing files]]', use the
+~path_provider~ and ~file_picker~ package on mobile to provide this. The
+packages should automatically ask for permissions when they are required.
+
+- [[https://pub.dev/packages/file_picker][file_picker]]
+- [[https://pub.dev/packages/path_provider][path_provider]]
+
+#+begin_src dart
+String? selectedDirectory = await FilePicker.platform.getDirectoryPath();
+#+end_src
+
+** User Preferences
+
+Automatically wraps platform-specific user data storage to keep
+key-value pairs.
+
+- [[https://pub.dev/packages/shared_preferences][shared_preferences]]
