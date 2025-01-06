@@ -1,3 +1,5 @@
+<!-- Render an Image -->
+<!-- https://stackoverflow.com/questions/69031332/hugo-shortcode-adding-extra-space-at-end-of-link-text -->
 <figure>
   <a href="{{ .Destination | safeURL }}"  target="_blank" rel="noopener noreferrer">
     <img src="{{ .Destination | safeURL }}" alt="{{ .Text | plainify }}" {{ with .Title}} title="{{ . | plainify }}"{{ end }} loading="lazy" />
@@ -9,3 +11,4 @@
   <figcaption>↑ {{ .Text | safeHTML }}</figcaption>
   {{ end }}
 </figure>
+{{- "" -}}
