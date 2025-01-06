@@ -299,12 +299,17 @@ li > ol {
 */
 
 a {
-  color: rgb(69, 0, 197);
-  text-decoration: none;
-  overflow-wrap: break-word;
-  word-break: break-word;
-  word-wrap: normal;
-  border-radius: 3px;
+    color: rgb(69, 0, 197);
+    text-decoration: none;
+    overflow-wrap: break-word;
+    word-break: break-word;
+    word-wrap: normal;
+    border-radius: 3px;
+    background-color: transparent;
+
+    /* Transitions */
+    transition: color 0.4s;
+    transition: background-color 0.4s;
 }
 
 a:visited{
