@@ -1,6 +1,7 @@
 # Clojure
 /.clj-kondo
 /.lsp
+*/target/*
 
 # Binaries for programs and plugins
 *.exe
