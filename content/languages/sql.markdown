@@ -61,10 +61,6 @@ business and developer, including:
 * Table names don't seem to be case sensitive
 * Use single quotes
 
-> For how can I endure to see the evil that will come to my people? Or how can I endure to see the destruction of my countrymen?"
->  
-> -- Esther 8:6 NKJV
-
 # Administration
 
 It's easy to install PostgreSQL on alpine linux with this set of
