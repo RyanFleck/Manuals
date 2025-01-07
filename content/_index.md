@@ -1,3 +1,8 @@
+---
+title: "Home"
+summary: "manuals.ryanfleck.ca homepage"
+---
+
 **Hello and welcome!**
 
 This site contains my personal notes on a variety of

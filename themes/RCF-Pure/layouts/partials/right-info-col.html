@@ -7,7 +7,7 @@
       <a href="{{ .Site.BaseURL }}">Homepage</a>
     </b>
   </li>
-  {{ range .Site.Sections.ByTitle }}
+  {{ range .Site.Sections.ByWeight }}
   <li>
     <b class="directory-section">
       <a href="{{ .Permalink }}">{{ .Title }}</a>

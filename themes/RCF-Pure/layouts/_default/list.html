@@ -5,7 +5,7 @@
   {{ if .Content }} {{ .Content }} {{ end }}
 
   <ol reversed>
-    {{ range .Pages.ByTitle }} {{ if (not .Params.unlisted) }}
+    {{ range .Pages.ByWeight }} {{ if (not .Params.unlisted) }}
     <li>
       <a href="{{.Permalink}}">
         {{ .Title }}

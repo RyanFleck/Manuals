@@ -16,15 +16,26 @@ run applications, databases, and other services on hardware built,
 maintained, secured, and managed in Microsoft's datacenters.
 
 > The Azure cloud platform is more than 200 products and cloud
-> services designed to help you bring new solutions to life—to solve
-> today’s challenges and create the future. Build, run, and manage
-> applications across multiple clouds, on-premises, and at the edge,
-> with the tools and frameworks of your
-> choice. ([source](https://azure.microsoft.com/en-us/resources/cloud-computing-dictionary/what-is-azure))
+> services designed to help you bring new solutions to life -- to
+> solve today’s challenges and create the future. Build, run, and
+> manage applications across multiple clouds, on-premises, and at the
+> edge, with the tools and frameworks of your choice. --
+> [microsoft.com](https://azure.microsoft.com/en-us/resources/cloud-computing-dictionary/what-is-azure)
 
 Enterprise IT projects will commonly leverage cloud infrastructure,
 making knowledge of Azure, GCP, or AWS a critical skill for
 developers, software architects, and IT personnel alike.
+
+**Opinion:** Unfortunately, due to the immense complexity of the
+system and the distributed insanity of the switches and configuration
+options, systems like Azure and AWS are liable to consume all your
+time unless you hold them at arms length, treat them like a sick angry
+toddler, and only interact with them with a **maximum of care and
+documentation of what was done**. Some of the amazing and highly
+useful pieces of Azure tech are great to use, but only experience
+(which I have attained a modicum of) can reveal the sharp edges.
+
+**Azure is a box of footguns. Proceed with care.**
 
 # Learning Roadmap
 
@@ -78,7 +89,7 @@ Sorted alphabetically.
 | RG    | Resource Group                                        |
 | RPO   | Recovery Point Objective                              |
 | RTO   | Recovery Time Objective                               |
-| SA    | Storage Account                                       |
+| SA    | [Storage Account](#sta---storage-accounts)            |
 | SAS   | Shared Access Signature                               |
 | SLA   | Service Level Agreeement                              |
 | SMB   | Server Message Block - File and port sharing protocol |
@@ -114,6 +125,10 @@ Sorted alphabetically.
 1. [John Savill: **Mastering Microsoft Azure Infrastructure Services**, 1e, 2015](https://libgen.is/book/index.php?md5=BF93A6260C3486CE1678BF00DC5DA772)
 1. [Shijimol Ambi Karthikeyan: **Practical Microsoft Azure IaaS**, 1e](https://libgen.is/book/index.php?md5=30F019E9393CC34844DAB33EC67C36F0)
 
+# **STA** - Storage Accounts
+
+I've worked a lot with Storage Accounts (SAs or STAs) in my time.
+
 # **ADF** - Azure Data Factory
 
 During my time at a client, I made extensive use of **Azure Data
@@ -137,7 +152,7 @@ on a schedule.
 5. Data Flows
 6. Integration Runtimes
 
-![The relationship between **data sets**, **activities**, and **pipelines**. Source: [M$](https://learn.microsoft.com/en-us/azure/data-factory/concepts-pipelines-activities?tabs=data-factory)](/images/azure/datafactorycomps.png)
+![The relationship between **data sets**, **activities**, and **pipelines**. Source: [microsoft.com](https://learn.microsoft.com/en-us/azure/data-factory/concepts-pipelines-activities?tabs=data-factory)](/images/azure/datafactorycomps.png)
 
 ## Weird ADF Limitations
 
@@ -147,7 +162,8 @@ must be considered when applying a data factory in your solution
 architectures.
 
 - The **Lookup Activity** supports a max of 5000 rows or 4mb of data returned
-- The **ForEach Activity** supports a max of 100,000 input items
+- The **ForEach Activity** supports a max of 100,000 output items
+- You can't nest **ForEach** activities
 
 ## Data Movement (Copy) Activity
 
