@@ -6,5 +6,5 @@ draft: false
 weight: 40
 ---
 
-Life ain't just about programming. Sometimes you need to **eat**. Sometimes you need to **exercise**.
+Life ain't just about programming.
 
