@@ -172,9 +172,6 @@ It is easy to fetch data using the [[https://github.com/dakrone/clj-http][clj-ht
 #+RESULTS:
 : '(:cached   :request-time 197  :repeatable? false  :protocol-version (:name "HTTP"  :major 1  :minor 1)  :streaming? false  :http-client #object(org.apache.http.impl.client.InternalHttpClient 0x149678f3 "org.apache.http.impl.client.InternalHttpClient@149678f3")  :chunked? false  :reason-phrase "OK"  :headers ("referrer-policy" "strict-origin-when-cross-origin"  "Server" "cloudflare"  "Content-Type" "text/html; charset=utf-8"  "Access-Control-Allow-Origin" "*"  "x-content-type-options" "nosniff"  "alt-svc" "h3=\":443\"; ma=86400"  "NEL" "{\"success_fraction\":0,\"report_to\":\"cf-nel\",\"max_age\":604800}"  "Connection" "close"  "cf-cache-status" "DYNAMIC"  "CF-RAY" "8fedb5dbee3cebbe-SEA"  "Date" "Wed, 08 Jan 2025 16:54:36 GMT"  "Vary" "Accept-Encoding"  "server-timing" "cfL4;desc=\"?proto=TCP&rtt=27561&min_rtt=26609&rtt_var=8965&sent=6&recv=8&lost=0&retrans=0&sent_bytes=3102&recv_bytes=761&delivery_rate=134890&cwnd=244&unsent_bytes=0&cid=e1d50b69e51b88e5&ts=103&x=0\""  "Report-To" "{\"endpoints\":[{\"url\":\"https:\\/\\/a.nel.cloudflare.com\\/report\\/v4?s=8Gp7uwFKRza7VqBDZB%2FVkDAYfJ82U3266fo0KiPoVyb%2BzhtNER6nHAMFNqN20StAp2NgeSHIlNT8FQq3mF38qKJJyVGW5es939%2Fsybqp6H%2Fhqm1ZFuBh9NMKs2ctL%2FE%3D\"}],\"group\":\"cf-nel\",\"max_age\":604800}"  "Cache-Control" "public, max-age=0, must-revalidate")  :orig-content-encoding "gzip"  :status 200  :length 0  :body   :trace-redirects ())
 
-
-** LLMs - Utilizing ChatGPT, etc
-
 * Clojure for the Brave and True
 
 - [[https://www.braveclojure.com/clojure-for-the-brave-and-true/][Table of Contents]]
@@ -414,7 +411,6 @@ You can use *vector* to make vectors and *conj* to add to them:
 (conj vec2 :today) ;; => [:weather :is :nice :today]
 #+end_src
 
-
 **** Lists
 
 Recall that Clojure is a LISP. Lists can hold anything.
@@ -543,9 +539,10 @@ Emacs is my editor of choice. It has unbeatable support for LISPs.
    :PROPERTIES:
    :CUSTOM_ID: setup
    :END:
-My personal configuration is based off of the sensible defaults provided
-in the [[https://www.braveclojure.com/][Clojure for the Brave and True]]
-textbook.
+My personal configuration is based off of the sensible defaults
+provided in the [[https://www.braveclojure.com/][Clojure for the Brave and True]] textbook. Using the
+initialization files mentioned on the linked page is a great way to
+start using Emacs in general.
 
 ** Command Cheat Sheet
    :PROPERTIES:
@@ -559,9 +556,10 @@ textbook.
 | C-u C-c C-z       | Jump cursor to REPL /and switch to file namespace/ |
 | C-c C-d a         | cider-apropos to remember var names              |
 | C-x 5 2           | Pop out buffer into new window                   |
-| C-c C-k           | Evaluate buffer                                  |
+| C-c C-k           | Evaluate buffer (handy)                          |
 | C-c C-e           | Evaluate preceding form                          |
 | C-c C-c /or/ C-M-x  | Evaluate current top-level form                  |
+| C-u C-c C-c       | Evaluate current top-level form *in debug mode*    |
 | C-c C-v r         | Evaluate highlighted region                      |
 | C-c C-b           | Interrupt evaluation                             |
 | M-.               | cider-find-var: Warp to definition under cursor  |
@@ -576,6 +574,7 @@ textbook.
 *Sources:*
 
 1. [[https://docs.cider.mx/cider/usage/cider_mode.html#basic-workflow][Cider Docs: Basic Workflow]]
+2. Experience
 
 ** Cider
    :PROPERTIES:
