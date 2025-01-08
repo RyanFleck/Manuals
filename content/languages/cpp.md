@@ -4,6 +4,9 @@ date: 2020-08-01T09:00:00-05:00
 toc: true
 image: "/content-cover-images/coffee-phone.jpg"
 summary: "Notes on the C++ language for CSI2372."
+aliases:
+  - "cpp"
+  - "c++"
 ---
 
 # Hello C++

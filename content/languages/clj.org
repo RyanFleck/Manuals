@@ -2,6 +2,7 @@
 #+TITLE: Clojure
 #+SUMMARY: Enterprise grade magick.
 #+TOC: true
+#+ALIASES: clj, clojure, scicloj, cloj, CLJ, cljs, cljd
 
 * Philosophy
   :PROPERTIES:
