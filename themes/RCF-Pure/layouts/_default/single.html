@@ -30,6 +30,14 @@
 <br />
 {{ end }}
 
+{{ if eq .Page.Section "languages" }}
+{{ readFile "assets/programming.md" | markdownify  }}
+{{ end }}
+
+{{ if eq .Page.Section "life" }}
+{{ readFile "assets/life.md" | markdownify  }}
+{{ end }}
+
 <!--Content-->
 {{ .Content }}
 
