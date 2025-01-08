@@ -132,6 +132,12 @@ Full talk:
 - [[https://clojure.org/guides/learn/syntax#_evaluation][Clojure Evaluation]]
 - [[https://clojure.org/api/cheatsheet][Clojure API Cheat Sheet]]
 
+* Basic Tasks
+
+** Querying HTTP APIs
+
+** LLMs - Utilizing ChatGPT, etc
+
 * Clojure for the Brave and True
 
 - [[https://www.braveclojure.com/clojure-for-the-brave-and-true/][Table of Contents]]
@@ -219,7 +225,7 @@ Enabled with if, cond, when, when-not, and other functions.
 
 (if boolean-value "It's true!" "Lol nope")
 (when boolean-value "Yes")
-(when-not boolean-value "Nope")
+z(when-not boolean-value "Nope")
 #+end_src
 
 #+RESULTS:

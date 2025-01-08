@@ -1,7 +1,27 @@
 # Clojure
+
 /.clj-kondo
 /.lsp
 */target/*
+/target
+/classes
+/checkouts
+.clj-kondo
+.lsp
+profiles.clj
+pom.xml
+pom.xml.asc
+*.jar
+*.class
+/.lein-*
+/.nrepl-port
+/.prepl-port
+.hgignore
+.hg/
+
+report*.txt
+
+
 
 # Binaries for programs and plugins
 *.exe
