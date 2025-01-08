@@ -5,7 +5,7 @@ title = "Manuals"
 theme = "RCF-Pure"
 pygmentsCodeFences = true
 sectionPagesMenu = "main"
-pygmentsStyle = "perldoc"
+pygmentsStyle = "perldoc" # "tango" # "solarized-light" "perldoc"
 
 # All manuals on this site are available from the root.
 [permalinks]
