@@ -660,11 +660,90 @@ WITH club_tacos_eaten AS (
 
 This enables complex, multi-stage queries on data.
 
-# Engine-Specific Notes
-
-## PostgreSQL
+# PostgreSQL
 
 An open-source community-driven version of Oracle DBMS.
+
+- [COALESCE](https://neon.tech/postgresql/postgresql-tutorial/postgresql-coalesce) to return the first non-null argument
+
+## Generate Series
+
+**GENERATE_SERIES** can be used as a basis for other queries by
+providing a simple time-series starting point to accumulate counts or
+other metrics.
+
+```sql
+SELECT GENERATE_SERIES(
+    -- Start time
+    (DATE_TRUNC('hour', NOW()) - interval '72 hours'),
+    -- End time
+    (DATE_TRUNC('hour', NOW())), 
+    -- Interval window
+    '1 hour') AS hour;
+```
+
+This results in a list of `timestamps` as a basis for further queries.
+
+```
+          hour
+------------------------
+ 2025-01-07 12:00:00-07
+ 2025-01-07 13:00:00-07
+ 2025-01-07 14:00:00-07
+ 2025-01-07 15:00:00-07
+ 2025-01-07 16:00:00-07
+ 2025-01-07 17:00:00-07
+ 2025-01-07 18:00:00-07
+ 2025-01-07 19:00:00-07
+ 2025-01-07 20:00:00-07
+ 2025-01-07 21:00:00-07
+ 2025-01-07 22:00:00-07
+```
+
+This interval can be switched to minutes if more detail is desired.
+
+For instance, this could be used 
+
+```sql
+WITH time_series AS (
+  SELECT GENERATE_SERIES((DATE_TRUNC('hour', NOW()) - interval '72 hours'),
+    (DATE_TRUNC('hour', NOW())), '1 hour') AS hour), languages AS (
+    SELECT DISTINCT
+      LANGUAGE
+    FROM media.items), cross_data AS (
+      SELECT ts.hour, l.language
+      FROM time_series ts
+      CROSS JOIN languages l
+)
+  SELECT *
+  FROM cross_data;
+```
+
+To produce data like this
+
+```
+          hour          | language 
+------------------------+----------
+ 2025-01-07 12:00:00-07 | mk
+ 2025-01-07 12:00:00-07 | fr
+ 2025-01-07 12:00:00-07 | sk
+ 2025-01-07 12:00:00-07 | tr
+ 2025-01-07 12:00:00-07 | en
+ 2025-01-07 13:00:00-07 | mk
+ 2025-01-07 13:00:00-07 | fr
+ 2025-01-07 13:00:00-07 | sk
+ 2025-01-07 13:00:00-07 | tr
+ 2025-01-07 13:00:00-07 | en
+ ... etc
+```
+
+
+
+# Other Engine-Specific Notes
+
+
+Apart from **PostgreSQL**, there are plenty of other good SQL engines
+with different strengths and use cases.
 
 ## SQLite
 

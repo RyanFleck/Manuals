@@ -174,7 +174,7 @@ It is easy to fetch data using the [[https://github.com/dakrone/clj-http][clj-ht
 
 
 
-* Data Transformation
+* Data Handling & Transformation
 
 ** Group-By
 
@@ -212,6 +212,22 @@ Here is how the data looks after using *group-by* (
        {:count 856, :hour #object[java.time.LocalDateTime 0x4a64b22a "2025-01-09T21:00"], :language "en"}], 
  "ur" [{:count 100, :hour #object[java.time.LocalDateTime 0x552a7e60 "2025-01-07T21:00"], :language "ur"} 
 ;; ... data truncated ...
+#+end_src
+
+
+** Caching Return Values (Memoization)
+
+We can use [[https://cljdoc.org/d/org.clojure/core.memoize/1.1.266/doc/using-core-memoize][core.memoize]] to cache values with a variety of methods.
+
+#+begin_src clojure
+(defn get-72h-data []
+  (let [data (c/extract-series {:x :hour :y :count} (db/get-items-by-hour-72h))
+        series {"Collected Items" [(map #(localDateTime->Date %) (:x data)) (:y data)]}]
+
+    series))
+
+(def one-minute-in-ms (* 60 1000))
+(def get-72h-data-memoized (memo/ttl get-72h-data {} :ttl/threshold one-minute-in-ms))
 #+end_src
 
 
@@ -254,6 +270,7 @@ in the demo.
   myChart.setOption(option);
 </script>
 #+end_src
+
 
 
 * Clojure for the Brave and True
