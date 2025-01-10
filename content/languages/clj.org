@@ -172,6 +172,90 @@ It is easy to fetch data using the [[https://github.com/dakrone/clj-http][clj-ht
 #+RESULTS:
 : '(:cached   :request-time 197  :repeatable? false  :protocol-version (:name "HTTP"  :major 1  :minor 1)  :streaming? false  :http-client #object(org.apache.http.impl.client.InternalHttpClient 0x149678f3 "org.apache.http.impl.client.InternalHttpClient@149678f3")  :chunked? false  :reason-phrase "OK"  :headers ("referrer-policy" "strict-origin-when-cross-origin"  "Server" "cloudflare"  "Content-Type" "text/html; charset=utf-8"  "Access-Control-Allow-Origin" "*"  "x-content-type-options" "nosniff"  "alt-svc" "h3=\":443\"; ma=86400"  "NEL" "{\"success_fraction\":0,\"report_to\":\"cf-nel\",\"max_age\":604800}"  "Connection" "close"  "cf-cache-status" "DYNAMIC"  "CF-RAY" "8fedb5dbee3cebbe-SEA"  "Date" "Wed, 08 Jan 2025 16:54:36 GMT"  "Vary" "Accept-Encoding"  "server-timing" "cfL4;desc=\"?proto=TCP&rtt=27561&min_rtt=26609&rtt_var=8965&sent=6&recv=8&lost=0&retrans=0&sent_bytes=3102&recv_bytes=761&delivery_rate=134890&cwnd=244&unsent_bytes=0&cid=e1d50b69e51b88e5&ts=103&x=0\""  "Report-To" "{\"endpoints\":[{\"url\":\"https:\\/\\/a.nel.cloudflare.com\\/report\\/v4?s=8Gp7uwFKRza7VqBDZB%2FVkDAYfJ82U3266fo0KiPoVyb%2BzhtNER6nHAMFNqN20StAp2NgeSHIlNT8FQq3mF38qKJJyVGW5es939%2Fsybqp6H%2Fhqm1ZFuBh9NMKs2ctL%2FE%3D\"}],\"group\":\"cf-nel\",\"max_age\":604800}"  "Cache-Control" "public, max-age=0, must-revalidate")  :orig-content-encoding "gzip"  :status 200  :length 0  :body   :trace-redirects ())
 
+
+
+* Data Transformation
+
+** Group-By
+
+The amazing ~group-by~ function allows you to *group data by a common
+key*. My use case for this was grouping articles in different
+languages collected over time. Here's what the incoming data looked
+like:
+
+#+begin_src clojure
+{:count 260, :hour 2025-01-07T21:00, :language "bn"}
+{:count 100, :hour 2025-01-07T21:00, :language "de"}
+{:count 1041, :hour 2025-01-07T21:00, :language "es"}
+{:count 211, :hour 2025-01-07T21:00, :language "fa"}
+{:count 1, :hour 2025-01-07T21:00, :language "fi"}
+{:count 268, :hour 2025-01-07T21:00, :language "fr"}
+{:count 63, :hour 2025-01-07T21:00, :language "gu"}
+;; ... data truncated ...
+#+end_src
+
+Here is how the data looks after using *group-by* (
+
+#+begin_src clojure
+(group-by :language (db/get-items-by-hour-72h-langs))
+
+{"nl" [{:count 3, :hour #object[java.time.LocalDateTime 0x2e063d23 "2025-01-07T21:00"], :language "nl"} 
+       {:count 2, :hour #object[java.time.LocalDateTime 0x5080c1d3 "2025-01-09T11:00"], :language "nl"} 
+       {:count 1, :hour #object[java.time.LocalDateTime 0x2cef6527 "2025-01-09T21:00"], :language "nl"}], 
+ "pt" [{:count 188, :hour #object[java.time.LocalDateTime 0x6e9352c2 "2025-01-07T21:00"], :language "pt"} 
+       {:count 175, :hour #object[java.time.LocalDateTime 0x41f9af3f "2025-01-08T11:00"], :language "pt"} 
+       {:count 62, :hour #object[java.time.LocalDateTime 0x71df170a "2025-01-09T15:00"], :language "pt"} 
+       {:count 96, :hour #object[java.time.LocalDateTime 0x58aa8fa8 "2025-01-09T21:00"], :language "pt"}], 
+ "en" [{:count 4412, :hour #object[java.time.LocalDateTime 0x74f18d18 "2025-01-07T21:00"], :language "en"} 
+       {:count 2552, :hour #object[java.time.LocalDateTime 0x3fd9a0d6 "2025-01-09T11:00"], :language "en"} 
+       {:count 227, :hour #object[java.time.LocalDateTime 0x6fa4cc34 "2025-01-09T13:00"], :language "en"} 
+       {:count 856, :hour #object[java.time.LocalDateTime 0x4a64b22a "2025-01-09T21:00"], :language "en"}], 
+ "ur" [{:count 100, :hour #object[java.time.LocalDateTime 0x552a7e60 "2025-01-07T21:00"], :language "ur"} 
+;; ... data truncated ...
+#+end_src
+
+
+* Show and Tell
+
+** Rendering Charts
+
+Here's a short guide on one method of many to render charts in web
+apps. The Apache ~echarts~ library has a [[https://echarts.apache.org/handbook/en/get-started/#][getting started]] graph we can
+use as an example.
+
+#+begin_src clojure
+(defn get-72h-echart-body []
+  (log/debug "Attempting to return HTML for new EChart")
+  (parser/render-file "graphs/72h-echart.html"
+                      {:width 800
+                       :height 500
+                       :data {:title {:text "ECharts Getting Started Example"}
+                              :tooltip {}
+                              :legend {:data ["sales"]}
+                              :xAxis {:data ["Shirts" "Cardigans" "Chiffons" "Pants" "Heels" "Socks"]}
+                              :yAxis {}
+                              :series [{:name "Sales" :type "bar" :data [5 20 36 10 10 20]}]}}))
+#+end_src
+
+Using Selmer with the template below yields the same chart as the one
+in the demo.
+
+#+begin_src html
+<h3>72h Echart</h3>
+<div id="72h-echart-main" style="width: {{ width }}px; height: {{ height }}px;"></div>
+<script type="text/javascript">
+  // Initialize the echarts instance based on the prepared dom
+  var myChart = echarts.init(document.getElementById('72h-echart-main'));
+
+  // Specify the configuration items and data for the chart
+  var option = {{ data|json|safe }};
+
+  // Display the chart using the configuration items and data just specified.
+  myChart.setOption(option);
+</script>
+#+end_src
+
+
 * Clojure for the Brave and True
 
 - [[https://www.braveclojure.com/clojure-for-the-brave-and-true/][Table of Contents]]
