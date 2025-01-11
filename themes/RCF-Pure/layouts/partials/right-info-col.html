@@ -13,14 +13,14 @@
       <a href="{{ .Permalink }}">{{ .Title }}</a>
     </b>
     <ul>
-      {{ range .Pages.ByTitle }} {{ if (not .Params.unlisted)}}
+      {{ range .Pages.ByLastmod.Reverse }} {{ if (not .Params.unlisted)}}
       <li>
         <a href="{{ .Permalink }}" class="manual-link">
           <!-- Title -->
             <b>{{ .Title }}</b>
           <small>
             ~{{ .ReadingTime}}m skim,
-            {{.WordCount}} words
+            {{ lang.FormatNumberCustom 0 .WordCount "- . ," }} words
           </small>
           <!-- Draft Badge -->
           {{ if .Draft }}<span style="color: red">&=</span>{{ end }}
@@ -31,4 +31,5 @@
   </li>
   {{ end }}
 </ul>
+<p><small>Pages are organized by <b>last modified</b>.</small></p>
 <br />

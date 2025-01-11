@@ -130,7 +130,7 @@ html {
 :root, html, body {
   min-height: 100vh;
   text-rendering: optimizeSpeed;
-  font-size: 14px;  /* This is the base font size for all pages. */
+  font-size: 16px;  /* This is the base font size for all pages. */
   background: #fffccc;
   color: black;
   line-height: 1.5;
@@ -265,10 +265,6 @@ figcaption {
 
 figcaption a {
   color: #7f5bc3;
-}
-
-.manual-link > small {
-  color: #8e65d9;
 }
 
 blockquote {
@@ -505,7 +501,7 @@ sup.footnote-ref > a {
 /* Header links */
 
 .header-anchor-link {
-  opacity: 0;
+  opacity: 0.1;
   transition: opacity 0.3s linear !important;
 }
 
@@ -516,6 +512,7 @@ h4:hover > .header-anchor-link,
 h5:hover > .header-anchor-link,
 h6:hover > .header-anchor-link {
   opacity: 1;
+  transition: opacity 0.3s linear !important;
 }
 
 #footer-data div {
@@ -532,15 +529,28 @@ padding-right: 7px;
 
 }
 
-/* No header anchor links on mobile */
-@media (max-width: 700px) {
-    .header-anchor-link {
-	display: none;
-    }    
+.faint,
+.manual-link > small {
+  color: #8e65d9;
 }
 
+p#article-subheading small,
+p#article-subheading a,
+p#article-subheading{
+    margin-top: 0;
+    padding-top: 0;
+}
+
+
+@media (max-width: 800px) {
+    html, body, :root{
+	font-size: 14px;
+    } 
+}
+
+/* No header anchor links on mobile */
 @media (max-width: 500px) {
-    html{
+    html, body, :root{
 	font-size: 12px;
     }
     .header-anchor-link {

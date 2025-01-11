@@ -3,6 +3,14 @@
   <a href="{{.Permalink}}" id="title-link"> {{ .Title }} </a>
 </h1>
 
+<p id="article-subheading">
+   <small class="faint">
+            ~{{ .ReadingTime}}m skim,
+            {{ lang.FormatNumberCustom 0 .WordCount "- . ," }} words,
+           updated {{ .Lastmod | time.Format ":date_medium" }}
+   </small>
+</p>
+
 <div id="jumper" class="jumperstyle">
   <a href="#top">
     Top&nbsp;<i class="fa-solid fa-turn-up"></i>

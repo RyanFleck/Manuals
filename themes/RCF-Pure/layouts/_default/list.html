@@ -5,13 +5,19 @@
   {{ if .Content }} {{ .Content }} {{ end }}
 
   <ol reversed>
-    {{ range .Pages.ByWeight }} {{ if (not .Params.unlisted) }}
+    {{ range .Pages.ByLastmod.Reverse }} {{ if (not .Params.unlisted) }}
     <li>
-      <a href="{{.Permalink}}">
-        {{ .Title }}
+      <a href="{{.Permalink}}" class="manual-link">
+        <b>{{ .Title }}</b>
         <!-- Draft Badge -->
-        {{ if .Draft }}<span style="color: red">DRAFT</span>{{ end }}
+        {{ if .Draft }}<span style="color: red">&=DRAFT</span>{{ end }}
+        <small>
+            ~{{ .ReadingTime}}m skim,
+            {{ lang.FormatNumberCustom 0 .WordCount "- . ," }} words,
+           updated {{ .Lastmod | time.Format ":date_medium" }}
+          </small>
       </a>
+
     </li>
     {{ end }} {{ end }}
   </ol>
