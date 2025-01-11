@@ -682,6 +682,56 @@ Use [[https://clojuredocs.org/clojure.core/get][clojure.core/get]] and [[https:/
 (get hs1 19) ; 19
 #+end_src
 
+*** Functions
+
+Because of Clojure's Lisp syntax, with the humble and incredibly
+simple s-expression as the core building block of a Lisp program, we
+can do some pretty incredible things to simplify complex operations.
+
+#+begin_src clojure
+(operator operand operand operand)
+#+end_src
+
+#+begin_quote
+"*All Clojure operations have the same syntax*: opening
+parenthesis, operator, operands, closing parenthesis"
+
+-- Daniel Higginbotham[fn:3]
+#+end_quote
+
+Also recall that we can return functions:
+
+#+begin_src clojure
+(or + - * /)
+#+end_src
+
+#+RESULTS:
+: #function[clojure.core/+]
+
+Which means we can return a function and call it on more data:
+
+#+begin_src clojure
+((or + -) 1 2 3)
+#+end_src
+
+#+RESULTS:
+: 6
+
+# Page 49
+
+The error ~cannot be cast to clojure.lang.IFn~ indicates you are trying
+to use a number, string, or other type as a function.
+
+#+begin_src clojure
+("why" 1 2 3)
+#+end_src
+
+#+RESULTS:
+: class java.lang.String cannot be cast to class clojure.lang.IFn
+
+# This is a note on page 50
+Also see *macro calls* and *special forms*.
+
 * Luminus
   :PROPERTIES:
   :CUSTOM_ID: luminus
