@@ -40,7 +40,20 @@ depends on my mileage with each as I complete practice problems.
 This manual contains snippets of all kinds of lisps. If I gravitate
 towards one in particular, say, Racket or Clojure, I'll breakout the
 lang-specific jargon into a separate manual. Currently, I am doing most
-of my learning in **Scheme**.
+of my learning in **Scheme**.[^fn:1]
+
+> Lisp has been hailed as the world's most powerful programming language,
+> but its cryptic syntax and academic reputation can be enough to scare
+> off even experienced programmers. Those dark days are finally over ---
+> Land of Lisp brings the power of functional programming to the people!
+
+{{< figure src="/images/SymbolicsKB.jpg" caption="<span class=\"figure-number\">Figure 1: </span>Symbolics KB" >}}
+
+MIT's _Structure and Interpretation of Computer Programs_ is a classic
+in the truest sense; the material in the tome has been used in MIT's
+programs since 1980, and many of the core concepts have diffused out
+into reality, becoming the core of our global infrastructure. The book
+is available for free online in many forms.
 
 
 # Emacs, SLIME, and ORG {#emacs-slime-and-org}
@@ -165,9 +178,7 @@ Hide your menu, tool, and scroll bars:
 
 # Notes on <span class="underline">Learn Common Lisp</span> {#notes-on}
 
-Notes on the
-[lisp-lang.org](https://lisp-lang.org/learn/)
-Common Lisp tutorial.
+Notes on the [lisp-lang.org](https://lisp-lang.org/learn/) Common Lisp tutorial.
 
 ```lisp
 (format t "Hello, world!")
@@ -210,42 +221,6 @@ FIB
 ```text
 BALL
 ```
-
-
-# Section Archive {#section-archive}
-
-Sections below this point are old and are kept for reference.
-
-
-## **Resource:** Land of Lisp {#resource-land-of-lisp}
-
-> Lisp has been hailed as the world's most powerful programming language,
-> but its cryptic syntax and academic reputation can be enough to scare
-> off even experienced programmers. Those dark days are finally over ---
-> Land of Lisp brings the power of functional programming to the people!
-
-{{< figure src="/images/SymbolicsKB.jpg" caption="<span class=\"figure-number\">Figure 1: </span>Symbolics KB" >}}
-
-
-## **Resource:** SICP {#resource-sicp}
-
-MIT's _Structure and Interpretation of Computer Programs_ is a classic
-in the truest sense; the material in the tome has been used in MIT's
-programs since 1980, and many of the core concepts have diffused out
-into reality, becoming the core of our global infrastructure. The book
-is available for free online in many forms.
-
-
-## **Resource:** HTDP {#resource-htdp}
-
-<span class="underline">How to Design Programs</span> is another MIT classic, with a focus on the
-program design process over teaching a language.
-
-
-## Other Resources {#other-resources}
-
-1.  [Learn X in Y mins:
-    Common Lisp](https://learnxinyminutes.com/docs/common-lisp/)
 
 
 ## Common LISP Basics {#common-lisp-basics}
@@ -370,91 +345,6 @@ functions being defined, string insertions, comments, and more:
 | THERE | IS | A | DOOR | GOING | EAST | FROM | HERE. |
 
 
-## Catalogue of LISPs {#catalogue-of-lisps}
-
-
-### MIT Scheme {#mit-scheme}
-
-The first time you install `mit-scheme` and run the REPL with `scheme`,
-you'll be greeted with all sorts of hackerisms:
-
-```bash
-MIT/GNU Scheme running under GNU/Linux
-Type `^C' (control-C) followed by `H' to obtain information about interrupts.
-
-Copyright (C) 2011 Massachusetts Institute of Technology
-This is free software; see the source for copying conditions. There is NO
-warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-
-Image saved on Saturday December 3, 2016 at 9:44:07 AM
-Release 9.1.1 || Microcode 15.3 || Runtime 15.7 || LIAR/x86-64 4.118
-Edwin 3.116
-
-1 ]=> (exit)
-
-Kill Scheme (y or n)? Yes
-Moriturus te saluto.
-```
-
-MIT Scheme is recommended for learning and applying the contents of
-_SICP_.
-
-```scheme
-; To run, execute: scheme < prog6.scm
-; SICP Newton's Method for calculating square roots
-
-(define (square x) (* x x))
-
-(define (sqrt x)
-
-    (define (good-enough? guess)
-	(< (abs (- (square guess) x)) 0.001))
-
-    (define (improve guess)
-	(/ (+ (/ x guess) guess) 2))
-
-    (define (iterate guess)
-	(if (good-enough? guess)
-	guess
-	(iterate (improve guess))))
-
-    (iterate 1.0))
-
-(sqrt 104)
-;Value: 10.198039027421274
-
-(square (sqrt 104))
-;Value: 104.00000000480743
-
-; Note that all definitions required to run sqrt are included inside the
-; definition, meaning they are block scoped and can access lexically scoped
-; variable x.
-```
-
-
-### GUILE {#guile}
-
-```nil
-GNU Guile 2.0.13
-Copyright (C) 1995-2016 Free Software Foundation, Inc.
-
-Guile comes with ABSOLUTELY NO WARRANTY; for details type `,show w'.
-This program is free software, and you are welcome to redistribute it
-under certain conditions; type `,show c' for details.
-
-Enter `,help' for help.
-scheme@(guile-user)> (exit)
-```
-
-
-### Racket {#racket}
-
-```nil
-Welcome to Racket v6.7.
-> (exit)
-```
-
-
 # Appendices {#appendices}
 
 > Emacs outshines all other editing software in approximately the same
@@ -538,23 +428,7 @@ huge quality-of-life improvement.
 
 I am learning lisp because I want to learn a language that will allow
 me to accomplish my major life goals and minimize pain and stress
-while doing so. These goals are as follows:
-
--   **Make enough money to keep my family going for three generations,**
-    become rich beyond my wildest dreams, with the ultimate goal of
-    supporting my bloodline, and secondarily material comfort.
-    -   By writing my own software that others pay to access or download
-        -   Which must neccessarily solve real-world or virtual-world
-            problems in a way that satisfies customers
-        -   This software must be easy to extend and maintian
-            -   Potentially by myself
-            -   Potentially with staff or collaborators
-                -   Who must be smart if programmers, working with idiots is
-                    draining and I don't want to spend my life that way
-                -   Business people - who cares, they can be tech illiterate
-            -   Potentially across generations or over a long time span
-        -   Which must be reliable enough that I won't need to worry if my
-            internet goes out or if I need to take a sabbatical.
+while doing so.
 
 **The language I choose for this task must then neccessarily be:**
 
@@ -568,3 +442,10 @@ while doing so. These goals are as follows:
 8.  Able to be performantly hosted on my home-lab hardware
 
 Common Lisp seems to satisfy these requirements.
+
+
+## Other Resources {#other-resources}
+
+-   [Learn X in Y mins: Common Lisp](https://learnxinyminutes.com/docs/common-lisp/)
+
+[^fn:1]: This didn't last long, though I still plan to go through SICP.
