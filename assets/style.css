@@ -71,15 +71,6 @@ ol[role="list"] {
   list-style: none;
 }
 
-/* Set core body defaults */
-html, body {
-  min-height: 100vh;
-  text-rendering: optimizeSpeed;
-  line-height: 1.4;
-  margin: 0px;
-  padding: 0px;
-}
-
 pre.example{
     margin-top: 0;
 }
@@ -132,11 +123,19 @@ select {
 html {
   /* scroll-behavior: smooth; */
   overflow-y: scroll;
-  font-size: 15px;
-  background: #fffccc;
-  color: black;
   min-width: 300px;
   overflow-x: hidden;
+}
+/* Set core body defaults */
+:root, html, body {
+  min-height: 100vh;
+  text-rendering: optimizeSpeed;
+  font-size: 14px;  /* This is the base font size for all pages. */
+  background: #fffccc;
+  color: black;
+  line-height: 1.5;
+  margin: 0px;
+  padding: 0px;
 }
 
 button,
@@ -535,9 +534,6 @@ padding-right: 7px;
 
 /* No header anchor links on mobile */
 @media (max-width: 700px) {
-    html{
-	font-size: 14px;
-    }
     .header-anchor-link {
 	display: none;
     }    
