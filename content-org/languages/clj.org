@@ -91,7 +91,7 @@ This is posted here for the reader to ponder without comment.
 
 I'll be using [[https://orgmode.org/worg/org-contrib/babel/languages/ob-doc-clojure.html][org-babel-clojure]] to write and run code within this
 manual directly. Learning, remembering, and teaching now mix. This
-approach is one of Donald Knuth's methodologies[fn:2]
+approach is one of Donald Knuth's methodologies[fn:1]
 
 The [[https://en.wikipedia.org/wiki/Literate_programming][Literate programming]] idea has regained popularity these days in
 the form of data notebooks, and it is certainly to my taste.
@@ -174,6 +174,49 @@ Full talk:
 
 - [[https://clojure.org/guides/learn/syntax#_evaluation][Clojure Evaluation]]
 - [[https://clojure.org/api/cheatsheet][Clojure API Cheat Sheet]]
+
+* Hyper Tutorial
+
+In the smallest nutshell, here's how you can hit the ground running
+with Clojure.
+
+*Types*
+
+#+begin_src clojure
+123  ; number (long)
+"a string"
+:keywords
+'symbols
+#+end_src
+
+*Data Structures*
+
+#+begin_src clojure
+'(1 2 3)     ; list
+[1 2 3]      ; vector
+#{1 2 3}     ; set
+{:a 1, :b 2} ; map
+#+end_src
+
+#+begin_quote
+It is better to have 100 functions operate on one data structure
+than 10 functions on 10 data structures.
+
+-- Alan Perlis[fn:2]
+#+end_quote
+
+*Syntax*
+
+#+begin_src clojure
+(operator operand operand operand)
+#+end_src
+
+#+begin_quote
+"*All Clojure operations have the same syntax*: opening
+parenthesis, operator, operands, closing parenthesis"
+
+-- Daniel Higginbotham[fn:3]
+#+end_quote
 
 * Common Clojure Tasks
 
@@ -291,8 +334,6 @@ reduction in time on the second execution.
 
 - [[https://github.com/clojure/core.cache/wiki/TTL][core.cache - Github]]
 
-
-
 ** HTML - Reading, Transforming, Templating
 
 - [[https://github.com/clj-commons/hickory][Hickory]] can transform HTML to Hiccup
@@ -361,13 +402,13 @@ data structures. Here are some other places Apache Echarts are used:
 
 All quotes in this section are from this material.
 
-
 ** Chapter 3: Do Things
 
 [[https://www.braveclojure.com/do-things/][Do Things: A Clojure Crash Course]]
 
 Clojure uses the familiar LISP S-Expressions. Literals are valid
-forms - each of these will just return itself.
+forms - each of these will just return itself. All of these types
+build off common Java primitives and data structures.
 
 #+begin_src clojure
 1
@@ -377,8 +418,8 @@ forms - each of these will just return itself.
 #+end_src
 
 #+begin_quote
-Clojure uses whitespace to separate operands, and it treats commas as
-whitespace.
+Clojure uses whitespace to separate operands, and it *treats commas as
+whitespace*.
 #+end_quote
 
 Good old s-expressions:
@@ -393,8 +434,8 @@ used to. In other languages, different operations might have different
 structures depending on the operator and the operands. For example,
 JavaScript employs a smorgasbord of infix notation, dot operators, and
 parentheses. Clojure’s structure is very simple and consistent by
-comparison. [...] No matter which operator you’re using or what kind
-of data you’re operating on, the structure is the same.
+comparison. [...] *No matter which operator you’re using or what kind
+of data you’re operating on, the structure is the same*.
 #+end_quote
 
 *** Control Flow
@@ -404,18 +445,42 @@ of data you’re operating on, the structure is the same.
 - [[https://clojuredocs.org/clojure.core/cond][clojure.core/cond]]
 - [[https://clojuredocs.org/clojure.core/when][clojure.core/when]]
 - [[https://clojuredocs.org/clojure.core/when-not][clojure.core/when-not]]
+- [[https://clojuredocs.org/clojure.core/do][clojure.core/do]]
 
-#+begin_src clojure :results value verbatim
+#+begin_src clojure
 (def boolean-value true)
 (if boolean-value "It's true!" "Lol nope") ; "It's true!"
 (when boolean-value "Yes") ; "Yes"
-(when-not boolean-value "Nope") 
+(when-not boolean-value "Nope")
 #+end_src
 
-*When* allows you to execute a form when a value is true and not provide
-a false-case like an if statement.
+*When* and *when-not* enable execution of a form when a value is true (or
+false for when-not) without providing a false-case like an if statement.
 
-*** Boolean Mathematics
+*Do* enables the combination of multiple forms - it will return the
+result of the final form. This is very useful for logging or running
+multiple simple statements within an *if* expression.
+
+#+begin_src clojure
+(do (+ 1 2) (+ 3 4) (+ 5 6))
+#+end_src
+
+#+RESULTS:
+: 11
+
+*** Boolean Mathematics & Truthiness
+
+*Key concepts:*
+- ~nil~ and ~false~ are both interpreted as false
+- all other values are interpreted as true
+- *Operators:*
+  - [[https://clojuredocs.org/clojure.core/=][clojure.core/=]]
+  - [[https://clojuredocs.org/clojure.core/nil_q][clojure.core/nil?]]
+  - [[https://clojuredocs.org/clojure.core/true_q][clojure.core/true?]]
+  - [[https://clojuredocs.org/clojure.core/false_q][clojure.core/false?]]
+  - [[https://clojuredocs.org/clojure.core/or][clojure.core/or]]
+  - [[https://clojuredocs.org/clojure.core/and][clojure.core/and]]
+  - [[https://clojuredocs.org/clojure.core/not][clojure.core/not]]
 
 #+begin_src clojure :results value
 (nil? 1)       ;; => false 
@@ -445,7 +510,7 @@ a false-case like an if statement.
 
 *** Assignments
 
-Use *def* to bind names in Clojure. 
+Use [[https://clojuredocs.org/clojure.core/def][clojure.core/def]] to bind names in Clojure. 
 
 #+begin_quote
 Notice that I’m using the term *bind*, whereas in other languages you’d
@@ -496,7 +561,7 @@ Clojure supports four [[https://clojure.org/guides/learn/syntax#_literal_collect
 
 *Maps*
 
-*get* allows you to grab keys, and can return nil or a default:
+[[https://clojuredocs.org/clojure.core/get][clojure.core/get]] allows you to grab keys, and can return nil or a default:
 
 #+begin_src clojure
 (get {:x 1 :y 2} :y)   ;; => 2
@@ -504,7 +569,7 @@ Clojure supports four [[https://clojure.org/guides/learn/syntax#_literal_collect
 (get {:x 1 :y 2} :z 3) ;; => 3
 #+end_src
 
-*get-in* allows you to dig into nested maps:
+[[https://clojuredocs.org/clojure.core/get-in][clojure.core/get-in]] allows you to dig into nested maps:
 
 #+begin_src clojure
 (get-in 
@@ -540,7 +605,7 @@ You can use a map like a function:
 #+RESULTS:
 : no far
 
-*Vectors*
+*Vectors* - [[https://clojuredocs.org/clojure.core/vec][clojure.core/vec]]
 
 Vectors are zero-indexed collections like arrays.
 
@@ -556,22 +621,24 @@ You can use *vector* to make vectors and *conj* to add to them:
 (conj vec2 :today) ;; => [:weather :is :nice :today]
 #+end_src
 
-*Lists*
+*Lists* - [[https://clojuredocs.org/clojure.core/list][clojure.core/list]]
 
-Recall that Clojure is a LISP. Lists can hold anything.
+Recall that Clojure is a LISP. Lists can hold anything. Use a tick
+mark to indicate that a sexp is a list.
 
 #+begin_src clojure
 (def list1 '(1 2 3 4 5))
 (nth list1 3)  ;; => 4
 #+end_src
 
-Using *conj* on a list adds items to the *beginning*:
+Using [[https://clojuredocs.org/clojure.core/conj][clojure.core/conj]] on a list adds items to the *beginning*, and on
+a vector will add items to the *end*. A bit of a footgun.
 
 #+begin_src clojure
 (conj list1 0) ;; => (0 1 2 3 4 5)
 #+end_src
 
-*Sets*
+*Hash Sets* and *Sorted Sets*
 
 [[https://www.braveclojure.com/do-things/#Sets][Brave Clojure: Sets]]
 
@@ -579,7 +646,7 @@ Using *conj* on a list adds items to the *beginning*:
 (def hs1 #{"this is a hash-set" 19 :testing})
 #+end_src
 
-A hash set can only store unique values. Using *conj* to add to a
+A hash set can only store *unique values*. Using *conj* to add to a
 hash-set will combine unique values.
 
 #+begin_src clojure
@@ -591,26 +658,29 @@ hash-set will combine unique values.
 
 #+begin_src clojure
 (hash-set 1 2 3 4 1 2 3 4 5 6)
-(set [1 2 3 4 1 2 3]) 
 #+end_src
 
 #+RESULTS:
-| #{1 4 6 3 2 5} |
-| #{1 4 3 2}     |
+: #{1 4 6 3 2 5}
 
-Use *get* and *contains?* with hash sets:
+Usefully, *set* can be used to derive all the unique values from another
+collection.
 
 #+begin_src clojure
-(contains? hs1 18)
-(contains? hs1 19)
-(get hs1 18) ;; => nil
-(get hs1 19)
+(set [1 2 3 4 1 2 3 3 4 1 2 3 4 2 3 2 1 2])
 #+end_src
 
 #+RESULTS:
-| false |
-| true  |
-| 19    |
+: #{1 4 3 2}
+
+Use [[https://clojuredocs.org/clojure.core/get][clojure.core/get]] and [[https://clojuredocs.org/clojure.core/contains_q][clojure.core/contains?]] with hash sets:
+
+#+begin_src clojure
+(contains? hs1 18) ; false
+(contains? hs1 19) ; true
+(get hs1 18) ;; => nil
+(get hs1 19) ; 19
+#+end_src
 
 * Luminus
   :PROPERTIES:
@@ -738,7 +808,7 @@ CIDER is an interactive programming environment for Clojure.
   programmer works in a very dynamic and incremental manner. Instead of
   repeatedly editing, compiling, and restarting an application, the
   programmer starts the application once and then adds and updates
-  individual Clojure definitions as the program continues to run.[fn:1]
+  individual Clojure definitions as the program continues to run.[fn:4]
 #+end_quote
 
 It looks like this when run:
@@ -802,17 +872,27 @@ org file, ~clj.org~, in ~/content-org/languages/clj.org~.
 (setup (:package ox-hugo)
   (:load-after ox))
 
+(defun clojuredoc-string-to-url    (str)
+    "In a url, ? becomes _q, replace these in the url part of STR in clojuredocs links."
+   (s-replace "?" "_q" str))
+
 (defun org-link-to-clojuredocs ()
   "Insert a link to clojuredocs.org."
   (interactive)
   (let ((str (read-string "Function (ex. clojure.core/when) >> ") ))
-    (insert (s-concat "[[https://clojuredocs.org/" str "][" str "]]"))))
+    (insert (s-concat "[[https://clojuredocs.org/" 
+                      (clojuredoc-string-to-url str) "][" str "]]"))))
 
 (defun org-link-to-core-clojuredocs ()
   "Insert a link to clojuredocs.org in the clojure.core namespace."
   (interactive)
   (let ((str (read-string "clojure.core function (ex. when) >> ") ))
-    (insert (s-concat "[[https://clojuredocs.org/clojure.core/" str "][clojure.core/" str "]]"))))
+    (insert (s-concat "[[https://clojuredocs.org/clojure.core/" 
+                      (clojuredoc-string-to-url str) "][clojure.core/" str "]]"))))
+
+;; Make these easier to type
+(global-set-key (kbd "C-c o C") 'org-link-to-clojuredocs)
+(global-set-key (kbd "C-c o c") 'org-link-to-core-clojuredocs)
 #+end_src
 
 A bunch of additional front matter must be added in order for *ox-hugo*
@@ -871,8 +951,8 @@ hooks in particular) while still writing and executing code in ORG.
    reliable, scalable, and maintainable systems*, 1e2p, ISBN:
    9781449373320, 1449373321]]
 
-[fn:1] [[https://docs.cider.mx/cider/usage/interactive_programming.html][CIDER: Interactive Programming]]
-
 * Footnotes
-
-[fn:2] "Literate Programming", Donald E. Knuth, [[https://www-cs-faculty.stanford.edu/~knuth/lp.html][stanford.edu]] 
+[fn:3] "Clojure for the Brave and True" by Daniel Higginbotham, [[https://www.braveclojure.com/][braveclojure.com]]
+[fn:2] "Clojure for the Brave and True" page 48. 
+[fn:1] "Literate Programming", Donald E. Knuth, [[https://www-cs-faculty.stanford.edu/~knuth/lp.html][stanford.edu]] 
+[fn:4] Documentation for [[https://docs.cider.mx/cider/usage/interactive_programming.html][CIDER: Interactive Programming]]
