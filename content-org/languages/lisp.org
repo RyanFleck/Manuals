@@ -2,8 +2,18 @@
 #+TITLE: Lisp
 #+SUMMARY: Magic that your boss will never let you use with a client.
 #+TOC: true
+#+hugo_base_dir: ../../
+#+hugo_section: languages
+#+hugo_front_matter_format: yaml
+#+hugo_custom_front_matter: :toc true :summary "Magic that your boss will never let you use with a client."
+#+hugo_custom_front_matter: :aliases '("/elisp" "/racket")
+#+PROPERTY: header-args :eval no
+#+hugo_level_offset: 0
+
 
 * Hello Lisp
+
+Test
 
 #+begin_src lisp
   (defparameter *langs* '( clisp racket scheme ))

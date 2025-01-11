@@ -1,8 +1,14 @@
 #+LAYOUT: docs-manual
 #+TITLE: Clojure
 #+SUMMARY: Enterprise grade magick.
-#+TOC: true
-#+ALIASES: clj, clojure, scicloj, cloj, CLJ, cljs, cljd
+#+hugo_base_dir: ../../
+#+hugo_section: languages
+#+hugo_custom_front_matter: :toc true :summary "Enterprise grade magick." :chapter true
+#+hugo_custom_front_matter: :aliases '("/clj/" "/clojure/" "/clj" "/cljd" "/cljs")
+#+PROPERTY: header-args :eval no :exports both
+#+hugo_level_offset: 0
+
+# To export, type C-c C-e H A
 
 * Philosophy
   :PROPERTIES:
@@ -116,16 +122,16 @@ Full talk:
    :PROPERTIES:
    :CUSTOM_ID: inside-core.async-channels
    :END:
-Full talk: [[https://youtu.be/hMEX6lfBeRM][youtu.be/hMEX6lfBeRM]]
+
+- Full talk: [[https://youtu.be/hMEX6lfBeRM][youtu.be/hMEX6lfBeRM]]
 
 ** Simple Made Easy
    :PROPERTIES:
    :CUSTOM_ID: simple-made-easy
    :END:
-Full talk:
-[[https://www.youtube.com/watch?v=SxdOUGdseq4][youtube.com/watch?v=SxdOUGdseq4]]\\
-12 Minute Version:
-[[https://www.youtube.com/watch?v=F87PtAoJNtg][youtube.com/watch?v=F87PtAoJNtg]]
+
+- Full talk: [[https://www.youtube.com/watch?v=SxdOUGdseq4][youtube.com/watch?v=SxdOUGdseq4]]
+- 12 Minute Version: [[https://www.youtube.com/watch?v=F87PtAoJNtg][youtube.com/watch?v=F87PtAoJNtg]]
 
 ** Clojure
 
@@ -167,10 +173,24 @@ It is easy to fetch data using the [[https://github.com/dakrone/clj-http][clj-ht
 #+begin_src clojure
 (require '[clj-http.client :as client])
 (client/head "https://ryanfleck.ca")
+
+;; Result:
+'(:cached   :request-time 197  :repeatable? false  
+            :protocol-version (:name "HTTP"  :major 1  :minor 1)  
+            ;; ... more stuff ...
+            :headers ("referrer-policy" "strict-origin-when-cross-origin"  
+                      "Server" "cloudflare"  
+                      "Content-Type" "text/html; charset=utf-8"  
+                      "x-content-type-options" "nosniff"  "alt-svc" "h3=\":443\"; ma=86400"  
+                      "NEL" "{\"success_fraction\":0,\"report_to\":\"cf-nel\",\"max_age\":604800}"  
+                      "Connection" "close"  "cf-cache-status" "DYNAMIC"  "CF-RAY" "8fedb5dbee3cebbe-SEA"  
+                      ;; ... more stuff ...
+                      "Cache-Control" "public, max-age=0, must-revalidate")  
+            :orig-content-encoding "gzip"  :status 200  
+            :length 0  :body   :trace-redirects ())
 #+end_src
 
-#+RESULTS:
-: '(:cached   :request-time 197  :repeatable? false  :protocol-version (:name "HTTP"  :major 1  :minor 1)  :streaming? false  :http-client #object(org.apache.http.impl.client.InternalHttpClient 0x149678f3 "org.apache.http.impl.client.InternalHttpClient@149678f3")  :chunked? false  :reason-phrase "OK"  :headers ("referrer-policy" "strict-origin-when-cross-origin"  "Server" "cloudflare"  "Content-Type" "text/html; charset=utf-8"  "Access-Control-Allow-Origin" "*"  "x-content-type-options" "nosniff"  "alt-svc" "h3=\":443\"; ma=86400"  "NEL" "{\"success_fraction\":0,\"report_to\":\"cf-nel\",\"max_age\":604800}"  "Connection" "close"  "cf-cache-status" "DYNAMIC"  "CF-RAY" "8fedb5dbee3cebbe-SEA"  "Date" "Wed, 08 Jan 2025 16:54:36 GMT"  "Vary" "Accept-Encoding"  "server-timing" "cfL4;desc=\"?proto=TCP&rtt=27561&min_rtt=26609&rtt_var=8965&sent=6&recv=8&lost=0&retrans=0&sent_bytes=3102&recv_bytes=761&delivery_rate=134890&cwnd=244&unsent_bytes=0&cid=e1d50b69e51b88e5&ts=103&x=0\""  "Report-To" "{\"endpoints\":[{\"url\":\"https:\\/\\/a.nel.cloudflare.com\\/report\\/v4?s=8Gp7uwFKRza7VqBDZB%2FVkDAYfJ82U3266fo0KiPoVyb%2BzhtNER6nHAMFNqN20StAp2NgeSHIlNT8FQq3mF38qKJJyVGW5es939%2Fsybqp6H%2Fhqm1ZFuBh9NMKs2ctL%2FE%3D\"}],\"group\":\"cf-nel\",\"max_age\":604800}"  "Cache-Control" "public, max-age=0, must-revalidate")  :orig-content-encoding "gzip"  :status 200  :length 0  :body   :trace-redirects ())
+
 
 * Data Handling & Transformation
 
@@ -320,7 +340,7 @@ If the result is more complex, like a map, it'll be in a table and
 it's tougher to target with css so I'll be lazy for now and leave it
 sort of unstyled:
 
-#+begin_src clojure
+#+begin_src clojure :exports both :eval no
 (vals {:a 1 :b 2})
 (keys {:c 3 :d 4})
 #+end_src
@@ -368,14 +388,17 @@ of data you’re operating on, the structure is the same.
 
 *** Control Flow
 
-Enabled with if, cond, when, when-not, and other functions.
+*Key Functions:*
+- [[https://clojuredocs.org/clojure.core/if][clojure.core/if]]
+- [[https://clojuredocs.org/clojure.core/cond][clojure.core/cond]]
+- [[https://clojuredocs.org/clojure.core/when][clojure.core/when]]
+- [[https://clojuredocs.org/clojure.core/when-not][clojure.core/when-not]]
 
 #+begin_src clojure
 (def boolean-value true)
-
 (if boolean-value "It's true!" "Lol nope")
 (when boolean-value "Yes")
-z(when-not boolean-value "Nope")
+(when-not boolean-value "Nope")
 #+end_src
 
 #+RESULTS:

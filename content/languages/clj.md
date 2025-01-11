@@ -1,0 +1,828 @@
++++
+title = "Clojure"
+author = ["Ryan Fleck"]
+draft = false
+toc = true
+summary = "Enterprise grade magick."
+chapter = true
+aliases = ["/clj/", "/clojure/", "/clj", "/cljd", "/cljs"]
++++
+
+# Philosophy {#philosophy}
+
+
+## Improving Productivity {#improving-productivity}
+
+**Video:** [How startups can move fast with Clojure (by Bradford Cross)](https://www.youtube.com/watch?v=MZy-SNswH2E)
+
+Startups should focus on: - Bottom-up programming - focusing on fine
+grained abstractions and composability - Avoiding frameworks and saas
+tools - Focus on individual programmer productivity
+
+**Thought:** Rebuilding things from scratch sucks and Clojure potentially
+enables better code reuse.
+
+
+## Subverting the Lisp Curse {#subverting-the-lisp-curse}
+
+> Programmers know the benefits of everything and the tradeoffs of nothing
+>
+> -- Rich Hickey
+
+I've got a particular friend who has an obsession with Clojure - he is
+baffled as to why the entire world doesn't use it. When asked, he may
+say something like "they're all _idiots!_" While no sage myself, I do
+believe that the mentors I have had have wisely guided me regarding
+tool choice, and a variety of factors must be considered along with a
+problem statement.
+
+First, if you don't know: **Video**: [What is the Curse of Lisp?](https://www.youtube.com/watch?v=_J3x5yvQ8yc)
+
+**The curse of LISP is that it is too powerful**, promoting hyper
+customized solutions and individualism. A solo developer now has the
+power to bend and flex reality to his whims. The drawback is that this
+causes fewer common tools to emerge - developers can just build them
+themselves fairly easily, leading to a divergence of methods.
+
+Corporations would **not** want to enable this - preferring replaceable
+cogs. This is detailed in the [intro to Simply Scheme](https://people.eecs.berkeley.edu/~bh/ssch0/preface.html), and below. The
+Corporations have a very valid point here that must be stressed: The
+goal is to reliably get real work done, not to navel gaze.
+
+I've heard rumours that Clojure subverts this curse with two measures:
+understanding of the problem, and the ability to leverage Java
+libraries. **We're giving it a go regardless, as I want to work in a
+LISP for a minute.**
+
+
+## Computing Schools of Thought {#computing-schools-of-thought}
+
+The the [intro to Simply Scheme](https://people.eecs.berkeley.edu/~bh/ssch0/preface.html) provides caricatures of the two major
+schools of thought regarding the teaching of computer science:
+
+> **1 - The conservative view:** Computer programs have become too large and
+>    complex to encompass in a human mind. Therefore, the job of
+>    computer science education is to teach people how to discipline
+>    their work in such a way that 500 mediocre programmers can join
+>    together and produce a program that correctly meets its
+>    specification.
+>
+> **2 - The radical view:** Computer programs have become too large and
+>    complex to encompass in a human mind. Therefore, the job of
+>    computer science education is to teach people how to expand their
+>    minds so that the programs can fit, by learning to think in a
+>    vocabulary of larger, more powerful, more flexible ideas than the
+>    obvious ones. Each unit of programming thought must have a big
+>    payoff in the capabilities of the program.
+
+This is posted here for the reader to ponder without comment.
+
+
+# Rich Hickey Talks {#rich-hickey-talks}
+
+
+## core.async Channels {#core.async-channels}
+
+Full talk:
+[infoq.com/presentations/clojure-core-async/](https://www.infoq.com/presentations/clojure-core-async/)
+
+-   **Problems and Premise**
+    -   Function chains make poor machines
+    -   Reasonable programs are organized around processes and queues
+        (conveyance must become first-class.)
+    -   Java.util.concurrent queues have lots of problems and costs
+    -   You should be able to add machines to make things scale
+    -   Sometimes logic relies on shared state
+        -   Objects don't fix this, they just put the shared state and
+            functions in one place
+        -   Async/Await, Promises, Futures are all handoffs or call/returns
+-   **Solutions**
+    -   Communicating Sequential Processes (CSP) (Hoare 1978) are the model
+        for Clojure
+    -   Constructs:
+        -   channels are queue-like, multi-reader/writer, unbuffered or
+            fixed buffers
+            -   Functions to put, take, close, etc.
+        -   **thread** gives you a real thread with real blocking
+        -   **go** is a logical software thread that can be parked during
+            blocking calls
+    -   _Friends don't let friends put logic in handlers._
+    -   Basically **use channels to route your data through functions.**
+
+
+## Inside core.async Channels {#inside-core.async-channels}
+
+-   Full talk: [youtu.be/hMEX6lfBeRM](https://youtu.be/hMEX6lfBeRM)
+
+
+## Simple Made Easy {#simple-made-easy}
+
+-   Full talk: [youtube.com/watch?v=SxdOUGdseq4](https://www.youtube.com/watch?v=SxdOUGdseq4)
+-   12 Minute Version: [youtube.com/watch?v=F87PtAoJNtg](https://www.youtube.com/watch?v=F87PtAoJNtg)
+
+
+## Clojure {#clojure}
+
+-   [Clojure Evaluation](https://clojure.org/guides/learn/syntax#_evaluation)
+-   [Clojure API Cheat Sheet](https://clojure.org/api/cheatsheet)
+
+
+# Basic Tasks {#basic-tasks}
+
+
+## Using Libraries {#using-libraries}
+
+In this guide, I'll be including libraries as-used with the \`require\`
+function as needed.
+
+```clojure
+(require '[clj-http.client :as client])
+```
+
+In your projects, you'll need to use a project/dependency manager like
+[lein](https://leiningen.org/) or [deps](https://clojure.org/guides/deps_and_cli) to download dependencies and make them available in your
+Clojure project and REPL. After installing dependencies, they can be
+included within your Clojure namespaces like so:
+
+```clojure
+(ns my-app.core
+  (:require [clj-http.client :as client]
+            [my-app.readers :refer [rss qr-img]]
+            [my-app.nuclear :as n]
+            [my-app.platform.sidewinder :as sw]))
+```
+
+This manual does load a few libraries by default, but generally I will
+use the former requirement format when demonstrating the use of a new
+library.
+
+
+## Querying HTTP APIs {#querying-http-apis}
+
+It is easy to fetch data using the [clj-http](https://github.com/dakrone/clj-http) library.
+
+```clojure
+(require '[clj-http.client :as client])
+(client/head "https://ryanfleck.ca")
+
+;; Result:
+'(:cached   :request-time 197  :repeatable? false
+            :protocol-version (:name "HTTP"  :major 1  :minor 1)
+            ;; ... more stuff ...
+            :headers ("referrer-policy" "strict-origin-when-cross-origin"
+                      "Server" "cloudflare"
+                      "Content-Type" "text/html; charset=utf-8"
+                      "x-content-type-options" "nosniff"  "alt-svc" "h3=\":443\"; ma=86400"
+                      "NEL" "{\"success_fraction\":0,\"report_to\":\"cf-nel\",\"max_age\":604800}"
+                      "Connection" "close"  "cf-cache-status" "DYNAMIC"  "CF-RAY" "8fedb5dbee3cebbe-SEA"
+                      ;; ... more stuff ...
+                      "Cache-Control" "public, max-age=0, must-revalidate")
+            :orig-content-encoding "gzip"  :status 200
+            :length 0  :body   :trace-redirects ())
+```
+
+
+# Data Handling &amp; Transformation {#data-handling-and-transformation}
+
+
+## Group-By {#group-by}
+
+The amazing `group-by` function allows you to **group data by a common
+key**. My use case for this was grouping articles in different
+languages collected over time. Here's what the incoming data looked
+like:
+
+```clojure
+{:count 260, :hour 2025-01-07T21:00, :language "bn"}
+{:count 100, :hour 2025-01-07T21:00, :language "de"}
+{:count 1041, :hour 2025-01-07T21:00, :language "es"}
+{:count 211, :hour 2025-01-07T21:00, :language "fa"}
+{:count 1, :hour 2025-01-07T21:00, :language "fi"}
+{:count 268, :hour 2025-01-07T21:00, :language "fr"}
+{:count 63, :hour 2025-01-07T21:00, :language "gu"}
+;; ... data truncated ...
+```
+
+Here is how the data looks after using **group-by** (
+
+```clojure
+(group-by :language (db/get-items-by-hour-72h-langs))
+
+{"nl" [{:count 3, :hour #object[java.time.LocalDateTime 0x2e063d23 "2025-01-07T21:00"], :language "nl"}
+       {:count 2, :hour #object[java.time.LocalDateTime 0x5080c1d3 "2025-01-09T11:00"], :language "nl"}
+       {:count 1, :hour #object[java.time.LocalDateTime 0x2cef6527 "2025-01-09T21:00"], :language "nl"}],
+ "pt" [{:count 188, :hour #object[java.time.LocalDateTime 0x6e9352c2 "2025-01-07T21:00"], :language "pt"}
+       {:count 175, :hour #object[java.time.LocalDateTime 0x41f9af3f "2025-01-08T11:00"], :language "pt"}
+       {:count 62, :hour #object[java.time.LocalDateTime 0x71df170a "2025-01-09T15:00"], :language "pt"}
+       {:count 96, :hour #object[java.time.LocalDateTime 0x58aa8fa8 "2025-01-09T21:00"], :language "pt"}],
+ "en" [{:count 4412, :hour #object[java.time.LocalDateTime 0x74f18d18 "2025-01-07T21:00"], :language "en"}
+       {:count 2552, :hour #object[java.time.LocalDateTime 0x3fd9a0d6 "2025-01-09T11:00"], :language "en"}
+       {:count 227, :hour #object[java.time.LocalDateTime 0x6fa4cc34 "2025-01-09T13:00"], :language "en"}
+       {:count 856, :hour #object[java.time.LocalDateTime 0x4a64b22a "2025-01-09T21:00"], :language "en"}],
+ "ur" [{:count 100, :hour #object[java.time.LocalDateTime 0x552a7e60 "2025-01-07T21:00"], :language "ur"}
+;; ... data truncated ...
+```
+
+
+## Caching Return Values (Memoization) {#caching-return-values--memoization}
+
+We can use [core.memoize](https://cljdoc.org/d/org.clojure/core.memoize/1.1.266/doc/using-core-memoize) to cache values with a variety of methods.
+
+```clojure
+(defn get-72h-data []
+  (let [data (c/extract-series {:x :hour :y :count} (db/get-items-by-hour-72h))
+        series {"Collected Items" [(map #(localDateTime->Date %) (:x data)) (:y data)]}]
+
+    series))
+
+(def one-minute-in-ms (* 60 1000))
+(def get-72h-data-memoized (memo/ttl get-72h-data {} :ttl/threshold one-minute-in-ms))
+```
+
+By calling the variable we have defined, we can see the dramatic
+reduction in time on the second execution.
+
+```clojure
+(time (get-72h-data-memoized)) ; => "Elapsed time: 17.726885 msecs"
+(time (get-72h-data-memoized)) ; => "Elapsed time: 0.05838 msecs"
+```
+
+
+## HTML - Reading, Transforming, Templating {#html-reading-transforming-templating}
+
+-   [Hickory](https://github.com/clj-commons/hickory) can transform HTML to Hiccup
+-   [Hiccup](https://github.com/weavejester/hiccup)/[Rum](https://github.com/tonsky/rum) transforms Clojure to HTML
+-   <https://tonsky.me/blog/hiccup/>
+
+
+## Tranforming Dart {#tranforming-dart}
+
+-   [ClojureDart](https://github.com/Tensegritics/ClojureDart) can compile Clojure(Dart) to Dart code
+-   [DartClojure](https://github.com/D00mch/DartClojure) can transform Dart code to Clojure(Dart)
+
+
+# Show and Tell {#show-and-tell}
+
+
+## Rendering Charts {#rendering-charts}
+
+Here's a short guide on one method of many to render charts in web
+apps. The Apache `echarts` library has a [getting started](https://echarts.apache.org/handbook/en/get-started/#) graph we can
+use as an example.
+
+```clojure
+(defn get-72h-echart-body []
+  (log/debug "Attempting to return HTML for new EChart")
+  (parser/render-file "graphs/72h-echart.html"
+                      {:width 800
+                       :height 500
+                       :data {:title {:text "ECharts Getting Started Example"}
+                              :tooltip {}
+                              :legend {:data ["sales"]}
+                              :xAxis {:data ["Shirts" "Cardigans" "Chiffons" "Pants" "Heels" "Socks"]}
+                              :yAxis {}
+                              :series [{:name "Sales" :type "bar" :data [5 20 36 10 10 20]}]}}))
+```
+
+Using Selmer with the template below yields the same chart as the one
+in the demo.
+
+```html
+<h3>72h Echart</h3>
+<div id="72h-echart-main" style="width: {{ width }}px; height: {{ height }}px;"></div>
+<script type="text/javascript">
+  // Initialize the echarts instance based on the prepared dom
+  var myChart = echarts.init(document.getElementById('72h-echart-main'));
+
+  // Specify the configuration items and data for the chart
+  var option = {{ data|json|safe }};
+
+  // Display the chart using the configuration items and data just specified.
+  myChart.setOption(option);
+</script>
+```
+
+
+# Clojure for the Brave and True {#clojure-for-the-brave-and-true}
+
+-   [Table of Contents](https://www.braveclojure.com/clojure-for-the-brave-and-true/)
+-   [Environment Setup](https://www.braveclojure.com/getting-started)
+-   [Language Fundamentals](https://www.braveclojure.com/do-things)
+-   [Advanced Topics](https://www.braveclojure.com/concurrency)
+-   [Back Matter](https://www.braveclojure.com/appendix-a)
+
+All quotes in this section are from this material.
+
+
+## Literate Programming {#literate-programming}
+
+I'll be using [org-babel-clojure](https://orgmode.org/worg/org-contrib/babel/languages/ob-doc-clojure.html) to write and run code within this
+manual directly. Learning, remembering, and teaching now mix.
+
+The [Literate programming](https://en.wikipedia.org/wiki/Literate_programming) idea has regained popularity these days in
+the form of data notebooks, and it is certainly to my taste.
+
+If the evaluated result is simple, it'll have a little arrow '=&gt;'
+beside it in the css, though not in the text document on disk.
+
+**Like so:**
+
+```clojure
+(+ 1 2 3 4 5)
+```
+
+```text
+15
+```
+
+If the result is more complex, like a map, it'll be in a table and
+it's tougher to target with css so I'll be lazy for now and leave it
+sort of unstyled:
+
+```clojure
+(vals {:a 1 :b 2})
+(keys {:c 3 :d 4})
+```
+
+| (1 2)   |
+|---------|
+| (:c :d) |
+
+...that's OK.
+
+
+## Chapter 3: Do Things {#chapter-3-do-things}
+
+[Do Things: A Clojure Crash Course](https://www.braveclojure.com/do-things/)
+
+Clojure uses the familiar LISP S-Expressions. Literals are valid
+forms - each of these will just return itself.
+
+```clojure
+1
+"a string"
+["a" "vector" "of" "strings"]
+{ :a "map" :of "stuff"}
+```
+
+> Clojure uses whitespace to separate operands, and it treats commas as
+> whitespace.
+
+Good old s-expressions:
+
+```clojure
+(operator operand1 operand2 etc)
+```
+
+> Clojure’s structural uniformity is probably different from what you’re
+> used to. In other languages, different operations might have different
+> structures depending on the operator and the operands. For example,
+> JavaScript employs a smorgasbord of infix notation, dot operators, and
+> parentheses. Clojure’s structure is very simple and consistent by
+> comparison. [...] No matter which operator you’re using or what kind
+> of data you’re operating on, the structure is the same.
+
+
+### Control Flow {#control-flow}
+
+**Key Functions:**
+
+-   [clojure.core/if](https://clojuredocs.org/clojure.core/if)
+-   [clojure.core/cond](https://clojuredocs.org/clojure.core/cond)
+-   [clojure.core/when](https://clojuredocs.org/clojure.core/when)
+-   [clojure.core/when-not](https://clojuredocs.org/clojure.core/when-not)
+
+<!--listend-->
+
+```clojure
+(def boolean-value true)
+(if boolean-value "It's true!" "Lol nope")
+(when boolean-value "Yes")
+(when-not boolean-value "Nope")
+```
+
+| #'org.core/boolean-value |
+|--------------------------|
+| "It's true!"             |
+| "Yes"                    |
+
+**When** allows you to execute a form when a value is true and not provide
+a false-case like an if statement.
+
+
+### Boolean Mathematics {#boolean-mathematics}
+
+```clojure
+(nil? 1)       ;; => false
+(nil? nil)     ;; => true
+(true? true)   ;; => true
+(false? true)  ;; => false
+(true? nil)    ;; => false - nil is falsey
+```
+
+**Or** returns the first truthy value or the last value:
+
+```clojure
+(or nil false :cry :rage :fight :death)
+```
+
+```text
+:cry
+```
+
+**And** returns the first falsey value or the last truthy value:
+
+```clojure
+(and true 123 :kick :drown false)
+```
+
+```text
+false
+```
+
+
+### Assignments {#assignments}
+
+Use **def** to bind names in Clojure.
+
+> Notice that I’m using the term **bind**, whereas in other languages you’d
+> say you’re assigning a value to a variable. Those other languages
+> typically encourage you to perform multiple assignments to the same
+> variable.
+>
+> However, changing the value associated with a name like this can make
+> it harder to understand your program’s behavior because it’s more
+> difficult to know which value is associated with a name or why that
+> value might have changed. Clojure has a set of tools for dealing with
+> change, which you’ll learn about in Chapter 10. As you learn Clojure,
+> you’ll find that you’ll rarely need to alter a name/value association.
+
+```clojure
+(def status :my-body-is-ready)
+```
+
+```text
+#'org.core/status
+```
+
+
+### Types {#types}
+
+```clojure
+{:numbers [ 1 2/3 4.5 ]
+ :strings ["Yep" "With escapes! -> \""] }
+```
+
+|          |             |          |                             |
+|----------|-------------|----------|-----------------------------|
+| :numbers | (1 2/3 4.5) | :strings | (Yep With escapes! -&gt; ") |
+
+```clojure
+:keywords
+'symbols
+```
+
+
+### Data Structures {#data-structures}
+
+Clojure supports four [literal collection](https://clojure.org/guides/learn/syntax#_literal_collections) types:
+
+```clojure
+'(1 2 3)     ; list
+[1 2 3]      ; vector
+#{1 2 3}     ; set
+{:a 1, :b 2} ; map
+```
+
+<!--list-separator-->
+
+-  Maps
+
+    **get** allows you to grab keys, and can return nil or a default:
+
+    ```clojure
+    (get {:x 1 :y 2} :y)   ;; => 2
+    (get {:x 1 :y 2} :z)   ;; => nil
+    (get {:x 1 :y 2} :z 3) ;; => 3
+    ```
+
+    **get-in** allows you to dig into nested maps:
+
+    ```clojure
+    (get-in
+      {:head 1 :chest {:ribs 10 :cavity {:heart "pumpin'" :lungs 2}}}
+      [:chest :cavity :heart])
+    ```
+
+    ```text
+    pumpin'
+    ```
+
+    You can use a map like a function:
+
+    ```clojure
+    ({:what "in" :tar "nation?"} :tar)
+    ```
+
+    ```text
+    nation?
+    ```
+
+    ...and **keywords** can be used the same way with a few data structures:
+
+    ```clojure
+    (:tar {:what "in" :tar "nation?"})
+    ```
+
+    ```text
+    nation?
+    ```
+
+    ```clojure
+    (:far {:what "in" :tar "nation?"} "no far")
+    ```
+
+    ```text
+    no far
+    ```
+
+<!--list-separator-->
+
+-  Vectors
+
+    Vectors are zero-indexed collections like arrays.
+
+    ```clojure
+    (def vec1 [1 2 3 4 5])
+    (get vec1 0) ;; => 1
+    ```
+
+    You can use **vector** to make vectors and **conj** to add to them:
+
+    ```clojure
+    (def vec2 (vector :weather :is :nice))
+    (conj vec2 :today) ;; => [:weather :is :nice :today]
+    ```
+
+<!--list-separator-->
+
+-  Lists
+
+    Recall that Clojure is a LISP. Lists can hold anything.
+
+    ```clojure
+    (def list1 '(1 2 3 4 5))
+    (nth list1 3)  ;; => 4
+    ```
+
+    Using **conj** on a list adds items to the **beginning**:
+
+    ```clojure
+    (conj list1 0) ;; => (0 1 2 3 4 5)
+    ```
+
+<!--list-separator-->
+
+-  Sets
+
+    [Brave Clojure: Sets](https://www.braveclojure.com/do-things/#Sets)
+
+    ```clojure
+    (def hs1 #{"this is a hash-set" 19 :testing})
+    ```
+
+    A hash set can only store unique values. Using **conj** to add to a
+    hash-set will combine unique values.
+
+    ```clojure
+    (conj hs1 19)
+    ```
+
+    ```text
+    #{"this is a hash set" 19 :testing}
+    ```
+
+    ```clojure
+    (hash-set 1 2 3 4 1 2 3 4 5 6)
+    (set [1 2 3 4 1 2 3])
+    ```
+
+    | #{1 4 6 3 2 5} |
+    |----------------|
+    | #{1 4 3 2}     |
+
+    Use **get** and **contains?** with hash sets:
+
+    ```clojure
+    (contains? hs1 18)
+    (contains? hs1 19)
+    (get hs1 18) ;; => nil
+    (get hs1 19)
+    ```
+
+    | false |
+    |-------|
+    | true  |
+    | 19    |
+
+
+# Luminus {#luminus}
+
+
+## New Project {#new-project}
+
+Upon creating and generating a new Luminus project and running it once
+in the REPL, here is **part** of the tree of directories and files that is
+generated:
+
+```nil
+guestbook/
+│
+├── project.clj
+│
+├── resources
+│   ├── docs
+│   │   └── docs.md
+│   ├── html
+│   │   ├── about.html
+│   │   ├── base.html
+│   │   ├── error.html
+│   │   └── home.html
+│   ├── migrations
+│   │   ├── 20240223181041-add-users-table.down.sql
+│   │   └── 20240223181041-add-users-table.up.sql
+│   ├── public
+│   │   ├── css
+│   │   │   └── screen.css
+│   │   ├── favicon.ico
+│   │   ├── img
+│   │   │   └── warning_clojure.png
+│   │   └── js
+│   └── sql
+│       └── queries.sql
+├── src
+│   └── clj
+│       └── guestbook
+│           ├── config.clj
+│           ├── core.clj
+│           ├── db
+│           │   └── core.clj
+│           ├── handler.clj
+│           ├── layout.clj
+│           ├── middleware
+│           │   └── formats.clj
+│           ├── middleware.clj
+│           ├── nrepl.clj
+│           └── routes
+│               └── home.clj
+├── test
+│   └── clj
+│       └── guestbook
+│           ├── db
+│           │   └── core_test.clj
+│           └── handler_test.clj
+│
+└── test-config.edn
+```
+
+
+# Emacs {#emacs}
+
+Emacs is my editor of choice. It has unbeatable support for LISPs.
+
+
+## Setup {#setup}
+
+My personal configuration is based off of the sensible defaults
+provided in the [Clojure for the Brave and True](https://www.braveclojure.com/) textbook. Using the
+initialization files mentioned on the linked page is a great way to
+start using Emacs in general.
+
+
+## Command Cheat Sheet {#command-cheat-sheet}
+
+| Command            | Action                                             |
+|--------------------|----------------------------------------------------|
+| M-x cider          | Prompts for more options                           |
+| M-x cider-jack-in  | Jacks in to current Clojure (clj) project          |
+| C-c C-z            | Jump cursor to REPL                                |
+| C-u C-c C-z        | Jump cursor to REPL _and switch to file namespace_ |
+| C-c C-d a          | cider-apropos to remember var names                |
+| C-x 5 2            | Pop out buffer into new window                     |
+| C-c C-k            | Evaluate buffer (handy)                            |
+| C-c C-e            | Evaluate preceding form                            |
+| C-c C-c _or_ C-M-x | Evaluate current top-level form                    |
+| C-u C-c C-c        | Evaluate current top-level form **in debug mode**  |
+| C-c C-v r          | Evaluate highlighted region                        |
+| C-c C-b            | Interrupt evaluation                               |
+| M-.                | cider-find-var: Warp to definition under cursor    |
+| C-c C-d d          | Look up documentation for current form             |
+| C-c C-m            | macroexpand-1: Macroexpand the form at point       |
+| C-c M-z            | Eval current buffer and switch to relevant REPL    |
+| C-c M-n r          | Reload all files on classpath                      |
+| M-,                | Return to your pre-jump location                   |
+| M-TAB              | Complete the symbol at point                       |
+| C-c C-q            | Quit CIDER                                         |
+
+**Sources:**
+
+1.  [Cider Docs: Basic Workflow](https://docs.cider.mx/cider/usage/cider_mode.html#basic-workflow)
+2.  Experience
+
+
+## Cider {#cider}
+
+CIDER is an interactive programming environment for Clojure.
+
+> Traditional programming languages and development environments often
+> use a Edit, Compile, Run Cycle. In this environment, the programmer
+> modifies the code, compiles it, and then runs it to see if it does
+> what she wants. The program is then terminated, and the programmer
+> goes back to editing the program further. This cycle is repeated over
+> and over until the program behavior conforms to what the programmer
+> desires. Using CIDER's interactive programming environment, a
+> programmer works in a very dynamic and incremental manner. Instead of
+> repeatedly editing, compiling, and restarting an application, the
+> programmer starts the application once and then adds and updates
+> individual Clojure definitions as the program continues to run.[^fn:1]
+
+It looks like this when run:
+
+```nil
+;; Connected to nREPL server - nrepl://localhost:36099
+;; CIDER 1.13.0-snapshot (package: 20231127.825), nREPL 1.0.0
+;; Clojure 1.11.1, Java 17.0.9
+;;     Docs: (doc function-name)
+;;           (find-doc part-of-name)
+;;   Source: (source function-name)
+;;  Javadoc: (javadoc java-object-or-class)
+;;     Exit: <C-c C-q>
+;;  Results: Stored in vars *1, *2, *3, an exception in *e;
+;; ======================================================================
+;; If you’re new to CIDER it is highly recommended to go through its
+;; user manual first. Type <M-x cider-view-manual> to view it.
+;; In case you’re seeing any warnings you should consult the manual’s
+;; "Troubleshooting" section.
+;;
+;; Here are a few tips to get you started:
+;;
+;; * Press <C-h m> to see a list of the keybindings available (this
+;;   will work in every Emacs buffer)
+;; * Press <,> to quickly invoke some REPL command
+;; * Press <C-c C-z> to switch between the REPL and a Clojure file
+;; * Press <M-.> to jump to the source of something (e.g. a var, a
+;;   Java method)
+;; * Press <C-c C-d C-d> to view the documentation for something (e.g.
+;;   a var, a Java method)
+;; * Print CIDER’s refcard and keep it close to your keyboard.
+;;
+;; CIDER is super customizable - try <M-x customize-group cider> to
+;; get a feel for this. If you’re thirsty for knowledge you should try
+;; <M-x cider-drink-a-sip>.
+;;
+;; If you think you’ve encountered a bug (or have some suggestions for
+;; improvements) use <M-x cider-report-bug> to report it.
+;;
+;; Above all else - don’t panic! In case of an emergency - procure
+;; some (hard) cider and enjoy it responsibly!
+;;
+;; You can remove this message with the <M-x cider-repl-clear-help-banner> command.
+;; You can disable it from appearing on start by setting
+;; ‘cider-repl-display-help-banner’ to nil.
+;; ======================================================================
+```
+
+
+# Resources {#resources}
+
+**Websites:**
+
+1.  [Clojure for the Brave and True](https://www.braveclojure.com/)
+2.  [Clojure on Exercism (Challenges)](https://exercism.org/tracks/clojure/)
+3.  [Luminus (Web 'Framework')](https://luminusweb.com/)
+4.  [Clojure Job Board](https://jobs.braveclojure.com/)
+5.  [Clojure Regex Tutorial](https://ericnormand.me/mini-guide/clojure-regex)
+6.  [Newest 'Clojure' Questions on Stack Overflow](https://stackoverflow.com/questions/tagged/clojure?tab=Newest)
+7.  [Clojure on Stack Overflow](https://stackoverflow.com/tags/clojure/info)
+8.  [Clojure Slack Channel](https://app.slack.com/client/T03RZGPFR/C03S1KBA2)
+9.  [Org-Babel Clojure (Literate Programming)](https://orgmode.org/worg/org-contrib/babel/languages/ob-doc-clojure.html) and [(use case - try out libraries)](https://ag91.github.io/blog/2023/08/03/an-easier-way-to-try-out-clojure-libraries-with-ob-clojure-and-cider/)
+10. [Quil: Animations in Clojure](http://quil.info/)
+11. [SciCloj - Clojure Data Science Community](https://scicloj.github.io/), and their [Noj](https://scicloj.github.io/noj/) project
+
+**Books:**
+
+(Remember to **buy** books to _support good authors_.)
+
+1.  [Dmitri
+    Sotnikov, Scot Brown: **Web Development with Clojure: Build Large,
+    Maintainable Web Applications Interactively**, 3e, 2021, ISBN:
+    168050682X, 9781680506822](https://libgen.is/book/index.php?md5=77F8623AAE8E49C9EE936E406FE7B1DF)
+2.  [Renzo
+    Borgatti: **Clojure, The Essential Reference**, 0e, 2021, ISBN:
+    9781617293580, 6664843499, 1447772004, 161729358X](https://libgen.is/book/index.php?md5=FD806788B6664843499C2AAF3309E5CB)
+3.  [Kleppmann,
+    Martin: **Designing data-intensive applications: the big ideas behind
+    reliable, scalable, and maintainable systems**, 1e2p, ISBN:
+    9781449373320, 1449373321](https://libgen.is/book/index.php?md5=41D80961BA66DA6A1294AA9624CEA15D)
+
+[^fn:1]: [CIDER: Interactive Programming](https://docs.cider.mx/cider/usage/interactive_programming.html)

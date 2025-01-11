@@ -11,7 +11,12 @@ toc: true
 # This is Not Financial Advice
 
 If you follow any of this, you are entirely responsible for any gains
-or losses that you experience. I hold no accountability. Thanks.
+or losses that you experience. **I hold no accountability.** Thanks.
+
+# Resources
+
+- [Ray Dalio's "All Weather Portfolio"](https://www.lazyportfolioetf.com/allocation/ray-dalio-all-weather/)
+- [A summary of "Buffetology"](https://www.edelweissmf.com/investor-insights/book-summaries/buffettology-mary-buffett-david-clark-book-summary)
 
 # Psychology
 

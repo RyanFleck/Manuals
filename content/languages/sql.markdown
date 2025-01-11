@@ -4,7 +4,9 @@ date: 2022-03-02T10:52:56.000-07:00
 image: "/content-cover-images/coffee-phone.jpg"
 summary: For table querying and manipulation.
 title: SQL
-
+aliases: 
+  - "/sql"
+  - "/SQL"
 ---
 # What is SQL?
 
