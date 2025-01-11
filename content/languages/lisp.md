@@ -10,8 +10,6 @@ aliases: ["/elisp", "/racket"]
 
 # Hello Lisp {#hello-lisp}
 
-Test
-
 ```lisp
 (defparameter *langs* '( clisp racket scheme ))
 
@@ -67,13 +65,13 @@ choco install emacs imagemagick msys2 -y
 
 Open the msys2 shell and run:
 
-```text
+```nil
 pacman -S mingw-w64-x86_64-openssl
 ```
 
 Add that .dll to the PATH:
 
-```text
+```nil
 C:\tools\msys64\mingw64\bin
 ```
 
@@ -86,7 +84,7 @@ describe-variable or describe-command.
 
 ;; Add package repository for installing slime, etc.
 (add-to-list 'package-archives
-             '("melpa-stable" . "https://stable.melpa.org/packages/") t)
+	     '("melpa-stable" . "https://stable.melpa.org/packages/") t)
 (package-initialize)
 
 (require 'package)
@@ -175,6 +173,10 @@ Common Lisp tutorial.
 (format t "Hello, world!")
 ```
 
+```text
+Hello, world!
+```
+
 You can define functions using `defun`:
 
 ```lisp
@@ -183,18 +185,30 @@ You can define functions using `defun`:
   (if (< n 2)
       n
       (+ (fib (- n 1))
-         (fib (- n 2))))))
+	 (fib (- n 2))))))
 
 (fib 30)
 ```
 
+```text
+FIB
+```
+
 ```lisp
 (fib 30)
+```
+
+```text
+832040
 ```
 
 ```lisp
 (setq stuff '(bear bucket ball chain rope))
 (caddr stuff)
+```
+
+```text
+BALL
 ```
 
 
@@ -292,6 +306,10 @@ can be written like so with a few global functions:
 (start-over)
 ```
 
+```text
+50
+```
+
 In higher-order functions, `#'x` stands in for (function x).
 
 Here is another example program showing parameters being defined,
@@ -347,6 +365,10 @@ functions being defined, string insertions, comments, and more:
 (describe-paths 'garden *edges*)
 ```
 
+|       |    |   |      |       |      |      |       |
+|-------|----|---|------|-------|------|------|-------|
+| THERE | IS | A | DOOR | GOING | EAST | FROM | HERE. |
+
 
 ## Catalogue of LISPs {#catalogue-of-lisps}
 
@@ -356,7 +378,7 @@ functions being defined, string insertions, comments, and more:
 The first time you install `mit-scheme` and run the REPL with `scheme`,
 you'll be greeted with all sorts of hackerisms:
 
-```text
+```bash
 MIT/GNU Scheme running under GNU/Linux
 Type `^C' (control-C) followed by `H' to obtain information about interrupts.
 
@@ -386,15 +408,15 @@ _SICP_.
 (define (sqrt x)
 
     (define (good-enough? guess)
-        (< (abs (- (square guess) x)) 0.001))
+	(< (abs (- (square guess) x)) 0.001))
 
     (define (improve guess)
-        (/ (+ (/ x guess) guess) 2))
+	(/ (+ (/ x guess) guess) 2))
 
     (define (iterate guess)
-        (if (good-enough? guess)
-        guess
-        (iterate (improve guess))))
+	(if (good-enough? guess)
+	guess
+	(iterate (improve guess))))
 
     (iterate 1.0))
 
@@ -412,7 +434,7 @@ _SICP_.
 
 ### GUILE {#guile}
 
-```text
+```nil
 GNU Guile 2.0.13
 Copyright (C) 1995-2016 Free Software Foundation, Inc.
 
@@ -427,10 +449,75 @@ scheme@(guile-user)> (exit)
 
 ### Racket {#racket}
 
-```text
+```nil
 Welcome to Racket v6.7.
 > (exit)
 ```
+
+
+# Appendices {#appendices}
+
+> Emacs outshines all other editing software in approximately the same
+> way that the noonday sun does the stars. It is not just bigger and
+> brighter; it simply makes everything else vanish.
+>
+> -– Neal Stephenson, In the Beginning was the Command Line (1998)
+
+
+## SLY Commands {#sly-commands}
+
+| Keybinding  | Function (if applicable)  | Effect                                      |
+|-------------|---------------------------|---------------------------------------------|
+| C-M-x       | sly-eval-defun            | Evaluate the block of lisp code             |
+| C-x C-e     | sly-eval-last-expression  | Evaluate sexp at point (just behind cursor) |
+| C-c C-c     | sly-compile-defun         | Compile defn (the outmost expression)       |
+| C-c C-k     | sly-compile-and-load-file | Compile whole buffer (of saved file)        |
+| C-c C-s C-s | sly-stickers-dwim         | Set or remove a sticker at point            |
+| C-c C-s C-r | sly-stickers-replay       | Replay sticker values                       |
+| C-c I       | sly-inspect               | Eval an expression and inspect the result   |
+| M-p / M-n   |                           | Navigate up/down in REPL                    |
+|             |                           |                                             |
+
+`C-h k` can be used to find out exactly what a keybinding does.
+
+
+## SLIME Simple Commands {#slime-simple-commands}
+
+| Keybinding  | Effect                                           |
+|-------------|--------------------------------------------------|
+| M-x slime   | Open the SLIME repl                              |
+| C-c C-c     | Recompile a definition                           |
+| C-M-x       | Evaluate expression and put result in minibuffer |
+| C-c C-p     | Evaluate and pretty print the result             |
+| C-c C-r     | Evaluate the selected region                     |
+| C-c C-l     | Load a file into SLIME                           |
+| C-c C-k     | Recompile and run file (Save first C-x C-s)      |
+| **C-c C-z** | Go to SLIME REPL                                 |
+| C-M-q       | Reindent s-expression                            |
+| C-c M-q     | Reindent whole function                          |
+| C-c C-u     | Undefine function                                |
+| M-p M-n     | Navigate up/down in REPL                         |
+
+
+## Geiser MIT REPL Keybindings {#geiser-mit-repl-keybindings}
+
+This is for editing MIT Scheme files while reading SICP.
+
+| Keybinding      | Command or Function or Definition       | Note                        |
+|-----------------|-----------------------------------------|-----------------------------|
+| M-x geiser      | geiser                                  | Open the Geiser REPL        |
+| **C-c C-z**     | geiser-mode-switch-to-repl              | Go to Geiser REPL           |
+| C-c C-a         | geiser-mode-switch-to-repl-and-enter    | Go to REPL and enter module |
+| C-x C-e         | gieser-eval-last-sexp                   |                             |
+| C-c C-c / C-M-x | geiser-eval-definition                  |                             |
+| C-c C-r         | geiser-eval-region                      |                             |
+| C-c C-b         | geiser-eval-buffer                      |                             |
+| C-c C-k         | geiser-compile-current-buffer           |                             |
+| C-c M-o         | geiser-repl-clear-buffer                | In REPL - clear             |
+| M-p/n           | (Common) Previous and Next item in REPL |                             |
+| C-c \\          | geiser-insert-lambda                    | Insert a lambda character   |
+
+Use `C-h k` to check what keybindings are bound to.
 
 
 ## Why use Functional Languages? {#why-use-functional-languages}
@@ -445,3 +532,39 @@ Whichever LISP you use, I recommend using the `rlwrap` program to
 enhance your working experience. Running, for instance, `rlwrap guile`
 adds history, readline and bracket matching to the REPL, which can be a
 huge quality-of-life improvement.
+
+
+## Begin with the End in Mind (2022) {#begin-with-the-end-in-mind--2022}
+
+I am learning lisp because I want to learn a language that will allow
+me to accomplish my major life goals and minimize pain and stress
+while doing so. These goals are as follows:
+
+-   **Make enough money to keep my family going for three generations,**
+    become rich beyond my wildest dreams, with the ultimate goal of
+    supporting my bloodline, and secondarily material comfort.
+    -   By writing my own software that others pay to access or download
+        -   Which must neccessarily solve real-world or virtual-world
+            problems in a way that satisfies customers
+        -   This software must be easy to extend and maintian
+            -   Potentially by myself
+            -   Potentially with staff or collaborators
+                -   Who must be smart if programmers, working with idiots is
+                    draining and I don't want to spend my life that way
+                -   Business people - who cares, they can be tech illiterate
+            -   Potentially across generations or over a long time span
+        -   Which must be reliable enough that I won't need to worry if my
+            internet goes out or if I need to take a sabbatical.
+
+**The language I choose for this task must then neccessarily be:**
+
+1.  A well-established language (cannot be the new hotness)
+2.  Powerful and flexible to a variety of use cases
+3.  Broad platform and runtime support with minimal tooling
+4.  Large community and many good libraries
+5.  Many ways to edit, not reliant on one IDE or system
+6.  Ideally can compile to C and has C interop
+7.  Absolutely not locked to a single platform or provider
+8.  Able to be performantly hosted on my home-lab hardware
+
+Common Lisp seems to satisfy these requirements.
