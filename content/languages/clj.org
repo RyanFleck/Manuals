@@ -172,8 +172,6 @@ It is easy to fetch data using the [[https://github.com/dakrone/clj-http][clj-ht
 #+RESULTS:
 : '(:cached   :request-time 197  :repeatable? false  :protocol-version (:name "HTTP"  :major 1  :minor 1)  :streaming? false  :http-client #object(org.apache.http.impl.client.InternalHttpClient 0x149678f3 "org.apache.http.impl.client.InternalHttpClient@149678f3")  :chunked? false  :reason-phrase "OK"  :headers ("referrer-policy" "strict-origin-when-cross-origin"  "Server" "cloudflare"  "Content-Type" "text/html; charset=utf-8"  "Access-Control-Allow-Origin" "*"  "x-content-type-options" "nosniff"  "alt-svc" "h3=\":443\"; ma=86400"  "NEL" "{\"success_fraction\":0,\"report_to\":\"cf-nel\",\"max_age\":604800}"  "Connection" "close"  "cf-cache-status" "DYNAMIC"  "CF-RAY" "8fedb5dbee3cebbe-SEA"  "Date" "Wed, 08 Jan 2025 16:54:36 GMT"  "Vary" "Accept-Encoding"  "server-timing" "cfL4;desc=\"?proto=TCP&rtt=27561&min_rtt=26609&rtt_var=8965&sent=6&recv=8&lost=0&retrans=0&sent_bytes=3102&recv_bytes=761&delivery_rate=134890&cwnd=244&unsent_bytes=0&cid=e1d50b69e51b88e5&ts=103&x=0\""  "Report-To" "{\"endpoints\":[{\"url\":\"https:\\/\\/a.nel.cloudflare.com\\/report\\/v4?s=8Gp7uwFKRza7VqBDZB%2FVkDAYfJ82U3266fo0KiPoVyb%2BzhtNER6nHAMFNqN20StAp2NgeSHIlNT8FQq3mF38qKJJyVGW5es939%2Fsybqp6H%2Fhqm1ZFuBh9NMKs2ctL%2FE%3D\"}],\"group\":\"cf-nel\",\"max_age\":604800}"  "Cache-Control" "public, max-age=0, must-revalidate")  :orig-content-encoding "gzip"  :status 200  :length 0  :body   :trace-redirects ())
 
-
-
 * Data Handling & Transformation
 
 ** Group-By
@@ -214,7 +212,6 @@ Here is how the data looks after using *group-by* (
 ;; ... data truncated ...
 #+end_src
 
-
 ** Caching Return Values (Memoization)
 
 We can use [[https://cljdoc.org/d/org.clojure/core.memoize/1.1.266/doc/using-core-memoize][core.memoize]] to cache values with a variety of methods.
@@ -237,7 +234,6 @@ reduction in time on the second execution.
 (time (get-72h-data-memoized)) ; => "Elapsed time: 17.726885 msecs"
 (time (get-72h-data-memoized)) ; => "Elapsed time: 0.05838 msecs"
 #+end_src
-
 
 ** HTML - Reading, Transforming, Templating
 
@@ -290,8 +286,6 @@ in the demo.
 </script>
 #+end_src
 
-
-
 * Clojure for the Brave and True
 
 - [[https://www.braveclojure.com/clojure-for-the-brave-and-true/][Table of Contents]]
@@ -342,7 +336,7 @@ sort of unstyled:
 [[https://www.braveclojure.com/do-things/][Do Things: A Clojure Crash Course]]
 
 Clojure uses the familiar LISP S-Expressions. Literals are valid
-forms.
+forms - each of these will just return itself.
 
 #+begin_src clojure
 1
@@ -352,7 +346,8 @@ forms.
 #+end_src
 
 #+begin_quote
-Clojure uses whitespace to separate operands, and it treats commas as whitespace.
+Clojure uses whitespace to separate operands, and it treats commas as
+whitespace.
 #+end_quote
 
 Good old s-expressions:
@@ -362,7 +357,8 @@ Good old s-expressions:
 #+end_src
 
 #+begin_quote
-In other languages, different operations might have different
+Clojure’s structural uniformity is probably different from what you’re
+used to. In other languages, different operations might have different
 structures depending on the operator and the operands. For example,
 JavaScript employs a smorgasbord of infix notation, dot operators, and
 parentheses. Clojure’s structure is very simple and consistent by
