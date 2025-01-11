@@ -230,6 +230,25 @@ We can use [[https://cljdoc.org/d/org.clojure/core.memoize/1.1.266/doc/using-cor
 (def get-72h-data-memoized (memo/ttl get-72h-data {} :ttl/threshold one-minute-in-ms))
 #+end_src
 
+By calling the variable we have defined, we can see the dramatic
+reduction in time on the second execution.
+
+#+begin_src clojure
+(time (get-72h-data-memoized)) ; => "Elapsed time: 17.726885 msecs"
+(time (get-72h-data-memoized)) ; => "Elapsed time: 0.05838 msecs"
+#+end_src
+
+
+** HTML - Reading, Transforming, Templating
+
+- [[https://github.com/clj-commons/hickory][Hickory]] can transform HTML to Hiccup
+- [[https://github.com/weavejester/hiccup][Hiccup]]/[[https://github.com/tonsky/rum][Rum]] transforms Clojure to HTML
+- https://tonsky.me/blog/hiccup/
+
+** Tranforming Dart
+
+- [[https://github.com/Tensegritics/ClojureDart][ClojureDart]] can compile Clojure(Dart) to Dart code
+- [[https://github.com/D00mch/DartClojure][DartClojure]] can transform Dart code to Clojure(Dart)
 
 * Show and Tell
 
