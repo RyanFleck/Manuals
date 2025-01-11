@@ -207,6 +207,11 @@ div.footnotes,
     padding-right: 2rem;
 }
 
+pre.text-result{
+    color: #228b22;
+    margin-top: -0.5em;
+}
+
 .footnote-body{
     display: inline-block;
 }

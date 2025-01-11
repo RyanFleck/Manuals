@@ -4,7 +4,7 @@ draft = false
 image = ""
 summary = "A Functional Language for the Erlang BEAM vm."
 title = "Elixir"
-aliases = [ "/ex/", "/e/" ]
+aliases = [ "/ex/", "/e/", "/elixir" ]
 toc = true
 
 +++
