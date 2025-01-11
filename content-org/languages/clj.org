@@ -20,12 +20,14 @@
 
 *Video:* [[https://www.youtube.com/watch?v=MZy-SNswH2E][How startups can move fast with Clojure (by Bradford Cross)]]
 
-Startups should focus on: - Bottom-up programming - focusing on fine
-grained abstractions and composability - Avoiding frameworks and saas
-tools - Focus on individual programmer productivity
+*Startups should focus on:*
+- Bottom-up programming
+- Focusing on fine grained abstractions and composability
+- Avoiding frameworks and saas tools
+- Individual programmer productivity
 
-*Thought:* Rebuilding things from scratch sucks and Clojure potentially
-enables better code reuse.
+Rebuilding things from scratch sucks and writing stateless functions
+that transform data potentially enables better code reuse.
 
 ** Subverting the Lisp Curse
 
@@ -85,6 +87,40 @@ schools of thought regarding the teaching of computer science:
 
 This is posted here for the reader to ponder without comment.
 
+** Literate Programming
+
+I'll be using [[https://orgmode.org/worg/org-contrib/babel/languages/ob-doc-clojure.html][org-babel-clojure]] to write and run code within this
+manual directly. Learning, remembering, and teaching now mix. This
+approach is one of Donald Knuth's methodologies[fn:2]
+
+The [[https://en.wikipedia.org/wiki/Literate_programming][Literate programming]] idea has regained popularity these days in
+the form of data notebooks, and it is certainly to my taste.
+
+If the evaluated result is simple, it'll have a little arrow '=>'
+beside it in the css, though not in the text document on disk.
+
+*Like so:*
+
+#+begin_src clojure
+(+ 1 2 3 4 5)
+#+end_src
+
+#+RESULTS:
+: 15
+
+By integrating [[https://ox-hugo.scripter.co/][ox-hugo]] I have been able to somewhat improve the
+default /results/ output and provide ~scalar value~ results, which render
+much nicer than the tables used by Hugo by default. If that didn't
+make sense, no worries - I'm just happy that the result below looks
+like a lisp list rather than a table.
+
+#+begin_src clojure 
+(vals {:a 1 :b 2})
+#+end_src
+
+#+RESULTS:
+: (1 2)
+
 * Rich Hickey Talks
   :PROPERTIES:
   :CUSTOM_ID: rich-hickey-talks
@@ -139,7 +175,7 @@ Full talk:
 - [[https://clojure.org/guides/learn/syntax#_evaluation][Clojure Evaluation]]
 - [[https://clojure.org/api/cheatsheet][Clojure API Cheat Sheet]]
 
-* Basic Tasks
+* Common Clojure Tasks
 
 ** Using Libraries
 
@@ -192,8 +228,6 @@ It is easy to fetch data using the [[https://github.com/dakrone/clj-http][clj-ht
             :length 0  :body   :trace-redirects ())
 #+end_src
 
-* Data Handling & Transformation
-
 ** Group-By
 
 The amazing ~group-by~ function allows you to *group data by a common
@@ -212,7 +246,7 @@ like:
 ;; ... data truncated ...
 #+end_src
 
-Here is how the data looks after using *group-by* (
+Here is how the data looks after using *group-by*:
 
 #+begin_src clojure
 (group-by :language (db/get-items-by-hour-72h-langs))
@@ -255,6 +289,10 @@ reduction in time on the second execution.
 (time (get-72h-data-memoized)) ; => "Elapsed time: 0.05838 msecs"
 #+end_src
 
+- [[https://github.com/clojure/core.cache/wiki/TTL][core.cache - Github]]
+
+
+
 ** HTML - Reading, Transforming, Templating
 
 - [[https://github.com/clj-commons/hickory][Hickory]] can transform HTML to Hiccup
@@ -265,8 +303,6 @@ reduction in time on the second execution.
 
 - [[https://github.com/Tensegritics/ClojureDart][ClojureDart]] can compile Clojure(Dart) to Dart code
 - [[https://github.com/D00mch/DartClojure][DartClojure]] can transform Dart code to Clojure(Dart)
-
-* Show and Tell
 
 ** Rendering Charts
 
@@ -306,7 +342,16 @@ in the demo.
 </script>
 #+end_src
 
-* Clojure for the Brave and True
+I realized that this library is fairly popular in the Clojure
+community /after/ discovering it myself, and for good reason - using
+Echarts is a highly data-driven experience that requires only a touch
+of client javascript and can otherwise be entirely created with Clojure
+data structures. Here are some other places Apache Echarts are used:
+
+1. [[https://scicloj.github.io/noj/noj_book.echarts.html][Scicloj - Noj notebooks]]
+   - Including a good [[https://scicloj.github.io/noj/noj_book.echarts.html#stacked-bar-chart][stacked bar chart example]]
+
+* Notes: Clojure for the Brave and True
 
 - [[https://www.braveclojure.com/clojure-for-the-brave-and-true/][Table of Contents]]
 - [[https://www.braveclojure.com/getting-started][Environment Setup]]
@@ -316,38 +361,6 @@ in the demo.
 
 All quotes in this section are from this material.
 
-** Literate Programming
-
-I'll be using [[https://orgmode.org/worg/org-contrib/babel/languages/ob-doc-clojure.html][org-babel-clojure]] to write and run code within this
-manual directly. Learning, remembering, and teaching now mix.
-
-The [[https://en.wikipedia.org/wiki/Literate_programming][Literate programming]] idea has regained popularity these days in
-the form of data notebooks, and it is certainly to my taste.
-
-If the evaluated result is simple, it'll have a little arrow '=>'
-beside it in the css, though not in the text document on disk.
-
-*Like so:*
-
-#+begin_src clojure
-(+ 1 2 3 4 5)
-#+end_src
-
-#+RESULTS:
-: 15
-
-If the result is more complex, like a map, it'll be in a table and
-it's tougher to target with css so I'll be lazy for now and leave it
-sort of unstyled:
-
-#+begin_src clojure 
-(vals {:a 1 :b 2})
-#+end_src
-
-#+RESULTS:
-: (1 2)
-
-...that's OK.
 
 ** Chapter 3: Do Things
 
@@ -819,6 +832,11 @@ has been taken to ensure the [[https://orgmode.org/worg/org-contrib/babel/header
 #+hugo_level_offset: 0
 #+end_src
 
+...apart from an issue where I can't have headers beyond level 3,
+which I still must resolve, *ox-hugo* has happily enabled me to leverage
+all the enhanced markdown processing features provided by hugo (render
+hooks in particular) while still writing and executing code in ORG.
+
 * Resources
   :PROPERTIES:
   :CUSTOM_ID: resources
@@ -854,3 +872,7 @@ has been taken to ensure the [[https://orgmode.org/worg/org-contrib/babel/header
    9781449373320, 1449373321]]
 
 [fn:1] [[https://docs.cider.mx/cider/usage/interactive_programming.html][CIDER: Interactive Programming]]
+
+* Footnotes
+
+[fn:2] "Literate Programming", Donald E. Knuth, [[https://www-cs-faculty.stanford.edu/~knuth/lp.html][stanford.edu]] 
