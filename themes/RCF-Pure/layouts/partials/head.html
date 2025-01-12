@@ -10,17 +10,21 @@
   />
 
   <!-- CSS -->
+  <!-- Code Styles -->
+  {{ $codeStyles := resources.Get "css/code-light.css" | minify | resources.Fingerprint "md5" }}
+  <link rel="stylesheet" href="{{ $codeStyles.Permalink }}">
+
+  {{ $darkCodeStyles := resources.Get "css/code-dark.css" | minify | resources.Fingerprint "md5" }}
+  <link rel="stylesheet" href="{{ $darkCodeStyles.Permalink }}" media="(prefers-color-scheme: dark)">
+
+  <!-- Primary Styles -->
   {{ $styles := resources.Get "css/style.css" | minify | resources.Fingerprint "md5" }}
   <link rel="stylesheet" href="{{ $styles.Permalink }}">
 
   {{ $darkStyles := resources.Get "css/dark.css" | minify | resources.Fingerprint "md5" }}
   <link rel="stylesheet" href="{{ $darkStyles.Permalink }}" media="(prefers-color-scheme: dark)">
 
-  {{ $codeStyles := resources.Get "css/code-light.css" | minify | resources.Fingerprint "md5" }}
-  <link rel="stylesheet" href="{{ $codeStyles.Permalink }}">
 
-  {{ $darkCodeStyles := resources.Get "css/code-dark.css" | minify | resources.Fingerprint "md5" }}
-  <link rel="stylesheet" href="{{ $darkCodeStyles.Permalink }}" media="(prefers-color-scheme: dark)">
 
   <!-- Font-Awesome -->
   <!-- Download at https://fontawesome.com/download and extract to /static/fa/ -->

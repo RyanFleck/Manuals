@@ -95,4 +95,9 @@ hr {
     color: var(--main-text-color);
 }
 
-
+/* Fix code theme  */
+code,
+.chroma .c1,
+.chroma .c {
+    color: #8d84b7;
+}
