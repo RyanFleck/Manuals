@@ -557,3 +557,10 @@ p#article-subheading{
 	display: none;
     }    
 }
+
+.chroma span.err,
+.chroma span.kc{
+    background-color: none;
+    background: none;
+    
+}

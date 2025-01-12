@@ -26,10 +26,16 @@ enableGitInfo = true
 
 [markup]
     defaultMarkdownHandler = "goldmark"
+
     [markup.tableOfContents]
         endLevel = 3
         ordered = false
         startLevel = 1
+
+    [markup.highlight]
+        noClasses=false
+        codeFences=true
+        tabWidth=2
 
 [markup.goldmark.renderer]
     unsafe = true

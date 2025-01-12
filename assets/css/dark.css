@@ -1,0 +1,98 @@
+/* All dark color customizations are to be placed in this file. */
+
+:root {
+  --main-text-color: #cecbe4;
+  --main-secondary-text-color: #99c889;
+  --main-bg-color: #151c2b;
+  --main-link-color: #98b6ff;
+  --main-link-color-visited: #e1b4ff;
+}
+
+
+:root, html, body {
+    background: var(--main-bg-color);
+    color: var(--main-text-color);
+}
+
+pre.example::before{
+    color: #fba8a8;
+}
+pre.text-result{
+    color: var(--main-secondary-text-color);
+}
+
+figcaption {
+    color: var(--main-text-color);
+}
+
+
+.faint,
+.manual-link > small {
+  color: var(--main-text-color);
+}
+
+figcaption a {
+    color: var(--main-text-color);
+}
+
+blockquote {
+    color: var(--main-text-color);
+    border-left: 2px solid var(--main-text-color);
+}
+
+a {
+    color: var(--main-link-color);
+}
+
+a:visited{
+    color: var(--main-link-color-visited);
+}
+
+a:hover {
+    background-color: #55174f;
+}
+
+a:active{
+    color: #55174f;
+    background-color: var(--main-link-color-visited);
+}
+
+#jumper {
+    background: var(--main-bg-color);
+    box-shadow: 0 0 10px var(--main-bg-color);
+}
+
+h1#page-title a:visited {
+    color: var(--main-text-color);
+}
+
+.navbar-brand {
+    color: var(--main-text-color);
+    text-decoration: underline;
+    text-decoration-color: var(--main-text-color);
+}
+
+code {
+    color: var(--main-text-color);
+}
+
+hr {
+    border: none;
+    border-top: 1px solid var(--main-text-color);
+}
+
+/* Webkit Scrollbar */
+
+::-webkit-scrollbar {
+    background: var(--main-bg-color);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--main-text-color);
+}
+
+#title-link {
+    color: var(--main-text-color);
+}
+
+
