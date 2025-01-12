@@ -7,9 +7,9 @@
   </a>
 
   {{ if .Title }}
-  <figcaption>↑ {{ .Title | safeHTML }}</figcaption>
+  <figcaption><i class="fa-solid fa-chevron-up"></i> {{ .Title | safeHTML }}</figcaption>
   {{ else if .Text }} 
-  <figcaption>↑ {{ .Text | safeHTML }}</figcaption>
+  <figcaption><i class="fa-solid fa-chevron-up"></i> {{ .Text | safeHTML }}</figcaption>
   {{ end }}
 </figure>
 {{- "" -}}
