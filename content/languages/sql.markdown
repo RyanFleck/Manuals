@@ -8,6 +8,9 @@ aliases:
   - "/sql"
   - "/SQL"
 ---
+
+<!-- M-x auto-fill-mode is your friend -->
+
 # What is SQL?
 
 Structured Query Language (SQL) is used to retrieve and modify
@@ -175,9 +178,46 @@ If a table is no longer required, it can be dropped from the database.
 
 ## INDEX - CREATE, ALTER, DROP
 
+Creating an **index** is, in essence, an instruction to the database
+to hold additional data about a column to speed up queries.
+
+- There are **many** index types for different scenarios.
+- See [Mastering PostgreSQL Indexes for Optimal Performance](https://medium.com/autodesk-tlv/mastering-postgresql-indexes-for-optimal-performance-5e4b0dc293e5)
+
 ### CREATE INDEX
 
+A simple single-column index to speed up queries:
+
+```sql
+CREATE INDEX idx_media_item_created ON media.items (created);
+```
+
+A **composite index** enables faster querying when multiple columns are
+frequently accessed at the same time in a single query.
+
+
+```sql
+CREATE INDEX idx_systemx_digitaltwin_person ON digitaltwin.person (country, firstname);
+```
+
+### ALTER INDEX
+
+Generally, PostgreSQL would encourage you to drop and recreate an
+index. You could always reindex to bump performance.
+
+```sql
+-- Reindex to see if this helps
+REINDEX INDEX media.idx_institution_urlkey;
+
+-- You can always nuke it
+DROP INDEX IF EXISTS idx_media_item_created; 
+```
+
 ### DROP INDEX
+
+```sql
+DROP INDEX idx_media_item_created;
+```
 
 ## INSERT (Create)
 
@@ -690,6 +730,7 @@ A '`+`' can be added to most of these commands to display extra information.
 Example usage:
 
 ```sql
+--> Select all the schemas within the current database
 observer_dev=> \dn+
                             List of schemas
   Name  |     Owner     |  Access privileges   |      Description       
@@ -697,6 +738,7 @@ observer_dev=> \dn+
  media  | observeradmin |                      | 
 ...etc (2 rows)
 
+--> Select all the tables within the 'media' schema
 observer_prod=> \dt+ media.*
                                                    List of relations
  Schema |             Name             | Type  |     Owner     | Persistence | Access method |    Size    | Description 
@@ -707,6 +749,7 @@ observer_prod=> \dt+ media.*
  media  | text_analysis_v1             | table | observeradmin | permanent   | heap          | 8192 bytes | 
 ...etc (6 rows)
 
+--> Select all the indexes for tables in the 'media' schema
 observer_prod=> \di+ media.*
                                                                          List of relations
  Schema |                   Name                   | Type  |     Owner     |            Table             | Persistence | Access method |    Size    | Description 
@@ -717,18 +760,6 @@ observer_prod=> \di+ media.*
  media  | idx_media_item_uri_institution_unique    | index | observeradmin | items                        | permanent   | btree         | 129 MB     | 
  media  | idx_media_item_uri_source_unique         | index | observeradmin | items                        | permanent   | btree         | 150 MB     | 
 ... etc (13 rows)
-
-observer_dev=> \di+ media.*
-                                                                       List of relations
- Schema |                   Name                   | Type  |     Owner     |            Table             | Persistence | Access method |  Size   | Description 
---------+------------------------------------------+-------+---------------+------------------------------+-------------+---------------+---------+-------------
- media  | idx_institution_urlkey                   | index | observeradmin | institutions                 | permanent   | btree         | 32 kB   | 
- media  | idx_media_item_created                   | index | observeradmin | items                        | permanent   | btree         | 2768 kB | 
- media  | idx_media_text_analysis_v1_item          | index | observeradmin | text_analysis_v1             | permanent   | btree         | 16 kB   | 
- media  | idx_through_keywords_to_text_analysis_v1 | index | observeradmin | keywords_to_text_analysis_v1 | permanent   | btree         | 16 kB   | 
- media  | institutions_pkey                        | index | observeradmin | institutions                 | permanent   | btree         | 16 kB   | 
- media  | items_pkey                               | index | observeradmin | items                        | permanent   | btree         | 3136 kB | 
-...etc (15 rows)
 ```
 
 ## Generate Series
@@ -802,6 +833,25 @@ To produce data like this
  ... etc
 ```
 
+## PostGIS - Utilizing Positional Data
+
+> PostGIS extends the capabilities of the PostgreSQL relational
+> database by adding support for storing, indexing, and querying
+> geospatial data.
+
+- See [postgis.net](https://postgis.net/)
+- Instructions to [install postgis on Debian](https://trac.osgeo.org/postgis/wiki/UsersWikiPostGIS3UbuntuPGSQLApt)
+- For docker see [github.com/postgis/docker-postgis](https://github.com/postgis/docker-postgis)
+
+```sql
+SELECT * FROM pg_available_extensions WHERE name = 'postgis';
+```
+
+If this shows a version installed, enable with:
+
+```sql
+CREATE EXTENSION postgis;
+```
 
 
 # Other Engine-Specific Notes
