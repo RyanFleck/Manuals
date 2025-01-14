@@ -541,7 +541,7 @@ SELECT favourite_hot_sauce, SUM(tacos_eaten) as tacos from cantina_users
 ## JOIN
 
 ![Overview of SQL joins by C.L. Moffatt from
-[codeproject.com](https://www.codeproject.com/articles/33052/visual-representation-of-sql-joins), which includes excellent explanations for each diagram as well [(format howto)](https://www.instructables.com/How-to-Remove-the-White-Background-From-Images-si/)](/images/sql_joins.png)
+[codeproject.com](https://www.codeproject.com/articles/33052/visual-representation-of-sql-joins), which includes excellent explanations for each diagram as well [(format howto)](https://www.instructables.com/How-to-Remove-the-White-Background-From-Images-si/)](/images/sql_joins.png?invert=true)
 
 ### INNER JOIN
 
@@ -667,6 +667,69 @@ This enables complex, multi-stage queries on data.
 An open-source community-driven version of Oracle DBMS.
 
 - [COALESCE](https://neon.tech/postgresql/postgresql-tutorial/postgresql-coalesce) to return the first non-null argument
+
+## Common Commands
+
+A '`+`' can be added to most of these commands to display extra information.
+
+| Command             | Description                                   |
+|:--------------------|:----------------------------------------------|
+| `\c <db>`           | Connect to a different database               |
+| `\du`               | Show users                                    |
+| `\l`                | Show databases                                |
+| `\dt`               | Show tables                                   |
+| `\dt *.*`           | Show all tables in all schemas                |
+| `show search_path;` | Shows psql search path (list of schema names) |
+| `\d <table name>`   | Describe a table                              |
+| `\dn`               | List schemas                                  |
+| `\df`               | List functions                                |
+| `\dv`               | List views                                    |
+| `\g`                | Run previous command                          |
+| `\s`                | Show command history                          |
+
+Example usage:
+
+```sql
+observer_dev=> \dn+
+                            List of schemas
+  Name  |     Owner     |  Access privileges   |      Description       
+--------+---------------+----------------------+------------------------
+ media  | observeradmin |                      | 
+...etc (2 rows)
+
+observer_prod=> \dt+ media.*
+                                                   List of relations
+ Schema |             Name             | Type  |     Owner     | Persistence | Access method |    Size    | Description 
+--------+------------------------------+-------+---------------+-------------+---------------+------------+-------------
+ media  | items                        | table | observeradmin | permanent   | heap          | 1328 MB    | 
+ media  | keywords                     | table | observeradmin | permanent   | heap          | 8192 bytes | 
+ media  | sources                      | table | observeradmin | permanent   | heap          | 216 kB     | 
+ media  | text_analysis_v1             | table | observeradmin | permanent   | heap          | 8192 bytes | 
+...etc (6 rows)
+
+observer_prod=> \di+ media.*
+                                                                         List of relations
+ Schema |                   Name                   | Type  |     Owner     |            Table             | Persistence | Access method |    Size    | Description 
+--------+------------------------------------------+-------+---------------+------------------------------+-------------+---------------+------------+-------------
+ media  | idx_institution_urlkey                   | index | observeradmin | institutions                 | permanent   | btree         | 32 kB      | 
+ media  | idx_media_item_source                    | index | observeradmin | items                        | permanent   | btree         | 20 MB      | 
+ media  | idx_media_item_uri                       | index | observeradmin | items                        | permanent   | btree         | 127 MB     | 
+ media  | idx_media_item_uri_institution_unique    | index | observeradmin | items                        | permanent   | btree         | 129 MB     | 
+ media  | idx_media_item_uri_source_unique         | index | observeradmin | items                        | permanent   | btree         | 150 MB     | 
+... etc (13 rows)
+
+observer_dev=> \di+ media.*
+                                                                       List of relations
+ Schema |                   Name                   | Type  |     Owner     |            Table             | Persistence | Access method |  Size   | Description 
+--------+------------------------------------------+-------+---------------+------------------------------+-------------+---------------+---------+-------------
+ media  | idx_institution_urlkey                   | index | observeradmin | institutions                 | permanent   | btree         | 32 kB   | 
+ media  | idx_media_item_created                   | index | observeradmin | items                        | permanent   | btree         | 2768 kB | 
+ media  | idx_media_text_analysis_v1_item          | index | observeradmin | text_analysis_v1             | permanent   | btree         | 16 kB   | 
+ media  | idx_through_keywords_to_text_analysis_v1 | index | observeradmin | keywords_to_text_analysis_v1 | permanent   | btree         | 16 kB   | 
+ media  | institutions_pkey                        | index | observeradmin | institutions                 | permanent   | btree         | 16 kB   | 
+ media  | items_pkey                               | index | observeradmin | items                        | permanent   | btree         | 3136 kB | 
+...etc (15 rows)
+```
 
 ## Generate Series
 

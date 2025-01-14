@@ -101,3 +101,11 @@ code,
 .chroma .c {
     color: #d0e0ff;
 }
+
+.invert {
+    filter: invert(1);
+}
+
+.dim {
+    filter: brigntness(60%);
+}

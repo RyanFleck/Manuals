@@ -3,7 +3,11 @@
 <!-- Put loading=lazy before src to avoid a firefox bug. -->
 <figure>
   <a href="{{ .Destination | safeURL }}"  target="_blank" rel="noopener noreferrer">
-    <img loading="lazy" src="{{ .Destination | safeURL }}" alt="{{ .Text | plainify }}" {{ with .Title}} title="{{ . | plainify }}"{{ end }} />
+    <img loading="lazy" 
+         src="{{ .Destination | safeURL }}" 
+         alt="{{ .Text | plainify }}" {{ with .Title}} 
+         title="{{ . | plainify }}"{{ end }} 
+         class="md-image {{ if (strings.Contains .Destination "invert=t") }} invert{{ end -}} {{ if (strings.Contains .Destination "dim=t") }} dim{{ end -}}" />
   </a>
 
   {{ if .Title }}
