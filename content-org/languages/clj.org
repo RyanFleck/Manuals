@@ -392,6 +392,60 @@ data structures. Here are some other places Apache Echarts are used:
 1. [[https://scicloj.github.io/noj/noj_book.echarts.html][Scicloj - Noj notebooks]]
    - Including a good [[https://scicloj.github.io/noj/noj_book.echarts.html#stacked-bar-chart][stacked bar chart example]]
 
+
+* HTMX and Simple Web Applications
+
+Using [[https://htmx.org/][HTMX]] provides a myriad of benefits and few drawbacks.
+
+- HTML is quite powerful on its own - maximally leverage these features
+- Claims to require 30% of the codebase size vs React
+- Enables any element to make an http request by click, time, etc.
+
+You do need to write a backend that returns html, as text, and not
+JSON. The benefit of this - you don't need to spend an additional few
+steps transforming and interpreting JSON on your frontend.
+
+** Useful Snippets
+
+Load and swap out something small, like a clock, every second:
+
+#+begin_src html
+<span hx-get="/api/now" hx-trigger="load, every 1s" hx-swap="innerHTML"></span>
+#+end_src
+
+On the backend, this is the code - essentially we just send back some
+text in a ~span~.
+
+#+begin_src clojure
+   ["/now"
+    {:get {:summary "returns the current time as a span"
+           :responses {200 {:body string?}}
+           :headers {"Content-Type" "text/html"}
+           :handler (fn [_params]
+                      {:status 200
+                       :body (str "<span>" (time/dateline-utc) "</span>")})}}]
+#+end_src
+
+
+** Edge Cases
+
+*Notably* on ~hx-swap~ any scripts included on a page won't run, but those
+included during an ~hx-get~ will be as long as they *aren't in the root*
+in which case they will be commented out. /I learned this the hard way./
+
+#+begin_src html
+<!-- *None* of these will run if a page is just swapped in. -->
+<div>
+  <script>console.log("in a div, this runs.");</script>
+</div>
+
+<span>
+  <script>console.log("in a span, this runs.");</script>
+</span>
+
+<script>console.log("outside, this runs.");</script>
+#+end_src
+
 * Notes: Clojure for the Brave and True
 
 - [[https://www.braveclojure.com/clojure-for-the-brave-and-true/][Table of Contents]]

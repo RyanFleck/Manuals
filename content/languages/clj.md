@@ -390,6 +390,61 @@ data structures. Here are some other places Apache Echarts are used:
     -   Including a good [stacked bar chart example](https://scicloj.github.io/noj/noj_book.echarts.html#stacked-bar-chart)
 
 
+# HTMX and Simple Web Applications {#htmx-and-simple-web-applications}
+
+Using [HTMX](https://htmx.org/) provides a myriad of benefits and few drawbacks.
+
+-   HTML is quite powerful on its own - maximally leverage these features
+-   Claims to require 30% of the codebase size vs React
+-   Enables any element to make an http request by click, time, etc.
+
+You do need to write a backend that returns html, as text, and not
+JSON. The benefit of this - you don't need to spend an additional few
+steps transforming and interpreting JSON on your frontend.
+
+
+## Useful Snippets {#useful-snippets}
+
+Load and swap out something small, like a clock, every second:
+
+```html
+<span hx-get="/api/now" hx-trigger="load, every 1s" hx-swap="innerHTML"></span>
+```
+
+On the backend, this is the code - essentially we just send back some
+text in a `span`.
+
+```clojure
+["/now"
+ {:get {:summary "returns the current time as a span"
+        :responses {200 {:body string?}}
+        :headers {"Content-Type" "text/html"}
+        :handler (fn [_params]
+                   {:status 200
+                    :body (str "<span>" (time/dateline-utc) "</span>")})}}]
+```
+
+
+## Edge Cases {#edge-cases}
+
+**Notably** on `hx-swap` any scripts included on a page won't run, but those
+included during an `hx-get` will be as long as they **aren't in the root**
+in which case they will be commented out. _I learned this the hard way._
+
+```html
+<!-- *None* of these will run if a page is just swapped in. -->
+<div>
+  <script>console.log("in a div, this runs.");</script>
+</div>
+
+<span>
+  <script>console.log("in a span, this runs.");</script>
+</span>
+
+<script>console.log("outside, this runs.");</script>
+```
+
+
 # Notes: Clojure for the Brave and True {#notes-clojure-for-the-brave-and-true}
 
 -   [Table of Contents](https://www.braveclojure.com/clojure-for-the-brave-and-true/)
