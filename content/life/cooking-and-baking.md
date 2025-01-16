@@ -12,8 +12,18 @@ toc: true
 Everybody wants to eat, and sometimes life gets busy! Especially as a
 student with a tight budget and other high priorities, feeding
 yourself properly with a minimum of time and effort is crucial. Even
-for "adults", having a plan will help to cut down on wasted food and
-reduce your decision fatigue.
+for "adults", having a plan will help to cut down on wasted food,
+reduce your decision fatigue, and bring some structure to your life.
+
+Additionally - any of these meals can be split in a pinch. There are
+few things that are more kind and wonderful than sharing a meal and
+dinnertime conversation with your roommates or loved ones. We don't
+get much time here to figure out what is really important.
+
+> So let each one give as he purposes in his heart, not grudgingly or
+> of necessity; for God loves a cheerful giver.
+>  
+> -- 2 Corinthians 9:7 NKJV
 
 ## Tier 0: Not Dying
 
@@ -32,11 +42,15 @@ you opting for takeout and a deteriorating body.
 
 *A warm cup of coffee in the morning is important for morale.*
 
-**Prerequisites:**
+### Your Kitchen
+
+To cook cheap and nutritious meals for yourself, ensure you have the
+following items in your kitchen already.
 
 - A clean kitchen with a functional stove and sink
 - Frying pan
 - Small pot with lid
+- A rice cooker (a cheap one will do)
 - Spatula
 - Cutting board
 - Knife
@@ -51,9 +65,14 @@ you opting for takeout and a deteriorating body.
   - Olive oil
   - Salt and pepper
   - Chili powder
-  - 
+  - Coffee filters
+  - Beef stock/bouillon
+  - Soya sauce
+  - Sriracha / hot sauce (for your eggs)
 
-**Shopping List:**
+### Shopping List
+
+In January of 2025 I purchased 
 
 - Vegetables
   - A couple tomatoes
@@ -69,7 +88,7 @@ you opting for takeout and a deteriorating body.
   - Asian noodles
   - Small bag of potatoes
 - Dairy
-  - Cream, 500ml
+  - Cream, 1L
   - Eggs, 1 doz.
   - Butter, 1lb
   - Small block of cheese
@@ -77,35 +96,82 @@ you opting for takeout and a deteriorating body.
   - Bacon
   - Chicken Breasts (4-6)
   - A kilo of ground beef
-  - 4-5 italian sausages
+  - 6+ Italian sausages
 - Frozen
   - Mixed frozen vegetables (1kg)
-  - Breaded Cod or Haddock fillets
+  - Battered Cod or Haddock fillets
 - Dry Goods
   - Ground coffee
-  - Coffee filters
   - Peanut butter
   - Pasta sauce
   - Can of beans
-  - Beef stock
-  - Soya sauce
-  - Sriracha / hot sauce
+  
+**Proof:** The receipt below is an attempt to purchase all of these
+ingredients to get an estimate of the cost. In January 2025, in
+Alberta, Canada, it cost **$136** Canadian dollars to buy the ingredients
+posted above - with some items like rice, coffee, peanut butter, and
+potatoes that will last multiple weeks.
 
-**Meal Plan:**
+![A sample receipt of purchase for the Tier 0 ingredients](/images/groceries/receipt-min.png?invert=true&noborder=true)
 
-| Day | Breakfast    | Dinner *(Always make double!)*    |
-|:---:|:-------------|:----------------------------------|
-| SUN | Bacon & Eggs | Spaghetti and Meatballs           |
-| MON | PB Toast     | Chicken stir fry                  |
-| TUE | Bacon & Eggs | Sausage skillet[^1] over potatoes |
-| WED | PB Toast     | Chili over rice or pasta          |
-| THU | Bacon & Eggs | Chicken vegetable pasta           |
-| FRI | PB Toast     | Ground Beef and Onion Noodles     |
-| SAT | Bacon & Eggs | Fish and chips                    |
+### Meal Plan
+
+| Day | Breakfast    | Dinner *(Always make double!)*                        |
+|:---:|:-------------|:------------------------------------------------------|
+| SUN | Bacon & Eggs | Spaghetti and Sausage                                 |
+| MON | PB Toast     | Chicken stir fry                                      |
+| TUE | Bacon & Eggs | Sausage skillet[^1] over potatoes                     |
+| WED | PB Toast     | Bachelor style Chili over rice, pasta, or spare bread |
+| THU | Bacon & Eggs | Chicken vegetable pasta                               |
+| FRI | PB Toast     | Ground Beef and Onion Noodles                         |
+| SAT | Bacon & Eggs | Fish and chips                                        |
 
 - **Lunch** is always **leftovers from the night before**.
 - To save time you can always chop all your vegetables at once and
   keep them in a big tupperware.
+- Add frozen mixed vegetables to increase the volume of all these
+  dishes, and/or when too lazy to chop.
+  
+![What your cart should contain for Tier 0](/images/groceries/haul-min.jpg)
+
+### Spaghetti and Sausage
+
+Use half of your sausage, some vegetables, and the pasta sauce to
+create a rich and filling pasta meal.
+
+### Chicken stir fry
+
+Fry up half of your chicken breasts, some vegetables, and soy sauce in
+your fry pan. Serve over your asian noodles.
+
+### Sausage skillet[^1] over potatoes
+
+Boil some potatoes, then fry them up in a pan with sausage and vegetables.
+
+### Bachelor style Chili
+
+Chop up some onions and 1/3 kg of ground beef and fry them in butter
+in a pot. Add beans, half a bean-tin of water, crush two tomatoes with
+your bare hand into the pot, some frozen vegetables, and chili powder.
+Bring to a boil and simmer for 40-60 minutes. Serve with buttered
+toast.
+
+### Chicken Vegetable Pasta
+
+Cube your chicken breasts and cook with onions, vegetables, and soy
+sauce in a pan. Start boiling water for pasta when you start cooking
+your chicken. Combine everything and toss in your frying pan.
+
+### Ground Beef and Onion Noodles
+
+Cook up ground beef, onions, and soy sauce in a pan. 
+
+### Fish and Chips
+
+Boil up some potatoes for less time then usual. Slice into wedge fries
+and stick them into the oven beside the fish you bought - and follow
+the instructions on the battered fish box.
+
 
 # Breads
 

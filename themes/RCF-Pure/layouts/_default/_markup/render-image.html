@@ -7,7 +7,9 @@
          src="{{ .Destination | safeURL }}" 
          alt="{{ .Text | plainify }}" {{ with .Title}} 
          title="{{ . | plainify }}"{{ end }} 
-         class="md-image {{ if (strings.Contains .Destination "invert=t") }} invert{{ end -}} {{ if (strings.Contains .Destination "dim=t") }} dim{{ end -}}" />
+         class="md-image {{ if (strings.Contains .Destination "invert=t") }} invert{{ end -}}
+                {{ if (strings.Contains .Destination "dim=t") }} dim{{ end -}}
+                {{ if (strings.Contains .Destination "noborder=t") }} noborder{{ end -}}" />
   </a>
 
   {{ if .Title }}

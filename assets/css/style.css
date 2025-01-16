@@ -99,6 +99,10 @@ img {
   box-shadow: none;
 }
 
+img.noborder {
+    border: none;
+}
+
 /* Inherit fonts for inputs and buttons */
 input,
 button,
@@ -276,6 +280,10 @@ blockquote {
 
 blockquote p {
     margin-left: 1rem !important;
+}
+
+blockquote > p:not(:first-child) {
+    padding-top: 1rem;
 }
 
 .footnotes > hr {
