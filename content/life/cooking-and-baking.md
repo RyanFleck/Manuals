@@ -42,20 +42,26 @@ you opting for takeout and a deteriorating body.
 - Knife
 - Coffee maker
 - Toaster (or toaster oven)
-- Olive oil
 - Plate, fork, knife
 - Rags or paper towels
 - Dish soap
 - Zip-lock freezer bags
 - Some tupperware containers for leftovers
+- Spices and other essentials:
+  - Olive oil
+  - Salt and pepper
+  - Chili powder
+  - 
 
 **Shopping List:**
 
 - Vegetables
   - A couple tomatoes
   - A bag of onions (6 or so)
-  - A zucchini
+  - Two zucchinis
+  - Two bell peppers
   - Some lettuce
+  - A bunch of carrots
   - An orange
 - Starches
   - Spaghetti
@@ -66,6 +72,7 @@ you opting for takeout and a deteriorating body.
   - Cream, 500ml
   - Eggs, 1 doz.
   - Butter, 1lb
+  - Small block of cheese
 - Meat
   - Bacon
   - Chicken Breasts (4-6)
@@ -79,22 +86,24 @@ you opting for takeout and a deteriorating body.
   - Coffee filters
   - Peanut butter
   - Pasta sauce
+  - Can of beans
+  - Beef stock
 
 **Meal Plan:**
 
-| Day | Breakfast    | Dinner *(Always make double!)*         |
-|:---:|:-------------|:---------------------------------------|
-| SUN | Bacon & Eggs | Spaghetti and Meatballs                |
-| MON | PB Toast     | Chicken stir fry                       |
-| TUE | Bacon & Eggs | Sausage skillet[^1] over rice or pasta |
-| WED | PB Toast     | Chili over rice or pasta               |
-| THU | Bacon & Eggs | Chicken vegetable pasta                |
-| FRI | PB Toast     | Ground Beef and Onion Noodles          |
-| SAT | Bacon & Eggs | Fish and chips                         |
+| Day | Breakfast    | Dinner *(Always make double!)*    |
+|:---:|:-------------|:----------------------------------|
+| SUN | Bacon & Eggs | Spaghetti and Meatballs           |
+| MON | PB Toast     | Chicken stir fry                  |
+| TUE | Bacon & Eggs | Sausage skillet[^1] over potatoes |
+| WED | PB Toast     | Chili over rice or pasta          |
+| THU | Bacon & Eggs | Chicken vegetable pasta           |
+| FRI | PB Toast     | Ground Beef and Onion Noodles     |
+| SAT | Bacon & Eggs | Fish and chips                    |
 
-- **Lunch** is always leftovers from the night before, and enough
-  material has been included in your cart to make some peanut butter
-  or deli meat sandwiches.
+- **Lunch** is always **leftovers from the night before**.
+- To save time you can always chop all your vegetables at once and
+  keep them in a big tupperware.
 
 # Breads
 
