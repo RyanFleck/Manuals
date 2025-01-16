@@ -9,7 +9,11 @@
 #+PROPERTY: header-args:clojure :exports both :eval yes :results value scalar
 #+hugo_level_offset: 0
 
-# To export, type C-c C-e H A
+# SPECIAL EMACS ACTIONS FOR THIS FILE:
+# ====================================
+# - To export, type C-c C-e H A
+# - To insert a clojuredocs link in clojure.core type C-c o c
+# - To insert a clojuredocs link  type C-c o C
 
 * Philosophy
   :PROPERTIES:
