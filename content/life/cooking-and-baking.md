@@ -79,7 +79,7 @@ you opting for takeout and a deteriorating body.
   - A kilo of ground beef
   - 4-5 italian sausages
 - Frozen
-  - Mixed frozen vegetables
+  - Mixed frozen vegetables (1kg)
   - Breaded Cod or Haddock fillets
 - Dry Goods
   - Ground coffee
@@ -88,6 +88,8 @@ you opting for takeout and a deteriorating body.
   - Pasta sauce
   - Can of beans
   - Beef stock
+  - Soya sauce
+  - Sriracha / hot sauce
 
 **Meal Plan:**
 
