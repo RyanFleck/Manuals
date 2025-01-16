@@ -36,6 +36,7 @@ you opting for takeout and a deteriorating body.
 
 - A clean kitchen with a functional stove and sink
 - Frying pan
+- Small pot with lid
 - Spatula
 - Cutting board
 - Knife
@@ -46,44 +47,50 @@ you opting for takeout and a deteriorating body.
 - Rags or paper towels
 - Dish soap
 - Zip-lock freezer bags
+- Some tupperware containers for leftovers
 
 **Shopping List:**
 
 - Vegetables
   - A couple tomatoes
   - A bag of onions (6 or so)
+  - A zucchini
   - Some lettuce
   - An orange
 - Starches
   - Spaghetti
-  - Bread, 1 loaf
+  - Bread, 1 loaf (or ~14 slices)
   - Asian noodles
+  - Small bag of potatoes
 - Dairy
   - Cream, 500ml
   - Eggs, 1 doz.
   - Butter, 1lb
 - Meat
   - Bacon
-  - Chicken Breasts
-  - Half a kilo of ground beef
+  - Chicken Breasts (4-6)
+  - A kilo of ground beef
+  - 4-5 italian sausages
 - Frozen
   - Mixed frozen vegetables
+  - Breaded Cod or Haddock fillets
 - Dry Goods
   - Ground coffee
   - Coffee filters
   - Peanut butter
+  - Pasta sauce
 
 **Meal Plan:**
 
-| Day | Breakfast    | Dinner                  |
-|:---:|:-------------|:------------------------|
-| SUN | Bacon & Eggs | Spaghetti and Meatballs |
-| MON | PB Toast     | Chicken stir fry        |
-| TUE | Bacon & Eggs |                         |
-| WED | PB Toast     | ...?                    |
-| THU | Bacon & Eggs |                         |
-| FRI | PB Toast     | Beef and Onion Noodles  |
-| SAT | Bacon & Eggs |                         |
+| Day | Breakfast    | Dinner *(Always make double!)*         |
+|:---:|:-------------|:---------------------------------------|
+| SUN | Bacon & Eggs | Spaghetti and Meatballs                |
+| MON | PB Toast     | Chicken stir fry                       |
+| TUE | Bacon & Eggs | Sausage skillet[^1] over rice or pasta |
+| WED | PB Toast     | Chili over rice or pasta               |
+| THU | Bacon & Eggs | Chicken vegetable pasta                |
+| FRI | PB Toast     | Ground Beef and Onion Noodles          |
+| SAT | Bacon & Eggs | Fish and chips                         |
 
 - **Lunch** is always leftovers from the night before, and enough
   material has been included in your cart to make some peanut butter
@@ -167,3 +174,5 @@ Simple whole wheat pancakes. Makes enough for you and some leftovers.
 4. Fry in pan or on griddle with butter at 375F
 
 From [fifteenspatulas.com](https://www.fifteenspatulas.com/whole-wheat-pancakes/)
+
+[^1]: "Italian Sausage Skillet" - 5-Ingredient Cookbook p. 60

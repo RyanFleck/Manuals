@@ -525,8 +525,7 @@ table {
 }
 
 td, th {
-padding-right: 7px;
-
+padding-right: 1.5rem;
 }
 
 .faint,
