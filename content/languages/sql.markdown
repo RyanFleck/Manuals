@@ -1,11 +1,15 @@
 ---
 toc: true
 date: 2022-03-02T10:52:56.000-07:00
-image: "/content-cover-images/coffee-phone.jpg"
 summary: For table querying and manipulation.
 title: SQL
 aliases: 
   - "/sql"
+  - "/sequel"
+  - "/tsql"
+  - "/t-sql"
+  - "/psql"
+  - "/postgres"
   - "/SQL"
 ---
 
@@ -581,7 +585,7 @@ SELECT favourite_hot_sauce, SUM(tacos_eaten) as tacos from cantina_users
 ## JOIN
 
 ![Overview of SQL joins by C.L. Moffatt from
-[codeproject.com](https://www.codeproject.com/articles/33052/visual-representation-of-sql-joins), which includes excellent explanations for each diagram as well [(format howto)](https://www.instructables.com/How-to-Remove-the-White-Background-From-Images-si/)](/images/sql_joins.png?invert=true)
+[codeproject.com](https://www.codeproject.com/articles/33052/visual-representation-of-sql-joins), which includes excellent explanations for each diagram as well [(format howto)](https://www.instructables.com/How-to-Remove-the-White-Background-From-Images-si/)](/images/sql_joins.png?invert=true?noborder=true)
 
 ### INNER JOIN
 

@@ -165,6 +165,18 @@ architectures.
 - The **ForEach Activity** supports a max of 100,000 output items
 - You can't nest **ForEach** activities
 
+## Pro Tips
+
+Lessons learned when building and deploying data factory pipelines.
+
+1. When designing tables for your environments, do not append `_dev`
+   or `_v4` to your table names, stored procedures, or anything else.
+   When copying your templates to production all these small strings
+   will need to be corrected.
+2. Make good use of **stored procedures** to track and trace the data
+   processing and movement within your pipeline. This adds to the
+   transparency of what has been completed if a pipeline fails.
+
 ## Data Movement (Copy) Activity
 
 Literally just the [Copy Activity](https://learn.microsoft.com/en-us/azure/data-factory/copy-activity-overview).
