@@ -99,7 +99,8 @@ img {
   box-shadow: none;
 }
 
-img.noborder {
+figure.noborder > img,
+.noborder {
     border: none;
 }
 
