@@ -55,7 +55,7 @@ Land of Lisp brings the power of functional programming to the people!
 #+end_quote
 
 #+caption: Symbolics KB
-[[/images/SymbolicsKB.jpg]] 
+[[/images/SymbolicsKB.jpg]]
 
 MIT's /Structure and Interpretation of Computer Programs/ is a classic
 in the truest sense; the material in the tome has been used in MIT's
@@ -353,7 +353,7 @@ functions being defined, string insertions, comments, and more:
 Emacs outshines all other editing software in approximately the same
 way that the noonday sun does the stars. It is not just bigger and
 brighter; it simply makes everything else vanish.
-  
+
 -– Neal Stephenson, In the Beginning was the Command Line (1998)
 #+end_quote
 
@@ -454,7 +454,7 @@ while doing so.
 5. Many ways to edit, not reliant on one IDE or system
 6. Ideally can compile to C and has C interop
 7. Absolutely not locked to a single platform or provider
-8. Able to be performantly hosted on my home-lab hardware 
+8. Able to be performantly hosted on my home-lab hardware
 
 Common Lisp seems to satisfy these requirements.
 
@@ -466,4 +466,3 @@ Common Lisp seems to satisfy these requirements.
 * Footnotes
 
 [fn:1] This didn't last long, though I still plan to go through SICP.
-

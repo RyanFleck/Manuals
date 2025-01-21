@@ -48,6 +48,8 @@ power to bend and flex reality to his whims. The drawback is that this
 causes fewer common tools to emerge - developers can just build them
 themselves fairly easily, leading to a divergence of methods.
 
+{{< figure src="/images/SymbolicsKB.jpg" caption="<span class=\"figure-number\">Figure 1: </span>An old **Symbolics** keyboard built for editing LISP" >}}
+
 Corporations would **not** want to enable this - preferring replaceable
 cogs. This is detailed in the [intro to Simply Scheme](https://people.eecs.berkeley.edu/~bh/ssch0/preface.html), and below. The
 Corporations have a very valid point here that must be stressed: The
@@ -862,6 +864,8 @@ guestbook/
 └── test-config.edn
 ```
 
+{{< pagebreak >}}
+
 
 # Emacs {#emacs}
 
@@ -875,7 +879,6 @@ provided in the [Clojure for the Brave and True](https://www.braveclojure.com/) 
 initialization files mentioned on the linked page is a great way to
 start using Emacs in general.
 
-{{< pagebreak >}}
 
 ## Command Cheat Sheet {#command-cheat-sheet}
 
@@ -908,6 +911,7 @@ start using Emacs in general.
 2.  Experience
 
 {{< pagebreak >}}
+
 
 ## Cider {#cider}
 

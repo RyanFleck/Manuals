@@ -344,7 +344,6 @@ functions being defined, string insertions, comments, and more:
 |-------|----|---|------|-------|------|------|-------|
 | THERE | IS | A | DOOR | GOING | EAST | FROM | HERE. |
 
-{{< pagebreak >}}
 
 # Appendices {#appendices}
 
@@ -353,6 +352,7 @@ functions being defined, string insertions, comments, and more:
 > brighter; it simply makes everything else vanish.
 >
 > -– Neal Stephenson, In the Beginning was the Command Line (1998)
+
 
 ## SLY Commands {#sly-commands}
 
@@ -388,7 +388,6 @@ functions being defined, string insertions, comments, and more:
 | C-c C-u     | Undefine function                                |
 | M-p M-n     | Navigate up/down in REPL                         |
 
-{{< pagebreak >}}
 
 ## Geiser MIT REPL Keybindings {#geiser-mit-repl-keybindings}
 
@@ -410,7 +409,6 @@ This is for editing MIT Scheme files while reading SICP.
 
 Use `C-h k` to check what keybindings are bound to.
 
-{{< pagebreak >}}
 
 ## Why use Functional Languages? {#why-use-functional-languages}
 

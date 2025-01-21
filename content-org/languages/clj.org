@@ -36,7 +36,7 @@ that transform data potentially enables better code reuse.
 ** Subverting the Lisp Curse
 
 #+begin_quote
-Programmers know the benefits of everything and the tradeoffs of nothing  
+Programmers know the benefits of everything and the tradeoffs of nothing
 
 -- Rich Hickey
 #+end_quote
@@ -55,6 +55,9 @@ customized solutions and individualism. A solo developer now has the
 power to bend and flex reality to his whims. The drawback is that this
 causes fewer common tools to emerge - developers can just build them
 themselves fairly easily, leading to a divergence of methods.
+
+#+caption: An old *Symbolics* keyboard built for editing LISP
+[[/images/SymbolicsKB.jpg]]
 
 Corporations would *not* want to enable this - preferring replaceable
 cogs. This is detailed in the [[https://people.eecs.berkeley.edu/~bh/ssch0/preface.html][intro to Simply Scheme]], and below. The
@@ -118,7 +121,7 @@ much nicer than the tables used by Hugo by default. If that didn't
 make sense, no worries - I'm just happy that the result below looks
 like a lisp list rather than a table.
 
-#+begin_src clojure 
+#+begin_src clojure
 (vals {:a 1 :b 2})
 #+end_src
 
@@ -227,7 +230,7 @@ parenthesis, operator, operands, closing parenthesis"
 ** Using Libraries
 
 In this guide, I'll be including libraries as-used with the `require`
-function as needed. 
+function as needed.
 
 #+begin_src clojure
 (require '[clj-http.client :as client])
@@ -259,19 +262,19 @@ It is easy to fetch data using the [[https://github.com/dakrone/clj-http][clj-ht
 (client/head "https://ryanfleck.ca")
 
 ;; Result:
-'(:cached   :request-time 197  :repeatable? false  
-            :protocol-version (:name "HTTP"  :major 1  :minor 1)  
+'(:cached   :request-time 197  :repeatable? false
+            :protocol-version (:name "HTTP"  :major 1  :minor 1)
             ;; ... more stuff ...
-            :headers ("referrer-policy" "strict-origin-when-cross-origin"  
-                      "Server" "cloudflare"  
-                      "Content-Type" "text/html; charset=utf-8"  
-                      "x-content-type-options" "nosniff"  "alt-svc" "h3=\":443\"; ma=86400"  
-                      "NEL" "{\"success_fraction\":0,\"report_to\":\"cf-nel\",\"max_age\":604800}"  
-                      "Connection" "close"  "cf-cache-status" "DYNAMIC"  "CF-RAY" "8fedb5dbee3cebbe-SEA"  
+            :headers ("referrer-policy" "strict-origin-when-cross-origin"
+                      "Server" "cloudflare"
+                      "Content-Type" "text/html; charset=utf-8"
+                      "x-content-type-options" "nosniff"  "alt-svc" "h3=\":443\"; ma=86400"
+                      "NEL" "{\"success_fraction\":0,\"report_to\":\"cf-nel\",\"max_age\":604800}"
+                      "Connection" "close"  "cf-cache-status" "DYNAMIC"  "CF-RAY" "8fedb5dbee3cebbe-SEA"
 
                       ;; ... more stuff ...
-                      "Cache-Control" "public, max-age=0, must-revalidate")  
-            :orig-content-encoding "gzip"  :status 200  
+                      "Cache-Control" "public, max-age=0, must-revalidate")
+            :orig-content-encoding "gzip"  :status 200
             :length 0  :body   :trace-redirects ())
 #+end_src
 
@@ -298,18 +301,18 @@ Here is how the data looks after using *group-by*:
 #+begin_src clojure
 (group-by :language (db/get-items-by-hour-72h-langs))
 
-{"nl" [{:count 3, :hour #object[java.time.LocalDateTime 0x2e063d23 "2025-01-07T21:00"], :language "nl"} 
-       {:count 2, :hour #object[java.time.LocalDateTime 0x5080c1d3 "2025-01-09T11:00"], :language "nl"} 
-       {:count 1, :hour #object[java.time.LocalDateTime 0x2cef6527 "2025-01-09T21:00"], :language "nl"}], 
- "pt" [{:count 188, :hour #object[java.time.LocalDateTime 0x6e9352c2 "2025-01-07T21:00"], :language "pt"} 
-       {:count 175, :hour #object[java.time.LocalDateTime 0x41f9af3f "2025-01-08T11:00"], :language "pt"} 
-       {:count 62, :hour #object[java.time.LocalDateTime 0x71df170a "2025-01-09T15:00"], :language "pt"} 
-       {:count 96, :hour #object[java.time.LocalDateTime 0x58aa8fa8 "2025-01-09T21:00"], :language "pt"}], 
- "en" [{:count 4412, :hour #object[java.time.LocalDateTime 0x74f18d18 "2025-01-07T21:00"], :language "en"} 
-       {:count 2552, :hour #object[java.time.LocalDateTime 0x3fd9a0d6 "2025-01-09T11:00"], :language "en"} 
-       {:count 227, :hour #object[java.time.LocalDateTime 0x6fa4cc34 "2025-01-09T13:00"], :language "en"} 
-       {:count 856, :hour #object[java.time.LocalDateTime 0x4a64b22a "2025-01-09T21:00"], :language "en"}], 
- "ur" [{:count 100, :hour #object[java.time.LocalDateTime 0x552a7e60 "2025-01-07T21:00"], :language "ur"} 
+{"nl" [{:count 3, :hour #object[java.time.LocalDateTime 0x2e063d23 "2025-01-07T21:00"], :language "nl"}
+       {:count 2, :hour #object[java.time.LocalDateTime 0x5080c1d3 "2025-01-09T11:00"], :language "nl"}
+       {:count 1, :hour #object[java.time.LocalDateTime 0x2cef6527 "2025-01-09T21:00"], :language "nl"}],
+ "pt" [{:count 188, :hour #object[java.time.LocalDateTime 0x6e9352c2 "2025-01-07T21:00"], :language "pt"}
+       {:count 175, :hour #object[java.time.LocalDateTime 0x41f9af3f "2025-01-08T11:00"], :language "pt"}
+       {:count 62, :hour #object[java.time.LocalDateTime 0x71df170a "2025-01-09T15:00"], :language "pt"}
+       {:count 96, :hour #object[java.time.LocalDateTime 0x58aa8fa8 "2025-01-09T21:00"], :language "pt"}],
+ "en" [{:count 4412, :hour #object[java.time.LocalDateTime 0x74f18d18 "2025-01-07T21:00"], :language "en"}
+       {:count 2552, :hour #object[java.time.LocalDateTime 0x3fd9a0d6 "2025-01-09T11:00"], :language "en"}
+       {:count 227, :hour #object[java.time.LocalDateTime 0x6fa4cc34 "2025-01-09T13:00"], :language "en"}
+       {:count 856, :hour #object[java.time.LocalDateTime 0x4a64b22a "2025-01-09T21:00"], :language "en"}],
+ "ur" [{:count 100, :hour #object[java.time.LocalDateTime 0x552a7e60 "2025-01-07T21:00"], :language "ur"}
 ;; ... data truncated ...
 #+end_src
 
@@ -541,10 +544,10 @@ multiple simple statements within an *if* expression.
   - [[https://clojuredocs.org/clojure.core/not][clojure.core/not]]
 
 #+begin_src clojure :results value
-(nil? 1)       ;; => false 
+(nil? 1)       ;; => false
 (nil? nil)     ;; => true
 (true? true)   ;; => true
-(false? true)  ;; => false 
+(false? true)  ;; => false
 (true? nil)    ;; => false - nil is falsey
 #+end_src
 
@@ -568,7 +571,7 @@ multiple simple statements within an *if* expression.
 
 *** Assignments
 
-Use [[https://clojuredocs.org/clojure.core/def][clojure.core/def]] to bind names in Clojure. 
+Use [[https://clojuredocs.org/clojure.core/def][clojure.core/def]] to bind names in Clojure.
 
 #+begin_quote
 Notice that I’m using the term *bind*, whereas in other languages you’d
@@ -630,8 +633,8 @@ Clojure supports four [[https://clojure.org/guides/learn/syntax#_literal_collect
 [[https://clojuredocs.org/clojure.core/get-in][clojure.core/get-in]] allows you to dig into nested maps:
 
 #+begin_src clojure
-(get-in 
-  {:head 1 :chest {:ribs 10 :cavity {:heart "pumpin'" :lungs 2}}} 
+(get-in
+  {:head 1 :chest {:ribs 10 :cavity {:heart "pumpin'" :lungs 2}}}
   [:chest :cavity :heart])
 #+end_src
 
@@ -802,11 +805,11 @@ Upon creating and generating a new Luminus project and running it once
 in the REPL, here is *part* of the tree of directories and files that is
 generated:
 
-#+begin_src 
+#+begin_src
 guestbook/
-│  
+│
 ├── project.clj
-│  
+│
 ├── resources
 │   ├── docs
 │   │   └── docs.md
@@ -848,9 +851,12 @@ guestbook/
 │           ├── db
 │           │   └── core_test.clj
 │           └── handler_test.clj
-│  
+│
 └── test-config.edn
 #+end_src
+
+
+#+hugo: {{< pagebreak >}}
 
 * Emacs
   :PROPERTIES:
@@ -899,6 +905,8 @@ start using Emacs in general.
 1. [[https://docs.cider.mx/cider/usage/cider_mode.html#basic-workflow][Cider Docs: Basic Workflow]]
 2. Experience
 
+#+hugo: {{< pagebreak >}}
+
 ** Cider
    :PROPERTIES:
    :CUSTOM_ID: cider
@@ -921,7 +929,7 @@ CIDER is an interactive programming environment for Clojure.
 
 It looks like this when run:
 
-#+begin_src 
+#+begin_src
 ;; Connected to nREPL server - nrepl://localhost:36099
 ;; CIDER 1.13.0-snapshot (package: 20231127.825), nREPL 1.0.0
 ;; Clojure 1.11.1, Java 17.0.9
@@ -988,14 +996,14 @@ org file, ~clj.org~, in ~/content-org/languages/clj.org~.
   "Insert a link to clojuredocs.org."
   (interactive)
   (let ((str (read-string "Function (ex. clojure.core/when) >> ") ))
-    (insert (s-concat "[[https://clojuredocs.org/" 
+    (insert (s-concat "[[https://clojuredocs.org/"
                       (clojuredoc-string-to-url str) "][" str "]]"))))
 
 (defun org-link-to-core-clojuredocs ()
   "Insert a link to clojuredocs.org in the clojure.core namespace."
   (interactive)
   (let ((str (read-string "clojure.core function (ex. when) >> ") ))
-    (insert (s-concat "[[https://clojuredocs.org/clojure.core/" 
+    (insert (s-concat "[[https://clojuredocs.org/clojure.core/"
                       (clojuredoc-string-to-url str) "][clojure.core/" str "]]"))))
 
 ;; Make these easier to type
@@ -1061,6 +1069,6 @@ hooks in particular) while still writing and executing code in ORG.
 
 * Footnotes
 [fn:3] "Clojure for the Brave and True" by Daniel Higginbotham, [[https://www.braveclojure.com/][braveclojure.com]]
-[fn:2] "Clojure for the Brave and True" page 48. 
-[fn:1] "Literate Programming", Donald E. Knuth, [[https://www-cs-faculty.stanford.edu/~knuth/lp.html][stanford.edu]] 
+[fn:2] "Clojure for the Brave and True" page 48.
+[fn:1] "Literate Programming", Donald E. Knuth, [[https://www-cs-faculty.stanford.edu/~knuth/lp.html][stanford.edu]]
 [fn:4] Documentation for [[https://docs.cider.mx/cider/usage/interactive_programming.html][CIDER: Interactive Programming]]
