@@ -875,6 +875,7 @@ provided in the [Clojure for the Brave and True](https://www.braveclojure.com/) 
 initialization files mentioned on the linked page is a great way to
 start using Emacs in general.
 
+{{< pagebreak >}}
 
 ## Command Cheat Sheet {#command-cheat-sheet}
 
@@ -906,6 +907,7 @@ start using Emacs in general.
 1.  [Cider Docs: Basic Workflow](https://docs.cider.mx/cider/usage/cider_mode.html#basic-workflow)
 2.  Experience
 
+{{< pagebreak >}}
 
 ## Cider {#cider}
 

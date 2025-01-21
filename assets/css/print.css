@@ -75,6 +75,7 @@ figure{
     width: 70vw;
 }
 
+#pagebreak,
 #page-break{
-
+    page-break-before: always;
 }
