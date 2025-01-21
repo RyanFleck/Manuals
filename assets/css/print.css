@@ -66,9 +66,15 @@ img{
     max-height: 80vh;
     width: 70vw;
     margin: 4px auto;
+    page-break-inside: avoid;
 }
 
 figure{
+    page-break-inside: avoid;
     margin: 0px auto;
     width: 70vw;
+}
+
+#page-break{
+
 }
