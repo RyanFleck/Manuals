@@ -1,0 +1,74 @@
+html, body {
+    font-size: 11px !important;
+    color: black !important;
+    background: none;
+    background-color: none;
+    line-height: 1.3;
+}
+
+#commentsblock {
+    display: none;
+}
+
+div#footer,
+#page-title,
+#info-column,
+p.navbar-nav,
+div#jumper,
+#jumper,
+#jumper-info{
+    display: none;
+}
+
+div.highlight,
+pre {
+    white-space: pre-wrap;       /* Since CSS 2.1 */
+    white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
+    white-space: -pre-wrap;      /* Opera 4-6 */
+    white-space: -o-pre-wrap;    /* Opera 7 */
+    word-wrap: break-word;       /* Internet Explorer 5.5+ */
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+main > p,
+body > p,
+div.outline-text-1 p,
+div.outline-text-2 p,
+div.outline-text-3 p,
+div.outline-text-4 p,
+div.outline-text-5 p,
+main > ol,
+main > ul,
+body > ul,
+body > ol,
+body > div ul,
+body > div ol,
+body > blockquote,
+main > blockquote,
+nav > ul,
+nav > ol,
+.footnotes > ol,
+table,
+figure,
+div.footnotes,
+#footer {
+    max-width: 99vw;
+}
+
+img{
+    display: block;
+    height: auto;
+    max-height: 80vh;
+    width: 70vw;
+    margin: 4px auto;
+}
+
+figure{
+    margin: 0px auto;
+    width: 70vw;
+}

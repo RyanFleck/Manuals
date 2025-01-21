@@ -1,11 +1,13 @@
-<br />
-<h3>Page Information</h3>
-<p>
-  Title: {{ .Title }}<br />
-  Word Count: {{ .WordCount }} words<br />
-  Reading Time: {{ .ReadingTime }} minutes<br />
-  Permalink: <br />
-  &rightarrow;
-  <a href="{{ .Permalink }}"> {{ .Permalink }} </a>
-</p>
-<br />
+<div id="page-info">
+  <br />
+  <h3 class="noleftpad">Page Information</h3>
+  <p>
+    Title: {{ .Title }}<br />
+    Word Count: {{ .WordCount }} words<br />
+    Reading Time: {{ .ReadingTime }} minutes<br />
+    Permalink: <br />
+    &rightarrow;
+    <a href="{{ .Permalink }}"> {{ .Permalink }} </a>
+  </p>
+  <br />
+</div>

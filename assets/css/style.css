@@ -167,7 +167,7 @@ table{
 .highlight,
 .src,
 code {
-  font-size: 1rem; 
+  font-size: 1rem;
 }
 
 div {
@@ -202,12 +202,20 @@ nav > ol,
 table,
 figure,
 div.footnotes,
+#page-info,
+#info-column,
 #footer {
     /* margin: 0 auto */
     max-width: 800px;
     margin-top: 1em;
     margin-left: 2rem;
     padding-right: 2rem;
+}
+
+.noleftpad > ul,
+.nolefpad ul,
+.noleftpad{
+    margin-left: 0px;
 }
 
 pre.text-result{
@@ -220,7 +228,7 @@ pre.text-result{
 }
 
 div ol > p,
-div ul > p, 
+div ul > p,
 div li > p {
     padding: 0 !important;
     margin: 0 !important;
@@ -339,7 +347,7 @@ a:active{
 }
 
 #jumper {
-    position: fixed;   
+    position: fixed;
     padding: 10px;
     background: #fffccc;
     box-shadow: 0 0 10px #fffccc;
@@ -369,10 +377,10 @@ h1#page-title a:visited {
   transition: 0.3s;
 
   /* From Scripts.js */
-  float: left; 
-  margin-left: -20px; 
-  font-size: 0.7em; 
-  padding-top: 0.38em; 
+  float: left;
+  margin-left: -20px;
+  font-size: 0.7em;
+  padding-top: 0.38em;
   padding-right: 0em;
 }
 
@@ -552,7 +560,7 @@ p#article-subheading{
 @media (max-width: 800px) {
     html, body, :root{
 	font-size: 14px;
-    } 
+    }
 }
 
 /* No header anchor links on mobile */
@@ -562,12 +570,12 @@ p#article-subheading{
     }
     .header-anchor-link {
 	display: none;
-    }    
+    }
 }
 
 .chroma span.err,
 .chroma span.kc{
     background-color: none;
     background: none;
-    
+
 }

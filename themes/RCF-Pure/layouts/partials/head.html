@@ -24,6 +24,9 @@
   {{ $darkStyles := resources.Get "css/dark.css" | minify | resources.Fingerprint "md5" }}
   <link rel="stylesheet" href="{{ $darkStyles.Permalink }}" media="(prefers-color-scheme: dark)">
 
+  {{ $printStyles := resources.Get "css/print.css" | minify | resources.Fingerprint "md5" }}
+  <link rel="stylesheet" href="{{ $printStyles.Permalink }}" media="print">
+
 
 
   <!-- Font-Awesome -->
