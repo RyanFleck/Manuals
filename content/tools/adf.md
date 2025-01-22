@@ -4,7 +4,7 @@ image = ""
 summary = "A data engineering platform"
 title = "Azure Data Factory"
 toc = true
-aliases = ["data-factory", "azdf"]
+aliases = ["data-factory", "azdf", "azure-data-factory", "ADF"]
 +++
 
 # What is a Data Factory?
@@ -44,6 +44,15 @@ architectures.
 - The **Lookup Activity** supports a max of 5000 rows or 4mb of data returned
 - The **ForEach Activity** supports a max of 100,000 output items
 - You can't nest **ForEach** activities
+- Errors quite often don't mean what they say:
+  - Carefully investigate and list the limitations of your sources and sinks
+  - Perform a lot of initial testing to validate your choices in technology
+  - **Many Azure systems and tools have shocking and strange limitations**
+  - The only thing you can do is perform a large volume of research -
+    describe your use cases to LLMs and read lots of documentation, as
+    there are too many small limits for even a seasoned subject matter
+    expert to recall at once.
+
 
 # Pro Tips
 

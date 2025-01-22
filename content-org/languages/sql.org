@@ -17,22 +17,20 @@
 :PROPERTIES:
 :CUSTOM_ID: what-is-sql
 :END:
+
 Structured Query Language (SQL) is used to retrieve and modify
 information in a *relational database management system* like MySQL,
-PostgreSQL, [[https://sqlite.org/codeofethics.html][SQLite]], Microsoft
-SQL, Oracle, and others. Relational databases store data in large
-relational tables, where each row must conform to the types specified in
-the table columns, where cell contents must be either data, nothing, or
-a reference to a row in another table.
+PostgreSQL, [[https://sqlite.org/codeofethics.html][SQLite]], Microsoft SQL, Oracle, and others. Relational
+databases store data in large relational tables, where each row must
+conform to the types specified in the table columns, where cell
+contents must be either data, nothing, or a reference to a row in
+another table.
 
-Typically SQL is pronounced "SEQUEL" as this was its
-[[https://web.archive.org/web/20070926212100/http://www.almaden.ibm.com/cs/people/chamberlin/sequel-1974.pdf][original
-name]] when invented by Donald Chamberlin and Raymond Boyce at *IBM* in
-the 70s.
+Typically SQL is pronounced "SEQUEL" as this was its [[https://web.archive.org/web/20070926212100/http://www.almaden.ibm.com/cs/people/chamberlin/sequel-1974.pdf][original name]]
+when invented by Donald Chamberlin and Raymond Boyce at *IBM* in the
+70s.
 
-Use the
-[[https://www.w3schools.com/sql/trysql.asp?filename=trysql_op_or][W3Schools
-Try-It Editor]] to tinker with SQL now.
+Use the [[https://www.w3schools.com/sql/trysql.asp?filename=trysql_op_or][W3Schools Try-It Editor]] to tinker with SQL now.
 
 ** ORMs
 :PROPERTIES:
@@ -41,15 +39,15 @@ Try-It Editor]] to tinker with SQL now.
 Object Relational Mappers (ORMs) are abstractions used by web developers
 to interact with relational databases.
 
-Modern developers could live out a career without ever touching SQL due
-to the variety of well built ORMs that exist to translate objects built
-in an object-oriented language to SQL queries for insertion, retrieval,
-and manipulation. This is unfortunate in the same way a lack of
-knowledge about a CPU, machine code, assembly languages, or C is
-unfortunate: It means the programmer in question is operating on blind
-abstraction. This is obviously useful right up to the moment when
-performance tuning, a bug, or some other issue necessitating critical
-introspection of a codebase appears.
+Modern developers could live out a career without ever touching SQL
+due to the variety of well built ORMs that exist to translate objects
+built in an object-oriented language to SQL queries for insertion,
+retrieval, and manipulation. This is unfortunate in the same way a
+lack of knowledge about a CPU, machine code, assembly languages, or C
+is unfortunate: It means the programmer in question is operating on
+blind abstraction. This is obviously useful right up to the moment
+when performance tuning, a bug, or some other issue necessitating
+critical introspection of a codebase appears.
 
 ** Differences Between SQL Flavors
 :PROPERTIES:
@@ -115,11 +113,7 @@ echo "listen_addresses='*'" >> /var/lib/postgresql/13/data/postgresql.conf
 
 Locking this down once you find you can connect is a good idea.
 
-Check
-[[https://luppeng.wordpress.com/2020/02/28/install-and-start-postgresql-on-alpine-linux/][this]]
-and
-[[https://www.loggly.com/use-cases/postgresql-logs-logging-setup-and-troubleshooting/][that]]
-for further setup guidance.
+Check [[https://luppeng.wordpress.com/2020/02/28/install-and-start-postgresql-on-alpine-linux/][this]] and [[https://www.loggly.com/use-cases/postgresql-logs-logging-setup-and-troubleshooting/][that]] for further setup guidance.
 
 For running commands use [[https://dbgate.org/][DbGate]]
 
@@ -207,9 +201,7 @@ Creating an *index* is, in essence, an instruction to the database to
 hold additional data about a column to speed up queries.
 
 - There are *many* index types for different scenarios.
-- See
-  [[https://medium.com/autodesk-tlv/mastering-postgresql-indexes-for-optimal-performance-5e4b0dc293e5][Mastering
-  PostgreSQL Indexes for Optimal Performance]]
+- See [[https://medium.com/autodesk-tlv/mastering-postgresql-indexes-for-optimal-performance-5e4b0dc293e5][Mastering PostgreSQL Indexes for Optimal Performance]]
 
 *** CREATE INDEX
 :PROPERTIES:
@@ -232,6 +224,7 @@ CREATE INDEX idx_systemx_digitaltwin_person ON digitaltwin.person (country, firs
 :PROPERTIES:
 :CUSTOM_ID: alter-index
 :END:
+
 Generally, PostgreSQL would encourage you to drop and recreate an index.
 You could always reindex to bump performance.
 
@@ -300,7 +293,7 @@ INSERT 0 1
 :PROPERTIES:
 :CUSTOM_ID: select-read
 :END:
-Retreives data from a table.
+Retrieves data from a table.
 
 #+begin_src sql
 SELECT <columns or * for all> FROM <table>;
@@ -363,8 +356,8 @@ which provides a default of the next integer. Postgres provides the
 :PROPERTIES:
 :CUSTOM_ID: constraints
 :END:
-[[https://www.postgresql.org/docs/current/ddl-constraints.html][PostgreSQL
-Constraints]]
+
+See [[https://www.postgresql.org/docs/current/ddl-constraints.html][PostgreSQL Constraints]]
 
 When designing tables, many different constraints can be provided.
 
@@ -534,6 +527,7 @@ SELECT * FROM users WHERE
 :PROPERTIES:
 :CUSTOM_ID: order-by
 :END:
+
 Queries that require sorted results can be organized with the =ORDER BY=
 clause.
 
@@ -580,8 +574,8 @@ FROM <table>;
 :PROPERTIES:
 :CUSTOM_ID: group-by-having-aggregates
 :END:
-Most SQL engines provide at least =COUNT=, =SUM=, =MAX=, =MIN=, =AVG=,
-and =ROUND= as aggregate functions to *reduce* query results.
+Most SQL engines provide at least =COUNT=, =SUM=, =MAX=, =MIN=, =AVG=, and =ROUND=
+as aggregate functions to *reduce* query results.
 
 #+begin_src sql
 -- Count
@@ -942,11 +936,8 @@ by adding support for storing, indexing, and querying geospatial data.
 #+end_quote
 
 - See [[https://postgis.net/][postgis.net]]
-- Instructions to
-  [[https://trac.osgeo.org/postgis/wiki/UsersWikiPostGIS3UbuntuPGSQLApt][install
-  postgis on Debian]]
-- For docker see
-  [[https://github.com/postgis/docker-postgis][github.com/postgis/docker-postgis]]
+- Instructions to [[https://trac.osgeo.org/postgis/wiki/UsersWikiPostGIS3UbuntuPGSQLApt][install postgis on Debian]]
+- For docker see [[https://github.com/postgis/docker-postgis][github.com/postgis/docker-postgis]]
 
 #+begin_src sql
 SELECT * FROM pg_available_extensions WHERE name = 'postgis';
@@ -962,6 +953,7 @@ CREATE EXTENSION postgis;
 :PROPERTIES:
 :CUSTOM_ID: other-engine-specific-notes
 :END:
+
 Apart from *PostgreSQL*, there are plenty of other good SQL engines with
 different strengths and use cases.
 
@@ -969,16 +961,14 @@ different strengths and use cases.
 :PROPERTIES:
 :CUSTOM_ID: sqlite
 :END:
-An ultralight on-disk SQL implementation. Codecademy's
-[[https://www.codecademy.com/courses/learn-sql][learn sql]] course is
-taught with this program, and it is extremely easy to run on a student
-machine. Commonly SQLite is used for single-user databases - whether
-that is an automatic weapon on the deck of a ship, an app on a cell
-phone, or a small web application.
 
-Read
-[[https://thenewstack.io/the-origin-story-of-sqlite-the-worlds-most-widely-used-database-software/][this
-amazing article]] on the origins of SQLite. Here's an excerpt:
+An ultralight on-disk SQL implementation. Codecademy's [[https://www.codecademy.com/courses/learn-sql][learn sql]]
+course is taught with this program, and it is extremely easy to run on
+a student machine. Commonly SQLite is used for single-user databases -
+whether that is an automatic weapon on the deck of a ship, an app on a
+cell phone, or a small web application.
+
+Read [[https://thenewstack.io/the-origin-story-of-sqlite-the-worlds-most-widely-used-database-software/][this amazing article]] on the origins of SQLite. Here's an excerpt:
 
 #+begin_quote
 The story begins in a shipyard in Bath, Maine (population: 8,329). Back
@@ -1016,11 +1006,39 @@ database server.'*"
 :PROPERTIES:
 :CUSTOM_ID: microsoft-sql
 :END:
-Also known as *T-SQL* or *Transact-SQL*. Beware - lots of weird bits
-here.
 
-- Strings *must* be in *single quotes*.
-- It seems to enforce using hard brackets around table paths.
+Also known as *T-SQL* or *Transact-SQL*. Beware - lots of weird bits here
+due to the system's extremely long history. SQL Server was forked from
+Sybase SQL Server[fn:1] which evolved from Ingres[fn:2]. PostgreSQL
+also evolved from Ingres (/Post-Ingres-SQL./)
+
+
+- Strings *must* be in *single quotes*. Double quotes will screw things up.
+- ~[ ]~ Hard braces are used around many objects and names to support
+  legacy systems with unsupported characters in table names.
+
+Rather than limit, ~TOP N~ can be used:
+
+#+begin_src sql
+SELECT TOP 10
+    *,
+    LEN(your_string_column) AS string_length
+FROM
+    [schema1].[table1]
+ORDER BY
+    [string_length] DESC;
+#+end_src
+
+The syntax for searching is also different, especially to search for
+hard brackets (~[~).
+
+#+begin_src sql
+SELECT *
+FROM [schema1].[table1]
+--         Any group of '['
+WHERE [filename] LIKE '%[[]%' ESCAPE '\';
+   -- ESCAPE '\' instructs T-SQL to change its escape character.
+#+end_src
 
 ** Oracle
 :PROPERTIES:
@@ -1051,16 +1069,15 @@ safely glossed over." - *Richard Hipp*
 :PROPERTIES:
 :CUSTOM_ID: history
 :END:
-This document was originally called a "Code of Conduct" and was created
-for the purpose of filling in a box on "supplier registration" forms
-submitted to the SQLite developers by some clients. However, we
+This document was originally called a "Code of Conduct" and was
+created for the purpose of filling in a box on "supplier registration"
+forms submitted to the SQLite developers by some clients. However, we
 subsequently learned that "Code of Conduct" has a very specific and
-almost sacred meaning to some readers, a meaning to which this document
-does not conform
-[[https://web.archive.org/web/20220122061306/https://www.theregister.co.uk/2018/10/22/sqlite_code_of_conduct/][[1]]][[https://web.archive.org/web/20220122061306/https://pjmedia.com/news-and-politics/paula-bolyard/2018/10/24/tech-community-outraged-after-sqlite-founder-adopts-christian-code-of-conduct-n61746][[2]]][[https://web.archive.org/web/20220122061306/https://www.youtube.com/watch?v=S48VzyCwwtk][[3]]].
-Therefore this document was renamed to "Code of Ethics", as we are
-encouraged to do by rule 71 in particular and also rules 2, 8, 9, 18,
-19, 30, 66, and in the spirit of all the rest.
+almost sacred meaning to some readers, a meaning to which this
+document does not conform [[https://web.archive.org/web/20220122061306/https://www.theregister.co.uk/2018/10/22/sqlite_code_of_conduct/][[1]]][[https://web.archive.org/web/20220122061306/https://pjmedia.com/news-and-politics/paula-bolyard/2018/10/24/tech-community-outraged-after-sqlite-founder-adopts-christian-code-of-conduct-n61746][[2]]][[https://web.archive.org/web/20220122061306/https://www.youtube.com/watch?v=S48VzyCwwtk][[3]]]. Therefore this document was
+renamed to "Code of Ethics", as we are encouraged to do by rule 71 in
+particular and also rules 2, 8, 9, 18, 19, 30, 66, and in the spirit
+of all the rest.
 
 This document continues to be used for its original purpose - providing
 a reference to fill in the "code of conduct" box on supplier
@@ -1073,30 +1090,28 @@ registration forms.
 The founder of SQLite, and all of the current developers at the time
 when this document was composed, have pledged to govern their
 interactions with each other, with their clients, and with the larger
-SQLite user community in accordance with the "instruments of good works"
-from chapter 4 of
-[[https://web.archive.org/web/20220122061306/https://en.wikipedia.org/wiki/Rule_of_Saint_Benedict][The
-Rule of St. Benedict]] (hereafter: "The Rule"). This code of ethics has
-proven its mettle in thousands of diverse communities for over 1,500
-years, and has served as a baseline for many civil law codes since the
-time of Charlemagne.
+SQLite user community in accordance with the "instruments of good
+works" from chapter 4 of [[https://web.archive.org/web/20220122061306/https://en.wikipedia.org/wiki/Rule_of_Saint_Benedict][The Rule of St. Benedict]] (hereafter: "The
+Rule"). This code of ethics has proven its mettle in thousands of
+diverse communities for over 1,500 years, and has served as a baseline
+for many civil law codes since the time of Charlemagne.
 
 *** 2.1. Scope of Application
 :PROPERTIES:
 :CUSTOM_ID: scope-of-application
 :END:
 No one is required to follow The Rule, to know The Rule, or even to
-think that The Rule is a good idea. The Founder of SQLite believes that
-anyone who follows The Rule will live a happier and more productive
-life, but individuals are free to dispute or ignore that advice if they
-wish.
+think that The Rule is a good idea. The Founder of SQLite believes
+that anyone who follows The Rule will live a happier and more
+productive life, but individuals are free to dispute or ignore that
+advice if they wish.
 
-The founder of SQLite and all current developers have pledged to follow
-the spirit of The Rule to the best of their ability. They view The Rule
-as their promise to all SQLite users of how the developers are expected
-to behave. This is a one-way promise, or covenant. In other words, the
-developers are saying: "We will treat you this way regardless of how you
-treat us."
+The founder of SQLite and all current developers have pledged to
+follow the spirit of The Rule to the best of their ability. They view
+The Rule as their promise to all SQLite users of how the developers
+are expected to behave. This is a one-way promise, or covenant. In
+other words, the developers are saying: "We will treat you this way
+regardless of how you treat us."
 
 ** 3. The Rule
 :PROPERTIES:
@@ -1183,3 +1198,9 @@ treat us."
 70. Pray for your enemies in the love of Christ.
 71. Make peace with your adversary before the sun sets.
 72. Never despair of God's mercy.
+
+* Footnotes
+
+[fn:2] Ingres: https://en.wikipedia.org/wiki/Ingres_(database)
+
+[fn:1] Sybase SQL Server: [[https://news.ycombinator.com/item?id=11241594]]

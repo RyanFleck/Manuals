@@ -130,6 +130,12 @@ Sorted alphabetically.
 
 I've worked a lot with Storage Accounts (SAs or STAs) in my time.
 
+## Weird Storage Account Limitations
+
+## Access from VMs
+
+## Access Across Networks
+
 # **ADF** - Azure Data Factory
 
 [See all of my Data Factory notes in the **Azure Data Factory Manual**.]({{< ref "/tools/adf.md" >}})
