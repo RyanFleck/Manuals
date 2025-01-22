@@ -9,6 +9,15 @@ toc: true
 
 <br />
 
+> A fool has no delight in understanding, But in expressing his own
+> heart.
+>
+> -- Proverbs 18:2 NKJV
+
+<br />
+
+<br />
+
 # John 3
 
 > There was a man of the Pharisees named Nicodemus, a ruler of the
@@ -100,3 +109,66 @@ toc: true
 <br />
 
 <br />
+
+# Discernment
+
+> The first one to plead his cause seems right, Until his neighbor
+> comes and examines him.
+>
+> -- Proverbs 18:17 NKJV
+
+<br />
+
+> Now the Spirit expressly says that in latter times some will depart
+> from the faith, giving heed to deceiving spirits and doctrines of
+> demons, speaking lies in hypocrisy, having their own conscience
+> seared with a hot iron, forbidding to marry, and commanding to
+> abstain from foods which God created to be received with
+> thanksgiving by those who believe and know the truth.
+>
+> For every creature of God is good, and nothing is to be refused if
+> it is received with thanksgiving; for it is sanctified by the word
+> of God and prayer.
+>
+> -- 1 Timothy 4:1-5 NKJV
+
+<br />
+
+> I marvel that you are turning away so soon from Him who called you
+> in the grace of Christ, to a different gospel, which is not another;
+> but there are some who trouble you and want to pervert the gospel of
+> Christ. But even if we, or an angel from heaven, preach any other
+> gospel to you than what we have preached to you, let him be
+> accursed.
+>
+> As we have said before, so now I say again, if anyone preaches any
+> other gospel to you than what you have received, let him be
+> accursed. For do I now persuade men, or God? Or do I seek to please
+> men? For if I still pleased men, I would not be a bondservant of
+> Christ.
+>
+> -- Galatians 1:6-10 NKJV
+
+<br />
+
+> Now I urge you, brethren, note those who cause divisions and
+> offenses, contrary to the doctrine which you learned, and avoid
+> them.
+>
+> For those who are such do not serve our Lord Jesus Christ, but their
+> own belly, and by smooth words and flattering speech deceive the
+> hearts of the simple.
+>
+> -- Romans 16:17-18 NKJV
+
+<br />
+
+<br />
+
+# Instructions
+
+- Find a good church, steeped in good traditions and love for the Word
+- Do not be drawn in - test the church with the Word
+- Raise any concerns to the pastors
+- If the concerns are not heeded, depart in peace
+- If the church is good, stay and serve the Lord
