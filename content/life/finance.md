@@ -4,6 +4,9 @@ summary: "Content summary for Finance."
 title: "Finance"
 draft: true
 toc: true
+aliases:
+- "/life/finance"
+- "/money"
 ---
 
 <!-- M-x auto-fill-mode is your friend -->
@@ -31,7 +34,7 @@ any asset will continue upwards without considerable momentum or reason.
 
 - Don't pile money into assets when the market is green and greed is high.
 - Don't sell everything when the market is red and fear is high.
-  
+
 This is how chumps, suckers, and those manipulated by FUD think. Use
 the [Fear & Greed](https://www.cnn.com/markets/fear-and-greed) index
 as a tool to help judge the market. Better put by *Warren Buffett*[^1]:

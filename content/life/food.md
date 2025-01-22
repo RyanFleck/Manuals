@@ -1,8 +1,11 @@
 ---
 date: 2025-01-06T20:47:15-07:00
 summary: "Content summary for Baking."
-title: "Cooking & Baking"
+title: "Food - Cooking & Baking"
 toc: true
+aliases:
+- "/life/cooking-and-baking"
+- "/cooking-and-baking"
 ---
 
 <!-- M-x auto-fill-mode is your friend -->
@@ -22,7 +25,7 @@ get much time here to figure out what is really important.
 
 > So let each one give as he purposes in his heart, not grudgingly or
 > of necessity; for God loves a cheerful giver.
->  
+>
 > -- 2 Corinthians 9:7 NKJV
 
 ## Tier 0: Not Dying
@@ -72,7 +75,7 @@ following items in your kitchen already.
 
 ### Shopping List
 
-In January of 2025 I purchased 
+In January of 2025 I purchased
 
 - Vegetables
   - A couple tomatoes
@@ -105,7 +108,7 @@ In January of 2025 I purchased
   - Peanut butter
   - Pasta sauce
   - Can of beans
-  
+
 **Proof:** The receipt below is an attempt to purchase all of these
 ingredients to get an estimate of the cost. In January 2025, in
 Alberta, Canada, it cost **$136** Canadian dollars to buy the ingredients
@@ -131,7 +134,7 @@ potatoes that will last multiple weeks.
   keep them in a big tupperware.
 - Add frozen mixed vegetables to increase the volume of all these
   dishes, and/or when too lazy to chop.
-  
+
 ![What your cart should contain for Tier 0](/images/groceries/haul-min.jpg)
 
 ### Spaghetti and Sausage
@@ -164,7 +167,7 @@ your chicken. Combine everything and toss in your frying pan.
 
 ### Ground Beef and Onion Noodles
 
-Cook up ground beef, onions, and soy sauce in a pan. 
+Cook up ground beef, onions, and soy sauce in a pan.
 
 ### Fish and Chips
 
@@ -196,7 +199,7 @@ Or *pie dough* - enough for two pies.
 **Instructions:**
 
 1. In food processor, pulse dry ingredients (flour, sugar, and salt)
-2. Pulse in butter. Cut the butter into ~1cm² chunks, throw them into the food processor, and tap the pulse button until coarse crumbs form. Not long. 
+2. Pulse in butter. Cut the butter into ~1cm² chunks, throw them into the food processor, and tap the pulse button until coarse crumbs form. Not long.
 3. Check to make sure there is no tough disk stuck to the bottom of the food processing chamber.
 3. Pulse in water. Stop when clumps form - longer will destroy the flaky texture
 4. Divide into two balls and refrigerate

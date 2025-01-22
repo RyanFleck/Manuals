@@ -1,8 +1,13 @@
 ---
 date: 2025-01-06T20:49:50-07:00
 summary: "Content summary for Religion."
-title: "Faith - Caring for the Soul"
+title: "Faith - Nurturing the Soul"
 toc: true
+aliases:
+- "/life/religion"
+- "/life/faith"
+- "/religion"
+- "/soul"
 ---
 
 <br />
@@ -168,6 +173,7 @@ toc: true
 # Instructions
 
 - Find a good church, steeped in good traditions and love for the Word
+  - The book of **Timothy** has clear instructions for this task
 - Do not be drawn in - test the church with the Word
 - Raise any concerns to the pastors
 - If the concerns are not heeded, depart in peace

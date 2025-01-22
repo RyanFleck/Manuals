@@ -14,6 +14,7 @@ enableGitInfo = true
     libraries = "/:filename"
     courses = "/:filename"
     tools = "/:filename"
+    life = "/:filename"
 
 # https://gohugo.io/variables/site/#the-site-params-variable
 [params]

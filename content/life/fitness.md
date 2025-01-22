@@ -2,7 +2,15 @@
 toc: true
 date: 2025-01-06T20:51:34-07:00
 summary: "Content summary for Fitness."
-title: "Fitness - The Body"
+title: "Fitness - Shaping the Body"
+aliases:
+- "/life/fitness"
+- "/life/fitness-the-body"
+- "/fitness"
+- "/running"
+- "/lift"
+- "/lifting"
+- "/swole"
 ---
 
 # The Body
