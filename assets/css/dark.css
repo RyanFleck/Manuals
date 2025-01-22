@@ -111,3 +111,7 @@ figure.invert > img
 .dim {
     filter: brigntness(60%);
 }
+
+.jesus{
+    color: #ff3f3f;
+}
