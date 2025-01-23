@@ -1,7 +1,7 @@
 ---
 date: 2025-01-06T20:49:50-07:00
-summary: "Content summary for Religion."
-title: "Faith - Nurturing the Soul"
+summary: "Man does have a soul, and too often it is neglected."
+title: "Faith"
 toc: true
 aliases:
 - "/life/religion"

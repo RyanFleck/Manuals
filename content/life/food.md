@@ -1,11 +1,14 @@
 ---
 date: 2025-01-06T20:47:15-07:00
-summary: "Content summary for Baking."
-title: "Food - Cooking & Baking"
+summary: "Cooking, baking, grilling - food is a simple joy."
+title: "Food"
 toc: true
 aliases:
 - "/life/cooking-and-baking"
 - "/cooking-and-baking"
+- "/foodstuff"
+- "/mealtime"
+- "/sustenance"
 ---
 
 <!-- M-x auto-fill-mode is your friend -->

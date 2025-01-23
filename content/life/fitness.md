@@ -1,8 +1,8 @@
 ---
 toc: true
 date: 2025-01-06T20:51:34-07:00
-summary: "Content summary for Fitness."
-title: "Fitness - Shaping the Body"
+summary: "Shape and hone the body to support the mind and soul."
+title: "Fitness"
 aliases:
 - "/life/fitness"
 - "/life/fitness-the-body"
