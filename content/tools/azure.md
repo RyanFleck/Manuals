@@ -132,6 +132,9 @@ I've worked a lot with Storage Accounts (SAs or STAs) in my time.
 
 ## Weird Storage Account Limitations
 
+- Azure File Shares have a directory and file name limit of 255 characters
+- Azure File Shares cannot have
+
 ## Access from VMs
 
 ## Access Across Networks

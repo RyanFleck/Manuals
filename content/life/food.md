@@ -48,6 +48,24 @@ you opting for takeout and a deteriorating body.
 
 *A warm cup of coffee in the morning is important for morale.*
 
+### Meal Plan
+
+| Day | Breakfast    | Dinner *(Always make double!)*                        |
+|:---:|:-------------|:------------------------------------------------------|
+| SUN | Bacon & Eggs | Spaghetti and Sausage                                 |
+| MON | PB Toast     | Chicken stir fry                                      |
+| TUE | Bacon & Eggs | Sausage skillet[^1] over potatoes                     |
+| WED | PB Toast     | Bachelor style Chili over rice, pasta, or spare bread |
+| THU | Bacon & Eggs | Chicken vegetable pasta                               |
+| FRI | PB Toast     | Ground Beef and Onion Noodles                         |
+| SAT | Bacon & Eggs | Fish and chips                                        |
+
+- **Lunch** is always **leftovers from the night before**.
+- To save time you can always chop all your vegetables at once and
+  keep them in a big tupperware.
+- Add frozen mixed vegetables to increase the volume of all these
+  dishes, and/or when too lazy to chop.
+
 ### Your Kitchen
 
 To cook cheap and nutritious meals for yourself, ensure you have the
@@ -119,24 +137,6 @@ posted above - with some items like rice, coffee, peanut butter, and
 potatoes that will last multiple weeks.
 
 ![A sample receipt of purchase for the Tier 0 ingredients](/images/groceries/receipt-min.png?invert=true&noborder=true)
-
-### Meal Plan
-
-| Day | Breakfast    | Dinner *(Always make double!)*                        |
-|:---:|:-------------|:------------------------------------------------------|
-| SUN | Bacon & Eggs | Spaghetti and Sausage                                 |
-| MON | PB Toast     | Chicken stir fry                                      |
-| TUE | Bacon & Eggs | Sausage skillet[^1] over potatoes                     |
-| WED | PB Toast     | Bachelor style Chili over rice, pasta, or spare bread |
-| THU | Bacon & Eggs | Chicken vegetable pasta                               |
-| FRI | PB Toast     | Ground Beef and Onion Noodles                         |
-| SAT | Bacon & Eggs | Fish and chips                                        |
-
-- **Lunch** is always **leftovers from the night before**.
-- To save time you can always chop all your vegetables at once and
-  keep them in a big tupperware.
-- Add frozen mixed vegetables to increase the volume of all these
-  dishes, and/or when too lazy to chop.
 
 ![What your cart should contain for Tier 0](/images/groceries/haul-min.jpg)
 
