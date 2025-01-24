@@ -38,7 +38,7 @@ that transform data potentially enables better code reuse.
 ** Subverting the Lisp Curse
 
 #+begin_quote
-Programmers know the benefits of everything and the tradeoffs of nothing
+Programmers know the *benefits of everything* and the *tradeoffs of nothing*
 
 -- Rich Hickey
 #+end_quote
@@ -94,7 +94,7 @@ schools of thought regarding the teaching of computer science:
    payoff in the capabilities of the program.
 #+end_quote
 
-This is posted here for the reader to ponder without comment.
+This is posted here for the reader to ponder without further comment.
 
 ** Literate Programming
 
@@ -162,24 +162,6 @@ environment, and to primitive procedures, which are applied directly.
 
 -- "The Metacircular Evaluator" from [[https://sarabander.github.io/sicp/html/4_002e1.xhtml][SICP]]
 #+end_quote
-
-Put in lighter terms by /Daniel Higginbotham/:
-
-#+begin_quote
-Clojure has no privileged functions. + is just a function, - is just a
-function, and inc and map are just functions. They’re no better than
-the functions you define yourself. So don’t let them give you any lip!
-More important, this fact helps demonstrate Clojure’s underlying
-simplicity. In a way, Clojure is very dumb. When you make a function
-call, Clojure just says, “map? Sure, whatever! I’ll just apply this
-and move on.” It doesn’t care what the function is or where it came
-from; it treats all func- tions the same. At its core, Clojure doesn’t
-give two burger flips about addi- tion, multiplication, or mapping. It
-just cares about applying functions.
-
--- Daniel Higginbotham[fn:3]
-#+end_quote
-
 
 * Rich Hickey Talks
   :PROPERTIES:
@@ -895,6 +877,21 @@ to use a number, string, or other type as a function.
 
 # This is a note on page 50
 Also see *macro calls* and *special forms*.
+
+#+begin_quote
+Clojure has no privileged functions. + is just a function, - is just a
+function, and inc and map are just functions. They’re no better than
+the functions you define yourself. So don’t let them give you any lip!
+More important, this fact helps demonstrate Clojure’s underlying
+simplicity. In a way, Clojure is very dumb. When you make a function
+call, Clojure just says, “map? Sure, whatever! I’ll just apply this
+and move on.” It doesn’t care what the function is or where it came
+from; it treats all func- tions the same. At its core, Clojure doesn’t
+give two burger flips about addi- tion, multiplication, or mapping. It
+just cares about applying functions.
+
+-- Daniel Higginbotham[fn:3]
+#+end_quote
 
 *** Defining Functions
 

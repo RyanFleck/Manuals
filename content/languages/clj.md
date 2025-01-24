@@ -29,7 +29,7 @@ that transform data potentially enables better code reuse.
 
 ## Subverting the Lisp Curse {#subverting-the-lisp-curse}
 
-> Programmers know the benefits of everything and the tradeoffs of nothing
+> Programmers know the **benefits of everything** and the **tradeoffs of nothing**
 >
 > -- Rich Hickey
 
@@ -81,7 +81,7 @@ schools of thought regarding the teaching of computer science:
 >    obvious ones. Each unit of programming thought must have a big
 >    payoff in the capabilities of the program.
 
-This is posted here for the reader to ponder without comment.
+This is posted here for the reader to ponder without further comment.
 
 
 ## Literate Programming {#literate-programming}
@@ -151,21 +151,6 @@ two foundational concepts which recur in a cycle: **eval** and **apply**.
 > environment, and to primitive procedures, which are applied directly.
 >
 > -- "The Metacircular Evaluator" from [SICP](https://sarabander.github.io/sicp/html/4_002e1.xhtml)
-
-Put in lighter terms by _Daniel Higginbotham_:
-
-> Clojure has no privileged functions. + is just a function, - is just a
-> function, and inc and map are just functions. They’re no better than
-> the functions you define yourself. So don’t let them give you any lip!
-> More important, this fact helps demonstrate Clojure’s underlying
-> simplicity. In a way, Clojure is very dumb. When you make a function
-> call, Clojure just says, “map? Sure, whatever! I’ll just apply this
-> and move on.” It doesn’t care what the function is or where it came
-> from; it treats all func- tions the same. At its core, Clojure doesn’t
-> give two burger flips about addi- tion, multiplication, or mapping. It
-> just cares about applying functions.
->
-> -- Daniel Higginbotham[^fn:2]
 
 
 # Rich Hickey Talks {#rich-hickey-talks}
@@ -243,7 +228,7 @@ with Clojure.
 > It is better to have 100 functions operate on one data structure
 > than 10 functions on 10 data structures.
 >
-> -- Alan Perlis[^fn:3]
+> -- Alan Perlis[^fn:2]
 
 **Syntax**
 
@@ -254,7 +239,7 @@ with Clojure.
 > "**All Clojure operations have the same syntax**: opening
 > parenthesis, operator, operands, closing parenthesis"
 >
-> -- Daniel Higginbotham[^fn:2]
+> -- Daniel Higginbotham[^fn:3]
 
 
 # Installation {#installation}
@@ -867,7 +852,7 @@ can do some pretty incredible things to simplify complex operations.
 > "**All Clojure operations have the same syntax**: opening
 > parenthesis, operator, operands, closing parenthesis"
 >
-> -- Daniel Higginbotham[^fn:2]
+> -- Daniel Higginbotham[^fn:3]
 
 Also recall that we can return functions:
 
@@ -901,6 +886,19 @@ class java.lang.String cannot be cast to class clojure.lang.IFn
 ```
 
 Also see **macro calls** and **special forms**.
+
+> Clojure has no privileged functions. + is just a function, - is just a
+> function, and inc and map are just functions. They’re no better than
+> the functions you define yourself. So don’t let them give you any lip!
+> More important, this fact helps demonstrate Clojure’s underlying
+> simplicity. In a way, Clojure is very dumb. When you make a function
+> call, Clojure just says, “map? Sure, whatever! I’ll just apply this
+> and move on.” It doesn’t care what the function is or where it came
+> from; it treats all func- tions the same. At its core, Clojure doesn’t
+> give two burger flips about addi- tion, multiplication, or mapping. It
+> just cares about applying functions.
+>
+> -- Daniel Higginbotham[^fn:3]
 
 
 ### Defining Functions {#defining-functions}
@@ -1463,8 +1461,8 @@ hooks in particular) while still writing and executing code in ORG.
     9781449373320, 1449373321](https://libgen.is/book/index.php?md5=41D80961BA66DA6A1294AA9624CEA15D)
 
 [^fn:1]: "Literate Programming", Donald E. Knuth, [stanford.edu](https://www-cs-faculty.stanford.edu/~knuth/lp.html)
-[^fn:2]: "Clojure for the Brave and True" by Daniel Higginbotham, [braveclojure.com](https://www.braveclojure.com/)
-[^fn:3]: "Clojure for the Brave and True" page 48.
+[^fn:2]: "Clojure for the Brave and True" page 48.
+[^fn:3]: "Clojure for the Brave and True" by Daniel Higginbotham, [braveclojure.com](https://www.braveclojure.com/)
 [^fn:4]: "How to use ASDF on MacOS", Qing Wu, [wiserfirst.com](https://www.wiserfirst.com/blog/how-to-use-asdf-on-macos/)
 [^fn:5]: "Introducing the no-cost IBM Semeru Runtimes", Mark Stoodley, [developer.ibm.com](https://developer.ibm.com/blogs/introducing-the-ibm-semeru-runtimes/)
 [^fn:6]: "Docker Hub: IBM Semeru Runtimes", [hub.docker.com](https://hub.docker.com/_/ibm-semeru-runtimes)
