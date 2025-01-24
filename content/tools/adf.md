@@ -52,7 +52,7 @@ architectures.
     describe your use cases to LLMs and read lots of documentation, as
     there are too many small limits for even a seasoned subject matter
     expert to recall at once.
-
+- Default timeouts are set to a day, absurdly high for most activities
 
 # Pro Tips
 
@@ -65,6 +65,9 @@ Lessons learned when building and deploying data factory pipelines.
 2. Make good use of **stored procedures** to track and trace the data
    processing and movement within your pipeline. This adds to the
    transparency of what has been completed if a pipeline fails.
+3. The **default timeouts** are usually way too high. Aim to stall for
+   a maximum of ten minutes (beyond typical execution time) before
+   failure, and repeat only a few times.
 
 # Data Movement (Copy) Activity
 

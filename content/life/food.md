@@ -178,6 +178,37 @@ Boil up some potatoes for less time then usual. Slice into wedge fries
 and stick them into the oven beside the fish you bought - and follow
 the instructions on the battered fish box.
 
+## Tier -1: Goblin Mode
+
+If you want to subsist entirely on mostly cheap, frozen, or
+prepackaged foods in the healthiest way possible, consider going to
+Costco and picking up the following items.
+
+- Huge bag of onions
+- Huge bag of carrots
+- Six pack of pre-portioned ground beef
+- Package of frozen chicken breasts
+- A crate of asian noodles
+- A crate of spaghetti
+- A bag of meatballs
+- Lots of frozen vegetables
+
+### Pasta with Red Sauce
+
+- Toss in frozen vegetables and meatballs (6-10) and boil
+- Toss in pasta
+- Drain and toss in red sauce
+
+### Beef and Onions
+
+- Brown onions in a frying pan with olive oil and set aside
+- Cook ground beef
+- Cook noodles
+- Combine with hot sauce
+
+### Chicken and Rice
+
+- Cook ch
 
 # Breads
 

@@ -45,11 +45,16 @@ succumb to habit and decision fatigue.
 
 Also critical to building health is **tracking** your progress. As the
 old management adage goes - *"If you can't measure it, you can't
-improve it."*[^2]
+improve it."*[^2] Measurement is also key to keeping **motivation**
+high. Seeing yourself improve, especially when weightlifting, is
+highly rewarding psychologically.
 
-Measurement is also key to keeping **motivation** high. Seeing
-yourself improve, especially when weightlifting, is highly rewarding
-psychologically.
+Critical to measurement is a concept I'll term *low access friction*.
+Have the set of exercises you are going to perform taped to your wall,
+with a pencil set nearby or hanging on twine. The fewer steps that are
+involved in beginning a workout, the better. Apps can be OK for this,
+but often our phones are more of a detriment with their distracting
+properties.
 
 # Calisthenics
 
