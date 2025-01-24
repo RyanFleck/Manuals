@@ -115,3 +115,7 @@ figure.invert > img
 .jesus{
     color: #ff3f3f;
 }
+
+img{
+  border: 1px solid transparent;
+}
