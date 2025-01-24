@@ -850,66 +850,107 @@ class java.lang.String cannot be cast to class clojure.lang.IFn
 Also see **macro calls** and **special forms**.
 
 
-# Luminus {#luminus}
+# Deployment {#deployment}
+
+Clojure, when compared to some other platforms, is fairly easy to
+deploy - both on bare metal and containerized. The JVM has been
+deployed on unknowable billions of machines at this point, and its
+properties are well understood.
 
 
-## New Project {#new-project}
+## Docker {#docker}
 
-Upon creating and generating a new Luminus project and running it once
-in the REPL, here is **part** of the tree of directories and files that is
-generated:
+Let's take a look at what it would take to get a web app called
+`coolzone` up and running on your server with docker and Traefik
+installed. You'll need to write a `Dockerfile` and `docker-compose.yml` to
+define the container for your app and how to bring it up and network
+it.
 
-```nil
-guestbook/
-│
-├── project.clj
-│
-├── resources
-│   ├── docs
-│   │   └── docs.md
-│   ├── html
-│   │   ├── about.html
-│   │   ├── base.html
-│   │   ├── error.html
-│   │   └── home.html
-│   ├── migrations
-│   │   ├── 20240223181041-add-users-table.down.sql
-│   │   └── 20240223181041-add-users-table.up.sql
-│   ├── public
-│   │   ├── css
-│   │   │   └── screen.css
-│   │   ├── favicon.ico
-│   │   ├── img
-│   │   │   └── warning_clojure.png
-│   │   └── js
-│   └── sql
-│       └── queries.sql
-├── src
-│   └── clj
-│       └── guestbook
-│           ├── config.clj
-│           ├── core.clj
-│           ├── db
-│           │   └── core.clj
-│           ├── handler.clj
-│           ├── layout.clj
-│           ├── middleware
-│           │   └── formats.clj
-│           ├── middleware.clj
-│           ├── nrepl.clj
-│           └── routes
-│               └── home.clj
-├── test
-│   └── clj
-│       └── guestbook
-│           ├── db
-│           │   └── core_test.clj
-│           └── handler_test.clj
-│
-└── test-config.edn
+`-->` **Dockerfile**
+
+```docker
+# Run a multi-stage build
+# 1. Build JAR in clojure:lein
+# 2. Leave JAR in finished JRE container
+FROM clojure:lein
+
+# Create App Directory
+RUN mkdir -p /app
+WORKDIR /app
+
+# Get Dependencies (Cached as long as project.clj is unchanged)
+COPY project.clj /app
+RUN lein deps
+
+# Build UberJar
+COPY . /app
+RUN lein uberjar
+
+# Multi-Stage Build - Run in IBM Semeru
+# See: https://hub.docker.com/_/ibm-semeru-runtimes
+# Logging: https://luminusweb.com/docs/logging.html
+FROM ibm-semeru-runtimes:open-21-jdk
+
+RUN mkdir /opt/app
+COPY --from=0 /app/target/uberjar/coolzone.jar /opt/app
+EXPOSE 3000
+
+CMD ["java", "-jar", "/opt/app/coolzone.jar"]
+
+
 ```
 
-{{< pagebreak >}}
+`-->` **docker-compose.yml**
+
+```yaml
+services:
+  coolzone:
+    build:
+      context: .
+      dockerfile: "Dockerfile"
+    image: coolzone_production
+    env_file: "prod.env" # set environment variables here.
+    restart: unless-stopped
+    volumes:
+      - ~/Coolzone/data:/data/files:rw
+    ports:
+      # external:internal
+      - "7598:3000"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.coolzone.rule=Host(`coolzone.ryanfleck.ca`)"
+      - "traefik.http.services.coolzone.loadbalancer.server.port=3000"
+      - "traefik.http.routers.coolzone.service=coolzone"
+      # Note: Some Traefik labels removed for security.
+    networks:
+      - web
+
+networks:
+  web:
+    external: true
+```
+
+`-->` **prod.env**
+
+```bash
+PROD="true"
+PORT=3000
+DATA_DIR="/data/files"
+DATABASE_URL="postgresql://whatever..."
+SERVICE_KEY="jlkhl76098798d5gsjero2ih-asdufoi45lsf..."
+```
+
+At this point all you need to do is pull your repository and run:
+
+```bash
+docker-compose up -d --build coolzone
+```
+
+To launch your container and troubleshoot run:
+
+```bash
+docker-compose run coolzone sh
+```
 
 
 # Emacs {#emacs}
