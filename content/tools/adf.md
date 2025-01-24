@@ -7,14 +7,15 @@ toc = true
 aliases = ["data-factory", "azdf", "azure-data-factory", "ADF"]
 +++
 
+
 # What is a Data Factory?
 
 During my time at a client, I made extensive use of **Azure Data
 Factory** to move and transform data. This tool, backed by Spark
-clusters[^1], is highly useful for moving terabytes of data at once or
+clusters, is highly useful for moving terabytes of data at once or
 on a schedule.
 
-[See all of my Azure notes in the **Azure Manual**.]({{< ref "/tools/azure.md" >}})
+[See all my *other* Azure notes in the **Azure Manual**.]({{< ref "/tools/azure.md" >}})
 
 - Udemy Course: [Masterclass on Azure Data Factory 2024](https://ibm-learning.udemy.com/course/azure-data-factory-data-engineer-real-time-projects/learn/lecture/37092926#overview)
 - MS Docs: [Data Factory Pipelines & Activities](https://learn.microsoft.com/en-us/azure/data-factory/concepts-pipelines-activities?tabs=data-factory)
@@ -32,7 +33,7 @@ on a schedule.
 5. Data Flows
 6. Integration Runtimes
 
-![The relationship between **data sets**, **activities**, and **pipelines**. Source: [microsoft.com](https://learn.microsoft.com/en-us/azure/data-factory/concepts-pipelines-activities?tabs=data-factory)](/images/azure/datafactorycomps.png)
+![The relationship between **data sets**, **activities**, and **pipelines**. [microsoft.com](https://learn.microsoft.com/en-us/azure/data-factory/concepts-pipelines-activities?tabs=data-factory)](/images/azure/datafactorycomps.png)
 
 # Weird ADF Limitations
 
@@ -41,7 +42,10 @@ As this technology is built on a foundation of other technologies
 must be considered when applying a data factory in your solution
 architectures.
 
-- The **Lookup Activity** supports a max of 5000 rows or 4mb of data returned
+- The **Lookup Activity** supports a max of 5000 rows or 4mb of data
+  returned
+- The **GetMetaData Activity** supports a max of 5000 items of 4mb of
+  data returned
 - The **ForEach Activity** supports a max of 100,000 output items
 - You can't nest **ForEach** activities
 - Errors quite often don't mean what they say:
@@ -52,7 +56,7 @@ architectures.
     describe your use cases to LLMs and read lots of documentation, as
     there are too many small limits for even a seasoned subject matter
     expert to recall at once.
-- Default timeouts are set to a day, absurdly high for most activities
+- Default timeouts are set to 12h, absurdly high for most activities
 
 # Pro Tips
 
@@ -177,3 +181,29 @@ Here is a subset taken directly from [these docs](https://learn.microsoft.com/en
 
 - You can [send emails](https://learn.microsoft.com/en-us/azure/data-factory/how-to-send-email) to
   notify of pipeline successes and failures.
+
+
+# It's Microsoft, Beware
+
+**Here Be Dragons:** As with any *Microsoft* product, there are many
+bizarre and strange side effects and bugs that will interrupt your
+workday and make you want to slam your keyboard over your knee.
+
+
+
+- Rename a file in Azure Data Studio? Lose the contents of the related
+buffer and those crucial queries you had written. *Go rewrite them and
+cry.*
+- Close your browser window? *Go rewrite those pipelines and cry.*
+- [Product Name] crashes? *Go rewrite your work and cry.*
+
+This doesn't even get in to the seemingly thousands of strange legacy
+limitations inherent in the Microsoft ecosystem. It's tough to know
+about all of them, even as a subject matter expert.
+
+*"Go rewrite it and cry"* really should be the byline of most
+*Microsoft* cloud editing software. Triply check your work is saved
+before every action, or it will be lost before you know it. As an
+adult, *to cry* is really to *loudly shout curses at the ceiling and
+stare miserably at your keyboard*, but that's a little long to type
+three times. **Save your stuff.** **OR ELSE.**
