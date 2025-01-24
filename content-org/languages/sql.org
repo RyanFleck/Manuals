@@ -9,7 +9,14 @@
 #+hugo_custom_front_matter: :toc true :summary "For table querying and manipulation."
 #+hugo_custom_front_matter: :aliases '("/sql" "/sequel" "/tsql" "/t-sql" "/psql" "/postgres" "/SQL")
 #+PROPERTY: header-args:lisp :exports both :eval yes :results value scalar
+#+PROPERTY: header-args:sqlite :dir ~/Documents/ :db tmp.db :results output :language sql
 #+hugo_level_offset: 0
+
+# GETTING SQLITE TO WORK:
+# Add this to your .bashrc
+# Per https://emacs.stackexchange.com/questions/3447/cannot-set-terminal-process-group-error-when-running-bash-script
+#   shopt -s expand_aliases
+# https://sourceware.org/legacy-ml/cygwin/2012-02/msg00831.html
 
 #  M-x auto-fill-mode is your friend
 
@@ -979,9 +986,6 @@ operate on crucial data about the ship's valves (for routing around pipe
 ruptures), and their stack had included Informix, which unfortunately
 stopped working whenever the server went down.
 
-#+end_quote
-
-#+begin_quote
 "That was embarrassing," Hipp recalled to Bell. "A dialog box would pop
 up, they'd double click on the thing, and a dialog box would pop up that
 says, 'Can't connect to database server.' It wasn't our fault --- we
@@ -989,9 +993,6 @@ didn't have any control over the database server. But what do you do if
 you can't connect to the server? So we got the blame all the same,
 because we were painting the dialog box."
 
-#+end_quote
-
-#+begin_quote
 And, as Hipp noted, "it's a warship." So besides the ship being
 continually in use, "the idea is it's supposed to be able to work if you
 take battle damage! So it's more than one pipe breaking. *There's going
@@ -999,8 +1000,31 @@ to be a lot of stuff broken, and people are going to be crazy, and
 there's going to be smoke and blood and chaos --- and in a situation
 like that they don't want a dialog box that says, 'Cannot connect to
 database server.'*"
-
 #+end_quote
+
+Hugo can support the rendering of SQLite code blocks with the custom
+markup:
+
+~--> /themes/yourtheme/layouts/_default/_markup/render-codeblock-sqlite.html~
+
+#+begin_src hugo
+{{- transform.Highlight .Inner "sql" -}}
+#+end_src
+
+This way, you can execute 'sqlite' code-blocks inline in org-mode,
+given you provide the location of the database at the top of the file.
+
+#+begin_src org
+#+PROPERTY: header-args:sqlite :dir ~/Documents/ :db tmp.db :results output
+#+end_src
+
+#+begin_src sqlite
+SELECT * FROM test LIMIT 1;
+#+end_src
+
+#+RESULTS:
+: 1,2
+
 
 ** Microsoft SQL
 :PROPERTIES:

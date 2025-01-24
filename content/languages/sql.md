@@ -912,18 +912,14 @@ Read [this amazing article](https://thenewstack.io/the-origin-story-of-sqlite-th
 > operate on crucial data about the ship's valves (for routing around pipe
 > ruptures), and their stack had included Informix, which unfortunately
 > stopped working whenever the server went down.
-
-<!--quoteend-->
-
+>
 > "That was embarrassing," Hipp recalled to Bell. "A dialog box would pop
 > up, they'd double click on the thing, and a dialog box would pop up that
 > says, 'Can't connect to database server.' It wasn't our fault --- we
 > didn't have any control over the database server. But what do you do if
 > you can't connect to the server? So we got the blame all the same,
 > because we were painting the dialog box."
-
-<!--quoteend-->
-
+>
 > And, as Hipp noted, "it's a warship." So besides the ship being
 > continually in use, "the idea is it's supposed to be able to work if you
 > take battle damage! So it's more than one pipe breaking. **There's going
@@ -931,6 +927,30 @@ Read [this amazing article](https://thenewstack.io/the-origin-story-of-sqlite-th
 > there's going to be smoke and blood and chaos --- and in a situation
 > like that they don't want a dialog box that says, 'Cannot connect to
 > database server.'**"
+
+Hugo can support the rendering of SQLite code blocks with the custom
+markup:
+
+`--> /themes/yourtheme/layouts/_default/_markup/render-codeblock-sqlite.html`
+
+```hugo
+{{- transform.Highlight .Inner "sql" -}}
+```
+
+This way, you can execute 'sqlite' code-blocks inline in org-mode,
+given you provide the location of the database at the top of the file.
+
+```org
+#+PROPERTY: header-args:sqlite :dir ~/Documents/ :db tmp.db :results output
+```
+
+```sqlite
+SELECT * FROM test LIMIT 1;
+```
+
+```text
+1,2
+```
 
 
 ## Microsoft SQL {#microsoft-sql}
