@@ -470,7 +470,6 @@ text in a ~span~.
                        :body (str "<span>" (time/dateline-utc) "</span>")})}}]
 #+end_src
 
-
 ** Edge Cases
 
 *Notably* on ~hx-swap~ any scripts included on a page won't run, but those
@@ -490,7 +489,13 @@ in which case they will be commented out. /I learned this the hard way./
 <script>console.log("outside, this runs.");</script>
 #+end_src
 
-* Notes: Clojure for the Brave and True
+* Notes: Clojure for the Brave and True +
+
+This is a good Clojure textbook. The sections below are roughly the
+same as the book, but are rearranged and include extra material where
+I found it useful in my learning journey. The *PLUS* (~+~) indicates
+this - that I have taken liberty to include additional info where I
+wanted.
 
 - [[https://www.braveclojure.com/clojure-for-the-brave-and-true/][Table of Contents]]
 - [[https://www.braveclojure.com/getting-started][Environment Setup]]
@@ -786,7 +791,7 @@ Use [[https://clojuredocs.org/clojure.core/get][clojure.core/get]] and [[https:/
 (get hs1 19) ; 19
 #+end_src
 
-*** Functions
+*** Calling Functions
 
 Because of Clojure's Lisp syntax, with the humble and incredibly
 simple s-expression as the core building block of a Lisp program, we
@@ -826,6 +831,8 @@ Which means we can return a function and call it on more data:
 The error ~cannot be cast to clojure.lang.IFn~ indicates you are trying
 to use a number, string, or other type as a function.
 
+# Don't re-evaluate this, the error is custom.
+
 #+begin_src clojure
 ("why" 1 2 3)
 #+end_src
@@ -835,6 +842,178 @@ to use a number, string, or other type as a function.
 
 # This is a note on page 50
 Also see *macro calls* and *special forms*.
+
+*** Defining Functions
+
+#+begin_src clojure
+(defn my-function
+  "This is a docstring (yes, a JavaDoc docstring) to explain the function."
+  [a b c]    ; <-- parameters
+  (+ a b c))
+#+end_src
+
+#+RESULTS:
+: #'org.core/my-function
+
+#+begin_src clojure
+(my-function 1 2 3)
+#+end_src
+
+#+RESULTS:
+: 6
+
+Above is a simple example of ~defn~, the function definition macro. A
+function must be defined with zero or more arguments and at least one
+clause in the function body. There are a few different ways to define
+a function that takes multiple arguments.
+
+[[https://clojuredocs.org/clojure.core/defn][clojure.core/defn]]
+
+*Multi Arity Functions*
+
+#+begin_src clojure
+(defn hello
+  "Provides a greeting to the user."
+  ([name]
+   (str "Hello, " name " - Welcome!"))
+  ([name prefix]
+   (str "Hello " prefix " " name))
+  ([name prefix suffix]
+   (str "Hello " prefix " " name ", " suffix "!")))
+#+end_src
+
+#+RESULTS:
+: #'org.core/hello
+
+#+begin_src clojure
+(hello "Ryan")
+#+end_src
+
+#+RESULTS:
+: "Hello, Ryan - Welcome!"
+
+#+begin_src clojure
+(hello "Ryan" "Mr." "Master of Ceremonies")
+#+end_src
+
+#+RESULTS:
+: "Hello Mr. Ryan, Master of Ceremonies!"
+
+Providing a number of function bodies given different arguments is an
+easy way to group a similar collection of functions behind one name.
+
+*Variable Arity Functions*
+
+An ampersand (~&~) stores the remainder of arguments in a list.
+
+#+begin_src clojure
+(defn show_rest
+  [first & rest_of_args]
+  (str "First: " first " + rest: " rest_of_args))
+#+end_src
+
+#+RESULTS:
+: #'org.core/show_rest
+
+#+begin_src clojure
+(show_rest 1 2 3 4)
+#+end_src
+
+#+RESULTS:
+: "First: 1 + rest: (2 3 4)"
+
+*Multimethods*
+
+A *multimethod* enables a programmer to run an initial function against
+some data to determine which function it should eventually be passed
+to.
+
+- [[https://clojuredocs.org/clojure.core/defmulti][clojure.core/defmulti]]
+- [[https://clojuredocs.org/clojure.core/getmethod][clojure.core/getmethod]]
+
+#+begin_src clojure
+(defmulti get-dose
+  "With weight in Kg, provide the adult dose of a medicine."
+  (fn [data] (:medicine data)))
+
+(defmethod get-dose :ibuprofen
+  [data]
+  (str "Up to " (* (:weight data) 10) "mg / 4hr"))
+
+(defmethod get-dose :acetominophen
+  [data]
+  (str "Up to " (* (:weight data) 5) "mg / 4hr"))
+#+end_src
+
+#+begin_src clojure
+(get-dose {:medicine :ibuprofen :weight 200})
+#+end_src
+
+#+RESULTS:
+: "Up to 2000mg / 4hr"
+
+#+begin_src clojure
+(get-dose {:medicine :acetominophen :weight 200})
+#+end_src
+
+#+RESULTS:
+: "Up to 1000mg / 4hr"
+
+*** Destructuring
+
+To /destructure/ is to pull data out of a data structure within the
+arguments of a function. This is one of the really magical things I
+enjoyed when first learning [[/elixir/][Elixir]]. It saves a lot of time and
+prevents the first few lines of a function being full of ~first~,
+~get-in~, etc.
+
+#+begin_src clojure
+(defn second-thing [[a b]] b)
+#+end_src
+
+#+begin_src clojure
+(second-thing [1 2 3])
+#+end_src
+
+#+RESULTS:
+: 2
+
+...as you can see, the exact length of the vector is not strictly
+pattern-matched, but the first two arguments are captured and
+available in the function as arguments. You can use ~& rest~ in this
+destructuring syntax to get the remainder of arguments.
+
+For *maps*, these formats are equivalent:
+
+#+begin_src clojure
+[{key1 :key1 key2 :key2}]
+[{:keys [key1 key2]}]
+#+end_src
+
+You can use the ~:as~ key to also make the entire vector/map available.
+
+#+begin_src clojure
+[{key1 :key1 key2 :key2 :as data}]
+[{:keys [key1 key2] :as data}]
+[[a b :as data]]
+#+end_src
+
+#+begin_src clojure
+(defn test1 [{key1 :key1 key2 :key2 :as mapdata} [a b :as vecdata]]
+  (str "Map: " mapdata " - Vec: " vecdata))
+#+end_src
+
+#+begin_src clojure
+(test1 {:key1 "wow" :key2 "whoa"} [:first :second :third :fourth])
+#+end_src
+
+#+RESULTS:
+: "Map: {:key1 \"wow\", :key2 \"whoa\"} - Vec: [:first :second :third :fourth]"
+
+These approaches can also be heavily nested. If there is a map within
+a list that contains a map, this can be destructured.
+
+- See this [[https://gist.github.com/john2x/e1dca953548bfdfb9844][Clojure destructuring cheatsheet]]
 
 * Deployment
 
@@ -937,6 +1116,10 @@ To launch your container and troubleshoot run:
 docker-compose run coolzone sh
 #+end_src
 
+* Optimization & JVM Bytecode
+
+- https://dev.to/quoll/clojure-and-the-jvm-5bi9
+
 * Emacs
   :PROPERTIES:
   :CUSTOM_ID: emacs
@@ -993,17 +1176,17 @@ start using Emacs in general.
 CIDER is an interactive programming environment for Clojure.
 
 #+begin_quote
-  Traditional programming languages and development environments often
-  use a Edit, Compile, Run Cycle. In this environment, the programmer
-  modifies the code, compiles it, and then runs it to see if it does
-  what she wants. The program is then terminated, and the programmer
-  goes back to editing the program further. This cycle is repeated over
-  and over until the program behavior conforms to what the programmer
-  desires. Using CIDER's interactive programming environment, a
-  programmer works in a very dynamic and incremental manner. Instead of
-  repeatedly editing, compiling, and restarting an application, the
-  programmer starts the application once and then adds and updates
-  individual Clojure definitions as the program continues to run.[fn:4]
+Traditional programming languages and development environments often
+use a Edit, Compile, Run Cycle. In this environment, the programmer
+modifies the code, compiles it, and then runs it to see if it does
+what she wants. The program is then terminated, and the programmer
+goes back to editing the program further. This cycle is repeated over
+and over until the program behavior conforms to what the programmer
+desires. Using CIDER's interactive programming environment, a
+programmer works in a very dynamic and incremental manner. Instead of
+repeatedly editing, compiling, and restarting an application, the
+programmer starts the application once and then adds and updates
+individual Clojure definitions as the program continues to run.[fn:4]
 #+end_quote
 
 It looks like this when run:

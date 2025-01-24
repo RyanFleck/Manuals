@@ -486,7 +486,13 @@ in which case they will be commented out. _I learned this the hard way._
 ```
 
 
-# Notes: Clojure for the Brave and True {#notes-clojure-for-the-brave-and-true}
+# Notes: Clojure for the Brave and True + {#notes-clojure-for-the-brave-and-true-plus}
+
+This is a good Clojure textbook. The sections below are roughly the
+same as the book, but are rearranged and include extra material where
+I found it useful in my learning journey. The **PLUS** (`+`) indicates
+this - that I have taken liberty to include additional info where I
+wanted.
 
 -   [Table of Contents](https://www.braveclojure.com/clojure-for-the-brave-and-true/)
 -   [Environment Setup](https://www.braveclojure.com/getting-started)
@@ -801,7 +807,7 @@ Use [clojure.core/get](https://clojuredocs.org/clojure.core/get) and [clojure.co
 ```
 
 
-### Functions {#functions}
+### Calling Functions {#calling-functions}
 
 Because of Clojure's Lisp syntax, with the humble and incredibly
 simple s-expression as the core building block of a Lisp program, we
@@ -848,6 +854,193 @@ class java.lang.String cannot be cast to class clojure.lang.IFn
 ```
 
 Also see **macro calls** and **special forms**.
+
+
+### Defining Functions {#defining-functions}
+
+```clojure
+(defn my-function
+  "This is a docstring (yes, a JavaDoc docstring) to explain the function."
+  [a b c]    ; <-- parameters
+  (+ a b c))
+```
+
+```text
+#'org.core/my-function
+```
+
+```clojure
+(my-function 1 2 3)
+```
+
+```text
+6
+```
+
+Above is a simple example of `defn`, the function definition macro. A
+function must be defined with zero or more arguments and at least one
+clause in the function body. There are a few different ways to define
+a function that takes multiple arguments.
+
+[clojure.core/defn](https://clojuredocs.org/clojure.core/defn)
+
+**Multi Arity Functions**
+
+```clojure
+(defn hello
+  "Provides a greeting to the user."
+  ([name]
+   (str "Hello, " name " - Welcome!"))
+  ([name prefix]
+   (str "Hello " prefix " " name))
+  ([name prefix suffix]
+   (str "Hello " prefix " " name ", " suffix "!")))
+```
+
+```text
+#'org.core/hello
+```
+
+```clojure
+(hello "Ryan")
+```
+
+```text
+"Hello, Ryan - Welcome!"
+```
+
+```clojure
+(hello "Ryan" "Mr." "Master of Ceremonies")
+```
+
+```text
+"Hello Mr. Ryan, Master of Ceremonies!"
+```
+
+Providing a number of function bodies given different arguments is an
+easy way to group a similar collection of functions behind one name.
+
+**Variable Arity Functions**
+
+An ampersand (`&`) stores the remainder of arguments in a list.
+
+```clojure
+(defn show_rest
+  [first & rest_of_args]
+  (str "First: " first " + rest: " rest_of_args))
+```
+
+```text
+#'org.core/show_rest
+```
+
+```clojure
+(show_rest 1 2 3 4)
+```
+
+```text
+"First: 1 + rest: (2 3 4)"
+```
+
+**Multimethods**
+
+A **multimethod** enables a programmer to run an initial function against
+some data to determine which function it should eventually be passed
+to.
+
+-   [clojure.core/defmulti](https://clojuredocs.org/clojure.core/defmulti)
+-   [clojure.core/getmethod](https://clojuredocs.org/clojure.core/getmethod)
+
+<!--listend-->
+
+```clojure
+(defmulti get-dose
+  "With weight in Kg, provide the adult dose of a medicine."
+  (fn [data] (:medicine data)))
+
+(defmethod get-dose :ibuprofen
+  [data]
+  (str "Up to " (* (:weight data) 10) "mg / 4hr"))
+
+(defmethod get-dose :acetominophen
+  [data]
+  (str "Up to " (* (:weight data) 5) "mg / 4hr"))
+```
+
+```clojure
+(get-dose {:medicine :ibuprofen :weight 200})
+```
+
+```text
+"Up to 2000mg / 4hr"
+```
+
+```clojure
+(get-dose {:medicine :acetominophen :weight 200})
+```
+
+```text
+"Up to 1000mg / 4hr"
+```
+
+
+### Destructuring {#destructuring}
+
+To _destructure_ is to pull data out of a data structure within the
+arguments of a function. This is one of the really magical things I
+enjoyed when first learning [Elixir](/elixir/). It saves a lot of time and
+prevents the first few lines of a function being full of `first`,
+`get-in`, etc.
+
+```clojure
+(defn second-thing [[a b]] b)
+```
+
+```clojure
+(second-thing [1 2 3])
+```
+
+```text
+2
+```
+
+...as you can see, the exact length of the vector is not strictly
+pattern-matched, but the first two arguments are captured and
+available in the function as arguments. You can use `& rest` in this
+destructuring syntax to get the remainder of arguments.
+
+For **maps**, these formats are equivalent:
+
+```clojure
+[{key1 :key1 key2 :key2}]
+[{:keys [key1 key2]}]
+```
+
+You can use the `:as` key to also make the entire vector/map available.
+
+```clojure
+[{key1 :key1 key2 :key2 :as data}]
+[{:keys [key1 key2] :as data}]
+[[a b :as data]]
+```
+
+```clojure
+(defn test1 [{key1 :key1 key2 :key2 :as mapdata} [a b :as vecdata]]
+  (str "Map: " mapdata " - Vec: " vecdata))
+```
+
+```clojure
+(test1 {:key1 "wow" :key2 "whoa"} [:first :second :third :fourth])
+```
+
+```text
+"Map: {:key1 \"wow\", :key2 \"whoa\"} - Vec: [:first :second :third :fourth]"
+```
+
+These approaches can also be heavily nested. If there is a map within
+a list that contains a map, this can be destructured.
+
+-   See this [Clojure destructuring cheatsheet](https://gist.github.com/john2x/e1dca953548bfdfb9844)
 
 
 # Deployment {#deployment}
@@ -951,6 +1144,11 @@ To launch your container and troubleshoot run:
 ```bash
 docker-compose run coolzone sh
 ```
+
+
+# Optimization &amp; JVM Bytecode {#optimization-and-jvm-bytecode}
+
+-   <https://dev.to/quoll/clojure-and-the-jvm-5bi9>
 
 
 # Emacs {#emacs}
