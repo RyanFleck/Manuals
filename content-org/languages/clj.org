@@ -225,6 +225,44 @@ parenthesis, operator, operands, closing parenthesis"
 -- Daniel Higginbotham[fn:3]
 #+end_quote
 
+* Installation
+
+This is easiest on Linux or Mac[^1] if you've already got ~asdf~ installed.
+
+#+begin_src bash
+sudo apt-get install rlwrap leiningen
+
+echo "Installing Java"
+asdf plugin-add java https://github.com/halcyon/asdf-java.git
+asdf install java semeru-openj9-21.0.5+11_openj9-0.48.0
+asdf global java semeru-openj9-21.0.5+11_openj9-0.48.0
+java -version
+
+echo "Installing Clojure"
+asdf plugin add clojure https://github.com/asdf-community/asdf-clojure.git
+asdf install clojure latest
+asdf global clojure latest
+clj -version
+#+end_src
+
+I like to use the *IBM Semeru*[^4] runtimes, which are designed for
+hybrid-cloud and containerized applications. There are great Docker
+containers[^5] available to use for free. For a time, I worked within
+the IBM Software Lab in Markham where these tools were developed, and
+crossed paths with many people on the compiler teams.
+
+#+begin_src bash
+echo "Installing Amazon Corretto JVM"
+asdf install java corretto-21.0.6.7.1
+asdf global java corretto-21.0.6.7.1
+#+end_src
+
+The *Amazon Corretto* JVM is also great:
+
+- The docker container is a very stable platform for running ~.jar~ files
+- This JVM is developed and battle-tested by Amazon[^3]
+- Like Semeru, Corretto is fully TCK[^2] certified, see the [[https://aws.amazon.com/corretto/faqs/][Corretto FAQs]]
+
 * Common Clojure Tasks
 
 ** Using Libraries
@@ -477,6 +515,12 @@ build off common Java primitives and data structures.
 ["a" "vector" "of" "strings"]
 { :a "map" :of "stuff"}
 #+end_src
+
+#+RESULTS:
+| 1                             |
+| "a string"                    |
+| ["a" "vector" "of" "strings"] |
+| {:a "map", :of "stuff"}       |
 
 #+begin_quote
 Clojure uses whitespace to separate operands, and it *treats commas as
@@ -1072,3 +1116,13 @@ hooks in particular) while still writing and executing code in ORG.
 [fn:2] "Clojure for the Brave and True" page 48.
 [fn:1] "Literate Programming", Donald E. Knuth, [[https://www-cs-faculty.stanford.edu/~knuth/lp.html][stanford.edu]]
 [fn:4] Documentation for [[https://docs.cider.mx/cider/usage/interactive_programming.html][CIDER: Interactive Programming]]
+
+[^1]: "How to use ASDF on MacOS", Qing Wu, [[https://www.wiserfirst.com/blog/how-to-use-asdf-on-macos/][wiserfirst.com]]
+
+[^2]: "Technology Compatibility Kit", [[https://en.wikipedia.org/wiki/Technology_Compatibility_Kit][wiki]]
+
+[^3]: "The Definitive Guide to Clojure on the JVM", Eric Normand, [[https://ericnormand.me/guide/clojure-jvm#amazon-corretto][ericnormand.me]]
+
+[^4]: "Introducing the no-cost IBM Semeru Runtimes", Mark Stoodley, [[https://developer.ibm.com/blogs/introducing-the-ibm-semeru-runtimes/][developer.ibm.com]]
+
+[^5]: "Docker Hub: IBM Semeru Runtimes", [[https://hub.docker.com/_/ibm-semeru-runtimes][hub.docker.com]]
