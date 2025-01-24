@@ -15,6 +15,8 @@
 # - To insert a clojuredocs link in clojure.core type C-c o c
 # - To insert a clojuredocs link  type C-c o C
 
+# Make sure you aren't using markdown footnotes in this file!
+
 * Philosophy
   :PROPERTIES:
   :CUSTOM_ID: philosophy
@@ -128,6 +130,57 @@ like a lisp list rather than a table.
 #+RESULTS:
 : (1 2)
 
+** Eval & Apply
+
+All *LISP* languages allow you to participate in the interplay between
+two foundational concepts which recur in a cycle: *eval* and *apply*.
+
+[[/clj/eval-apply.jpg]]
+
+#+begin_quote
+The metacircular evaluator is essentially a Scheme formulation of the
+environment model of evaluation described in 3.2. Recall that the
+model has two basic parts:
+
+*1* - To evaluate a combination (a compound expression other than a
+special form), evaluate the subexpressions and then apply the value of
+the operator subexpression to the values of the operand
+subexpressions.
+
+*2* - To apply a compound procedure to a set of arguments, evaluate the
+body of the procedure in a new environment. To construct this
+environment, extend the environment part of the procedure object by a
+frame in which the formal parameters of the procedure are bound to the
+arguments to which the procedure is applied.
+
+These two rules describe the essence of the evaluation process, a
+basic cycle in which expressions to be evaluated in environments are
+reduced to procedures to be applied to arguments, which in turn are
+reduced to new expressions to be evaluated in new environments, and so
+on, until we get down to symbols, whose values are looked up in the
+environment, and to primitive procedures, which are applied directly.
+
+-- "The Metacircular Evaluator" from [[https://sarabander.github.io/sicp/html/4_002e1.xhtml][SICP]]
+#+end_quote
+
+Put in lighter terms by /Daniel Higginbotham/:
+
+#+begin_quote
+Clojure has no privileged functions. + is just a function, - is just a
+function, and inc and map are just functions. They’re no better than
+the functions you define yourself. So don’t let them give you any lip!
+More important, this fact helps demonstrate Clojure’s underlying
+simplicity. In a way, Clojure is very dumb. When you make a function
+call, Clojure just says, “map? Sure, whatever! I’ll just apply this
+and move on.” It doesn’t care what the function is or where it came
+from; it treats all func- tions the same. At its core, Clojure doesn’t
+give two burger flips about addi- tion, multiplication, or mapping. It
+just cares about applying functions.
+
+-- Daniel Higginbotham[fn:3]
+#+end_quote
+
+
 * Rich Hickey Talks
   :PROPERTIES:
   :CUSTOM_ID: rich-hickey-talks
@@ -227,7 +280,7 @@ parenthesis, operator, operands, closing parenthesis"
 
 * Installation
 
-This is easiest on Linux or Mac[^1] if you've already got ~asdf~ installed.
+This is easiest on Linux or Mac[fn:5] if you've already got ~asdf~ installed.
 
 #+begin_src bash
 sudo apt-get install rlwrap leiningen
@@ -245,9 +298,9 @@ asdf global clojure latest
 clj -version
 #+end_src
 
-I like to use the *IBM Semeru*[^4] runtimes, which are designed for
+I like to use the *IBM Semeru*[fn:8] runtimes, which are designed for
 hybrid-cloud and containerized applications. There are great Docker
-containers[^5] available to use for free. For a time, I worked within
+containers[fn:9] available to use for free. For a time, I worked within
 the IBM Software Lab in Markham where these tools were developed, and
 crossed paths with many people on the compiler teams.
 
@@ -260,8 +313,8 @@ asdf global java corretto-21.0.6.7.1
 The *Amazon Corretto* JVM is also great:
 
 - The docker container is a very stable platform for running ~.jar~ files
-- This JVM is developed and battle-tested by Amazon[^3]
-- Like Semeru, Corretto is fully TCK[^2] certified, see the [[https://aws.amazon.com/corretto/faqs/][Corretto FAQs]]
+- This JVM is developed and battle-tested by Amazon[fn:6]
+- Like Semeru, Corretto is fully TCK[fn:7] certified, see the [[https://aws.amazon.com/corretto/faqs/][Corretto FAQs]]
 
 * Common Clojure Tasks
 
@@ -869,6 +922,30 @@ a function that takes multiple arguments.
 
 [[https://clojuredocs.org/clojure.core/defn][clojure.core/defn]]
 
+*Anonymous Functions*
+
+For one-offs or /lambdas/ you can use [[https://clojuredocs.org/clojure.core/fn][clojure.core/fn]]. The extra space
+below is only present to highlight where the function is defined.
+
+#+begin_src clojure
+( (fn [x] (* x 2))  4)
+#+end_src
+
+#+RESULTS:
+: 8
+
+Even more condensed syntax exists to accomplish the same purpose.
+
+#+begin_src clojure
+( #(* % 2)  4)
+#+end_src
+
+#+RESULTS:
+: 8
+
+Here, ~%~ is used to represent the first argument to a function. If you
+need multiple arguments you can use ~%1~, ~%2~, ~%3~, or ~%&~ for rest.
+
 *Multi Arity Functions*
 
 #+begin_src clojure
@@ -1014,6 +1091,43 @@ These approaches can also be heavily nested. If there is a map within
 a list that contains a map, this can be destructured.
 
 - See this [[https://gist.github.com/john2x/e1dca953548bfdfb9844][Clojure destructuring cheatsheet]]
+
+*** Closures
+
+Functions that are returned from other functions with encapsulated
+data are called /closures/.
+
+#+begin_src clojure
+(defn declare-pilled
+  "Returns a string generator stating that the input is thing-pilled"
+  [thing]
+  (fn [x] (str "Wow, " x " sure is " thing "pilled.")))
+#+end_src
+
+#+begin_src clojure
+(def that-is-cringe (declare-pilled "cringe"))
+#+end_src
+
+#+begin_src clojure
+(that-is-cringe "watching TV")
+#+end_src
+
+#+RESULTS:
+: "Wow, watching TV sure is cringepilled."
+
+
+#+begin_quote
+Did you pick the name based on starting with the word "closure" and
+replacing the "s" with "j" for Java? It seems pretty likely, but it
+would be nice to have that confirmed.
+
+The name was chosen to be unique. I wanted to involve c (c#), l (lisp)
+and j (java). Once I came up with *Clojure*, given the pun on closure,
+the available domains and vast emptiness of the googlespace, it was an
+easy decision.
+
+-- Rich Hickey[fn:10]
+#+end_quote
 
 * Deployment
 
@@ -1330,17 +1444,23 @@ hooks in particular) while still writing and executing code in ORG.
    9781449373320, 1449373321]]
 
 * Footnotes
-[fn:3] "Clojure for the Brave and True" by Daniel Higginbotham, [[https://www.braveclojure.com/][braveclojure.com]]
-[fn:2] "Clojure for the Brave and True" page 48.
+
 [fn:1] "Literate Programming", Donald E. Knuth, [[https://www-cs-faculty.stanford.edu/~knuth/lp.html][stanford.edu]]
+
+[fn:2] "Clojure for the Brave and True" page 48.
+
+[fn:3] "Clojure for the Brave and True" by Daniel Higginbotham, [[https://www.braveclojure.com/][braveclojure.com]]
+
 [fn:4] Documentation for [[https://docs.cider.mx/cider/usage/interactive_programming.html][CIDER: Interactive Programming]]
 
-[^1]: "How to use ASDF on MacOS", Qing Wu, [[https://www.wiserfirst.com/blog/how-to-use-asdf-on-macos/][wiserfirst.com]]
+[fn:5] "How to use ASDF on MacOS", Qing Wu, [[https://www.wiserfirst.com/blog/how-to-use-asdf-on-macos/][wiserfirst.com]]
 
-[^2]: "Technology Compatibility Kit", [[https://en.wikipedia.org/wiki/Technology_Compatibility_Kit][wiki]]
+[fn:6] "Technology Compatibility Kit", [[https://en.wikipedia.org/wiki/Technology_Compatibility_Kit][wiki]]
 
-[^3]: "The Definitive Guide to Clojure on the JVM", Eric Normand, [[https://ericnormand.me/guide/clojure-jvm#amazon-corretto][ericnormand.me]]
+[fn:7] "The Definitive Guide to Clojure on the JVM", Eric Normand, [[https://ericnormand.me/guide/clojure-jvm#amazon-corretto][ericnormand.me]]
 
-[^4]: "Introducing the no-cost IBM Semeru Runtimes", Mark Stoodley, [[https://developer.ibm.com/blogs/introducing-the-ibm-semeru-runtimes/][developer.ibm.com]]
+[fn:8] "Introducing the no-cost IBM Semeru Runtimes", Mark Stoodley, [[https://developer.ibm.com/blogs/introducing-the-ibm-semeru-runtimes/][developer.ibm.com]]
 
-[^5]: "Docker Hub: IBM Semeru Runtimes", [[https://hub.docker.com/_/ibm-semeru-runtimes][hub.docker.com]]
+[fn:9] "Docker Hub: IBM Semeru Runtimes", [[https://hub.docker.com/_/ibm-semeru-runtimes][hub.docker.com]]
+
+[fn:10] "Why is Clojure named Clojure?", Alex K., [[https://stackoverflow.com/questions/6427128/why-is-clojure-named-clojure][stackoverflow.com]]
