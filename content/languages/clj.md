@@ -27,14 +27,15 @@ Rebuilding things from scratch sucks and writing stateless functions
 that transform data potentially enables better code reuse.
 
 
-## Subverting the Lisp Curse {#subverting-the-lisp-curse}
+## Subverting the Curse of Lisp {#subverting-the-curse-of-lisp}
 
 > Programmers know the **benefits of everything** and the **tradeoffs of nothing**
 >
 > -- Rich Hickey
 
 Ah, the [Curse of Lisp](https://www.freshcodeit.com/blog/myths-of-lisp-curse#clojure-vs-lisp-acquired-and-inherited-traits)!!! The arcane magic powering [Grammarly](https://www.grammarly.com/blog/engineering/running-lisp-in-production/), the
-[London Metro](http://www.siscog.eu/list_detail.asp?idArea=3&idList=7&idListDetail=399), NuBank, and other companies[^fn:1]
+[London Metro](http://www.siscog.eu/list_detail.asp?idArea=3&idList=7&idListDetail=399), NuBank, and other companies[^fn:1] allegedly has a dark
+and hidden secret.
 
 First, if you don't know: **Video**: [What is the Curse of Lisp?](https://www.youtube.com/watch?v=_J3x5yvQ8yc)
 
