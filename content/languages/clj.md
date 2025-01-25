@@ -33,12 +33,8 @@ that transform data potentially enables better code reuse.
 >
 > -- Rich Hickey
 
-I've got a particular friend who has an obsession with Clojure - he is
-baffled as to why the entire world doesn't use it. When asked, he may
-say something like "they're all _idiots!_" While no sage myself, I do
-believe that the mentors I have had have wisely guided me regarding
-tool choice, and a variety of factors must be considered along with a
-problem statement.
+Ah, the [Curse of Lisp](https://www.freshcodeit.com/blog/myths-of-lisp-curse#clojure-vs-lisp-acquired-and-inherited-traits)!!! The arcane magic powering [Grammarly](https://www.grammarly.com/blog/engineering/running-lisp-in-production/), the
+[London Metro](http://www.siscog.eu/list_detail.asp?idArea=3&idList=7&idListDetail=399), NuBank, and other companies[^fn:1]
 
 First, if you don't know: **Video**: [What is the Curse of Lisp?](https://www.youtube.com/watch?v=_J3x5yvQ8yc)
 
@@ -46,7 +42,8 @@ First, if you don't know: **Video**: [What is the Curse of Lisp?](https://www.yo
 customized solutions and individualism. A solo developer now has the
 power to bend and flex reality to his whims. The drawback is that this
 causes fewer common tools to emerge - developers can just build them
-themselves fairly easily, leading to a divergence of methods.
+themselves fairly easily, leading to a divergence of methods. Why
+share when it's so easy just to write your own stuff?
 
 {{< figure src="/images/SymbolicsKB.jpg" caption="<span class=\"figure-number\">Figure 1: </span>An old **Symbolics** keyboard built for editing LISP" >}}
 
@@ -55,10 +52,12 @@ cogs. This is detailed in the [intro to Simply Scheme](https://people.eecs.berke
 Corporations have a very valid point here that must be stressed: The
 goal is to reliably get real work done, not to navel gaze.
 
-I've heard rumours that Clojure subverts this curse with two measures:
-understanding of the problem, and the ability to leverage Java
-libraries. **We're giving it a go regardless, as I want to work in a
-LISP for a minute.**
+I've heard rumours[^fn:2] that Clojure subverts this curse from many
+angles. Through understanding the curse, Clojurists have built a
+thriving business-friendly developer support community. The ability to
+leverage Java libraries allows old battle-hardened enterprise
+libraries to be leveraged from within a lisp program. **We're giving it
+a go regardless, as I want to work in a LISP for a minute.**
 
 
 ## Computing Schools of Thought {#computing-schools-of-thought}
@@ -88,7 +87,7 @@ This is posted here for the reader to ponder without further comment.
 
 I'll be using [org-babel-clojure](https://orgmode.org/worg/org-contrib/babel/languages/ob-doc-clojure.html) to write and run code within this
 manual directly. Learning, remembering, and teaching now mix. This
-approach is one of Donald Knuth's methodologies[^fn:1]
+approach is one of Donald Knuth's methodologies[^fn:3]
 
 The [Literate programming](https://en.wikipedia.org/wiki/Literate_programming) idea has regained popularity these days in
 the form of data notebooks, and it is certainly to my taste.
@@ -123,8 +122,29 @@ like a lisp list rather than a table.
 
 ## Eval &amp; Apply {#eval-and-apply}
 
-All **LISP** languages allow you to participate in the interplay between
-two foundational concepts which recur in a cycle: **eval** and **apply**.
+> "**An idiot admires complexity, a genius admires simplicity**, a physicist
+> tries to make it simple, for an idiot anything the more complicated it
+> is the more he will admire it, if you make something so clusterfucked
+> he can't understand it he's gonna think you're a god cause you made it
+> so complicated nobody can understand it. That's how they write
+> journals in Academics, they try to make it so complicated people think
+> you're a genius"
+>
+> -- Terry A. Davis, Creator of Temple OS
+
+All **LISP** interpreters are built to run an **eval** and **apply** cycle.
+Commonly, **eval-apply** is portrayed in a similar fashion to a **yin-yang**
+for its foundational importance and similarity to the concept of
+creation and destruction. The power of **LISP** metaprogramming rests upon
+the simplicity of this process.
+
+```clojure
+;; Evaluate  an expression and determine what to do
+(eval '(+ 1 2))  ; => 3
+
+;; Apply functions to arguments and return results
+(apply #'+ '(1 2 3))  ; => 6
+```
 
 {{< figure src="/clj/eval-apply.jpg" >}}
 
@@ -150,7 +170,19 @@ two foundational concepts which recur in a cycle: **eval** and **apply**.
 > on, until we get down to symbols, whose values are looked up in the
 > environment, and to primitive procedures, which are applied directly.
 >
-> -- "The Metacircular Evaluator" from [SICP](https://sarabander.github.io/sicp/html/4_002e1.xhtml)
+> -- "The Metacircular Evaluator" from [SICP](https://mitp-content-server.mit.edu/books/content/sectbyfn/books_pres_0/6515/sicp.zip/full-text/book/book-Z-H-26.html#%_sec_4.1)
+
+<br />
+
+```clojure
+;; Determine what to do
+(eval '(+ 1 2))
+
+;; Do it
+(apply #'+ '(1 2))
+```
+
+<br />
 
 
 # Rich Hickey Talks {#rich-hickey-talks}
@@ -228,7 +260,7 @@ with Clojure.
 > It is better to have 100 functions operate on one data structure
 > than 10 functions on 10 data structures.
 >
-> -- Alan Perlis[^fn:2]
+> -- Alan Perlis[^fn:4]
 
 **Syntax**
 
@@ -239,12 +271,12 @@ with Clojure.
 > "**All Clojure operations have the same syntax**: opening
 > parenthesis, operator, operands, closing parenthesis"
 >
-> -- Daniel Higginbotham[^fn:3]
+> -- Daniel Higginbotham[^fn:5]
 
 
 # Installation {#installation}
 
-This is easiest on Linux or Mac[^fn:4] if you've already got `asdf` installed.
+This is easiest on Linux or Mac[^fn:6] if you've already got `asdf` installed.
 
 ```bash
 sudo apt-get install rlwrap leiningen
@@ -262,9 +294,9 @@ asdf global clojure latest
 clj -version
 ```
 
-I like to use the **IBM Semeru**[^fn:5] runtimes, which are designed for
+I like to use the **IBM Semeru**[^fn:7] runtimes, which are designed for
 hybrid-cloud and containerized applications. There are great Docker
-containers[^fn:6] available to use for free. For a time, I worked within
+containers[^fn:8] available to use for free. For a time, I worked within
 the IBM Software Lab in Markham where these tools were developed, and
 crossed paths with many people on the compiler teams.
 
@@ -277,8 +309,8 @@ asdf global java corretto-21.0.6.7.1
 The **Amazon Corretto** JVM is also great:
 
 -   The docker container is a very stable platform for running `.jar` files
--   This JVM is developed and battle-tested by Amazon[^fn:7]
--   Like Semeru, Corretto is fully TCK[^fn:8] certified, see the [Corretto FAQs](https://aws.amazon.com/corretto/faqs/)
+-   This JVM is developed and battle-tested by Amazon[^fn:9]
+-   Like Semeru, Corretto is fully TCK[^fn:10] certified, see the [Corretto FAQs](https://aws.amazon.com/corretto/faqs/)
 
 
 # Common Clojure Tasks {#common-clojure-tasks}
@@ -852,7 +884,7 @@ can do some pretty incredible things to simplify complex operations.
 > "**All Clojure operations have the same syntax**: opening
 > parenthesis, operator, operands, closing parenthesis"
 >
-> -- Daniel Higginbotham[^fn:3]
+> -- Daniel Higginbotham[^fn:5]
 
 Also recall that we can return functions:
 
@@ -898,7 +930,7 @@ Also see **macro calls** and **special forms**.
 > give two burger flips about addi- tion, multiplication, or mapping. It
 > just cares about applying functions.
 >
-> -- Daniel Higginbotham[^fn:3]
+> -- Daniel Higginbotham[^fn:5]
 
 
 ### Defining Functions {#defining-functions}
@@ -1147,7 +1179,7 @@ data are called _closures_.
 > the available domains and vast emptiness of the googlespace, it was an
 > easy decision.
 >
-> -- Rich Hickey[^fn:9]
+> -- Rich Hickey[^fn:11]
 
 
 # Deployment {#deployment}
@@ -1318,7 +1350,7 @@ CIDER is an interactive programming environment for Clojure.
 > programmer works in a very dynamic and incremental manner. Instead of
 > repeatedly editing, compiling, and restarting an application, the
 > programmer starts the application once and then adds and updates
-> individual Clojure definitions as the program continues to run.[^fn:10]
+> individual Clojure definitions as the program continues to run.[^fn:12]
 
 It looks like this when run:
 
@@ -1460,13 +1492,15 @@ hooks in particular) while still writing and executing code in ORG.
     reliable, scalable, and maintainable systems**, 1e2p, ISBN:
     9781449373320, 1449373321](https://libgen.is/book/index.php?md5=41D80961BA66DA6A1294AA9624CEA15D)
 
-[^fn:1]: "Literate Programming", Donald E. Knuth, [stanford.edu](https://www-cs-faculty.stanford.edu/~knuth/lp.html)
-[^fn:2]: "Clojure for the Brave and True" page 48.
-[^fn:3]: "Clojure for the Brave and True" by Daniel Higginbotham, [braveclojure.com](https://www.braveclojure.com/)
-[^fn:4]: "How to use ASDF on MacOS", Qing Wu, [wiserfirst.com](https://www.wiserfirst.com/blog/how-to-use-asdf-on-macos/)
-[^fn:5]: "Introducing the no-cost IBM Semeru Runtimes", Mark Stoodley, [developer.ibm.com](https://developer.ibm.com/blogs/introducing-the-ibm-semeru-runtimes/)
-[^fn:6]: "Docker Hub: IBM Semeru Runtimes", [hub.docker.com](https://hub.docker.com/_/ibm-semeru-runtimes)
-[^fn:7]: "Technology Compatibility Kit", [wiki](https://en.wikipedia.org/wiki/Technology_Compatibility_Kit)
-[^fn:8]: "The Definitive Guide to Clojure on the JVM", Eric Normand, [ericnormand.me](https://ericnormand.me/guide/clojure-jvm#amazon-corretto)
-[^fn:9]: "Why is Clojure named Clojure?", Alex K., [stackoverflow.com](https://stackoverflow.com/questions/6427128/why-is-clojure-named-clojure)
-[^fn:10]: Documentation for [CIDER: Interactive Programming](https://docs.cider.mx/cider/usage/interactive_programming.html)
+[^fn:1]: "Companies using Clojure or ClojureScript" [clojure.org](https://clojure.org/community/companies)
+[^fn:2]: "The Curse of Lisp - Clojure vs Lisp" <https://www.freshcodeit.com/blog/myths-of-lisp-curse#clojure-vs-lisp-acquired-and-inherited-traits>
+[^fn:3]: "Literate Programming", Donald E. Knuth, [stanford.edu](https://www-cs-faculty.stanford.edu/~knuth/lp.html)
+[^fn:4]: "Clojure for the Brave and True" page 48.
+[^fn:5]: "Clojure for the Brave and True" by Daniel Higginbotham, [braveclojure.com](https://www.braveclojure.com/)
+[^fn:6]: "How to use ASDF on MacOS", Qing Wu, [wiserfirst.com](https://www.wiserfirst.com/blog/how-to-use-asdf-on-macos/)
+[^fn:7]: "Introducing the no-cost IBM Semeru Runtimes", Mark Stoodley, [developer.ibm.com](https://developer.ibm.com/blogs/introducing-the-ibm-semeru-runtimes/)
+[^fn:8]: "Docker Hub: IBM Semeru Runtimes", [hub.docker.com](https://hub.docker.com/_/ibm-semeru-runtimes)
+[^fn:9]: "Technology Compatibility Kit", [wiki](https://en.wikipedia.org/wiki/Technology_Compatibility_Kit)
+[^fn:10]: "The Definitive Guide to Clojure on the JVM", Eric Normand, [ericnormand.me](https://ericnormand.me/guide/clojure-jvm#amazon-corretto)
+[^fn:11]: "Why is Clojure named Clojure?", Alex K., [stackoverflow.com](https://stackoverflow.com/questions/6427128/why-is-clojure-named-clojure)
+[^fn:12]: Documentation for [CIDER: Interactive Programming](https://docs.cider.mx/cider/usage/interactive_programming.html)

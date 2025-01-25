@@ -14,7 +14,10 @@ if (prepared == true) {
 }
 ```
 
-# Why use JavaScript? (2024)
+# Why use JavaScript?
+
+**2025 Update:** Learn JS, but not from this manual. The ecosystem
+moves far too quickly for most of this to be useful.
 
 JavaScript is a beginner-friendly language with broad applications:
 
@@ -36,23 +39,64 @@ complete the work in question.
 JS is **fast**. It is compiled to bytecode and then optimized machine
 code the instant it runs. JS is **fun** to write. JS is
 **accessible** - everybody has a JS interpreter built right into their
-computer, given they have a web browser.
+computer, given they have a web browser. JS is extremely flexible and
+extends across many programming paradigms.[^sicp]
 
 JavaScript is worth learning and using.
 
-## Why use JavaScript? (2017)
+## Why use JavaScript? (From 2017)
 
-When I first began writing JavaScript, I mused: _"Ah, JavaScript; I've had mixed feelings about it for years now. My negative feelings, for the most part, were resentment for what the modern web has become and the unnecessary strain on modern devices that is heavy website javascript. I generally feel that javascript should only be used for a small subset of things, and always trivial; using javascript for anything mission-critical or important is dangerous. I imagine that this is not entirely fair, so I've set out to learn the basics, then some, in order to become competent in what is currently a very popular language._" In a coin flip between _Ruby_ and _JavaScript_, I chose to go with JavaScript knowing that the barrier to others viewing my neat experiments is much lower if the experiments could be viewed easily online.
+When I first began writing JavaScript, I mused: _"Ah, JavaScript; I've
+had mixed feelings about it for years now. My negative feelings, for
+the most part, were resentment for what the modern web has become and
+the unnecessary strain on modern devices that is heavy website
+javascript. I generally feel that javascript should only be used for a
+small subset of things, and always trivial; using javascript for
+anything mission-critical or important is dangerous. I imagine that
+this is not entirely fair, so I've set out to learn the basics, then
+some, in order to become competent in what is currently a very popular
+language._" In a coin flip between _Ruby_ and _JavaScript_, I chose to
+go with JavaScript knowing that the barrier to others viewing my neat
+experiments is much lower if the experiments could be viewed easily
+online.
 
-Since that time, I've written a great deal of _things_ in JavaScript, ranging from NodeJS servers, to games, to command line applications. It's a very versatile language with an active developer community and, while not especially scalable, is a fantastic way to wade into computer programming. After becoming familiar with vanilla ES5 and ES6+ (aka pre and post-2015 JS, browser support is still standardized at ES5,) it is possible to wade into all sorts of alternative modes of working and thinking; you can attain better scalability and safety with TypeScript, build functional web applications with Elm, or spend time learning the immensely popular React to build Progressive Web Apps. More than anything else, remember that it is very easy to become overwhelmed; as developers, JavaScript has us spoiled for choice. There are a nearly infinite number of frameworks and working modes to learn, so if you are beginning, focus on the basics first: writing your own vanilla JavaScript, interacting with the _Document Object Model_, and using the built-in functions. _Enjoy!_
+Since that time, I've written a great deal of _things_ in JavaScript,
+ranging from NodeJS servers, to games, to command line applications.
+It's a very versatile language with an active developer community and,
+while not especially scalable, is a fantastic way to wade into
+computer programming. After becoming familiar with vanilla ES5 and
+ES6+ (aka pre and post-2015 JS, browser support is still standardized
+at ES5,) it is possible to wade into all sorts of alternative modes of
+working and thinking; you can attain better scalability and safety
+with TypeScript, build functional web applications with Elm, or spend
+time learning the immensely popular React to build Progressive Web
+Apps. More than anything else, remember that it is very easy to become
+overwhelmed; as developers, JavaScript has us spoiled for choice.
+There are a nearly infinite number of frameworks and working modes to
+learn, so if you are beginning, focus on the basics first: writing
+your own vanilla JavaScript, interacting with the _Document Object
+Model_, and using the built-in functions. _Enjoy!_
 
-> Because JavaScript borrows concepts and syntax idioms from several languages, including proud C-style procedural roots as well as subtle, less obvious Scheme/Lisp-style functional roots, it is exceedingly approachable to a broad audience of developers, even those with just little to no programming experience. The "Hello World" of JavaScript is so simple that the language is inviting and easy to get comfortable with in early exposure. ...Therein lies the paradox of JavaScript, the Achilles' Heel of the language, the challenge we are presently addressing. **Because JavaScript can be used without understanding, the understanding of the language is often never attained.** ([Kyle](https://github.com/getify/You-Dont-Know-JS/blob/master/preface.md))
+> Because JavaScript borrows concepts and syntax idioms from several
+> languages, including proud C-style procedural roots as well as
+> subtle, less obvious Scheme/Lisp-style functional roots, it is
+> exceedingly approachable to a broad audience of developers, even
+> those with just little to no programming experience. The "Hello
+> World" of JavaScript is so simple that the language is inviting and
+> easy to get comfortable with in early exposure. ...Therein lies the
+> paradox of JavaScript, the Achilles' Heel of the language, the
+> challenge we are presently addressing. **Because JavaScript can be
+> used without understanding, the understanding of the language is
+> often never attained.**
+> ([Kyle](https://github.com/getify/You-Dont-Know-JS/blob/master/preface.md))
 
-> JavaScript: If it can be done in another language, it should be done in another language. ([Doug](http://fuelyourcoding.com/))
+> JavaScript: If it can be done in another language, it should be done
+> in another language. ([Doug](http://fuelyourcoding.com/))
 
-> There are those who will say _terrible_ things about the JavaScript language. Many of these things are true. (Eloquent JS, p.6)
+> There are those who will say _terrible_ things about the JavaScript
+> language. Many of these things are true. (Eloquent JS, p.6)
 
-## JS is not Java
+## The Meme: JS is \*Not\* Java
 
 While it looks and sounds similar to recruiters, JavaScript (or JS,)
 is **not equivalent** to Java. They are different programming
@@ -60,26 +104,63 @@ languages, albeit with similar syntax and paradigms. ECMAScript is the
 standard used to define JS and is used interchangeably to refer to the
 language.
 
-What is JavaScript: JS, ECMAScript, ES5, ES6, ES2015.
+What is JavaScript: JS, ECMAScript, ES5, ES6, ES2015 through '2020.
 
-What is *not* JavaScript: Java. 
+What is *not* JavaScript: Java.
 [Java is to JavaScript as ham is to hamster.](https://adactio.com/journal/1595)
 
-To learn more about Java, check out the 
+To learn more about Java, check out the
 [Java manual]({{< ref "java.markdown" >}}).
 
 # Resources
 
-1. [Eloquent JavaScript](https://eloquentjavascript.net/) by Marijn Haverbeke.
+1. CodeCademy's [Learn Javascript](https://www.codecademy.com/courses/learn-javascript-functions) course
+1. [Eloquent JavaScript](https://eloquentjavascript.net/) by Marijn Haverbeke
+1. [SICP JS](https://sourceacademy.org/sicpjs/1), a famous old Scheme textbook adapted to JavaScript
 1. [Mastering Modular JavaScript (ES6)](https://github.com/mjavascript/mastering-modular-javascript/tree/master/chapters)
-1. [You Don't Know JS, Kyle Simpson ](https://github.com/getify/You-Dont-Know-JS)
-1. CodeCademy [Learn Javascript.](https://www.codecademy.com/courses/learn-javascript-functions)
+1. Kyle Simpson's [You Don't Know JS](https://github.com/getify/You-Dont-Know-JS)
 
-# ES6+ JavaScript
+# On Compatibility and Learning Old JS
 
-_JavaScript_ is the programming language of the web and beyond, with many popular frameworks for building user interfaces and web apps. JavaScript was originally included within _Netscape Navigator_ in 1995 to add programs to webpages. I attempt to include a smattering of basics below; `//>` indicates output printed to the console, and in general, comments are inserted with `//` or `/* xyz */` for longer multi-line notes.
+Jeez, writing this section is going to make me feel old, and I only
+started to write JavaScript in 2016! At that point in history, there
+existed two major versions of JS on the web, ES5-and-below and
+ES6-and-above.
 
-Before we continue, I should clarify: **Node.JS** is a _server-side_ implementation of Google's V8 JavaScript engine. What this means for you, as a developer, is that you can write clever programs for the client (the user, plugging along in a browser,) and the server (handling client connections, processing and returning data) in one language. Nearly all of the code mentioned below will work on both the client and server.
+Browsers were still catching up, and during this age Internet Explorer
+support was still a concern. Firefox, lovingly termed *Fearfox* by my
+colleague Patrick, would often need special hacks and css tricks to
+show things in the same way Chrome did.
+
+While we did have *Babel* at this point in time, I learned to write
+modern and pre-ES6 JavaScript (basically from 2009) at the same time,
+understanding the differences in available features.
+
+**If you are just starting to learn, take advantage of all the modern
+features!** Use async/await, functional methods, let and const,
+arrows, spread syntax, and all the other goodies offered by
+ECMAScripts of the future. There is little need these days to use
+[Babel.js](https://babeljs.io/) to transform and polyfill[^2] your
+stuff, as major browsers implement modern features rather quickly.
+
+# Node.js
+
+**Node** is a _server-side_ implementation of Google's V8 JavaScript
+engine. What this means for you, as a developer - you can write clever
+programs for the client (the user, plugging along in a browser,) and
+the server (handling client connections, processing and returning
+data) in one language. Nearly all of the code mentioned below will
+work on both the client and server.
+
+# Basics
+
+_JavaScript_ is the programming language of the web and beyond, with
+many popular frameworks for building user interfaces and web apps.
+JavaScript was originally included within _Netscape Navigator_ in 1995
+to add programs to webpages. I attempt to include a smattering of
+basics below; `//>` indicates output printed to the console, and in
+general, comments are inserted with `//` or `/* xyz */` for longer
+multi-line notes.
 
 ## Console Output
 
@@ -570,3 +651,9 @@ function mergeStrings(a, b) {
 //> O
 ```
 -->
+
+[^sicp]: "SICP JS Edition" [sourceacademy.org/sicpjs](https://sourceacademy.org/sicpjs/1)
+
+[^sicp-comp]: "SICP Comparison Edition" [sicp.sourceacademy.org](https://sicp.sourceacademy.org/)
+
+[^2]: "Polyfill", MDN Web Docs, [developer.mozilla.org](https://developer.mozilla.org/en-US/docs/Glossary/Polyfill)

@@ -43,12 +43,8 @@ Programmers know the *benefits of everything* and the *tradeoffs of nothing*
 -- Rich Hickey
 #+end_quote
 
-I've got a particular friend who has an obsession with Clojure - he is
-baffled as to why the entire world doesn't use it. When asked, he may
-say something like "they're all /idiots!/" While no sage myself, I do
-believe that the mentors I have had have wisely guided me regarding
-tool choice, and a variety of factors must be considered along with a
-problem statement.
+Ah, the [[https://www.freshcodeit.com/blog/myths-of-lisp-curse#clojure-vs-lisp-acquired-and-inherited-traits][Curse of Lisp]]!!! The arcane magic powering [[https://www.grammarly.com/blog/engineering/running-lisp-in-production/][Grammarly]], the
+[[http://www.siscog.eu/list_detail.asp?idArea=3&idList=7&idListDetail=399][London Metro]], NuBank, and other companies[fn:12]
 
 First, if you don't know: *Video*: [[https://www.youtube.com/watch?v=_J3x5yvQ8yc][What is the Curse of Lisp?]]
 
@@ -56,7 +52,8 @@ First, if you don't know: *Video*: [[https://www.youtube.com/watch?v=_J3x5yvQ8yc
 customized solutions and individualism. A solo developer now has the
 power to bend and flex reality to his whims. The drawback is that this
 causes fewer common tools to emerge - developers can just build them
-themselves fairly easily, leading to a divergence of methods.
+themselves fairly easily, leading to a divergence of methods. Why
+share when it's so easy just to write your own stuff?
 
 #+caption: An old *Symbolics* keyboard built for editing LISP
 [[/images/SymbolicsKB.jpg]]
@@ -66,10 +63,12 @@ cogs. This is detailed in the [[https://people.eecs.berkeley.edu/~bh/ssch0/prefa
 Corporations have a very valid point here that must be stressed: The
 goal is to reliably get real work done, not to navel gaze.
 
-I've heard rumours that Clojure subverts this curse with two measures:
-understanding of the problem, and the ability to leverage Java
-libraries. *We're giving it a go regardless, as I want to work in a
-LISP for a minute.*
+I've heard rumours[fn:11] that Clojure subverts this curse from many
+angles. Through understanding the curse, Clojurists have built a
+thriving business-friendly developer support community. The ability to
+leverage Java libraries allows old battle-hardened enterprise
+libraries to be leveraged from within a lisp program. *We're giving it
+a go regardless, as I want to work in a LISP for a minute.*
 
 ** Computing Schools of Thought
 
@@ -132,8 +131,31 @@ like a lisp list rather than a table.
 
 ** Eval & Apply
 
-All *LISP* languages allow you to participate in the interplay between
-two foundational concepts which recur in a cycle: *eval* and *apply*.
+#+begin_quote
+"*An idiot admires complexity, a genius admires simplicity*, a physicist
+tries to make it simple, for an idiot anything the more complicated it
+is the more he will admire it, if you make something so clusterfucked
+he can't understand it he's gonna think you're a god cause you made it
+so complicated nobody can understand it. That's how they write
+journals in Academics, they try to make it so complicated people think
+you're a genius"
+
+-- Terry A. Davis, Creator of Temple OS
+#+end_quote
+
+All *LISP* interpreters are built to run an *eval* and *apply* cycle.
+Commonly, *eval-apply* is portrayed in a similar fashion to a *yin-yang*
+for its foundational importance and similarity to the concept of
+creation and destruction. The power of *LISP* metaprogramming rests upon
+the simplicity of this process.
+
+#+begin_src clojure
+;; Evaluate  an expression and determine what to do
+(eval '(+ 1 2))  ; => 3
+
+;; Apply functions to arguments and return results
+(apply #'+ '(1 2 3))  ; => 6
+#+end_src
 
 [[/clj/eval-apply.jpg]]
 
@@ -160,8 +182,20 @@ reduced to new expressions to be evaluated in new environments, and so
 on, until we get down to symbols, whose values are looked up in the
 environment, and to primitive procedures, which are applied directly.
 
--- "The Metacircular Evaluator" from [[https://sarabander.github.io/sicp/html/4_002e1.xhtml][SICP]]
+-- "The Metacircular Evaluator" from [[https://mitp-content-server.mit.edu/books/content/sectbyfn/books_pres_0/6515/sicp.zip/full-text/book/book-Z-H-26.html#%_sec_4.1][SICP]]
 #+end_quote
+
+#+HUGO: <br />
+
+#+begin_src clojure
+;; Determine what to do
+(eval '(+ 1 2))
+
+;; Do it
+(apply #'+ '(1 2))
+#+end_src
+
+#+HUGO: <br />
 
 * Rich Hickey Talks
   :PROPERTIES:
@@ -1441,6 +1475,9 @@ hooks in particular) while still writing and executing code in ORG.
    9781449373320, 1449373321]]
 
 * Footnotes
+
+[fn:12] "Companies using Clojure or ClojureScript" [[https://clojure.org/community/companies][clojure.org]]
+[fn:11] "The Curse of Lisp - Clojure vs Lisp" https://www.freshcodeit.com/blog/myths-of-lisp-curse#clojure-vs-lisp-acquired-and-inherited-traits
 
 [fn:1] "Literate Programming", Donald E. Knuth, [[https://www-cs-faculty.stanford.edu/~knuth/lp.html][stanford.edu]]
 
