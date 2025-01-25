@@ -17,10 +17,80 @@
 
 # Make sure you aren't using markdown footnotes in this file!
 
+* Why Clojure?
+
+Clojure, as a language and an ecosystem, is unique.
+
+Clojure's technical strength lies in its roots as a *LISP* and the
+stability and power of the JVM. The benefits of having an extremely
+simple syntax (with some well designed caveats) means it is easy to
+understand both for people for parsers. Clojure, in this aspect, is
+not unique among LISPs like scheme or common lisp.
+
+Here is the syntax - /"All Clojure operations have the same syntax:
+opening parenthesis, operator, operands, closing parenthesis"/ [fn:3]
+
+#+begin_src clojure
+;v Operator
+(+ 1 2 3 4)
+;  ^ ^ ^ ^ Operands
+#+end_src
+
+#+RESULTS:
+: 10
+
+While this seems like a trivial and strange thing to point out as the
+introduction to a language, this radically simple syntax brings
+numerous benefits. You'll need to trust me on some of these, and
+others are explained in detail below:
+
+- *Debugging and learning become much easier*:
+  - Functions and parts of your code can be executed in isolation
+  - Your running system can be modified and inspected
+  - No need for extensive rewrites during debugging
+  - No need for a modify-compile-run development loop
+- *The simple syntax lends itself to powerful editing methods*:
+  - Quickly cut, move, expand, and contract parentheses with *paredit*
+  - It becomes easy build your own tools to insert common forms
+- *The functional paradigm enables a dramatic simplification of solutions*:
+  - Everything is boiled down to *functions* and *data*
+  - No more OO crap like ~AbstractSingletonProxyFactoryBean~
+  - A lack of state within components makes wrapping and modifying simple
+
+What sets Clojure apart from other LISPs is its community and
+community-supported tooling and libraries. Where other LISPs
+frequently succumb to the LISP curse, Clojure has managed to escape
+and foster a healthy community set amongst an already strong ecosystem
+of enterprise-grade and battle-tested libraries.
+
+This combination of battle-tested libraries and a functional paradigm
+lends itself well to designing systems that can scale in a simple and
+powerful manner.
+
+Additionally, Clojure is exceptionally stable.[fn:history] Tools
+written with Clojure are likely to be supported and stable for a long
+time due to careful design and lack of rewrites.[fn:history] This is
+evident in the graphs below, which attempt to visualize how often code
+within the Clojure language is replaced versus another functional JVM
+language, Scala. As is evident below, *Clojure is extremely
+conservative about introducing breaking changes.*
+
+#+ATTR_HTML: :class invert
+#+caption: The Clojure language codebase
+[[/clj/clojure-codebase.jpg]]
+
+#+ATTR_HTML: :class invert
+#+caption: The Scala language codebase
+[[/clj/scala-codebase.jpg]]
+
+These graphs are from [[https://clojure.org/about/history][A History of Clojure]], and I probably can't
+explain the strengths and history of the language better than /the man
+himself./
+
 * Philosophy
-  :PROPERTIES:
-  :CUSTOM_ID: philosophy
-  :END:
+:PROPERTIES:
+:CUSTOM_ID: philosophy
+:END:
 
 ** Improving Productivity
 
@@ -252,7 +322,7 @@ Full talk:
 - [[https://clojure.org/guides/learn/syntax#_evaluation][Clojure Evaluation]]
 - [[https://clojure.org/api/cheatsheet][Clojure API Cheat Sheet]]
 
-* Hyper Tutorial
+* Hyper Tuntorial
 
 In the smallest nutshell, here's how you can hit the ground running
 with Clojure.
@@ -1441,6 +1511,27 @@ which I still must resolve, *ox-hugo* has happily enabled me to leverage
 all the enhanced markdown processing features provided by hugo (render
 hooks in particular) while still writing and executing code in ORG.
 
+
+
+* Obligatory Bell Curve Meme
+
+As an ex-React, ex-Django, ex-Typescript, ex-Express developer, happy
+to never return unless a good reason / cool project emerges, I am
+fully qualified to throw all this shade. The technologies clowned upon
+below all have their place, but due to their popularity and ease of
+ChatGPT'ing together codebases, are prone to turning into a strange
+sort of insecure muck.
+
+[[/clj/bell-curve-clojure.png]]
+
+Despite all the advantages of LISPs, wonderful systems are regularly
+built in a variety of languages. The JVM is *not* a good fit for many
+applications. Clojure is great, but don't be a forceful evangelist or
+you'll end up like the guy in the middle of this meme. It's the worst
+type of programmer you could be.
+
+Good programming is a certain mindset and wisdom - not a language.
+
 * Resources
   :PROPERTIES:
   :CUSTOM_ID: resources
@@ -1476,6 +1567,7 @@ hooks in particular) while still writing and executing code in ORG.
    9781449373320, 1449373321]]
 
 * Footnotes
+[fn:history] "A History of Clojure", Rich Hickey, [[https://dl.acm.org/doi/pdf/10.1145/3386321][dl.acm.org PDF]]
 
 [fn:12] "Companies using Clojure or ClojureScript" [[https://clojure.org/community/companies][clojure.org]]
 [fn:11] "The Curse of Lisp - Clojure vs Lisp" https://www.freshcodeit.com/blog/myths-of-lisp-curse#clojure-vs-lisp-acquired-and-inherited-traits
