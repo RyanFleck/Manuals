@@ -34,8 +34,7 @@ opening parenthesis, operator, operands, closing parenthesis"_&nbsp;[^fn:1]
 
 While this seems like a trivial and strange thing to point out as the
 introduction to a language, this radically simple syntax brings
-numerous benefits. You'll need to trust me on some of these, and
-others are explained in detail below:
+numerous benefits:
 
 -   **Debugging and learning become much easier**:
     -   Functions and parts of your code can be executed in isolation
@@ -303,7 +302,7 @@ Full talk:
 -   [Clojure API Cheat Sheet](https://clojure.org/api/cheatsheet)
 
 
-# Hyper Tuntorial {#hyper-tuntorial}
+# Hyper Tutorial {#hyper-tutorial}
 
 In the smallest nutshell, here's how you can hit the ground running
 with Clojure.
@@ -341,6 +340,14 @@ with Clojure.
 > parenthesis, operator, operands, closing parenthesis"
 >
 > -- Daniel Higginbotham[^fn:1]
+
+**Tips**
+
+-   The easiest way to install Clojure is with `asdf`.
+-   Install Emacs with Cider, or VS Code with Calva, and learn how to
+    open a REPL.
+-   Use `comment` functions to wrap your test code. This won't be
+    evaluated if you _eval_ your whole buffer.
 
 
 # Installation {#installation}
@@ -1251,6 +1258,123 @@ data are called _closures_.
 > -- Rich Hickey[^fn:12]
 
 
+### Binding Variables {#binding-variables}
+
+You can use [clojure.core/let](https://clojuredocs.org/clojure.core/let) like `let*` from _elisp_. It allows you to
+**bind** variables within its lexical scope - a fancy way of stating
+'within the structure that it was created inside'.
+
+```clojure
+(let [a 1
+      b 2]
+
+  (+ a b))
+```
+
+```text
+3
+```
+
+
+### Loops and Recursion {#loops-and-recursion}
+
+Far more often you'll be using **map**, **filter**, and **reduce** to perform
+operations on an array, but Clojure includes a **loop/recur** construct to
+improve the performance of what otherwise would be a very standard
+inner and outer pair forming a recursive function.
+
+See [clojure.core/loop](https://clojuredocs.org/clojure.core/loop) and [clojure.core/recur](https://clojuredocs.org/clojure.core/recur).
+
+```clojure
+(loop [i 0
+       list []]
+  (if (< i 10)
+    (recur (+ i 1)
+           (conj list i))
+    list))
+```
+
+```text
+[0 1 2 3 4 5 6 7 8 9]
+```
+
+Looking closely, you'll see these two important statements:
+
+**First** - `loop` works like a `let` and enables the definition of initial
+variables. In this case, `i` is set to `0` and `list` holds an empty list.
+
+```clojure
+(loop [i 0
+       list []]
+```
+
+**Second** - the `recur` statement kicks execution back up to the beginning
+of the `loop` with the provided elements as the new
+
+```clojure
+(recur (+ i 1)         ; bound to 'i'
+       (conj list i))  ; bound to 'list'
+```
+
+Using `loop` is a cleaner and more performant approach to writing loops
+than recursion as used in traditional functional languages.
+
+
+### Map, Filter, Reduce {#map-filter-reduce}
+
+The three kings of list processing methods. _Learn to use them and
+profit!_
+
+```clojure
+(map (fn [x] (* x 2)) [1 2 3 4 5 6])
+```
+
+```text
+(2 4 6 8 10 12)
+```
+
+```clojure
+(filter (fn [x] (> x 7)) [2 4 6 8 10 12])
+```
+
+```text
+(8 10 12)
+```
+
+```clojure
+(reduce (fn [a b] (+ a b)) [1 2 3 4 5 6])
+```
+
+```text
+21
+```
+
+You may provide `reduce` with an initial value, which will be used
+instead of the first two elements in the sequence.
+
+```clojure
+(reduce (fn [a b] (+ a b)) 10 [1 2 3 4 5 6])
+```
+
+```text
+31
+```
+
+The `reduce` function is meant, in general, to build results. This does
+not mean it has to return a single primitive. Per the book,[^fn:1] it
+is clearer to use `reduce` when building a result than loop, which
+forces a user to more deeply inspect your code to understand its
+purpose.
+
+```clojure
+(reduce (fn [a b] {:name b :child a}) :none ["Mark" "Luke" "John"])
+```
+
+```text
+{:name "John", :child {:name "Luke", :child {:name "Mark", :child :none}}}
+```
+
+
 # Deployment {#deployment}
 
 Clojure, when compared to some other platforms, is fairly easy to
@@ -1371,11 +1495,15 @@ provided in the [Clojure for the Brave and True](https://www.braveclojure.com/) 
 initialization files mentioned on the linked page is a great way to
 start using Emacs in general.
 
+Keep in mind that the more crap you have in your classpath, the longer
+CIDER will take to start up.
+
 
 ## Command Cheat Sheet {#command-cheat-sheet}
 
 | Command            | Action                                             |
 |--------------------|----------------------------------------------------|
+| C-c C-x C-x RET    | Start CIDER                                        |
 | M-x cider          | Prompts for more options                           |
 | M-x cider-jack-in  | Jacks in to current Clojure (clj) project          |
 | C-c C-z            | Jump cursor to REPL                                |
@@ -1415,13 +1543,17 @@ CIDER is an interactive programming environment for Clojure.
 > what she wants. The program is then terminated, and the programmer
 > goes back to editing the program further. This cycle is repeated over
 > and over until the program behavior conforms to what the programmer
-> desires. Using CIDER's interactive programming environment, a
-> programmer works in a very dynamic and incremental manner. Instead of
-> repeatedly editing, compiling, and restarting an application, the
-> programmer starts the application once and then adds and updates
-> individual Clojure definitions as the program continues to run.[^fn:13]
+> desires.
+>
+> Using CIDER's interactive programming environment, a programmer works
+> in a very dynamic and incremental manner. Instead of repeatedly
+> editing, compiling, and restarting an application, the programmer
+> starts the application once and then adds and updates individual
+> Clojure definitions as the program continues to run.[^fn:13]
 
-It looks like this when run:
+It looks like this when run - the explanation given below is a great
+introduction to much of the built-in functionality made available to
+the user.
 
 ```nil
 ;; Connected to nREPL server - nrepl://localhost:36099

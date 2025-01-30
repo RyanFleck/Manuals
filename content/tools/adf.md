@@ -1,12 +1,10 @@
 +++
 date = 2023-01-03T21:55:30Z
-image = ""
 summary = "A data engineering platform"
 title = "Azure Data Factory"
 toc = true
 aliases = ["data-factory", "azdf", "azure-data-factory", "ADF"]
 +++
-
 
 # What is a Data Factory?
 
@@ -72,6 +70,20 @@ Lessons learned when building and deploying data factory pipelines.
 3. The **default timeouts** are usually way too high. Aim to stall for
    a maximum of ten minutes (beyond typical execution time) before
    failure, and repeat only a few times.
+4. When viewing a list of pipeline runs
+5. **Expect to have failures** in production when first testing
+   pipelines at scale due to throughput limits on some Azure
+   resources - databases, storage accounts, etc.
+
+**If you are ever typing 'dev', STOP AND THINK.** If your pipelines
+will be moved between environments, use **Global Parameters** to hold
+things like table schemas, blob container names, or other
+environment-specific variables. *The only good place to type DEV is in
+your **linked services** definitions or global variables.*
+
+# Deployment
+
+- [CI/CD in Azure Data Factory](https://learn.microsoft.com/en-us/azure/data-factory/continuous-integration-delivery)
 
 # Data Movement (Copy) Activity
 
@@ -83,6 +95,7 @@ Literally just the [Copy Activity](https://learn.microsoft.com/en-us/azure/data-
   provide a list of files with full paths in the filesystem to copy,
   but **cannot provide a destination path.** What insane tooling. The [docs](https://learn.microsoft.com/en-us/azure/data-factory/connector-azure-blob-storage?tabs=data-factory#file-list-examples)
   for this are very disappointing.
+- "Flatten hierarchy" will give your files weird, long names. Use "preserve hierarchy".
 
 Sources/sinks are [too numerous to
 list](https://learn.microsoft.com/en-us/azure/data-factory/concepts-pipelines-activities?tabs=data-factory#data-movement-activities),

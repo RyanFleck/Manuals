@@ -41,8 +41,7 @@ opening parenthesis, operator, operands, closing parenthesis"/ [fn:3]
 
 While this seems like a trivial and strange thing to point out as the
 introduction to a language, this radically simple syntax brings
-numerous benefits. You'll need to trust me on some of these, and
-others are explained in detail below:
+numerous benefits:
 
 - *Debugging and learning become much easier*:
   - Functions and parts of your code can be executed in isolation
@@ -56,6 +55,7 @@ others are explained in detail below:
   - Everything is boiled down to *functions* and *data*
   - No more OO crap like ~AbstractSingletonProxyFactoryBean~
   - A lack of state within components makes wrapping and modifying simple
+
 
 What sets Clojure apart from other LISPs is its community and
 community-supported tooling and libraries. Where other LISPs
@@ -322,7 +322,7 @@ Full talk:
 - [[https://clojure.org/guides/learn/syntax#_evaluation][Clojure Evaluation]]
 - [[https://clojure.org/api/cheatsheet][Clojure API Cheat Sheet]]
 
-* Hyper Tuntorial
+* Hyper Tutorial
 
 In the smallest nutshell, here's how you can hit the ground running
 with Clojure.
@@ -364,6 +364,14 @@ parenthesis, operator, operands, closing parenthesis"
 
 -- Daniel Higginbotham[fn:3]
 #+end_quote
+
+*Tips*
+
+- The easiest way to install Clojure is with ~asdf~.
+- Install Emacs with Cider, or VS Code with Calva, and learn how to
+  open a REPL.
+- Use ~comment~ functions to wrap your test code. This won't be
+  evaluated if you /eval/ your whole buffer.
 
 * Installation
 
@@ -705,6 +713,7 @@ of data you’re operating on, the structure is the same*.
 
 *When* and *when-not* enable execution of a form when a value is true (or
 false for when-not) without providing a false-case like an if statement.
+
 
 *Do* enables the combination of multiple forms - it will return the
 result of the final form. This is very useful for logging or running
@@ -1231,6 +1240,115 @@ easy decision.
 -- Rich Hickey[fn:10]
 #+end_quote
 
+*** Binding Variables
+
+You can use [[https://clojuredocs.org/clojure.core/let][clojure.core/let]] like ~let*~ from /elisp/. It allows you to
+*bind* variables within its lexical scope - a fancy way of stating
+'within the structure that it was created inside'.
+
+#+begin_src clojure
+(let [a 1
+      b 2]
+
+  (+ a b))
+#+end_src
+
+#+RESULTS:
+: 3
+
+*** Loops and Recursion
+
+Far more often you'll be using *map*, *filter*, and *reduce* to perform
+operations on an array, but Clojure includes a *loop/recur* construct to
+improve the performance of what otherwise would be a very standard
+inner and outer pair forming a recursive function.
+
+See [[https://clojuredocs.org/clojure.core/loop][clojure.core/loop]] and [[https://clojuredocs.org/clojure.core/recur][clojure.core/recur]].
+
+#+begin_src clojure
+(loop [i 0
+       list []]
+  (if (< i 10)
+    (recur (+ i 1)
+           (conj list i))
+    list))
+#+end_src
+
+#+RESULTS:
+: [0 1 2 3 4 5 6 7 8 9]
+
+Looking closely, you'll see these two important statements:
+
+*First* - ~loop~ works like a ~let~ and enables the definition of initial
+variables. In this case, ~i~ is set to ~0~ and ~list~ holds an empty list.
+
+#+begin_src clojure
+(loop [i 0
+       list []]
+#+end_src
+
+*Second* - the ~recur~ statement kicks execution back up to the beginning
+of the ~loop~ with the provided elements as the new
+
+#+begin_src clojure
+    (recur (+ i 1)         ; bound to 'i'
+           (conj list i))  ; bound to 'list'
+#+end_src
+
+Using ~loop~ is a cleaner and more performant approach to writing loops
+than recursion as used in traditional functional languages.
+
+*** Map, Filter, Reduce
+
+The three kings of list processing methods. /Learn to use them and
+profit!/
+
+#+begin_src clojure
+(map (fn [x] (* x 2)) [1 2 3 4 5 6])
+#+end_src
+
+#+RESULTS:
+: (2 4 6 8 10 12)
+
+#+begin_src clojure
+(filter (fn [x] (> x 7)) [2 4 6 8 10 12])
+#+end_src
+
+#+RESULTS:
+: (8 10 12)
+
+#+begin_src clojure
+(reduce (fn [a b] (+ a b)) [1 2 3 4 5 6])
+#+end_src
+
+#+RESULTS:
+: 21
+
+You may provide ~reduce~ with an initial value, which will be used
+instead of the first two elements in the sequence.
+
+#+begin_src clojure
+(reduce (fn [a b] (+ a b)) 10 [1 2 3 4 5 6])
+#+end_src
+
+#+RESULTS:
+: 31
+
+The ~reduce~ function is meant, in general, to build results. This does
+not mean it has to return a single primitive. Per the book,[fn:3] it
+is clearer to use ~reduce~ when building a result than loop, which
+forces a user to more deeply inspect your code to understand its
+purpose.
+
+#+begin_src clojure
+(reduce (fn [a b] {:name b :child a}) :none ["Mark" "Luke" "John"])
+#+end_src
+
+#+RESULTS:
+: {:name "John", :child {:name "Luke", :child {:name "Mark", :child :none}}}
+
+# Left off on end of page 67
+
 * Deployment
 
 Clojure, when compared to some other platforms, is fairly easy to
@@ -1351,12 +1469,16 @@ provided in the [[https://www.braveclojure.com/][Clojure for the Brave and True]
 initialization files mentioned on the linked page is a great way to
 start using Emacs in general.
 
+Keep in mind that the more crap you have in your classpath, the longer
+CIDER will take to start up.
+
 ** Command Cheat Sheet
    :PROPERTIES:
    :CUSTOM_ID: command-cheat-sheet
    :END:
 | Command           | Action                                           |
 |-------------------+--------------------------------------------------|
+| C-c C-x C-x RET   | Start CIDER                                      |
 | M-x cider         | Prompts for more options                         |
 | M-x cider-jack-in | Jacks in to current Clojure (clj) project        |
 | C-c C-z           | Jump cursor to REPL                              |
@@ -1398,14 +1520,18 @@ modifies the code, compiles it, and then runs it to see if it does
 what she wants. The program is then terminated, and the programmer
 goes back to editing the program further. This cycle is repeated over
 and over until the program behavior conforms to what the programmer
-desires. Using CIDER's interactive programming environment, a
-programmer works in a very dynamic and incremental manner. Instead of
-repeatedly editing, compiling, and restarting an application, the
-programmer starts the application once and then adds and updates
-individual Clojure definitions as the program continues to run.[fn:4]
+desires.
+
+Using CIDER's interactive programming environment, a programmer works
+in a very dynamic and incremental manner. Instead of repeatedly
+editing, compiling, and restarting an application, the programmer
+starts the application once and then adds and updates individual
+Clojure definitions as the program continues to run.[fn:4]
 #+end_quote
 
-It looks like this when run:
+It looks like this when run - the explanation given below is a great
+introduction to much of the built-in functionality made available to
+the user.
 
 #+begin_src
 ;; Connected to nREPL server - nrepl://localhost:36099
