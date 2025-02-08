@@ -18,23 +18,56 @@
 
 * Introduction
 
-Man has always had the spreadsheet for working purposes.
+Man has always had the spreadsheet for working purposes. If you peer
+backwards into history, you will find *cruneiform tablets with
+spreadsheets on them*. Tables are an endlessly useful and logical way
+to organize the material world. In the new industrial era, *Microsoft
+Excel* has become the humble program to take this crown, being the
+preferred format for companies of all sizes to practically and
+effectively complete their work.
 
-Martin Shkreli has a [[https://www.youtube.com/watch?v=VI_riscmviI&list=PLJsVF3gZDcuTxcdH5FmQRTd6MiJ29X_OQ][Finance Lessons]] playlist[fn:1] with a focus on Excel.
+Martin Shkreli has a [[https://www.youtube.com/watch?v=VI_riscmviI&list=PLJsVF3gZDcuTxcdH5FmQRTd6MiJ29X_OQ][Finance Lessons]] playlist[fn:1] with a focus on
+Excel.
+
+Like all Microsoft Office products, Excel can be automated with VBA,
+*Visual Basic for Applications*, which is the primary topic of this
+manual. Visual Basic was first released in 1991 as an easy way (akin
+to BASIC) to work with Microsoft products and develop Windows
+applications.[fn:3]
+
+Honestly, I never expected to dig into this stuff. I assumed my
+knowledge of VB/VBA would never extend past this meme, but here we
+are -
 
 #+begin_quote
-"I'll create a GUI interface in Visual Basic, see if I can track an IP
-address." -- [[https://www.youtube.com/watch?v=ygB0ZviqXac][Meme]]
+"I'll create a GUI interface in *Visual Basic*, see if I can track an IP
+address." -- [[https://www.youtube.com/watch?v=ygB0ZviqXac][CSI Scene/Meme]]
 #+end_quote
+
 
 * Learning Resources
 
-1. [[https://learn.microsoft.com/en-us/office/client-developer/excel/excel-home?redirectedfrom=MSDN][Microsoft: Develop solutions and customize Excel]]
+*Documentation*
+
+1. [[https://learn.microsoft.com/en-us/office/vba/api/overview/language-reference][Microsoft: VBA Language Refrence]]
 2. [[https://learn.microsoft.com/en-us/office/vba/api/overview/excel][Microsoft: Excel VBA Reference]]
+3. [[https://learn.microsoft.com/en-us/office/client-developer/excel/excel-home?redirectedfrom=MSDN][Microsoft: Develop solutions and customize Excel]]
+
+*Cheat Sheets*
+
+- [[https://zerotomastery.io/cheatsheets/vba-cheat-sheet/][zerotomastery.io VBA Cheat Sheet]] (simple)
+- [[https://analystcave.com/vba-cheat-sheet/][Analyst Cave VBA Cheat Sheet]] (comprehensive)
 
 * What are Macros?
 
+Generally - across programming - macros (from the Ancient Greek
+"makros" meaning long) are meant to simplify a longer activity. In
+Excel, they are more akin to the concept of /automation scripting/ - the
+UI is puppeteered with functions and code to complete a repetitive or
+difficult task.
+
 *Examples:*
+
 + Automatically formatting a report every time new data is added.
 + Copying and pasting data across sheets without manual effort.
 + Generating and sending automated emails based on Excel data.
@@ -42,10 +75,10 @@ address." -- [[https://www.youtube.com/watch?v=ygB0ZviqXac][Meme]]
 
 * Writing Simple Macros with VBA
 
-Before starting, let's set up Excel for hacking.
+Before starting, let's set up Excel for some /hacking/.
 
 1. *Enable the developer menu* at File, Options, Customize Ribbon, and
-   enable ~Developer~.
+   check the ~Developer~ option to include it in the /ribbon/.
 2. *Hit Alt-F11.* This will open the VBA editor.
 3. Ensure your file is saved as *xlsm*. If you do not *save as xlsm* all
    of your macros will be lost if you close the file.
@@ -65,7 +98,9 @@ Generally in this section we will cover the following:
 
 In your sample document (whatever you want) click ~Developer > Record
 Macro~, don't bother setting a shortcut, and perform a few actions.
-Then hit ~Developer > Stop Recording~.
+Then hit ~Developer > Stop Recording~. You can view the code for this
+macro by (assuming this is a fresh project) hitting ~Alt-F11~ and
+looking in ~Module1~ for the generated code.
 
 #+begin_src vba
 Sub Macro1()
@@ -85,6 +120,8 @@ Sub Macro1()
 End Sub
 #+end_src
 
+/Aside:/ Save your macros in your Emacs configs with ~M-x insert-kbd-macro~
+
 ** Assigning Macros to Buttons
 
 To reassign the macro to another keybinding in the future, you can hit
@@ -94,12 +131,147 @@ and description.
 Form buttons can be added to sheets with ~Developer > Insert > Button
 (Form Control)~ - clicking the button will then run the macro.
 
-
 ** The Visual Basic for Applications (VBA) editor
-** VBA syntax and structure
-** Variables, data types, and scope
+
+The entire Excel/VBA interop system can be accessed and manipulated
+from the VBA editor, which can be opened with ~Alt + F11~. On the left, in
+the *Project* pane, you will see an object for each sheet in your
+workbook along with one for the entire workbook.
+
+*Useful Commands* (M - Meta/Alt, C - Control, S - Shift)
+
+| Keyboard Shortcut | Action                                              |
+|-------------------+-----------------------------------------------------|
+| M-F11             | Open the VBA Editor                                 |
+| C-g               | Open the [[https://learn.microsoft.com/en-us/office/vba/language/reference/user-interface-help/use-the-immediate-window][immediate window]] (a repl for procedures)   |
+| C-j               | When hovering over an object, list its properties   |
+| C-<SPACE>         | Autocomplete                                        |
+| F2                | Object browser                                      |
+| F4                | Properties window                                   |
+| F5                | Run the current procedure or macro                  |
+| F8                | Debug mode                                          |
+| C-<BREAK>         | Halt a running macro                                |
+| S-F2              | Jump to definition for a function or variable       |
+| C-f               | Find dialog                                         |
+| C-h               | Find and replace                                    |
+
+** VBA Embedded Project Structure
+
+The VBA Editor enables you to edit a tree of VBA files corresponding
+to:
+
+1. One *Workbook* object for the entire file, a "Workbook"
+2. *Sheet* objects for each sheet in the file
+3. *Modules* which store macros, functions, and subroutines
+4. *UserForms* are collections of custom UI elements
+5. *Class Modules* define custom objects
+
+Within *Workbook* and *Sheet* files, you can add event-triggered
+functions that are tied to the entire file or a specific sheet.
+
+- ~Workbook_Open~ triggers when the file is opened
+- ~Workbook_BeforeClose~ triggers before closing
+- ~Workbook_SheetChange~ detects cell edits
+- ~Worksheet_Change~ within a sheet's file runs after an edit
+- ~Worksheet_SelectionChange~ triggers when a cell is selected
+
+All macros and automation logic should be stored in *Modules*. Use your
+head and split code between modules in a sensible manner.
+
+#+begin_src vba
+Private Sub Workbook_Open()
+   MsgBox "Welcome! This workbook opened successfully.", vbInformation, "Hello!"
+End Sub
+#+end_src
+
+#+begin_src vba
+Dim var1 As Integer
+var1 = 2
+userInput = InputBox("Test")
+
+Debug.Print "User input was: " & userInput & " and var1 is " & var1
+#+end_src
+
+** Variables, data types, functions, and scope
+
+VBA has the same data types as any programming language. See this
+[[https://zerotomastery.io/cheatsheets/vba-cheat-sheet/#data][cheat sheet page]] for a good set of examples. Notably:
+
+- The ~Variant~ type can take anything (and is the default type)
+- Booleans are capitalized ~True~ and ~False~
+- Strings use double quotes unlike other Microsoft products
+- Dates are ~M/D/YYYY~ - very American
+- There are three special Excel data types:
+  - ~Range("A1:A4")~
+  - ~Worksheet("Boiler 1")~
+  - ~Workbooks(1)~
+
+All variables are created in a given scipe. When they lose scope, the
+value is garbage-collected. You can use the following to declare
+variables:
+
+- [[https://learn.microsoft.com/en-us/office/vba/language/reference/user-interface-help/dim-statement][Dim]] for procedure-level variables
+- [[https://learn.microsoft.com/en-us/office/vba/language/reference/user-interface-help/static-statement][Static]] to preserve values between calls
+
+Procedures are contained within:
+
+- [[https://learn.microsoft.com/en-us/office/vba/language/reference/user-interface-help/sub-statement][Sub]] (Sub-procedure[fn:2])
+- [[https://learn.microsoft.com/en-us/office/vba/language/reference/user-interface-help/function-statement][Function]] blocks (which by default handle args as pass-by-reference)
+
+...both of which can be [[https://learn.microsoft.com/en-us/office/vba/language/concepts/getting-started/calling-sub-and-function-procedures][called]] in a similar manner.
+
+#+begin_src vba
+' Sub procedure definition with two arguments:
+Sub SubComputeArea(Length, TheWidth)
+
+   Dim Area As Double ' Declare local variable.
+
+   If Length = 0 Or TheWidth = 0 Then
+      ' If either argument = 0.
+      Exit Sub ' Exit Sub immediately.
+   End If
+
+   Area = Length * TheWidth ' Calculate area of rectangle.
+   Debug.Print Area ' Print Area to Debug window.
+End Sub
+#+end_src
+
 ** Conditional statements (If/Else, Select Case)
+
+This example is from the [[https://learn.microsoft.com/en-us/office/vba/language/concepts/getting-started/using-ifthenelse-statements#testing-a-second-condition-if-the-first-condition-is-false][VBA Docs]]:
+
+#+begin_src vba
+Function Bonus(performance, salary)
+   If performance = 1 Then
+      Bonus = salary * 0.1
+   ElseIf performance = 2 Then
+      Bonus = salary * 0.09
+   ElseIf performance = 3 Then
+      Bonus = salary * 0.07
+   Else
+      Bonus = 0
+   End If
+End Function
+
+' In a subroutine:
+Debug.Print Bonus(1, 2390) '-> 239
+#+end_src
+
+
 ** Loops (For, While, Do Until)
+
+** Simple User I/O
+
+Here is a very simple example of a macro that shows a pop-up input box
+to the user, and after hitting OK, presents the same data to the user.
+
+#+begin_src vba
+Sub Macro4()
+   Dim response As String
+   response = InputBox("Write anything.")
+   MsgBox ("Your input: " & response)
+End Sub
+#+end_src
 
 * Manipulating Tables in VBA
 
@@ -110,7 +282,33 @@ Form buttons can be added to sheets with ~Developer > Insert > Button
 ** The Object Model (Workbooks, Worksheets, Ranges)
 ** Selecting, copying, and formatting cells
 ** Manipulating rows, columns, and tables
+* Common Tasks
+** Finding Columns
 
+#+begin_src vba
+Function FindColumnByName(sheet As Worksheet, columnName As String) As Integer
+   Dim rng As Range
+   Dim lastCol As Integer
+
+   ' Find the last column in the first row
+   lastCol = sheet.Cells(1, sheet.Columns.Count).End(xlToLeft).Column
+
+   ' Loop through the first row to find the column name
+   For Each rng In sheet.Range(sheet.Cells(1, 1), sheet.Cells(1, lastCol))
+      If Trim(LCase(rng.Value)) = Trim(LCase(columnName)) Then
+	 FindColumnByName = rng.Column
+	 Exit Function
+      End If
+   Next rng
+
+   ' Return 0 if column not found
+   FindColumnByName = 0
+End Function
+
+Sub TestFindColumn()
+   Debug.Print FindColumnByName(Sheet1, "Paystop") '-> 3
+End Sub
+#+end_src
 * Power Automate
 
 Power Automate is a shiny new toy from Microsoft that enables the easy
@@ -119,5 +317,10 @@ as powerful as macros, there are a certain number of useful tasks that
 can be performed with power automate.
 
 * Footnotes
+
+
+[fn:3] "Visual Basic Classic" [[https://en.wikipedia.org/wiki/Visual_Basic_(classic)][wiki.org]]
+
+[fn:2] "Writing a Sub procedure" [[https://learn.microsoft.com/en-us/office/vba/language/concepts/getting-started/writing-a-sub-procedure][microsoft.com]]
 
 [fn:1] From [[https://news.ycombinator.com/item?id=40682785][Hacker News]] - "So there's this weird playlist about Excel by Martin Shkreli of all people..."
