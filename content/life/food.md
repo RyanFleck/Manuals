@@ -212,7 +212,26 @@ Costco and picking up the following items.
 
 # Breads
 
+Making your own bread is a great way to break away from the
+white-flour and chemical preservative cocktail that is industrial
+bread. A bread machine or Kitchen-Aid mixer will help a lot. If you
+have a bread machine, simply follow the provided recipes. If from a
+thrift shop, it is easy to find the manual for an older machine
+online.
+
 ## Sourdough
+
+If you'd like to make artisan bread by hand with natural yeasts -
+which are very flavorful and last longer without moulding - make
+sourdough.
+
+With your starter, mix in one of the following ratios:
+
+| Ratio   | Peak Time   | Note               |
+|---------|-------------|--------------------|
+| 1:1:1   | 3-4 hours   |                    |
+| 1:5:5   | 6-7 hours   |                    |
+| 1:10:10 | 10-12 hours | Let rise overnight |
 
 # Cookies
 
