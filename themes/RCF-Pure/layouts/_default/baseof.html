@@ -3,26 +3,6 @@
   <!-- Head -->
   {{- partial "head.html" . -}}
 
-    <!-- Scripts -->
-    {{ if eq hugo.Environment "production" }}
-    <!-- Cloudflare Web Analytics -->
-    <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "8eeee5207a2a448588229dbc8187df6b"}'></script>
-
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-73R7RN5E5Z"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-
-      gtag('config', 'G-73R7RN5E5Z');
-    </script>
-
-    <!-- End Cloudflare Web Analytics -->
-    {{ else }}
-    <script>console.log("Cloudflare & Google Analytics will not be loaded in dev.");</script>
-    {{ end }}
-
   <body id="top">
     <!-- Header -->
     {{- partial "header.html" . -}}
