@@ -253,10 +253,12 @@ the simplicity of this process.
 <br />
 
 
-# Rich Hickey Talks {#rich-hickey-talks}
+# Key Presentation Notes {#rich-hickey-talks}
+
+From the many good YouTube channels on programming and Clojure.
 
 
-## core.async Channels {#core.async-channels}
+## Rich Hickey: Clojure core.async Channels {#core.async-channels}
 
 Full talk:
 [infoq.com/presentations/clojure-core-async/](https://www.infoq.com/presentations/clojure-core-async/)
@@ -285,21 +287,75 @@ Full talk:
     -   Basically **use channels to route your data through functions.**
 
 
-## Inside core.async Channels {#inside-core.async-channels}
+## Rich Hickey: Inside core.async Channels {#inside-core.async-channels}
 
 -   Full talk: [youtu.be/hMEX6lfBeRM](https://youtu.be/hMEX6lfBeRM)
+-   [Clojure Evaluation](https://clojure.org/guides/learn/syntax#_evaluation)
+-   [Clojure API Cheat Sheet](https://clojure.org/api/cheatsheet)
 
 
-## Simple Made Easy {#simple-made-easy}
+## Rich Hickey: Simple Made Easy {#simple-made-easy}
 
 -   Full talk: [youtube.com/watch?v=SxdOUGdseq4](https://www.youtube.com/watch?v=SxdOUGdseq4)
 -   12 Minute Version: [youtube.com/watch?v=F87PtAoJNtg](https://www.youtube.com/watch?v=F87PtAoJNtg)
 
 
-## Clojure {#clojure}
+## James Trunk: Clojure in a Nutshell {#james-trunk-clojure-in-a-nutshell}
 
--   [Clojure Evaluation](https://clojure.org/guides/learn/syntax#_evaluation)
--   [Clojure API Cheat Sheet](https://clojure.org/api/cheatsheet)
+-   On [YouTube](https://www.youtube.com/watch?v=C-kF25fWTO8) 32:43
+-   An excellent 30-minute overview of the benefits of the language
+-   Includes two notable Rich Hickey quotes
+
+> Systems are dynamic and data driven. It might be a nice idea to use
+> a language that is also dynamic and data driven. -- R.H.
+
+<!--quoteend-->
+
+> When you combine two pieces of data you get **data**. When you combine two
+> machines you get **trouble**. -- R.H.
+
+-   A few excellent examples including the snippet below
+    -   Get the .txt file from [gutenberg.org/ebooks/2701.txt.utf-8](https://www.gutenberg.org/ebooks/2701.txt.utf-8)
+
+<!--listend-->
+
+```clojure
+(def book (slurp "/home/r/Downloads/moby-dick.txt"))
+(def words (re-seq #"[\w|']+" book))
+
+(def common-words
+  (set
+   (->> words
+        (map clojure.string/lower-case)
+        (frequencies)
+        (sort-by val)
+        (take-last 21)
+        (map key))))
+
+(->> words
+     (map clojure.string/lower-case)
+     (remove common-words)
+     (frequencies)
+     (sort-by val)
+     (take-last 20))
+```
+
+| #'org.core/book                                                                                                                                                                                                                                                  |
+|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| #'org.core/words                                                                                                                                                                                                                                                 |
+| #'org.core/common-words                                                                                                                                                                                                                                          |
+| #{"his" "s" "of" "this" "it" "is" "for" "was" "that" "a" "but" "and" "i" "with" "all" "to" "as" "he" "at" "the" "in"}                                                                                                                                            |
+| (["then" 630] ["like" 647] ["which" 655] ["they" 667] ["were" 683] ["have" 776] ["had" 779] ["now" 786] ["or" 795] ["there" 865] ["one" 924] ["you" 963] ["be" 1061] ["him" 1065] ["so" 1066] ["on" 1073] ["from" 1104] ["not" 1180] ["by" 1225] ["whale" 1229]) |
+
+The following notable core functions are used:
+
+-   [clojure.core/frequencies](https://clojuredocs.org/clojure.core/frequencies)
+-   [clojure.core/sort-by](https://clojuredocs.org/clojure.core/sort-by)
+-   [clojure.core/take-last](https://clojuredocs.org/clojure.core/take-last)
+-   [clojure.core/re-seq](https://clojuredocs.org/clojure.core/re-seq)
+-   Key-Value Retrieval:
+    -   [clojure.core/key](https://clojuredocs.org/clojure.core/key)
+    -   [clojure.core/val](https://clojuredocs.org/clojure.core/val)
 
 
 # Hyper Tutorial {#hyper-tutorial}
@@ -1372,6 +1428,76 @@ purpose.
 
 ```text
 {:name "John", :child {:name "Luke", :child {:name "Mark", :child :none}}}
+```
+
+
+## Chapter 11: Mastering Concurrent Processes {#chapter-11-mastering-concurrent-processes}
+
+-   See [Chapter 11](https://www.braveclojure.com/core-async/) of Brave Clojure.
+-   Below is my personal fiddling. This section is not yet refined.
+
+<!--listend-->
+
+```clojure
+(ns ryanfleck.chantest
+  (:require [clojure.core.async :as a :refer [>! <! >!! <!! go chan buffer close! thread alts! alts!! timeout]]))
+
+(defn wait [{time-ms :time-ms message :message key :key}]
+  (println (str ">>> [" (or key "?") "] Sleeping for " time-ms "ms " (or message "")))
+  (Thread/sleep time-ms)
+  (println (str "<<< ["(or key "?")"] Done sleeping for " time-ms "ms"))
+  (str "Slept for " time-ms "ms"))
+
+;; From https://www.braveclojure.com/core-async/
+
+;; Testing - start a channel and read from it with a delay.
+(do
+  (def input-chan (chan))
+
+  (thread
+    (println "Running a thread...")
+    (doseq [x (range 5)]
+      (println (str "Placing " x))
+      (let [res (>!! input-chan x)]
+        (if res
+          (println (str "Placed " x " on channel."))
+          (println "Channel was closed."))))
+
+    (close! input-chan))
+
+  (go (loop [] (let [res (<! input-chan)]
+                 (println res)
+                 (wait {:time-ms 1000 :key res})
+                 (if res
+                   (recur)
+                   (println "Channel was closed."))))))
+
+;; Start twenty go-routines
+;; From this testing - eight are able to run at once (full thread pool)
+(do
+  (def input-chan (chan 100))
+
+  (thread
+    (println "Running a thread...")
+    (doseq [x (range 400)]
+      (println (str "Placing " x))
+      (let [res (>!! input-chan x)]
+        (if res
+          (println (str "Placed " x " on channel."))
+          (println "Channel was closed."))))
+
+    (close! input-chan))
+
+  (wait {:time-ms 1000 :message "Starting readers now..."})
+  (doseq [_ (range 20)]
+    (go (loop [] (do
+                   (println )
+                   (let [res (<! input-chan)]
+                     (println res)
+                     (wait {:time-ms 5000 :key res})
+                     (if res
+                       (recur)
+                       (println "Channel was closed."))))))))
 ```
 
 
