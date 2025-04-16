@@ -87,7 +87,11 @@ your **linked services** definitions or global variables.*
 
 # Data Movement (Copy) Activity
 
-Literally just the [Copy Activity](https://learn.microsoft.com/en-us/azure/data-factory/copy-activity-overview).
+The [Copy Activity](https://learn.microsoft.com/en-us/azure/data-factory/copy-activity-overview)
+is great for moving massive amounts of data from a souce to a
+destination with zero transformation and minor filtering on dates. Using it
+outside of this very specific use case will result in high costs
+and is generally better to implement with an external system.
 
 - You can perform additional actions with [rows which could not be copied](https://learn.microsoft.com/en-us/azure/data-factory/copy-activity-fault-tolerance#monitor-skipped-rows)
   due to errors.
@@ -190,6 +194,67 @@ Here is a subset taken directly from [these docs](https://learn.microsoft.com/en
 - **[Databricks Python Activity](https://learn.microsoft.com/en-us/azure/data-factory/transform-data-databricks-python)**: Azure Databricks
 - **[Synapse Notebook Activity](https://learn.microsoft.com/en-us/azure/synapse-analytics/synapse-notebook-activity)**: Azure Synapse Analytics
 
+# Making Up for Missing Features
+
+## Cartesian Product
+
+Let's say you had two arrays:
+
+```py
+["Bob", "Bill", "Joe"]
+[189, 873, 291]
+```
+
+There is literally no way in Azure Data Factory to produce a
+*cartesian product* with the data above within a single pipeline. It
+must be sent to an external activity - a data flow, function, or set
+of pipelines. Here I used an Azure SQL server stored procedure to do
+the 'heavy lifting' and passed the two arrays to the procedure as JSON
+encoded in strings.
+
+```sql
+CREATE PROCEDURE [abcd].[pr_get_global_cartesian_product]
+  @JsonArrayA NVARCHAR(MAX),
+  @JsonArrayB NVARCHAR(MAX)
+AS
+BEGIN
+  SET NOCOUNT ON;
+
+  DECLARE @A TABLE (val1 NVARCHAR(100));
+  DECLARE @B TABLE (val2 NVARCHAR(100));
+
+  IF ISJSON(@JsonArrayA) = 0 OR ISJSON(@JsonArrayB) = 0
+  BEGIN
+    RAISERROR('One or both input parameters are not valid JSON arrays.', 16, 1);
+    RETURN;
+  END;
+
+  -- Parse the JSON arrays into table variables
+  INSERT INTO @A (val1)
+  SELECT value FROM OPENJSON(@JsonArrayA);
+
+  INSERT INTO @B (val2)
+  SELECT value FROM OPENJSON(@JsonArrayB);
+
+  -- Return the Cartesian product
+  SELECT a.val1 as Site, b.val2 as Extraction
+  FROM @A a
+  CROSS JOIN @B b
+  ORDER BY a.val1;
+END;
+
+-- Example execution:
+EXECUTE [olr2].[pr_get_global_cartesian_product]
+  @JsonArrayA = '["Bob", "Bill", "Joe"]',
+  @JsonArrayB = '["189", "873", "291"]';
+```
+
+# CI/CD
+
+- [Data Factory CI/CD](https://learn.microsoft.com/en-us/azure/data-factory/continuous-integration-delivery)
+- [What is Azure Pipelines?](https://learn.microsoft.com/en-us/azure/devops/pipelines/get-started/what-is-azure-pipelines?view=azure-devops)
+- [ADF CI/CD Best Practices](https://learn.microsoft.com/en-us/azure/data-factory/continuous-integration-delivery#best-practices-for-cicd)
+
 # Monitoring, Azure Alerts, Emails
 
 - You can [send emails](https://learn.microsoft.com/en-us/azure/data-factory/how-to-send-email) to
@@ -200,19 +265,27 @@ Here is a subset taken directly from [these docs](https://learn.microsoft.com/en
 
 **Here Be Dragons:** As with any *Microsoft* product, there are many
 bizarre and strange side effects and bugs that will interrupt your
-workday and make you want to slam your keyboard over your knee.
-
-
+workday and make you want to slam your keyboard over your knee. You
+will be doomed to ceaselessly stumble into nonsensical undocumented
+semi-automatic footguns at an alarming rate. Support will gaslight you
+into thinking you are the problem until you provide incontrovertible
+evidence that another band-aid must be stuck on their product entirely
+made from popsicle sticks, band-aids, and white glue (plus great open
+source projects somewhere in that mix.)
 
 - Rename a file in Azure Data Studio? Lose the contents of the related
 buffer and those crucial queries you had written. *Go rewrite them and
 cry.*
 - Close your browser window? *Go rewrite those pipelines and cry.*
 - [Product Name] crashes? *Go rewrite your work and cry.*
+- Thought you could run that external thing? *No. Barely documented
+  timeout.[^1] Redesign your thing and go cry about it.*
 
 This doesn't even get in to the seemingly thousands of strange legacy
 limitations inherent in the Microsoft ecosystem. It's tough to know
-about all of them, even as a subject matter expert.
+about all of them, even as a subject matter expert. **Skim all the
+docs you can ahead of time** to learn about as many of the limitations
+as possible during your design phase.
 
 *"Go rewrite it and cry"* really should be the byline of most
 *Microsoft* cloud editing software. Triply check your work is saved
@@ -220,3 +293,5 @@ before every action, or it will be lost before you know it. As an
 adult, *to cry* is really to *loudly shout curses at the ceiling and
 stare miserably at your keyboard*, but that's a little long to type
 three times. **Save your stuff.** **OR ELSE.**
+
+[^1]: "Azure Function activity in Azure Data Factory: Timeout and long-running functions" [microsoft.com](https://learn.microsoft.com/en-us/azure/data-factory/control-flow-azure-function-activity#timeout-and-long-running-functions)
