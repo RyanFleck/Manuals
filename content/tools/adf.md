@@ -33,12 +33,14 @@ on a schedule.
 
 ![The relationship between **data sets**, **activities**, and **pipelines**. [microsoft.com](https://learn.microsoft.com/en-us/azure/data-factory/concepts-pipelines-activities?tabs=data-factory)](/images/azure/datafactorycomps.png)
 
-# Weird ADF Limitations
+# Weird, Wild, and Wacky Limitations
 
 As this technology is built on a foundation of other technologies
 (Synapse, Spark, etc) there are a handful of strange limitations that
 must be considered when applying a data factory in your solution
-architectures.
+architectures. **Most of these are not clearly stated at the top of
+their respective documentation pages**, usually being (intentionally?)
+pushed to the *very end*.
 
 - The **Lookup Activity** supports a max of 5000 rows or 4mb of data
   returned
@@ -46,6 +48,7 @@ architectures.
   data returned
 - The **ForEach Activity** supports a max of 100,000 output items
 - You can't nest **ForEach** activities
+- The **Function Activity** has an unchangable timeout of 230 seconds[^1]
 - Errors quite often don't mean what they say:
   - Carefully investigate and list the limitations of your sources and sinks
   - Perform a lot of initial testing to validate your choices in technology
