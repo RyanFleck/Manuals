@@ -208,6 +208,8 @@ Let's say you had two arrays:
 [189, 873, 291]
 ```
 
+What if you required *the product of these two sets* for a computation?
+
 There is literally no way in Azure Data Factory to produce a
 *cartesian product* with the data above within a single pipeline. It
 must be sent to an external activity - a data flow, function, or set
@@ -240,7 +242,7 @@ BEGIN
   SELECT value FROM OPENJSON(@JsonArrayB);
 
   -- Return the Cartesian product
-  SELECT a.val1 as Site, b.val2 as Extraction
+  SELECT a.val1 as Name, b.val2 as Number
   FROM @A a
   CROSS JOIN @B b
   ORDER BY a.val1;
@@ -250,6 +252,22 @@ END;
 EXECUTE [olr2].[pr_get_global_cartesian_product]
   @JsonArrayA = '["Bob", "Bill", "Joe"]',
   @JsonArrayB = '["189", "873", "291"]';
+```
+
+This will return the data in roughly this shape in the ADF:
+
+```json
+[
+  { "Name": "Bob", "Number": 189 },
+  { "Name": "Bob", "Number": 873 },
+  { "Name": "Bob", "Number": 291 },
+  { "Name": "Bill", "Number": 189 },
+  { "Name": "Bill", "Number": 873 },
+  { "Name": "Bill", "Number": 291 },
+  { "Name": "Joe", "Number": 189 },
+  { "Name": "Joe", "Number": 873 },
+  { "Name": "Joe", "Number": 291 }
+]
 ```
 
 # CI/CD
