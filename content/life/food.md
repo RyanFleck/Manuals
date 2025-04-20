@@ -327,7 +327,7 @@ Based on [tastesbetterfromscratch.com/spinach-artichoke-dip](https://tastesbette
 - ¾ cup loose grated parmesan cheese
 - 1 clove of minced garlic
 - ½ cup spinach - a thawed and squeezed brick
-- 1 tbsp worchestershire sauce
+- 1 tsp worchestershire sauce
 - 1 tbsp lemon juice
 - garlic salt
 - pepper
@@ -347,3 +347,5 @@ Generally, mix all the ingredients together and bake.
 
 - Make it ahead of time (up to two days) and pop it in the oven when
   needed.
+- Thaw the spinach ahead of time, or you'll need to work to slowly
+  pull apart the frozen brick!
