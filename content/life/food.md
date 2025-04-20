@@ -316,7 +316,10 @@ From [fifteenspatulas.com](https://www.fifteenspatulas.com/whole-wheat-pancakes/
 
 ### Mama K's Spinach Dip
 
-Based on [tastesbetterfromscratch.com/spinach-artichoke-dip](https://tastesbetterfromscratch.com/spinach-artichoke-dip/)
+Based on
+[tastesbetterfromscratch.com/spinach-artichoke-dip](https://tastesbetterfromscratch.com/spinach-artichoke-dip/) -
+really impressed me and my friends at a couples' dinner once upon a
+time!
 
 **Ingredients**
 
@@ -335,11 +338,11 @@ Based on [tastesbetterfromscratch.com/spinach-artichoke-dip](https://tastesbette
 
 **Steps**
 
-Generally, mix all the ingredients together and bake.
+Generally - mix all the ingredients together and bake!
 
 1. Preheat oven to 350°F
 2. Combine all the ingredients above and a ½ cup of the parmesan
-   cheese - turn until the mix is smooth
+   cheese - turn until the mix is smooth - add spices to taste
 3. Pour into baking pan and top with rest of parmesan cheese
 4. Bake for 20 minutes unitl hot/bubbly and serve with warm bread
 
