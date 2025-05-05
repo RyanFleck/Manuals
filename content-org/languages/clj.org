@@ -17,6 +17,7 @@
 
 # Make sure you aren't using markdown footnotes in this file!
 
+
 * Why Clojure?
 
 Clojure, as a language and an ecosystem, is unique.

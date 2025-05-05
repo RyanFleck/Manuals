@@ -309,3 +309,46 @@ Simple whole wheat pancakes. Makes enough for you and some leftovers.
 From [fifteenspatulas.com](https://www.fifteenspatulas.com/whole-wheat-pancakes/)
 
 [^1]: "Italian Sausage Skillet" - 5-Ingredient Cookbook p. 60
+
+# Entertaining
+
+## Appetizers
+
+### Mama K's Spinach Dip
+
+Based on
+[tastesbetterfromscratch.com/spinach-artichoke-dip](https://tastesbetterfromscratch.com/spinach-artichoke-dip/) -
+really impressed me and my friends at a couples' dinner once upon a
+time!
+
+**Ingredients**
+
+- 14oz can of artichoke hearts, drained and chopped
+- ½ cup sour cream
+- ½ cup mayonnaise
+- 8oz cream cheese (brick)
+- ¾ cup loose grated parmesan cheese
+- 1 clove of minced garlic
+- ½ cup spinach - a thawed and squeezed brick
+- 1 tsp worchestershire sauce
+- 1 tbsp lemon juice
+- garlic salt
+- pepper
+- italian or greek seasoning
+
+**Steps**
+
+Generally - mix all the ingredients together and bake!
+
+1. Preheat oven to 350°F
+2. Combine all the ingredients above and a ½ cup of the parmesan
+   cheese - turn until the mix is smooth - add spices to taste
+3. Pour into baking pan and top with rest of parmesan cheese
+4. Bake for 20 minutes unitl hot/bubbly and serve with warm bread
+
+**Notes**
+
+- Make it ahead of time (up to two days) and pop it in the oven when
+  needed.
+- Thaw the spinach ahead of time, or you'll need to work to slowly
+  pull apart the frozen brick!
