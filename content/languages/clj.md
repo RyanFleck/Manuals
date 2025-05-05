@@ -1433,7 +1433,7 @@ purpose.
 
 ## Chapter 11: Mastering Concurrent Processes {#chapter-11-mastering-concurrent-processes}
 
--   See [Chapter 11](https://www.braveclojure.com/core-async/) of Brave Clojure.
+-   See [Chapter 11](https://www.braveclojure.com/core-async/) of Brave Clojure. Introduced in chapter 9.
 -   Below is my personal fiddling. This section is not yet refined.
 
 <!--listend-->
@@ -1499,6 +1499,20 @@ purpose.
                        (recur)
                        (println "Channel was closed."))))))))
 ```
+
+
+## Chapter 12: Interop with Java {#chapter-12-interop-with-java}
+
+-   See [Chapter 12](https://www.braveclojure.com/java) of Brave Clojure
+-   It is easy to reach into Java for tools and libraries.
+    -   Notably the [Azure tools for Java developers](https://learn.microsoft.com/en-us/azure/developer/java/)
+
+**Other Resources**:
+
+-   [Stuart Halloway - Clojure Interop: A Better Java than Java](https://www.youtube.com/results?search_query=clojure+interop)
+-   [Clojure.org - Java Interop](https://clojure.org/reference/java_interop)
+-   [Clojure Guides - Java Interop](https://clojure-doc.org/articles/language/interop/)
+-   [Eric Normand - Tricks for Java Interop](https://ericnormand.me/article/tricks-for-java-interop)
 
 
 # Deployment {#deployment}
