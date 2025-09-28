@@ -1025,7 +1025,6 @@ SELECT * FROM test LIMIT 1;
 #+RESULTS:
 : 1,2
 
-
 ** Microsoft SQL
 :PROPERTIES:
 :CUSTOM_ID: microsoft-sql

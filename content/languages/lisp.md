@@ -97,7 +97,7 @@ describe-variable or describe-command.
 
 ;; Add package repository for installing slime, etc.
 (add-to-list 'package-archives
-	     '("melpa-stable" . "https://stable.melpa.org/packages/") t)
+             '("melpa-stable" . "https://stable.melpa.org/packages/") t)
 (package-initialize)
 
 (require 'package)

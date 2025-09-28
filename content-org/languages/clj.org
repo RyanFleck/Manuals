@@ -1775,8 +1775,6 @@ which I still must resolve, *ox-hugo* has happily enabled me to leverage
 all the enhanced markdown processing features provided by hugo (render
 hooks in particular) while still writing and executing code in ORG.
 
-
-
 * Obligatory Bell Curve Meme
 
 As an ex-React, ex-Django, ex-Typescript, ex-Express developer, happy

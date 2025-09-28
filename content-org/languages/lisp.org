@@ -345,8 +345,6 @@ functions being defined, string insertions, comments, and more:
 #+RESULTS:
 | THERE | IS | A | DOOR | GOING | EAST | FROM | HERE. |
 
-
-
 * Appendices
 
 #+begin_quote
@@ -461,7 +459,6 @@ Common Lisp seems to satisfy these requirements.
 ** Other Resources
 
 - [[https://learnxinyminutes.com/docs/common-lisp/][Learn X in Y mins: Common Lisp]]
-
 
 * Footnotes
 
