@@ -352,3 +352,14 @@ Generally - mix all the ingredients together and bake!
   needed.
 - Thaw the spinach ahead of time, or you'll need to work to slowly
   pull apart the frozen brick!
+
+# Meats
+
+## Chicken
+
+- Chickens are very easy to butcher yourself.
+
+### Chicken Wings
+
+- Use "shake n' bake" and toss in the oven at 450 for 20 + 20 + 10 minutes
+- Toss in sauce (before or after) and throw in an air fryer for 20 minutes

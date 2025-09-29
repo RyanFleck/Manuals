@@ -280,6 +280,7 @@ From the many good YouTube channels on programming and Clojure.
    :PROPERTIES:
    :CUSTOM_ID: core.async-channels
    :END:
+
 Full talk:
 [[https://www.infoq.com/presentations/clojure-core-async/][infoq.com/presentations/clojure-core-async/]]
 
