@@ -15,6 +15,9 @@
 # rm content/languages/py.markdown
 
 * Introduction and Warnings
+:PROPERTIES:
+:ID:       BF8D1F12-F9AC-4A1E-8EE3-D7D72C3705E8
+:END:
 
 Learning Python is easy and fun - /and yes, you ought to do it!/
 
