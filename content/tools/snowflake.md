@@ -17,6 +17,8 @@ presenting data. **Data platform** could be used to describe Snowflake, as
 it offers features traditionally found in data warehouses, lakes, and
 streaming-processing platforms like Kafka.
 
+<!--more-->
+
 
 ## COF-C02 - Snowpro Core Certification {#cof-c02-snowpro-core-certification}
 
@@ -24,12 +26,12 @@ You can download the study guide for this exam on the [Snowflake
 COF-C02 Exam Guide](https://learn.snowflake.com/en/certifications/snowpro-core) page. This guide is updated frequently, so go and
 request your own copy if possible. It is a 100-question, 115-minute test.
 
-Here is a copy from when I initially took the Snowpro Core training:
-
-[SnowPro Core COF-C02 Exam Study Guide 2025 [pdf]​](/pdf/SnowProCoreStudyGuide-2025.pdf)
-
 
 # Why Snowflake? {#why-snowflake}
+
+The shortcomings of traditional data analytics environments have been
+addressed with Snowflake's ease of storage, retrieval, and analysis of
+large quantities of client data.
 
 **Topics:**
 
@@ -46,6 +48,8 @@ Here is a copy from when I initially took the Snowpro Core training:
 **Topics:**
 
 -   Snowsight UI (web interface)
+    -   Worksheets: old UI, now **Workspaces** (UI: Projects =&gt; Workspaces).
+    -   Workspaces can be synchronized with Git.
 -   SnowSQL (CLI)
 -   Notebooks (Snowflake Notebooks)
 -   Architecture: hybrid of shared-disk and shared-nothing.
@@ -58,6 +62,64 @@ Here is a copy from when I initially took the Snowpro Core training:
 -   Zero-copy cloning, Time Travel, Fail-safe
 
 
+## Multi-Cluster Shared Data Architecture {#multi-cluster-shared-data-architecture}
+
+Typical distributed architectures like shared-disk or shared-nothing
+keep independent copies of data locally, which are synchronized, or
+kept at a single point for shared-disk. Shared-disk has the downside
+of a fragile single point of failure, where shared-noting is expensive
+to keep synchronized and easy to over-provision. Snowflake takes a
+different approach by segregating the system into layers, called
+_"Multi-cluster Shared Data Architecture"_:
+
+1.  **Data Storage**
+2.  **Query Processing** (Virtual Warehouses)
+3.  **Cloud Services**
+
+This separation allows each layer to scale entirely independently.
+
+
+### Data Storage Layer {#data-storage-layer}
+
+Snowflake data is stored in a **column-oriented, partitioned, encrypted
+format** highly optimized for the blob storage it is written to.
+
+By default, strong **AES-256** encryption is applied to data written to
+the backing blob storage. Snowflake inherits the durability and
+availability guarantees provided by their backing services - in the
+case of Snowflake's proprietary columnar storage format[^fn:1], AWS S3
+blob storage.
+
+Snowflake divides written files into **micro-partitions** so only columns
+that must be read or written are loaded during a query.
+
+Table data is billed at a flat rate per month, and only accessible via
+Snowflake queries.
+
+
+### Query Processing Layer {#query-processing-layer}
+
+**Virtual Warehouses** in the query processing layer cache table data
+required for queries locally, while leaving the majority of data in
+storage. Queries are executed in these warehouses, which are EC2[^fn:2]
+instances provisioned by Snowflake in an ephemeral manner.
+
+**Small - 6XL** warehouse sizes (t-shirt sizes) are available.
+
+Even with many warehouses operating on the data, Snowflake uses an
+[ACID](https://www.mongodb.com/resources/products/capabilities/acid-compliance) compliant global layer (the **transaction manager**)to ensure the
+data from each transaction is immediately available to all warehouses.
+
+
+### Global Services Layer {#global-services-layer}
+
+Highly available system management services common to all Snowflake
+users, responsible for optimizing queries, scaling and managing
+infrastructure, metadata caching, authentication, and security.
+
+Snowflake is a global multi-tenancy service.
+
+
 ## Editions &amp; Pricing {#editions-and-pricing}
 
 **Topics:**
@@ -66,8 +128,17 @@ Here is a copy from when I initially took the Snowpro Core training:
 -   Pricing model: credits for compute + storage + usage
 -   How edition differences affect features (e.g. multi-cluster, data protection)
 
+**Standard**
 
-# Core Objects &amp; DDL {#core-objects-and-ddl}
+**Enterprise** adds database failover, multi-cluster warehouses, and
+additional data protection and encryption features.
+
+**Business Critical**
+
+**Virtual Private** is isolated from the global Snowflake program.
+
+
+# Snowflake Objects &amp; DDL Commands {#snowflake-objects-and-ddl-commands}
 
 **Topics:**
 
@@ -76,6 +147,110 @@ Here is a copy from when I initially took the Snowpro Core training:
 -   Sequences, Stages
 -   Examples of CREATE / ALTER / DROP
 -   Cloning &amp; object versioning
+-   DDL = Data definition language
+
+**Objects** in Snowflake allow nearly all aspects of the data platform to
+be configured with unique access and usage restrictions, from the
+**Organization** level down to tables and views.
+
+**Account Objects:**
+
+-   Network Policy
+-   User
+-   Role
+-   Database =&gt; Schema
+-   Warehouse
+-   Share
+-   Resource Monitor
+
+**Schema Objects:**
+
+-   Stage
+-   Pipe
+-   Procedure
+-   Function
+-   Table
+-   View
+-   Task
+-   Stream
+
+
+## Object Naming Rules {#object-naming-rules}
+
+The name of a database, schema, or table must be unique and start with
+'`A-Z`', and are not case sensitive unless encased in double quotes.
+Special characters can only be used within quotes.
+
+
+## General DDL Commands {#general-ddl-commands}
+
+Data Definition Language (DDL) commands are used to manipulate objects
+in Snowflake, including setting parameters on account and session objects.
+
+Generally these are available:
+
+-   [USE](https://docs.snowflake.com/en/sql-reference/sql/use) &lt;object&gt;
+-   [CREATE](https://docs.snowflake.com/en/sql-reference/sql/create) &lt;object&gt;
+-   [ALTER](https://docs.snowflake.com/en/sql-reference/sql/alter) &lt;object&gt;
+-   [CREATE OR ALTER](https://docs.snowflake.com/en/sql-reference/sql/create-or-alter) &lt;object&gt;
+-   [DROP](https://docs.snowflake.com/en/sql-reference/sql/drop) &lt;object&gt;
+-   [SHOW](https://docs.snowflake.com/en/sql-reference/sql/show) &lt;objects&gt;
+-   [DESCRIBE](https://docs.snowflake.com/en/sql-reference/sql/desc) &lt;object&gt;
+-   [COMMENT](https://docs.snowflake.com/en/sql-reference/sql/comment)
+
+
+## Databases {#databases}
+
+A database is associated with one account. See [docs](https://docs.snowflake.com/en/sql-reference/commands-database#database).
+
+```sql
+CREATE DATABASE MY_DATABASE;
+
+-- Cloned
+CREATE DATABASE CLONED_DB CLONE MY_DATABASE;
+
+-- Replica
+CREATE DATABASE REPLICA_DB AS REPLICA OF MY_DATABASE
+  DATA_RETENTION_TIME_IN_DAYS = 3;
+
+-- From share object provided by external account
+CREATE DATABASE SHARED_DB FROM SHARE S9DF89.SHARE;
+
+```
+
+
+## Schemas {#schemas}
+
+A schema is associated with one database. See [docs](https://docs.snowflake.com/en/sql-reference/commands-database#schema).
+
+```sql
+USE DATABASE MY_DATABASE;
+CREATE SCHEMA MY_SCHEMA;
+
+-- Cloned
+CREATE SCHEMA CLONED_SCM CLONE MY_DATABASE.MY_SCHEMA;
+```
+
+
+## Tables {#tables}
+
+A table is associated with one schema. See [docs](https://docs.snowflake.com/en/sql-reference/commands-table#table).
+
+-   Tables are **permanent by default**, but can also be temporary,
+    transient (no failsafes), or external (not managed in Snowflake).
+-   Standard accounts can set **time travel** on permanent tables to a day,
+    and enterprise accounts can be set up to 90 days, which enables
+    un-dropping the table and restoring from a particular timestamp.
+
+
+## Views {#views}
+
+-   Views don't contribute to storage cost.
+-   Querying views that rely on droped tables will throw an error.
+-   Can be used to reveal a subset of table data.
+-   **Materialized** views are periodically refreshed and stores the results
+    of the query independently from the source table.
+-   **Secure** views are only visible to authorized users.
 
 
 # Data Loading &amp; Unloading {#data-loading-and-unloading}
@@ -137,6 +312,34 @@ Here is a copy from when I initially took the Snowpro Core training:
 -   Row access policies, masking policies
 -   Network / IP policies, secure views, encryption
 
+Each **account** is created on specific **provider**, in a particular **region**,
+as a single Snowflake **edition**. An **organization** can manage one or more
+accounts for different departments, projects, or locations.
+
+The `GLOBALORGADMIN` account can be used to create more accounts and
+manage their lifecycle;
+
+```sql
+USE ROLE GLOBALORGADMIN;
+
+CREATE ACCOUNT analytics4
+  ADMIN_NAME = admin7
+  REGION = aws_us_west_2
+  etc;
+
+SHOW ACCOUNTS;
+```
+
+The short-form of the organization and account is shown in your URL.
+
+```nil
+https://uslkjpw-sjl18827.snowflakecomputing.com/
+        ------- --------
+          Org.    Acct.
+```
+
+This URL will prompt you to login, then redirect you to **Snowsight**.
+
 
 # Integration &amp; Connectors {#integration-and-connectors}
 
@@ -194,3 +397,8 @@ agents, and much more.
 -   Snowflake Quickstarts
 -   SQL command reference
 -   Snowflake Documentation
+
+[^fn:1]: **Columnar Storage** is read-optimized, enabling quick seeking
+    through rows without having to read over the entire content of each
+    row, like a CSV or other row-oriented storage format.
+[^fn:2]: **EC2** or equivalent cloud-based virtual machines.
