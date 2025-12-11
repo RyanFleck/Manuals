@@ -47,10 +47,10 @@ large quantities of client data.
 
 **Topics:**
 
--   Snowsight UI (web interface)
+-   Snowsight[^fn:1] UI (web interface)
     -   Worksheets: old UI, now **Workspaces** (UI: Projects =&gt; Workspaces).
     -   Workspaces can be synchronized with Git.
--   SnowSQL (CLI)
+-   SnowSQL CLI (Snowflake command-line utility)
 -   Notebooks (Snowflake Notebooks)
 -   Architecture: hybrid of shared-disk and shared-nothing.
     -   Central storage + multiple MPP compute clusters.
@@ -87,7 +87,7 @@ format** highly optimized for the blob storage it is written to.
 By default, strong **AES-256** encryption is applied to data written to
 the backing blob storage. Snowflake inherits the durability and
 availability guarantees provided by their backing services - in the
-case of Snowflake's proprietary columnar storage format[^fn:1], AWS S3
+case of Snowflake's proprietary columnar storage format[^fn:2], AWS S3
 blob storage.
 
 Snowflake divides written files into **micro-partitions** so only columns
@@ -101,7 +101,7 @@ Snowflake queries.
 
 **Virtual Warehouses** in the query processing layer cache table data
 required for queries locally, while leaving the majority of data in
-storage. Queries are executed in these warehouses, which are EC2[^fn:2]
+storage. Queries are executed in these warehouses, which are EC2[^fn:3]
 instances provisioned by Snowflake in an ephemeral manner.
 
 **Small - 6XL** warehouse sizes (t-shirt sizes) are available.
@@ -128,14 +128,64 @@ Snowflake is a global multi-tenancy service.
 -   Pricing model: credits for compute + storage + usage
 -   How edition differences affect features (e.g. multi-cluster, data protection)
 
-**Standard**
 
-**Enterprise** adds database failover, multi-cluster warehouses, and
-additional data protection and encryption features.
+## Editions {#editions}
 
-**Business Critical**
+1.  **Standard**
+2.  **Enterprise** adds database failover, multi-cluster warehouses, and
+    additional data protection and encryption features.
+3.  **Business Critical**
+4.  **Virtual Private** is isolated from the global Snowflake program.
 
-**Virtual Private** is isolated from the global Snowflake program.
+
+## Billing {#billing}
+
+**On demand** and **capacity** models are available. Capacity rewards upfront
+payment.
+
+**Costs:**
+
+1.  [Snowflake Credits](https://docs.snowflake.com/en/user-guide/cost-understanding-compute#what-are-credits):
+    -   Virtual Warehouse Services
+        -   Billed per second, minimum 60 seconds, based on size.
+    -   Cloud Services
+        -   Metadata operations that don't require a warehouse
+        -   Burns 4.4 credits per compute-hour
+        -   [Cloud services adjustment](https://docs.snowflake.com/en/user-guide/cost-understanding-compute#understanding-billing-for-cloud-services-usage): only billed if all services exceed
+            10% of the daily virtual warehouse credits used.
+    -   Serverless Services
+        -   Each has its own rate
+2.  Dollars &amp; Cents:
+    -   [Storage](https://docs.snowflake.com/en/user-guide/cost-understanding-data-storage): tables, stages, time travel data
+        -   Charged at a _flat rate per TB_
+    -   Data Transfer &amp; Egress
+        -   Transfer charges between regions (`COPY INTO`)
+        -   Replicating data between regions
+
+
+# Snowsight, Snowpark, Drivers, CLI {#snowsight-snowpark-drivers-cli}
+
+A variety of methods exist to interact with Snowflake's platform.
+
+**Snowsight** is the web interface provided by Snowflake. It is
+continuously improved.
+
+**Snowflake Drivers/Connectors** refer to programmatic APIs to interact with
+Snowflake from your favourite programming language. The connector for
+[python](https://docs.snowflake.com/en/developer-guide/python-connector/python-connector) enables all typical operations, in addition to reading and
+writing [pandas dataframes](https://docs.snowflake.com/en/developer-guide/python-connector/python-connector-pandas). **Cursors** can be used to connect and execute
+SQL statements.
+
+**Snowpark** refers to programmatic APIs to run heavy data manipulation
+within Snowflake warehouses, leaving the data _within Snowflake_ during
+processing.
+
+**Snowflake CLI** can be installed to connect to Snowflake via the command
+line. The legacy client, [snowsql](https://docs.snowflake.com/en/user-guide/snowsql), is now _out of date_.
+
+**Partner Tools** enable connection to your account via _SSO_ to read and
+analyze your data. BI, data integration, security, and governance are
+common use cases.
 
 
 # Snowflake Objects &amp; DDL Commands {#snowflake-objects-and-ddl-commands}
@@ -147,7 +197,7 @@ additional data protection and encryption features.
 -   Sequences, Stages
 -   Examples of CREATE / ALTER / DROP
 -   Cloning &amp; object versioning
--   DDL = Data definition language
+-   DDL = _data definition language_
 
 **Objects** in Snowflake allow nearly all aspects of the data platform to
 be configured with unique access and usage restrictions, from the
@@ -174,6 +224,16 @@ be configured with unique access and usage restrictions, from the
 -   Task
 -   Stream
 
+To work with objects within a schema you must set the **context** for the
+following operations with this set of commands:
+
+```sql
+USE ROLE <role>;
+USE WAREHOUSE <warehouse>;
+USE DATABASE <database>;
+USE SCHEMA <schema>;
+```
+
 
 ## Object Naming Rules {#object-naming-rules}
 
@@ -198,6 +258,18 @@ Generally these are available:
 -   [DESCRIBE](https://docs.snowflake.com/en/sql-reference/sql/desc) &lt;object&gt;
 -   [COMMENT](https://docs.snowflake.com/en/sql-reference/sql/comment)
 
+To get the definition for an object, use the following query:
+
+```sql
+SELECT get_ddl('<type>', '<NAME>');
+
+-- For example:
+SELECT get_ddl('table', 'CUSTOMERS');
+```
+
+By default, Snowflake will use all your permissions (`SECONDARY_ROLES
+= ALL`) to provide the DDL, revealing all secure features.
+
 
 ## Databases {#databases}
 
@@ -216,6 +288,7 @@ CREATE DATABASE REPLICA_DB AS REPLICA OF MY_DATABASE
 -- From share object provided by external account
 CREATE DATABASE SHARED_DB FROM SHARE S9DF89.SHARE;
 
+SHOW DATABASES;
 ```
 
 
@@ -229,6 +302,9 @@ CREATE SCHEMA MY_SCHEMA;
 
 -- Cloned
 CREATE SCHEMA CLONED_SCM CLONE MY_DATABASE.MY_SCHEMA;
+
+SHOW SCHEMAS;
+SHOW SCHEMAS LIKE 'TPCH%';
 ```
 
 
@@ -236,21 +312,37 @@ CREATE SCHEMA CLONED_SCM CLONE MY_DATABASE.MY_SCHEMA;
 
 A table is associated with one schema. See [docs](https://docs.snowflake.com/en/sql-reference/commands-table#table).
 
--   Tables are **permanent by default**, but can also be temporary,
-    transient (no failsafes), or external (not managed in Snowflake).
+-   Tables are **permanent by default**, but can also be:
+    -   Temporary (for just the current Snowsight[^fn:1] session)
+    -   Transient (no failsafes)
+    -   External (file-based tables stored outside Snowflake)
+        -   You can specify the path and type for these.
 -   Standard accounts can set **time travel** on permanent tables to a day,
     and enterprise accounts can be set up to 90 days, which enables
     un-dropping the table and restoring from a particular timestamp.
+
+To see if a table is external, and its properties, you can use SHOW:
+
+```sql
+SHOW TABLES;
+SHOW TABLES LIKE '<table name>';
+```
 
 
 ## Views {#views}
 
 -   Views don't contribute to storage cost.
--   Querying views that rely on droped tables will throw an error.
 -   Can be used to reveal a subset of table data.
 -   **Materialized** views are periodically refreshed and stores the results
     of the query independently from the source table.
 -   **Secure** views are only visible to authorized users.
+-   Querying views that rely on dropped tables will throw an error.
+
+<!--listend-->
+
+```sql
+SHOW VIEWS;
+```
 
 
 # Data Loading &amp; Unloading {#data-loading-and-unloading}
@@ -266,15 +358,183 @@ A table is associated with one schema. See [docs](https://docs.snowflake.com/en/
 -   Loading semi-structured data and schema inference
 
 
-# Querying &amp; DML {#querying-and-dml}
+# Querying &amp; Data Manipulation Language {#querying-and-data-manipulation-language}
+
+Data Manipulation Language (DML) refers to the normal SQL methods of
+CRUDlike updates to data, with some special Snowflake nuances.
 
 **Topics:**
 
 -   SELECT, INSERT, UPDATE, DELETE, MERGE
--   Joins, subqueries, functions
 -   Working with semi-structured data (VARIANT, OBJECT, ARRAY)
 -   Window functions, CTEs, analytic SQL
 -   Transforming data in Snowflake
+
+
+## DECLARE &amp; Snowflake Scripting {#declare-and-snowflake-scripting}
+
+Snowflake SQL has support for procedural logic and error handling
+using `DECLARE` blocks. See the [DECLARE reference](https://docs.snowflake.com/en/sql-reference/snowflake-scripting/declare).
+
+```sql
+DECLARE
+  -- Variables, cursors.
+BEGIN
+  -- SQL statements
+EXCEPTION
+  -- Error handling
+END;
+
+```
+
+
+# Functions &amp; Procedures {#functions-and-procedures}
+
+**Topics:**
+
+-   Stored procedures in SQL, JavaScript, Python
+-   UDFs in SQL, JS, Python, Java, and Scala
+-   When, why, how, and the results of these calls
+-   What is Snowpark[^fn:4], how does it work?
+
+
+## Stored Procedures (SPs) {#stored-procedures--sps}
+
+**Stored procedures** are named collections of SQL statements. In
+Snowflake, these can be created with Snowflake Scripting (SQL) but
+also JavaScript and via Snowpark[^fn:4].
+
+SPs cannot be called in SQL statements, but _can_ make use of the
+Snowpark API. **The primary goal is to cause side effects in the system.**
+
+
+### JavaScript Stored Procedures {#javascript-stored-procedures}
+
+There exists a [JavaScript Stored Procedures API](https://docs.snowflake.com/en/developer-guide/stored-procedure/stored-procedures-api) that provides a
+`snowflake` object for use within stored procedures written with JS,
+enabling branching, looping, error handling, and the dynamic creation
+of SQL statements.
+
+
+## User Defined Functions (UDFs) {#user-defined-functions--udfs}
+
+UDFs are custom functions that can be written in SQL, JS, Python,
+Java, or Scala. They can accept parameters and return scalar or
+tabular results, can be called from SQL statements, and can be
+overloaded. Data is converted to supported types as it is passed to
+the functions.
+
+UDFs can be called as part of a SQL statement, returning values for
+use, but cannot utilize the Snowpark API or libraries. **The primary
+goal is complex data processing.**
+
+```sql
+CREATE FUNCTION JS_SQUARE_ROOT(D double)
+  RETURNS DOUBLE
+  LANGUAGE JAVASCRIPT
+  AS
+  $$
+  return(Math.sqrt(D));
+  $$;
+
+-- Call the function
+SELECT js_square_root(2);
+
+-- ==> 1.414213562
+
+-- Drop the function
+DROP FUNCTION JS_SQUARE_ROOT(DOUBLE);
+```
+
+-   UDFs &amp; SPs can call [external network services](https://docs.snowflake.com/en/developer-guide/external-network-access/external-network-access-overview) with configuration.
+-   [External functions](https://docs.snowflake.com/en/sql-reference/external-functions-introduction) can be set to POST a REST gateway on
+    AWS/GCP/Azure, but they are slower, less secure, cannot be shared,
+    and are scalar only.
+-   **Overloading:** Functions can have the same name as long as the
+    function signature is different.
+
+
+### Java Functions {#java-functions}
+
+See [Snowflake Docs: Java UDFs](https://docs.snowflake.com/en/developer-guide/udf/java/udf-java-introduction).
+
+**Java** UDFs take `HANDLER` and `TARGET_PATH` parameters - allowing you to
+optionally provide a JAR file with classes and functions to use.
+
+```sql
+CREATE OR REPLACE FUNCTION inline_hello(name STRING)
+RETURNS STRING
+LANGUAGE JAVA
+AS
+$$
+    if (name == null) {
+        return "Hello, you! Inline function called!";
+    }
+    return "Hello, " + name + "! Inline function called!";
+$$;
+
+-- Call the function:
+SELECT inline_hello('Ryan');
+```
+
+Or as a pre-compiled JAR:
+
+```java
+package com.example;
+
+public class HelloUDF {
+    public static String hello(String name) {
+        if (name == null) {
+            return "Hello, you!";
+        }
+        return "Hello, " + name + "!";
+    }
+}
+```
+
+Compile to a JAR file:
+
+```bash
+javac -d . HelloUDF.java
+jar cf hello-udf.jar com/example/HelloUDF.class
+```
+
+=&gt; hello-udf.jar
+
+In snowflake, refer to this function in the JAR file:
+
+```sql
+CREATE OR REPLACE STAGE my_stage;
+PUT file://hello-udf.jar @my_stage auto_compress=false;
+
+-- Define the function
+CREATE OR REPLACE FUNCTION hello(name STRING)
+  RETURNS STRING
+  LANGUAGE JAVA
+  IMPORTS = ('@my_stage/hello-udf.jar')
+  HANDLER = 'com.example.HelloUDF.hello'
+  AS
+  $$
+    /* Inline Java could be placed here that utilizes functions from the JAR. */
+  $$;
+
+-- Call the function:
+SELECT hello();
+```
+
+==&gt; _[Hello, you!](https://www.youtube.com/watch?v=GO-nsnnmqHA)_
+
+
+### External Functions {#external-functions}
+
+An `EXTERNAL` function is a lambda or web service behind a proxy.
+
+```sql
+CREATE OR REPLACE EXTERNAL FUNCTION blorgon_process(str_input varchar)
+  RETURNS variant
+  API_INTEGRATION = blorgo9t_08 -- API integration object
+  AS 'https://blorgo9t.execute-api.us-west-2.amazonaws.com/prod/blorg'; -- Proxy URL
+```
 
 
 # Warehouses &amp; Compute {#warehouses-and-compute}
@@ -338,7 +598,7 @@ https://uslkjpw-sjl18827.snowflakecomputing.com/
           Org.    Acct.
 ```
 
-This URL will prompt you to login, then redirect you to **Snowsight**.
+This URL will prompt you to login, then redirect you to **Snowsight**[^fn:1].
 
 
 # Integration &amp; Connectors {#integration-and-connectors}
@@ -367,6 +627,68 @@ Python is common - as the lingua franca of data scientists.
 -   Tasks &amp; scheduled pipelines
 -   Search optimization service
 -   Streams &amp; Change Data Capture (CDC)
+
+
+## Tasks {#tasks}
+
+-   Schedule the execution of a SQL statement or stored procedure.
+-
+
+<!--listend-->
+
+```sql
+CREATE TASK SYNC1
+  WAREHOUSE = WH1
+  SCHEDULE = '30 MINUTE' -- can be a CRON expression
+AS
+  COPY INTO BIG_TABLE_1
+  FROM $SOME_STAGE;
+
+-- Start Task Schedule:
+-- Requires 'execute task' permission
+ALTER TASK SYNC1 RESUME;
+
+-- Stop Task Schedule:
+ALTER TASK SYNC1 SUSPEND;
+```
+
+
+### Task Graphs (DAGs) {#task-graphs--dags}
+
+-   A root task can be defined with a schedule
+-   Child tasks are defined _without a schedule_, and can have multiple
+    parent dependencies to wait for before executing.
+
+
+## Streams {#streams}
+
+-   Objects created to view and track DML changes to a source table.
+-   A stream is queryable, and is created on top of a table.
+
+<!--listend-->
+
+```sql
+CREATE STREAM USER_STREAM ON TABLE USERS;
+SELECT * FROM USER_STREAM;
+```
+
+These have three additional columns:
+
+-   The action (INSERT, UPDATE, DELETE)
+-   Whether or not it was a write/update operation
+-   The unique Snowflake row ID
+
+Tasks can be configured to process the stream data:
+
+```sql
+CREATE TASK NEWUSERS1
+  WAREHOUSE = WH1
+  SCHEDULE = '5 MINUTE' -- can be a CRON expression
+WHEN
+  SYSTEM$STREAM_HAS_DATA('USER_STREAM')
+AS
+  INSERT INTO SEND_EMAIL(ID, NAME) SELECT ID, NAME FROM USER_STREAM;
+```
 
 
 # Tips, Best Practices &amp; Gotchas {#tips-best-practices-and-gotchas}
@@ -398,7 +720,10 @@ agents, and much more.
 -   SQL command reference
 -   Snowflake Documentation
 
-[^fn:1]: **Columnar Storage** is read-optimized, enabling quick seeking
+[^fn:1]: **Snowsight** is the [Snowflake web interface](https://docs.snowflake.com/en/user-guide/ui-snowsight).
+[^fn:2]: **Columnar Storage** is read-optimized, enabling quick seeking
     through rows without having to read over the entire content of each
     row, like a CSV or other row-oriented storage format.
-[^fn:2]: **EC2** or equivalent cloud-based virtual machines.
+[^fn:3]: **EC2** or equivalent cloud-based virtual machines.
+[^fn:4]: [Snowpark](https://www.snowflake.com/en/product/features/snowpark/) is a multi-language framework for executing remote
+    data operations within Snowflake warehouses, close to the data.
