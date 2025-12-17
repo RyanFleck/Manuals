@@ -1,0 +1,14 @@
+{{ $result := transform.HighlightCodeBlock . }}
+<div class="codeblock">
+  {{ if and .Type (ne .Type "nil") }}
+  <small><i>{{ .Type }}</i></small>
+  {{ else }}
+  <div class="codeblock-no-type"></div>
+  {{ end }}
+
+  {{ $result.Wrapped }}
+</div>
+
+
+
+<!-- https://write.rog.gr/writing/labeling-code-blocks-in-hugo/ -->

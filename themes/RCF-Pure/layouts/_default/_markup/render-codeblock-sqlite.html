@@ -1,1 +1,5 @@
-{{- transform.Highlight .Inner "sql" -}}
+<div class="codeblock">
+  {{ if .Type }}   <small><i>sqlite</i></small> {{ end }}
+
+  {{- transform.Highlight .Inner "sql" -}}
+</div>

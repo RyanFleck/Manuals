@@ -163,7 +163,15 @@ payment.
         -   Replicating data between regions
 
 
-# Snowsight, Snowpark, Drivers, CLI {#snowsight-snowpark-drivers-cli}
+# Integration: Snowsight, Snowpark, Drivers, CLI {#integration-snowsight-snowpark-drivers-cli}
+
+**Topics:**
+
+-   JDBC, ODBC, Python connector
+-   Spark / Snowflake connector
+-   Kafka Connector
+-   BI tools (Tableau, Power BI, etc.)
+-   Data marketplace &amp; data sharing
 
 A variety of methods exist to interact with Snowflake's platform.
 
@@ -186,6 +194,30 @@ line. The legacy client, [snowsql](https://docs.snowflake.com/en/user-guide/snow
 **Partner Tools** enable connection to your account via _SSO_ to read and
 analyze your data. BI, data integration, security, and governance are
 common use cases.
+
+
+## Snowpark {#snowpark}
+
+See the [Snowpark Developer Guide for Python](https://docs.snowflake.com/en/developer-guide/snowpark/python/index). I typically add a
+configuration file in `.snowflake/config.toml` with the following
+content:
+
+```toml
+default_connection_name = "my_main_account"
+
+[connections.my_main_account]
+account = "myaccount"
+user = "jdoe"
+password = "******"
+warehouse = "my-wh"
+database = "my_db"
+schema = "my_schema"
+
+[cli.logs]
+save_logs = true
+level = "info"
+path = "/home/<you>/.snowflake/logs"
+```
 
 
 # Snowflake Objects &amp; DDL Commands {#snowflake-objects-and-ddl-commands}
@@ -374,7 +406,9 @@ CRUDlike updates to data, with some special Snowflake nuances.
 ## DECLARE &amp; Snowflake Scripting {#declare-and-snowflake-scripting}
 
 Snowflake SQL has support for procedural logic and error handling
-using `DECLARE` blocks. See the [DECLARE reference](https://docs.snowflake.com/en/sql-reference/snowflake-scripting/declare).
+using a built-in SQL extension called [Snowflake scripting](https://docs.snowflake.com/en/developer-guide/snowflake-scripting/index). You can
+declare variables and cursors, use control flow logic, handle
+exceptions, and update tables.
 
 ```sql
 DECLARE
@@ -384,8 +418,48 @@ BEGIN
 EXCEPTION
   -- Error handling
 END;
-
 ```
+
+This example from the [use cases](https://docs.snowflake.com/en/developer-guide/snowflake-scripting/use-cases#update-table-data-with-user-input) demonstrates variable assignment and a
+for loop:
+
+```sql
+-- docs.snowflake.com/en/developer-guide/snowflake-scripting/use-cases
+
+CREATE OR REPLACE PROCEDURE apply_bonus(bonus_percentage INT, performance_value INT)
+  RETURNS TEXT
+  LANGUAGE SQL
+AS
+
+DECLARE
+  -- Use input to calculate the bonus percentage
+  updated_bonus_percentage NUMBER(2,2) DEFAULT (:bonus_percentage/100);
+  --  Declare a result set
+  rs RESULTSET;
+
+BEGIN
+  -- Assign a query to the result set and execute the query
+  rs := (SELECT * FROM bonuses);
+  -- Use a FOR loop to iterate over the records in the result set
+  FOR record IN rs DO
+    -- Assign variable values using values in the current record
+    LET emp_id_value INT := record.emp_id;
+    LET performance_rating_value INT := record.performance_rating;
+    LET salary_value NUMBER(12, 2) := record.salary;
+    -- Determine whether the performance rating in the record matches the user input
+    IF (performance_rating_value = :performance_value) THEN
+      -- If the condition is met, update the bonuses table using the calculated bonus percentage
+      UPDATE bonuses SET bonus = ( :salary_value * :updated_bonus_percentage )
+        WHERE emp_id = :emp_id_value;
+    END IF;
+  END FOR;
+  -- Return text when the stored procedure completes
+  RETURN 'Update applied';
+END;
+```
+
+-   Cursors
+-   Resultsets
 
 
 # Functions &amp; Procedures {#functions-and-procedures}
@@ -599,22 +673,6 @@ https://uslkjpw-sjl18827.snowflakecomputing.com/
 ```
 
 This URL will prompt you to login, then redirect you to **Snowsight**[^fn:1].
-
-
-# Integration &amp; Connectors {#integration-and-connectors}
-
-**Topics:**
-
--   JDBC, ODBC, Python connector
--   Spark / Snowflake connector
--   Kafka Connector
--   BI tools (Tableau, Power BI, etc.)
--   Data marketplace &amp; data sharing
-
-
-## Snowpark (Python, Java, Scala APIs) {#snowpark--python-java-scala-apis}
-
-Python is common - as the lingua franca of data scientists.
 
 
 # Advanced Features {#advanced-features}

@@ -119,3 +119,14 @@ figure.invert > img
 img{
   border: 1px solid transparent;
 }
+
+.codeblock{
+    background: #0002;
+    border-top: 1px solid #FFF1;
+    border-bottom: 1px solid #FFF1;
+    margin-bottom: 1rem;
+    margin-top: 1rem;
+}
+.codeblock small {
+    color: #FFF3;
+}

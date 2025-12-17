@@ -584,3 +584,29 @@ p#article-subheading{
 .jesus {
     color: #a00;
 }
+
+.codeblock{
+    background: #FFF3;
+    border-top: 1px solid #0001;
+    border-bottom: 1px solid #0001;
+    margin-bottom: 1rem;
+    margin-top: 1rem;
+}
+.codeblock small {
+    display: inline-block;
+    user-select: none;
+    -moz-user-select: none;
+    color: #0003;
+    padding: 0;
+    margin: 0;
+    margin-left: 2rem;
+}
+.codeblock pre {
+    padding-top: 0;
+    margin-top: 0.5em;
+}
+
+/* This is a hack */
+.codeblock-no-type{
+    height: 0.5rem;
+}

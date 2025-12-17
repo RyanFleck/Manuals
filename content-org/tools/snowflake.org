@@ -99,7 +99,6 @@ that must be read or written are loaded during a query.
 Table data is billed at a flat rate per month, and only accessible via
 Snowflake queries.
 
-
 *** Query Processing Layer
 
 *Virtual Warehouses* in the query processing layer cache table data
@@ -140,7 +139,6 @@ Snowflake is a global multi-tenancy service.
 3. *Business Critical*
 4. *Virtual Private* is isolated from the global Snowflake program.
 
-
 ** Billing
 
 *On demand* and *capacity* models are available. Capacity rewards upfront
@@ -165,8 +163,15 @@ payment.
      - Transfer charges between regions (~COPY INTO~)
      - Replicating data between regions
 
+* Integration: Snowsight, Snowpark, Drivers, CLI
 
-* Snowsight, Snowpark, Drivers, CLI
+*Topics:*
+
+- JDBC, ODBC, Python connector
+- Spark / Snowflake connector
+- Kafka Connector
+- BI tools (Tableau, Power BI, etc.)
+- Data marketplace & data sharing
 
 A variety of methods exist to interact with Snowflake's platform.
 
@@ -189,6 +194,31 @@ line. The legacy client, [[https://docs.snowflake.com/en/user-guide/snowsql][sno
 *Partner Tools* enable connection to your account via /SSO/ to read and
 analyze your data. BI, data integration, security, and governance are
 common use cases.
+
+
+
+** Snowpark
+
+See the [[https://docs.snowflake.com/en/developer-guide/snowpark/python/index][Snowpark Developer Guide for Python]]. I typically add a
+configuration file in ~.snowflake/config.toml~ with the following
+content:
+
+#+begin_src toml
+default_connection_name = "my_main_account"
+
+[connections.my_main_account]
+account = "myaccount"
+user = "jdoe"
+password = "******"
+warehouse = "my-wh"
+database = "my_db"
+schema = "my_schema"
+
+[cli.logs]
+save_logs = true
+level = "info"
+path = "/home/<you>/.snowflake/logs"
+#+end_src
 
 * Snowflake Objects & DDL Commands
 :PROPERTIES:
@@ -341,7 +371,6 @@ SHOW TABLES LIKE '<table name>';
 SHOW VIEWS;
 #+end_src
 
-
 * Data Loading & Unloading
 :PROPERTIES:
 :ID:       4d1dcea7-9c22-4c51-a70f-b6ee3dfb09b7
@@ -375,7 +404,9 @@ CRUDlike updates to data, with some special Snowflake nuances.
 ** DECLARE & Snowflake Scripting
 
 Snowflake SQL has support for procedural logic and error handling
-using ~DECLARE~ blocks. See the [[https://docs.snowflake.com/en/sql-reference/snowflake-scripting/declare][DECLARE reference]].
+using a built-in SQL extension called [[https://docs.snowflake.com/en/developer-guide/snowflake-scripting/index][Snowflake scripting]]. You can
+declare variables and cursors, use control flow logic, handle
+exceptions, and update tables.
 
 #+begin_src sql
 DECLARE
@@ -385,9 +416,48 @@ BEGIN
 EXCEPTION
   -- Error handling
 END;
-
 #+end_src
 
+This example from the [[https://docs.snowflake.com/en/developer-guide/snowflake-scripting/use-cases#update-table-data-with-user-input][use cases]] demonstrates variable assignment and a
+for loop:
+
+#+begin_src sql
+-- docs.snowflake.com/en/developer-guide/snowflake-scripting/use-cases
+
+CREATE OR REPLACE PROCEDURE apply_bonus(bonus_percentage INT, performance_value INT)
+  RETURNS TEXT
+  LANGUAGE SQL
+AS
+
+DECLARE
+  -- Use input to calculate the bonus percentage
+  updated_bonus_percentage NUMBER(2,2) DEFAULT (:bonus_percentage/100);
+  --  Declare a result set
+  rs RESULTSET;
+
+BEGIN
+  -- Assign a query to the result set and execute the query
+  rs := (SELECT * FROM bonuses);
+  -- Use a FOR loop to iterate over the records in the result set
+  FOR record IN rs DO
+    -- Assign variable values using values in the current record
+    LET emp_id_value INT := record.emp_id;
+    LET performance_rating_value INT := record.performance_rating;
+    LET salary_value NUMBER(12, 2) := record.salary;
+    -- Determine whether the performance rating in the record matches the user input
+    IF (performance_rating_value = :performance_value) THEN
+      -- If the condition is met, update the bonuses table using the calculated bonus percentage
+      UPDATE bonuses SET bonus = ( :salary_value * :updated_bonus_percentage )
+        WHERE emp_id = :emp_id_value;
+    END IF;
+  END FOR;
+  -- Return text when the stored procedure completes
+  RETURN 'Update applied';
+END;
+#+end_src
+
+- Cursors
+- Resultsets
 
 * Functions & Procedures
 
@@ -532,8 +602,6 @@ CREATE OR REPLACE EXTERNAL FUNCTION blorgon_process(str_input varchar)
   AS 'https://blorgo9t.execute-api.us-west-2.amazonaws.com/prod/blorg'; -- Proxy URL
 #+end_src
 
-
-
 * Warehouses & Compute
 :PROPERTIES:
 :ID:       16b1100d-c08c-444c-ae93-a8bf16f629fb
@@ -603,26 +671,6 @@ https://uslkjpw-sjl18827.snowflakecomputing.com/
 #+end_src
 
 This URL will prompt you to login, then redirect you to *Snowsight*[fn:3].
-
-* Integration & Connectors
-:PROPERTIES:
-:ID:       c1a67b04-429f-47a8-aafe-6248093d0d33
-:END:
-
-*Topics:*
-
-- JDBC, ODBC, Python connector
-- Spark / Snowflake connector
-- Kafka Connector
-- BI tools (Tableau, Power BI, etc.)
-- Data marketplace & data sharing
-
-** Snowpark (Python, Java, Scala APIs)
-:PROPERTIES:
-:ID:       20601437-378d-4efc-bcc4-79fc37bb5647
-:END:
-
-Python is common - as the lingua franca of data scientists.
 
 * Advanced Features
 :PROPERTIES:

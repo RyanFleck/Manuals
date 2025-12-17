@@ -24,7 +24,7 @@ The BEAM itself is akin to Java's JVM.
 
 **Phoenix** is a web framework that utilizes Elixir and the BEAM to give developers an extremely performant, reliable, stable, and fun to work with web development experience.
 
-Luckily my current employer has excellent learning resources, so I have access to a few courses on Elixir and Phoenix. 
+Luckily my current employer has excellent learning resources, so I have access to a few courses on Elixir and Phoenix.
 **Focus #1 is to get a solid understanding of Elixir basics: how to write, test, and use the toolbox.**
 The content on this page is largely pulled from these other sources and collected here for reference. Here are the largest sources. Please let me know if you'd like me to take things down for copyright purposes.
 
@@ -65,7 +65,7 @@ See [Elixir School: Basics](https://elixirschool.com/en/lessons/basics/basics) -
 
 Elixir is **functional**. An OO approach to a card deck might look like this:
 
-```
+```elixir
 class Card
   string suit
   string value
@@ -82,7 +82,7 @@ An OO approach would dictate that the deck contents are stored in an instance of
 
 The functional approach would look like this:
 
-```
+```elixir
 module Cards
   f create_deck() -> String[]
   f shuffle(String[]) -> String[]
@@ -110,7 +110,7 @@ cd cards
 
 Modify `lib/cards.ex` if wanted:
 
-```ex
+```elixir
 defmodule Cards do
   def hello do
     :world
@@ -136,7 +136,7 @@ Run `recompile` in interactive Elixir to, er, recompile.
 
 Strings and Lists are simple and recognizable from Python.
 
-```ex
+```elixir
 ["Ace", "Two", "Three"]
 "String"
 ```
@@ -145,7 +145,7 @@ Use **double quotes**.
 
 # Methods
 
-```ex
+```elixir
 def shuffle(deck) do
   # ...
 end
@@ -164,7 +164,7 @@ iex(4)> Cards.shuffle()
 
 We can utilize a method in the standard library - go to the [Elixir Docs](https://elixir-lang.org/docs) and searching for shuffle, you'll find the [Enum](https://hexdocs.pm/elixir/1.0.5/Enum.html) module.
 
-```ex
+```elixir
 def shuffle(deck) do
   Enum.shuffle(deck)
 end
@@ -172,7 +172,7 @@ end
 
 Ezpz. No import is required as Enum is in the standard library.
 
-```
+```elixir
 iex(4)> recompile
 Compiling 1 file (.ex)
 :ok
@@ -188,7 +188,7 @@ Convention is to use a **question mark** on a method that returns a true or fals
 
 **Full module up to this point** along with run example:
 
-```ex
+```elixir
 defmodule Cards do
   def create_deck do
     ["Ace", "King", "Two", "Three", "Four"]
@@ -217,7 +217,7 @@ false
 
 Reusing the Card module from the previous section, we'll take a look at using list comprehensions to return transformed sets of data.
 
-```ex
+```elixir
 def create_deck do
   suits = ["Clubs", "Diamonds", "Hearts", "Spades"]
   for suit <- suits do
@@ -235,7 +235,7 @@ iex(26)> Cards.create_deck
 
 The wrong way:
 
-```ex
+```elixir
 for value <- values do
   for suit <- suits do
   "#{value} of #{suit}"
@@ -258,7 +258,7 @@ Though, this does demonstrate how comprehensions are returned very well, in a ne
 
 We could use `List.flatten` to resolve this. Still the wrong way.
 
-```ex
+```elixir
 for value <- values do
   for suit <- suits do
   "#{value} of #{suit}"
@@ -269,7 +269,7 @@ end
 
 or another wrong way
 
-```ex
+```elixir
 cards = for value <- values do
   for suit <- suits do
   "#{value} of #{suit}"
@@ -281,7 +281,7 @@ List.flatten(cards)
 
 The best solution is to add **multiple generators** to the comprehension:
 
-```ex
+```elixir
 for value <- values, suit <- suits do
   "#{value} of #{suit}"
 end
@@ -289,13 +289,13 @@ end
 
 or
 
-```ex
+```elixir
 for value <- values, suit <- suits, do: "#{value} of #{suit}"
 ```
 
 Our full (condensed) Cards module now looks like this:
 
-```ex
+```elixir
 defmodule Cards do
   def create_deck do
     values = ["Ace", "King", "Two", "Three", "Four"]
@@ -314,7 +314,7 @@ end
 
 Pattern matching is used **anytime you use the equals sign.**
 
-```ex
+```elixir
 def deal(deck, hand_size), do: Enum.split(deck, hand_size)
 ```
 
@@ -332,13 +332,13 @@ Two lists have been returned within a **tuple**, represented with curly braces. 
 
 These can be captured with a line like:
 
-```ex
+```elixir
 { hand, rest_of_deck } = Cards.deal(Cards.create_deck, 5)
 ```
 
 Let's run that in the interactive console to hammer the point home:
 
-```
+```elixir
 iex(44)> { hand, rest_of_deck } = Cards.deal(Cards.create_deck, 5)
 iex(45)> hand
 ["Ace of Clubs", "Ace of Diamonds", "Ace of Hearts", "Ace of Spades",
@@ -352,7 +352,7 @@ iex(46)> rest_of_deck
 
 This also works with lists:
 
-```
+```elixir
 iex(47)> arr1 = [ "blergh", 123, :can ]
 ["blergh", 123, :can]
 iex(48)> [ a ] = arr1
@@ -382,7 +382,7 @@ iex(61)> ["redx", color] = ["red", "blue"]
 
 # Saving to the Filesystem
 
-```ex
+```elixir
 def save(deck, filename) do
   binary = :erlang.term_to_binary(deck)
   File.write(filename, binary)
@@ -391,7 +391,7 @@ end
 
 To load the file, we can do essentially the opposite.
 
-```ex
+```elixir
 def load(filename) do
   { _ok, binary } = File.read(filename)
   :erlang.binary_to_term(binary)
@@ -406,7 +406,7 @@ The load function could be cleaned up like so
 to handle all error cases. `:error` and `:ok` are atoms (a primitive)
 that are commonly used to handle control flow in Elixir programs.
 
-```ex
+```elixir
 def load(filename) do
   {status, binary} = File.read(filename)
   case status do
@@ -418,7 +418,7 @@ end
 
 This can be further condensed to:
 
-```ex
+```elixir
 def load(filename) do
   case File.read(filename) do
     {:ok, binary} -> :erlang.binary_to_term(binary)
@@ -431,13 +431,13 @@ This only makes sense if you remember that Elixir pattern matching both compares
 
 Warnings about unused variables can be dismissed by placing an underscore before the variable.
 
-```ex
+```elixir
 {:error, _reason} -> "File doesn't exist or is corrupted."
 ```
 
 Removing reason entirely will cause the pattern matching to fail with this error:
 
-```
+```elixir
 iex(65)> Cards.load("test")
 ** (CaseClauseError) no case clause matching: {:error, :eisdir}
     (cards 0.1.0) lib/cards.ex:20: Cards.load/1
@@ -450,7 +450,7 @@ The pipe operator (`|>`) automatically passes the result of a function as the fi
 
 So something like this:
 
-```ex
+```elixir
 def create_hand(hand_size) do
   deck = create_deck()
   shuffled = shuffle(deck)
@@ -460,7 +460,7 @@ end
 
 Can be rewritten to:
 
-```ex
+```elixir
 def create_hand(hand_size) do
   create_deck()
   |> shuffle()
@@ -474,7 +474,7 @@ Gotta love it.
 
 Using [ex_doc](https://github.com/elixir-lang/ex_doc) allows developers to export a clean pile of documentation, pulling comments and details from the source code. To install the ex_doc package, add a tuple to your project's `mix.exs` file with the following content:
 
-```ex
+```elixir
 {:ex_doc, "~> 0.29.1"}
 ```
 
@@ -482,7 +482,7 @@ Using [ex_doc](https://github.com/elixir-lang/ex_doc) allows developers to expor
 
 **Module Documentation** gives an overview of the entire module and defines a purpose for the child functions.
 
-```ex
+```elixir
 @moduledoc """
   Provides methods for creating and handling a deck of cards.
 """
@@ -490,7 +490,7 @@ Using [ex_doc](https://github.com/elixir-lang/ex_doc) allows developers to expor
 
 **Function Documentation** documents the purpose of individual functions.
 
-```ex
+```elixir
 @doc """
   Checks a deck of cards for a unique card.
 
@@ -511,7 +511,7 @@ Tests are a first-class citizen in Elixir, which at this point seems to be batte
 
 When the project was created, mix automatically created a `cards_text.exs` file. Populate it with this simple test.
 
-```ex
+```elixir
 defmodule CardsTest do
   use ExUnit.Case
   doctest Cards
@@ -546,7 +546,7 @@ You may have noticed the line `doctest Cards` - this automatically pulls unit te
 
 For example, a **doctest** for the `contains?/2` function:
 
-```ex
+```elixir
 @doc """
   Checks a deck of cards for a unique card.
 
@@ -560,7 +560,7 @@ def contains?(deck, card), do: Enum.member?(deck, card)
 
 A **regular** unit test asserting that the deck has 20 cards:
 
-```ex
+```elixir
 test "create_deck makes 20 cards" do
   deck_length = Cards.create_deck() |> length
   assert deck_length == 20
@@ -569,7 +569,7 @@ end
 
 The **refute** function provides a negative assertion.
 
-```ex
+```elixir
 test "shuffling a deck randomizes it" do
   deck = Cards.create_deck
   refute deck == Cards.shuffle(deck)
@@ -582,7 +582,7 @@ Here's the first sample/learning program we've written over the previous few sec
 
 **--- cards.ex**
 
-```ex
+```elixir
 defmodule Cards do
   @moduledoc """
     Provides methods for creating and handling a deck of cards.
@@ -641,7 +641,7 @@ end
 
 **--- cards_test.exs**
 
-```ex
+```elixir
 defmodule CardsTest do
   use ExUnit.Case
   doctest Cards
@@ -676,7 +676,7 @@ iex> Cards.create_hand
 
 Maps store key-value pairs and follow a lot of pattern matching rules.
 
-```
+```elixir
 iex> properties = %{ height: "4ft", weight: "700lbs", hair: "black" }
 %{hair: "black", height: "4ft", weight: "700lbs"}
 iex> properties.weight
@@ -776,7 +776,7 @@ code .
 
 The program will look something like:
 
-```ex
+```elixir
 generate_numbers(username)
 |> pick_color
 |> build_grid
@@ -785,7 +785,7 @@ generate_numbers(username)
 
 We can start this program with these lines. Using built-in libraries, we convert a string to an MD5 hash, then a list of 8-bit numbers.
 
-```ex
+```elixir
 defmodule Identicon do
   def main(input) do
     input
@@ -814,7 +814,7 @@ Structs are like maps, with two additional advantages:
 
 In a new file called `lib/image.ex` create a new module:
 
-```ex
+```elixir
 defmodule Identicon.Image do
   defstruct hex: nil
 end
@@ -831,7 +831,7 @@ This can be initialized with an entity provided for the `hex` value, but attempt
 
 Modify the `hash_input` function to return an Image struct:
 
-```ex
+```elixir
 def hash_input(input) do
   hex = :crypto.hash(:md5, input)
   |> :binary.bin_to_list
@@ -852,7 +852,7 @@ By **always using pattern matching** we can extract the first few values.
 
 To pattern match you must **perfectly describe the incoming entity on the right of the '`=`' on the left.**
 
-```ex
+```elixir
 def pick_color(input) do
   # Pattern match to pull out the hex property.
   %Identicon.Image{ hex: hex_list } = input
@@ -865,7 +865,7 @@ end
 
 Which can be further condensed to:
 
-```ex
+```elixir
 def pick_color(input) do
   %Identicon.Image{ hex: [r, g, b | _tail] } = input
   [r, g, b]
@@ -874,19 +874,19 @@ end
 
 Update the `defstruct` line in `image.ex`:
 
-```ex
+```elixir
 defstruct hex: nil, color: nil
 ```
 
 Change the final line in `pick_color` to:
 
-```ex
+```elixir
 %Identicon.Image{ image | color: {r, g, b}}
 ```
 
 Arguments can also be pattern matched.
 
-```ex
+```elixir
 def pick_color(%Identicon.Image{hex: [r, g, b | _tail]} = image) do
   %Identicon.Image{image | color: {r, g, b}}
 end
@@ -917,7 +917,7 @@ etc...
 
 Code first:
 
-```ex
+```elixir
 def mirror_row([a, b, c]), do: [a, b, c, b, a]
 
 def build_grid(%Identicon.Image{hex: hex} = image) do
@@ -942,7 +942,7 @@ Let's walk through that transformation line by line.
 
 1. Break this list into sublists of length 3.
 
-```ex
+```elixir
 |> Enum.chunk_every(3)
 ```
 
@@ -959,7 +959,7 @@ Let's walk through that transformation line by line.
 
 2. Remove lists that are not of length 3.
 
-```ex
+```elixir
 |> Enum.filter(fn e -> length(e) == 3 end)
 ```
 
@@ -975,7 +975,7 @@ Let's walk through that transformation line by line.
 
 3. Apply the `mirror_row` function to each sublist by passing the function by reference to `Enum.map`.
 
-```ex
+```elixir
 |> Enum.map(&mirror_row/1)
 ```
 
@@ -991,7 +991,7 @@ Let's walk through that transformation line by line.
 
 4. Collapse the sublists back into the parent list.
 
-```ex
+```elixir
 |> List.flatten()
 ```
 
@@ -1003,7 +1003,7 @@ Let's walk through that transformation line by line.
 
 5. Convert each element to a tuple with the element value and its indice.
 
-```ex
+```elixir
 |> Enum.with_index()
 ```
 
@@ -1021,7 +1021,7 @@ Let's walk through that transformation line by line.
 
 We could just as easily do some of these steps outside as an overall transformation process on the Image building pipeline, like adding this function as another piped function at the end of main:
 
-```ex
+```elixir
 def filter_odd_squares(%Identicon.Image{grid: grid} = image) do
   filtered_grid =
     Enum.filter(grid, fn {a, _b} ->
@@ -1034,7 +1034,7 @@ end
 
 Or as a bit of a claustrophobic one-liner:
 
-```ex
+```elixir
 def filter_odd_squares(%Identicon.Image{grid: g} = image) do
   %Identicon.Image{image | grid: Enum.filter(g, fn {a, _b} -> rem(a, 2) == 0 end)}
 end
@@ -1044,7 +1044,7 @@ end
 
 Let's take the list of "pixels to color" from the previous section and turn it into an actionable set of co-ordinates to paint on a 250x250 pixel grid by providing the top-left and bottom-right points of each 50x50 square.
 
-```ex
+```elixir
 def build_pixel_map(%Identicon.Image{grid: grid} = image) do
   pixel_map =
     Enum.map(grid, fn {_value, index} ->
@@ -1085,7 +1085,7 @@ Documentation can be found at
 
 First, we must 'download and install the library' in two steps:
 
-```ex
+```elixir
 {:egd, github: "erlang/egd"}  # 1. add this to your deps
 ```
 
@@ -1093,7 +1093,7 @@ First, we must 'download and install the library' in two steps:
 
 By adding the following two functions to our image processing pipeline, we write the generated coordinates to an image file!
 
-```ex
+```elixir
 def draw_image(%Identicon.Image{color: color, pixel_map: pixel_map}) do
   image = :egd.create(250, 250)
   fill = :egd.color(color)
@@ -1120,7 +1120,7 @@ The next section lists the full sample code.
 
 **--- identicon.ex**
 
-```ex
+```elixir
 defmodule Identicon do
   def main(input) do
     input
@@ -1202,7 +1202,7 @@ end
 
 **--- image.ex**
 
-```ex
+```elixir
 defmodule Identicon.Image do
   defstruct hex: nil, color: nil, grid: nil, pixel_map: nil
 end
