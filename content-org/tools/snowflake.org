@@ -163,10 +163,11 @@ payment.
      - Transfer charges between regions (~COPY INTO~)
      - Replicating data between regions
 
-* Integration: Snowsight, Snowpark, Drivers, CLI
+* Integration and Connectors
 
-*Topics:*
+*Topics*:
 
+- Snowsight, Snowpark, Drivers, CLI
 - JDBC, ODBC, Python connector
 - Spark / Snowflake connector
 - Kafka Connector
@@ -175,8 +176,12 @@ payment.
 
 A variety of methods exist to interact with Snowflake's platform.
 
+** Snowsight
+
 *Snowsight* is the web interface provided by Snowflake. It is
 continuously improved.
+
+** Snowflake Drivers & Connectors
 
 *Snowflake Drivers/Connectors* refer to programmatic APIs to interact with
 Snowflake from your favourite programming language. The connector for
@@ -184,20 +189,22 @@ Snowflake from your favourite programming language. The connector for
 writing [[https://docs.snowflake.com/en/developer-guide/python-connector/python-connector-pandas][pandas dataframes]]. *Cursors* can be used to connect and execute
 SQL statements.
 
-*Snowpark* refers to programmatic APIs to run heavy data manipulation
-within Snowflake warehouses, leaving the data /within Snowflake/ during
-processing.
+** Snowflake CLI
 
 *Snowflake CLI* can be installed to connect to Snowflake via the command
 line. The legacy client, [[https://docs.snowflake.com/en/user-guide/snowsql][snowsql]], is now /out of date/.
+
+** Partner Tools
 
 *Partner Tools* enable connection to your account via /SSO/ to read and
 analyze your data. BI, data integration, security, and governance are
 common use cases.
 
-
-
 ** Snowpark
+
+*Snowpark* refers to programmatic APIs to run heavy data manipulation
+within Snowflake warehouses, leaving the data /within Snowflake/ during
+processing.
 
 See the [[https://docs.snowflake.com/en/developer-guide/snowpark/python/index][Snowpark Developer Guide for Python]]. I typically add a
 configuration file in ~.snowflake/config.toml~ with the following

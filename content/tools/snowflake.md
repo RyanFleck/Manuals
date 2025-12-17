@@ -163,10 +163,11 @@ payment.
         -   Replicating data between regions
 
 
-# Integration: Snowsight, Snowpark, Drivers, CLI {#integration-snowsight-snowpark-drivers-cli}
+# Integration and Connectors {#integration-and-connectors}
 
-**Topics:**
+**Topics**:
 
+-   Snowsight, Snowpark, Drivers, CLI
 -   JDBC, ODBC, Python connector
 -   Spark / Snowflake connector
 -   Kafka Connector
@@ -175,8 +176,14 @@ payment.
 
 A variety of methods exist to interact with Snowflake's platform.
 
+
+## Snowsight {#snowsight}
+
 **Snowsight** is the web interface provided by Snowflake. It is
 continuously improved.
+
+
+## Snowflake Drivers &amp; Connectors {#snowflake-drivers-and-connectors}
 
 **Snowflake Drivers/Connectors** refer to programmatic APIs to interact with
 Snowflake from your favourite programming language. The connector for
@@ -184,12 +191,14 @@ Snowflake from your favourite programming language. The connector for
 writing [pandas dataframes](https://docs.snowflake.com/en/developer-guide/python-connector/python-connector-pandas). **Cursors** can be used to connect and execute
 SQL statements.
 
-**Snowpark** refers to programmatic APIs to run heavy data manipulation
-within Snowflake warehouses, leaving the data _within Snowflake_ during
-processing.
+
+## Snowflake CLI {#snowflake-cli}
 
 **Snowflake CLI** can be installed to connect to Snowflake via the command
 line. The legacy client, [snowsql](https://docs.snowflake.com/en/user-guide/snowsql), is now _out of date_.
+
+
+## Partner Tools {#partner-tools}
 
 **Partner Tools** enable connection to your account via _SSO_ to read and
 analyze your data. BI, data integration, security, and governance are
@@ -197,6 +206,10 @@ common use cases.
 
 
 ## Snowpark {#snowpark}
+
+**Snowpark** refers to programmatic APIs to run heavy data manipulation
+within Snowflake warehouses, leaving the data _within Snowflake_ during
+processing.
 
 See the [Snowpark Developer Guide for Python](https://docs.snowflake.com/en/developer-guide/snowpark/python/index). I typically add a
 configuration file in `.snowflake/config.toml` with the following
