@@ -219,10 +219,6 @@ div.footnotes,
     margin-left: 0px;
 }
 
-pre.text-result{
-    color: #228b22;
-    margin-top: -0.5em;
-}
 
 .footnote-body{
     display: inline-block;
@@ -609,4 +605,16 @@ p#article-subheading{
 /* This is a hack */
 .codeblock-no-type{
     height: 0.5rem;
+}
+
+pre.text-result{
+    color: #228b22;
+    margin-top: -0.78em;
+}
+
+pre.text-result small{
+    display: inline-block;
+    user-select: none;
+    -moz-user-select: none;
+    opacity: 50%;
 }

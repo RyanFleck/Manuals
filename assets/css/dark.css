@@ -17,9 +17,6 @@
 pre.example::before{
     color: #fba8a8;
 }
-pre.text-result{
-    color: var(--main-secondary-text-color);
-}
 
 figcaption {
     color: var(--main-text-color);
@@ -129,4 +126,8 @@ img{
 }
 .codeblock small {
     color: #FFF3;
+}
+
+pre.text-result{
+    color: var(--main-secondary-text-color);
 }
