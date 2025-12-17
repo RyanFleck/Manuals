@@ -587,6 +587,7 @@ p#article-subheading{
     border-bottom: 1px solid #0001;
     margin-bottom: 1rem;
     margin-top: 1rem;
+    font-size: 1rem;
 }
 .codeblock small {
     display: inline-block;
