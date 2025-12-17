@@ -21,11 +21,6 @@ streaming-processing platforms like Kafka.
 
 #+hugo: more
 
-** COF-C02 - Snowpro Core Certification
-
-You can download the study guide for this exam on the [[https://learn.snowflake.com/en/certifications/snowpro-core][Snowflake
-COF-C02 Exam Guide]] page. This guide is updated frequently, so go and
-request your own copy if possible. It is a 100-question, 115-minute test.
 
 * Why Snowflake?
 :PROPERTIES:
@@ -569,8 +564,10 @@ public class HelloUDF {
 Compile to a JAR file:
 
 #+begin_src bash
+#! /bin/bash
 javac -d . HelloUDF.java
 jar cf hello-udf.jar com/example/HelloUDF.class
+echo "Assembled JAR for Java UDF"
 #+end_src
 
 => hello-udf.jar
@@ -761,6 +758,81 @@ AS
 - Be aware of billing granularity (per second)
 - Watch out for too many small files in load
 - Query patterns that can disrupt performance
+
+* COF-C02 - Snowpro Core Certification
+:LOGBOOK:
+- State "CANCELLED"  from              [2025-12-16 Tue 21:41]
+:END:
+
+You can download the study guide for this exam on the [[https://learn.snowflake.com/en/certifications/snowpro-core][Snowflake
+COF-C02 Exam Guide]] page. This guide is updated frequently, so go and
+request your own copy if possible. It is a 100-question, 115-minute
+test. You will be expected to have knowledge of (taken from the
+guide):
+
+1. Data loading and transformation in Snowflake
+2. Virtual Warehouses - best practices, performance, concurrency
+3. DDL and DML queries
+4. Working with semi-structured and unstructured data
+5. Cloning and time travel
+6. Data sharing
+7. Account structure and management
+
+The *cole's notes* on each of the key topics are below.
+
+** (24%) Snowflake AI Data Cloud - Features and Architecture
+
+*[GENAI]* Key Concepts:
+
+- *Multi-Cluster Shared Data Architecture*: Understand the separation of *Storage* (centralized on cloud providers like S3/Azure Blob), *Compute* (independent virtual warehouses), and *Cloud Services* (manages metadata, security, and optimization).
+- *Snowflake Editions & Capabilities*: Know the differences between *Standard, Enterprise, Business Critical, and VPS*, specifically regarding Time Travel retention (1 day vs. 90 days) and security features like Customer Managed Keys (Tri-Secret Secure).
+- *Storage Management*: Snowflake uses *micro-partitions* (immutable, columnar storage) and *data clustering* to optimize query performance without manual indexing.
+
+
+** (18%) Data Transformations
+
+*[GENAI]* Key Concepts:
+
+- *ELT (Extract, Load, Transform)*: Snowflake prioritizes an ELT approach where raw data is loaded first and then transformed using Snowflake’s compute power via SQL, Tasks, and Streams.
+- *Semi-Structured Data Handling*: Master the *VARIANT* data type and the use of *FLATTEN* and lateral joins to query and transform JSON, Avro, and Parquet data.
+- *Automated Transformation Tools*: Understand the roles of *Dynamic Tables* (declarative data pipelines), *Streams* (change data capture), and *Tasks* (scheduled SQL execution).
+
+
+** (18%) Accounts - Access & Security
+
+*[GENAI]* Key Concepts:
+
+- *Role-Based Access Control (RBAC)*: Grasp the hierarchy of system roles (*ACCOUNTADMIN, SECURITYADMIN, USERADMIN, SYSADMIN, PUBLIC*) and the concept of "inheritance" where higher-level roles inherit privileges from lower ones.
+- *Authentication & Connectivity*: Familiarize yourself with Multi-Factor Authentication (MFA), *Key-Pair Authentication* for service accounts, and Network Policies for IP whitelisting.
+- *Data Governance*: Know the features of *Snowflake Horizon*, including Column-level Security (Dynamic Data Masking) and Row-level Security (Row Access Policies).
+
+
+** (16%) Performance & Cost Optimization
+
+*[GENAI]* Key Concepts:
+
+- *Virtual Warehouse Scaling*: Differentiate between *Scaling Up* (increasing warehouse size for large, complex queries) and *Scaling Out* (adding clusters to a Multi-Cluster Warehouse to handle high concurrency).
+- *Caching Layers*: Understand the three types of cache: *Result Cache* (24-hour persistence), *Local Disk Cache* (data cached on SSDs of the warehouse), and *Cloud Services Cache* (metadata cache).
+- *Cost Management Tools*: Learn how to use *Resource Monitors* to set credit limits and the *Account Usage* views to track consumption of compute and storage.
+
+
+** (12%) Data Loading & Unloading
+
+*[GENAI]* Key Concepts:
+
+- *Bulk vs. Continuous Loading*: Know when to use the *COPY INTO* command (batch loading using virtual warehouses) versus *Snowpipe* (automated, serverless continuous loading).
+- *Staging Areas*: Distinguish between *Internal Stages* (User, Table, and Named stages) and *External Stages* (pointing to S3, Azure, or GCS buckets).
+- *File Formats & Optimization*: Understand how to define *File Format objects* and why it is a best practice to split large files into 100-250 MB chunks for parallel processing during load.
+
+
+** (12%) Data Protection and Sharing
+
+*[GENAI]* Key Concepts:
+
+- *Time Travel & Fail-safe*: Remember that *Time Travel* allows querying/restoring data within the retention period (1-90 days), while *Fail-safe* provides a non-configurable 7-day recovery window for Snowflake support only.
+- *Zero-Copy Cloning*: Understand that cloning creates a snapshot of data (tables, schemas, or databases) that initially *shares the same storage* as the original, meaning no additional storage costs until the clone is modified.
+- *Secure Data Sharing*: Know that *Shares* allow providers to grant read-only access to consumers without copying data, and *Reader Accounts* are used to share data with parties who do not have their own Snowflake account.
+
 
 * References & Further Reading
 :PROPERTIES:
