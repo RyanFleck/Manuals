@@ -575,13 +575,11 @@ public class HelloUDF {
 Compile to a JAR file:
 
 ```bash
-#! /bin/bash
 javac -d . HelloUDF.java
 jar cf hello-udf.jar com/example/HelloUDF.class
-echo "Assembled JAR for Java UDF"
-```
 
-=&gt; hello-udf.jar
+# => hello-udf.jar created
+```
 
 In snowflake, refer to this function in the JAR file:
 
