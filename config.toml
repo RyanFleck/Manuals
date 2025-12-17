@@ -7,14 +7,19 @@ pygmentsCodeFences = true
 sectionPagesMenu = "main"
 pygmentsStyle = "perldoc" # "tango" # "solarized-light" "perldoc"
 enableGitInfo = true
+enableRobotsTXT = true
+
+[module.hugoVersion]
+extended = true
+min = '0.152.2'
 
 # All manuals on this site are available from the root.
 [permalinks]
-    languages = "/:filename"
-    libraries = "/:filename"
-    courses = "/:filename"
-    tools = "/:filename"
-    life = "/:filename"
+    languages = "/:contentbasename"
+    libraries = "/:contentbasename"
+    courses = "/:contentbasename"
+    tools = "/:contentbasename"
+    life = "/:contentbasename"
 
 # https://gohugo.io/variables/site/#the-site-params-variable
 [params]
