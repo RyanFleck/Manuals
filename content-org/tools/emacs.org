@@ -20,3 +20,27 @@
 |---------+-------------+--------------------|
 | Org     | C-c C-x C-a | Archive branch     |
 | Emacs   | M-x 5 2     | Break out window   |
+
+* Using Emacs Remotely
+
+It is trivial to use Emacs without a GUI - nearly all the features you
+love will still be present when using the system over SSH.
+
+The ~display-graphic-p~ function returns non-nil if the display is
+graphical, and ~nil~ if you are in a terminal,
+
+#+begin_src elisp
+(when (display-graphic-p)
+  (enable-fancy-gui))
+#+end_src
+
+** MacOS: Set up iTerm2
+
+The stock terminal doesn't handle the meta key (and others) correctly,
+so install open up an iTerm2 window and change the following:
+
+1. Profiles => Default => Keys
+   + Check "Report Modifiers using CSI u"
+   + Change "Left Option Key" and "Right Option Key" to "~Esc+~"
+2. Advanced => SDA (or search 'emacs')
+   + Change to '~216~' (this refers to a specific xterm patch)

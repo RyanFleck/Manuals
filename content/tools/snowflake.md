@@ -175,6 +175,20 @@ A variety of methods exist to interact with Snowflake's platform.
 **Snowsight** is the web interface provided by Snowflake. It is
 continuously improved.
 
+**Snowflake Copilot** is an in-browser tool to generate SQL code with the
+added context of your Snowflake environment - tables, schemas, and
+other queries.
+
+
+### Streamlit Apps {#streamlit-apps}
+
+Streamlit is a Python web app framework for quickly deploying
+data-centric dashboards, chats, and visualizations. Permissions can be
+managed via Snowflake's built-in access control model (like
+permissions for a table or view) to particular **roles**.
+
+==&gt; <https://streamlit.io/>
+
 
 ## Snowflake Drivers &amp; Connectors {#snowflake-drivers-and-connectors}
 
@@ -755,6 +769,36 @@ AS
 ```
 
 
+## Snowflake Cortex (AISQL) {#snowflake-cortex--aisql}
+
+Extends the SQL language with AI-related functions like `AI_COMPLETE`,
+`AI_EXTRACT`, and `AI_TRANSCRIBE`. A specific model can be provided as a
+string in the input parameters, along with other typical parameters
+like `temperature`. Cortex also enables the creation of chat and vector
+search APIs from your data.
+
+```sql
+SELECT AI_COMPLETE('What is the airspeed velocity of an unladen swallow?');
+```
+
+-   Snowflake [cortex fine-tuning](https://docs.snowflake.com/en/user-guide/snowflake-cortex/cortex-finetuning) can be used to optimize a smaller,
+    cheaper model for tasks like sentiment analysis
+-   [Cortex Search](https://docs.snowflake.com/en/user-guide/snowflake-cortex/cortex-search/cortex-search-overview) enables semantic/vector search on your table data
+-   [Cortex Analyst](https://docs.snowflake.com/en/user-guide/snowflake-cortex/cortex-analyst) enables a 'chat with your data' type REST API
+
+
+## Snowflake ML &amp; Document AI {#snowflake-ml-and-document-ai}
+
+Snowflake has some proprietary built-in classical ML models -
+pipelines using those models that can extract data from a stage full
+of PDFs. Snowflake provides a fine-tuning interface to help improve
+the fields and output for your particular type of document.
+
+```sql
+SELECT invoice_reader!PREDICT(get_presigned_url('@stage/one.pdf'), 1);
+```
+
+
 # Tips, Best Practices &amp; Gotchas {#tips-best-practices-and-gotchas}
 
 **Topics:**
@@ -804,7 +848,7 @@ The **cole's notes** on each of the key topics are below.
 -   **Automated Transformation Tools**: Understand the roles of **Dynamic Tables** (declarative data pipelines), **Streams** (change data capture), and **Tasks** (scheduled SQL execution).
 
 
-## (18%) Accounts - Access &amp; Security {#18--accounts-access-and-security}
+## (18%) Accounts: Access &amp; Security {#18--accounts-access-and-security}
 
 **[GENAI]** Key Concepts:
 

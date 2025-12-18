@@ -176,6 +176,19 @@ A variety of methods exist to interact with Snowflake's platform.
 *Snowsight* is the web interface provided by Snowflake. It is
 continuously improved.
 
+*Snowflake Copilot* is an in-browser tool to generate SQL code with the
+added context of your Snowflake environment - tables, schemas, and
+other queries.
+
+*** Streamlit Apps
+
+Streamlit is a Python web app framework for quickly deploying
+data-centric dashboards, chats, and visualizations. Permissions can be
+managed via Snowflake's built-in access control model (like
+permissions for a table or view) to particular *roles*.
+
+==> https://streamlit.io/
+
 ** Snowflake Drivers & Connectors
 
 *Snowflake Drivers/Connectors* refer to programmatic APIs to interact with
@@ -743,6 +756,34 @@ AS
   INSERT INTO SEND_EMAIL(ID, NAME) SELECT ID, NAME FROM USER_STREAM;
 #+end_src
 
+** Snowflake Cortex (AISQL)
+
+Extends the SQL language with AI-related functions like ~AI_COMPLETE~,
+~AI_EXTRACT~, and ~AI_TRANSCRIBE~. A specific model can be provided as a
+string in the input parameters, along with other typical parameters
+like ~temperature~. Cortex also enables the creation of chat and vector
+search APIs from your data.
+
+#+begin_src sql
+SELECT AI_COMPLETE('What is the airspeed velocity of an unladen swallow?');
+#+end_src
+
+- Snowflake [[https://docs.snowflake.com/en/user-guide/snowflake-cortex/cortex-finetuning][cortex fine-tuning]] can be used to optimize a smaller,
+  cheaper model for tasks like sentiment analysis
+- [[https://docs.snowflake.com/en/user-guide/snowflake-cortex/cortex-search/cortex-search-overview][Cortex Search]] enables semantic/vector search on your table data
+- [[https://docs.snowflake.com/en/user-guide/snowflake-cortex/cortex-analyst][Cortex Analyst]] enables a 'chat with your data' type REST API
+
+** Snowflake ML & Document AI
+
+Snowflake has some proprietary built-in classical ML models -
+pipelines using those models that can extract data from a stage full
+of PDFs. Snowflake provides a fine-tuning interface to help improve
+the fields and output for your particular type of document.
+
+#+begin_src sql
+SELECT invoice_reader!PREDICT(get_presigned_url('@stage/one.pdf'), 1);
+#+end_src
+
 * Tips, Best Practices & Gotchas
 :PROPERTIES:
 :ID:       1e1ad07a-59d2-4e30-b025-8ddf3505844b
@@ -786,7 +827,6 @@ The *cole's notes* on each of the key topics are below.
 - *Snowflake Editions & Capabilities*: Know the differences between *Standard, Enterprise, Business Critical, and VPS*, specifically regarding Time Travel retention (1 day vs. 90 days) and security features like Customer Managed Keys (Tri-Secret Secure).
 - *Storage Management*: Snowflake uses *micro-partitions* (immutable, columnar storage) and *data clustering* to optimize query performance without manual indexing.
 
-
 ** (18%) Data Transformations
 
 *[GENAI]* Key Concepts:
@@ -795,15 +835,13 @@ The *cole's notes* on each of the key topics are below.
 - *Semi-Structured Data Handling*: Master the *VARIANT* data type and the use of *FLATTEN* and lateral joins to query and transform JSON, Avro, and Parquet data.
 - *Automated Transformation Tools*: Understand the roles of *Dynamic Tables* (declarative data pipelines), *Streams* (change data capture), and *Tasks* (scheduled SQL execution).
 
-
-** (18%) Accounts - Access & Security
+** (18%) Accounts: Access & Security
 
 *[GENAI]* Key Concepts:
 
 - *Role-Based Access Control (RBAC)*: Grasp the hierarchy of system roles (*ACCOUNTADMIN, SECURITYADMIN, USERADMIN, SYSADMIN, PUBLIC*) and the concept of "inheritance" where higher-level roles inherit privileges from lower ones.
 - *Authentication & Connectivity*: Familiarize yourself with Multi-Factor Authentication (MFA), *Key-Pair Authentication* for service accounts, and Network Policies for IP whitelisting.
 - *Data Governance*: Know the features of *Snowflake Horizon*, including Column-level Security (Dynamic Data Masking) and Row-level Security (Row Access Policies).
-
 
 ** (16%) Performance & Cost Optimization
 
@@ -813,7 +851,6 @@ The *cole's notes* on each of the key topics are below.
 - *Caching Layers*: Understand the three types of cache: *Result Cache* (24-hour persistence), *Local Disk Cache* (data cached on SSDs of the warehouse), and *Cloud Services Cache* (metadata cache).
 - *Cost Management Tools*: Learn how to use *Resource Monitors* to set credit limits and the *Account Usage* views to track consumption of compute and storage.
 
-
 ** (12%) Data Loading & Unloading
 
 *[GENAI]* Key Concepts:
@@ -822,7 +859,6 @@ The *cole's notes* on each of the key topics are below.
 - *Staging Areas*: Distinguish between *Internal Stages* (User, Table, and Named stages) and *External Stages* (pointing to S3, Azure, or GCS buckets).
 - *File Formats & Optimization*: Understand how to define *File Format objects* and why it is a best practice to split large files into 100-250 MB chunks for parallel processing during load.
 
-
 ** (12%) Data Protection and Sharing
 
 *[GENAI]* Key Concepts:
@@ -830,7 +866,6 @@ The *cole's notes* on each of the key topics are below.
 - *Time Travel & Fail-safe*: Remember that *Time Travel* allows querying/restoring data within the retention period (1-90 days), while *Fail-safe* provides a non-configurable 7-day recovery window for Snowflake support only.
 - *Zero-Copy Cloning*: Understand that cloning creates a snapshot of data (tables, schemas, or databases) that initially *shares the same storage* as the original, meaning no additional storage costs until the clone is modified.
 - *Secure Data Sharing*: Know that *Shares* allow providers to grant read-only access to consumers without copying data, and *Reader Accounts* are used to share data with parties who do not have their own Snowflake account.
-
 
 * References & Further Reading
 :PROPERTIES:
