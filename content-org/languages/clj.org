@@ -440,16 +440,19 @@ This is easiest on Linux or Mac[fn:5] if you've already got ~asdf~ installed.
 sudo apt-get install rlwrap leiningen
 
 echo "Installing Java"
-asdf plugin-add java https://github.com/halcyon/asdf-java.git
-asdf install java semeru-openj9-21.0.5+11_openj9-0.48.0
-asdf global java semeru-openj9-21.0.5+11_openj9-0.48.0
+asdf plugin add java https://github.com/halcyon/asdf-java.git
+asdf list all java semeru-openj9  # optional, see what is available
+asdf install java latest:semeru-openj9-25
+asdf set --home java latest:semeru-openj9-25
 java -version
 
 echo "Installing Clojure"
 asdf plugin add clojure https://github.com/asdf-community/asdf-clojure.git
 asdf install clojure latest
-asdf global clojure latest
+asdf set --home clojure latest
 clj -version
+
+asdf reshim  # Ensure the latest executables are used
 #+end_src
 
 I like to use the *IBM Semeru*[fn:8] runtimes, which are designed for
@@ -458,10 +461,12 @@ containers[fn:9] available to use for free. For a time, I worked within
 the IBM Software Lab in Markham where these tools were developed, and
 crossed paths with many people on the compiler teams.
 
+Clojure supports [[https://clojure.org/guides/install_clojure#java][LTS releases of the JVM]] - at present: 8, 11, 17, 21, and 25.
+
 #+begin_src bash
 echo "Installing Amazon Corretto JVM"
-asdf install java corretto-21.0.6.7.1
-asdf global java corretto-21.0.6.7.1
+asdf install java latest:corretto-21
+asdf set --home java latest:corretto-21
 #+end_src
 
 The *Amazon Corretto* JVM is also great:
@@ -469,6 +474,18 @@ The *Amazon Corretto* JVM is also great:
 - The docker container is a very stable platform for running ~.jar~ files
 - This JVM is developed and battle-tested by Amazon[fn:6]
 - Like Semeru, Corretto is fully TCK[fn:7] certified, see the [[https://aws.amazon.com/corretto/faqs/][Corretto FAQs]]
+
+To find and install the latest version of Java (JVM 21) and Clojure,
+update the plugin and search like this:
+
+#+begin_src bash
+echo "Updating Java and Clojure to latest versions."
+asdf plugin update --all
+asdf install java latest:semeru-openj9-25
+asdf set --home java latest:semeru-openj9-25
+asdf install clojure latest
+asdf set --home clojure latest
+#+end_src
 
 * Common Clojure Tasks
 
