@@ -11,7 +11,7 @@ enableRobotsTXT = true
 
 [module.hugoVersion]
 extended = true
-min = '0.152.2'
+min = '0.154.2'
 
 # All manuals on this site are available from the root.
 [permalinks]
