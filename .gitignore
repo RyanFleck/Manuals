@@ -21,6 +21,8 @@ pom.xml.asc
 
 report*.txt
 
+# MacOS
+.DS_Store
 
 
 # Binaries for programs and plugins
