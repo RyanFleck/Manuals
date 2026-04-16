@@ -422,6 +422,7 @@ java -version
 
 echo "Installing Clojure"
 asdf plugin add clojure https://github.com/asdf-community/asdf-clojure.git
+asdf plugin update --all  # Before updating to the latest version of a language
 asdf install clojure latest
 asdf set --home clojure latest
 clj -version

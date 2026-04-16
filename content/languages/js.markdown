@@ -3,6 +3,12 @@ layout: docs-manual
 title: JavaScript
 summary: "Can do everything, but shouldn't do everything."
 toc: true
+aliases:
+- "/node"
+- "/nodejs"
+- "/javascript"
+- "/ecmascript"
+- "/ecma"
 ---
 
 # Hello JavaScript
@@ -143,7 +149,7 @@ ECMAScripts of the future. There is little need these days to use
 [Babel.js](https://babeljs.io/) to transform and polyfill[^2] your
 stuff, as major browsers implement modern features rather quickly.
 
-# Node.js
+# Install Node.js
 
 **Node** is a _server-side_ implementation of Google's V8 JavaScript
 engine. What this means for you, as a developer - you can write clever
@@ -151,6 +157,21 @@ programs for the client (the user, plugging along in a browser,) and
 the server (handling client connections, processing and returning
 data) in one language. Nearly all of the code mentioned below will
 work on both the client and server.
+
+Install [asdf](asdfvm.com) then run the following to setup [asdf-nodejs](https://github.com/asdf-vm/asdf-nodejs):
+
+```bash
+asdf plugin add nodejs https://github.com/asdf-vm/asdf-nodejs.git
+asdf plugin update --all
+
+# List all available versions
+asdf list all nodejs
+
+# Install 24.14.1
+asdf install nodejs 24.14.1
+asdf set --home nodejs 24.14.1
+asdf reshim
+```
 
 # Basics
 
