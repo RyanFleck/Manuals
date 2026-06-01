@@ -17,7 +17,7 @@ Class 70234 | America/New_York | Jun 1-Jun 2 | IBM"_
 -   Related certificate: [Generative AI Associate Badge](https://www.databricks.com/learn/certification/genai-engineer-associate)
 -   Partner Portal: [partner-academy.databricks.com/learn](https://partner-academy.databricks.com/learn/my-calendar)
     -   Course page: [courses/2222/generative-ai-engineering-with-databricks](https://partner-academy.databricks.com/learn/courses/2222/generative-ai-engineering-with-databricks/sessions/20757/generative-ai-engineering-with-databricks)
-    -   Taught by [Abhimanyu Pande](https://www.linkedin.com/in/abhimanyu-pande-07551465/)
+    -   Taught by [Abhimanyu "Abhi" Pande](https://www.linkedin.com/in/abhimanyu-pande-07551465/)
 
 
 ## Prompting, Context, RAG {#prompting-context-rag}
@@ -311,6 +311,8 @@ is, the concepts and ideas instead of a 1:1 string comparison.
 **Reranking** can occur after a vector search to reassess and order the
 similarity of the most similar chunks and/or documents.
 
+**Mosaic AI Vector Search**:
+
 Databricks includes the **Mosaic AI Vector Search** database, which
 provides:
 
@@ -323,5 +325,61 @@ provides:
 _The **change data feed** feature must be enabled on the table in
 Databricks for vector search to prevent re-embedding._
 
+After using the GUI to create a vector search index on your chunks
+table, we can create a client to perform vector searches.
+
+```python
+from databricks.vector_search.client import VectorSearchClient
+from databricks.vector_search.reranker import DatabricksReranker
+
+# Initialize the Vector Search client for later use
+vsc = VectorSearchClient(disable_notice=True)
+index = vsc.get_index(index_name=f"catalog.yourschema.docs_chunked_lab_index")
+print(index.describe())
+
+query_text = "How does the motion controller maintain balance during rapid movement?"
+
+# Perform similarity search:
+reranked_results = index.similarity_search(
+    query_text=query_text,
+    columns=["path", "chunk"],
+    num_results=3,
+
+    # Optional: provide a re-ranker
+    reranker=DatabricksReranker(columns_to_rerank=["chunk"])
+
+    # Optional: filter by particular document/path
+    filters={"path LIKE": "05_Orion_Maintenance_and_Servicing_Guide_v3.pdf"},
+
+    # Optional: just run full-text search
+    query_type="FULL_TEXT",
+
+    # Optional: hybrid search that uses keywords as well
+    query_type="HYBRID",
+)
+
+print("=== Similarity Search with Reranking Results ===")
+display(reranked_results)
+```
+
+
+## AI Agents with MLflow {#ai-agents-with-mlflow}
+
+**MLflow[^fn:3]** can be used on Databricks to build auditable AI agents.
+
+> "MLflow is the largest open source AI engineering platform for agents,
+> LLMs, and ML models. MLflow enables teams of all sizes to debug,
+> evaluate, monitor, and optimize production-quality AI applications
+> while controlling costs and managing access to models and data."&nbsp;[^fn:3]
+
+1.  **MLflow Tracking** for checking code versions and high level metrics
+2.  **MLflow Tracing** for capturing execution flows and tool calls
+3.  **MLflow Models** for packaging 'models' to serve
+4.  **MLflow Model Registry** for storing and version control of 'models'
+
+Anything from LLM inference to ML models and normal python code can be
+stored and used as a model in the **Unity Catalog**.
+
 [^fn:1]: Databricks Training Material: Lecture 1.1
 [^fn:2]: Anecdotal, check with [tiktokenizer.vercel.app](https://tiktokenizer.vercel.app/) or other tool
+[^fn:3]: MLflow Documentation: [mlflow.org/docs/latest/ml/](https://mlflow.org/docs/latest/ml/)
