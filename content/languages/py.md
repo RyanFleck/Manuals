@@ -58,3 +58,32 @@ Most of my teams use [uv](https://docs.astral.sh/uv/), _"A single tool to replac
 pipx, poetry, pyenv, twine, virtualenv, and more."_ I run this
 alongside the venerable [asdf-vm](https://asdf-vm.com/), which manages my system Python and
 every other programming language I use.
+
+```bash
+# Install prerequisites for Python and CPython's build routines
+sudo apt update
+sudo apt install libpq-dev python3-dev libxmlsec1-dev \
+  make build-essential libssl-dev zlib1g-dev \
+  libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm \
+  libncursesw5-dev xz-utils tk-dev libxml2-dev \
+  libffi-dev liblzma-dev just
+
+# Add the ASDF Python plugin
+asdf plugin add python https://github.com/asdf-community/asdf-python.git
+asdf plugin update --all
+
+# Install a version of Python
+asfd install python 3.14.4
+
+# Set this as the global version of Python
+asdf set --home python 3.14.4
+asdf reshim
+
+# Make "uv" available on the system, and other useful global packages
+pip install uv pre-commit
+asdf reshim
+```
+
+-   The [just](https://just.systems/man/en/introduction.html) development shortcut tool is handy and used often in Python development.
+-   It may also be prudent to install **Node.JS** at the same time, as many
+    web projects will also rely on node-based build tools.
