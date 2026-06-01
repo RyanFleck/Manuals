@@ -1,9 +1,10 @@
 <!-- Copied from ryanfleck.ca configs  -->
 <!-- https://stackoverflow.com/questions/69031332/hugo-shortcode-adding-extra-space-at-end-of-link-text -->
 <!-- https://gohugo.io/render-hooks/links/ -->
-<a href="{{ .Destination | safeURL }}" 
+{{- "" -}}
+<a href="{{ .Destination | safeURL }}"
     {{ with .Title}} title="{{ . }}" {{ end }}
-    {{ if strings.HasPrefix .Destination "http" }} target="_blank" rel="noopener" 
+    {{ if strings.HasPrefix .Destination "http" }} target="_blank" rel="noopener"
     {{ else }} hx-boost="true" {{ end }}
 >{{- .Text | safeHTML -}}
   <!-- ICONS for external links -->
@@ -12,10 +13,10 @@
            (strings.Contains .Destination "rumble.com") -}}
   <!-- If it is a video - show a video icon -->
   <i class="fa fa-video fa-2xs" aria-hidden="true"></i>
-  {{ else if and (strings.HasPrefix .Destination "http") 
+  {{ else if and (strings.HasPrefix .Destination "http")
             (not (strings.Contains .Destination "youtube.com"))
             (not (strings.Contains .Destination "rumble.com"))
-            (not (strings.HasPrefix .Destination "https://manuals.ryanfleck.ca")) 
+            (not (strings.HasPrefix .Destination "https://manuals.ryanfleck.ca"))
             (not (strings.HasPrefix .Destination "http://localhost:1313")) }}
   <!-- Otherwise just show an external resource indicator -->
   <i class="fa-solid fa-external-link fa-2xs" aria-hidden="true"></i>

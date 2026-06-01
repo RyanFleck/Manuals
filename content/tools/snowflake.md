@@ -423,7 +423,27 @@ CRUDlike updates to data, with some special Snowflake nuances.
 -   Transforming data in Snowflake
 
 
-## DECLARE &amp; Snowflake Scripting {#declare-and-snowflake-scripting}
+# Snowflake Scripting SPs &amp; UDFs {#snowflake-scripting-sps-and-udfs}
+
+The [Snowflake Scripting Developer Guide](https://docs.snowflake.com/en/developer-guide/snowflake-scripting/index) provides a comprehensive
+guide, but here are the basics in a nutshell:
+
+1.  The language is imperative and lexically scoped.
+2.  Most of the common and familiar SQL commands are available.
+3.  There are lots of weird edge cases and sql/object/bound data is all
+    handled slightly differently.
+
+**Topics:**
+
+-   Stored procedures in SQL, JavaScript, Python
+-   UDFs in SQL, JS, Python, Java, and Scala
+-   When, why, how, and the results of these calls
+-   What is Snowpark[^fn:4], how does it work?
+
+
+## DECLARE &amp; Snowflake Scripting Blocks {#declare-and-snowflake-scripting-blocks}
+
+See the section on Snowflake Scripting for more details.
 
 Snowflake SQL has support for procedural logic and error handling
 using a built-in SQL extension called [Snowflake scripting](https://docs.snowflake.com/en/developer-guide/snowflake-scripting/index). You can
@@ -445,13 +465,9 @@ for loop:
 
 ```sql
 -- docs.snowflake.com/en/developer-guide/snowflake-scripting/use-cases
-
-CREATE OR REPLACE PROCEDURE apply_bonus(bonus_percentage INT, performance_value INT)
-  RETURNS TEXT
-  LANGUAGE SQL
-AS
-
 DECLARE
+  bonus_percentage INT DEFAULT 10;
+  performance_value INT DEFAULT 12;
   -- Use input to calculate the bonus percentage
   updated_bonus_percentage NUMBER(2,2) DEFAULT (:bonus_percentage/100);
   --  Declare a result set
@@ -482,14 +498,57 @@ END;
 -   Resultsets
 
 
-# Functions &amp; Procedures {#functions-and-procedures}
+## Objects {#objects}
 
-**Topics:**
+Snowflake supports querying and manipulating [semi-structured data](https://docs.snowflake.com/en/user-guide/semistructured-data-formats) with
+up to 128mb per variant/object value.
 
--   Stored procedures in SQL, JavaScript, Python
--   UDFs in SQL, JS, Python, Java, and Scala
--   When, why, how, and the results of these calls
--   What is Snowpark[^fn:4], how does it work?
+
+## Arrays {#arrays}
+
+Imagine we are running a robot outpost and want to normalize data from
+a legacy system that stores odometer readings as a six-digit string.
+We want to set readings with all zeros to a null value. Here is an
+example of what our schema could look like:
+
+```js
+[
+  {"field_name": "OdometerReading",
+   "field_format": "NNNNNN",
+   "data_type": "COUNTER"},
+  {"field_name": "MachineUUID",
+   "data_type": "UUID"}
+]
+```
+
+To filter this to just `COUNTER` type fields, we could:
+
+```sql
+LET FIELDS ARRAY := :TABLE_INFO:JSON_SCHEMA.fields::ARRAY;
+
+SELECT TRANSFORM(FILTER(
+    :FIELDS,
+    k -> (UPPER(k:data_type::TEXT) = 'COUNTER' AND LENGTH(k:field_format::TEXT) = 8)
+),
+x -> x:field_name::TEXT)
+INTO :FIELDS;
+```
+
+To check a table of these records and replace 'empty' odometer
+readings with `null`, we can iterate through the array and run a query
+for each field we need to check.
+
+```sql
+FOR i IN 0 TO (ARRAY_SIZE(:FIELDS) - 1) DO
+    COL_NAME := :FIELDS[i]::STRING;
+
+    UPDATE IDENTIFIER(:TABLE_FULL_PATH)
+        SET ROW_DATA = OBJECT_INSERT(ROW_DATA, :COL_NAME, PARSE_JSON('null'), true)
+        -- If field is set as empty (six zeros) or missing, nullify the value, ensure the field is included:
+        WHERE (ROW_PARSED_JSON[:COL_NAME] = '000000' OR ROW_PARSED_JSON[:COL_NAME] IS NULL)
+            AND PROCESS_ID = :PROCESS_ID;
+END FOR;
+```
 
 
 ## Stored Procedures (SPs) {#stored-procedures--sps}
@@ -500,14 +559,6 @@ also JavaScript and via Snowpark[^fn:4].
 
 SPs cannot be called in SQL statements, but _can_ make use of the
 Snowpark API. **The primary goal is to cause side effects in the system.**
-
-
-### JavaScript Stored Procedures {#javascript-stored-procedures}
-
-There exists a [JavaScript Stored Procedures API](https://docs.snowflake.com/en/developer-guide/stored-procedure/stored-procedures-api) that provides a
-`snowflake` object for use within stored procedures written with JS,
-enabling branching, looping, error handling, and the dynamic creation
-of SQL statements.
 
 
 ## User Defined Functions (UDFs) {#user-defined-functions--udfs}
@@ -548,9 +599,79 @@ DROP FUNCTION JS_SQUARE_ROOT(DOUBLE);
     function signature is different.
 
 
-### Java Functions {#java-functions}
+### External Functions {#external-functions}
 
-See [Snowflake Docs: Java UDFs](https://docs.snowflake.com/en/developer-guide/udf/java/udf-java-introduction).
+An `EXTERNAL` function is a lambda or web service behind a proxy.
+
+```sql
+CREATE OR REPLACE EXTERNAL FUNCTION blorgon_process(str_input varchar)
+  RETURNS variant
+  API_INTEGRATION = blorgo9t_08 -- API integration object
+  AS 'https://blorgo9t.execute-api.us-west-2.amazonaws.com/prod/blorg'; -- Proxy URL
+```
+
+
+## Sharp Edges {#sharp-edges}
+
+Despite its benefits, Snowflake (like any large platform) has a number
+of strange edge cases that can cut and hurt you without foreknowledge.
+
+
+### Control Character Handling {#control-character-handling}
+
+Regarding characters like `0x00` and `0x01`:
+
+-   You **cannot** pass control characters in strings as procedure arguments
+-   You **cannot** use control characters as arguments for `COPY INTO` and
+    other functions
+-   The `REPLACE_INVALID_CHARACTERS` flag compromises data integrity when
+    attempting to perfectly replicate the data in Snowflake's databases
+
+
+### Different NULLS {#different-nulls}
+
+See [Snowflake user-guide/semistructured-considerations#null-values](https://docs.snowflake.com/en/user-guide/semistructured-considerations#null-values)
+
+SQL "NULL" and JSON "null" are handled differently in Snowflake.
+Checking a value like so will fail and always return false:
+
+```sql
+-- OBJECT {"test": null}
+
+IF(:OBJECT:test is NULL) THEN
+   -- This will never run
+END IF;
+```
+
+Instead, use the `IS_NULL_VALUE` function to check this.
+
+```sql
+IF(IS_NULL_VALUE(:OBJECT:test)) THEN
+   -- This will correctly trigger
+END IF;
+```
+
+
+# Python SPs &amp; UDFs {#python-sps-and-udfs}
+
+-   See [Snowflake Docs: Python Stored Procedures](https://docs.snowflake.com/en/developer-guide/stored-procedure/python/procedure-python-overview).
+-   See
+
+
+# JavaScript SPs &amp; UDFs {#javascript-sps-and-udfs}
+
+See [Snowflake Docs: JavaScript Stored Procedures](https://docs.snowflake.com/en/developer-guide/stored-procedure/stored-procedures-javascript).
+
+There exists a [JavaScript Stored Procedures API](https://docs.snowflake.com/en/developer-guide/stored-procedure/stored-procedures-api) that provides a
+`snowflake` object for use within stored procedures written with JS,
+enabling branching, looping, error handling, and the dynamic creation
+of SQL statements.
+
+
+# Java SPs &amp; UDFs {#java-sps-and-udfs}
+
+-   See [Snowflake Docs: Java Stored Procedures](https://docs.snowflake.com/en/developer-guide/stored-procedure/java/procedure-java-overview).
+-   See [Snowflake Docs: Java UDFs](https://docs.snowflake.com/en/developer-guide/udf/java/udf-java-introduction).
 
 **Java** UDFs take `HANDLER` and `TARGET_PATH` parameters - allowing you to
 optionally provide a JAR file with classes and functions to use.
@@ -619,16 +740,7 @@ SELECT hello();
 ==&gt; _[Hello, you!](https://www.youtube.com/watch?v=GO-nsnnmqHA)_
 
 
-### External Functions {#external-functions}
-
-An `EXTERNAL` function is a lambda or web service behind a proxy.
-
-```sql
-CREATE OR REPLACE EXTERNAL FUNCTION blorgon_process(str_input varchar)
-  RETURNS variant
-  API_INTEGRATION = blorgo9t_08 -- API integration object
-  AS 'https://blorgo9t.execute-api.us-west-2.amazonaws.com/prod/blorg'; -- Proxy URL
-```
+# Scala SPs &amp; UDFs {#scala-sps-and-udfs}
 
 
 # Warehouses &amp; Compute {#warehouses-and-compute}
