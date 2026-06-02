@@ -574,9 +574,10 @@ Essentially:
 -   DevAIOps = DevOps + AI analysis
 -   FinOps = Watching the 'cost' tab
 -   TableReadWriteOps = I can write SQL
+-   MetaOps = Comprehending Ops
 -   CoffeeOps = I am a barista
--   GossipOps = HR
 -   OpsOps = Management
+-   GossipOps = HR
 -   NoOps = Ideal
 
 [^fn:1]: Databricks Training Material: Lecture 1.1
