@@ -543,7 +543,7 @@ display(batch_inference_results_df)
 
 The model is now "deployed" and ready to use.
 
-*** Monitoring Agents
+*** Monitoring Agents (Lakehouse Monitoring)
 
 *Lakehouse Monitoring* can be used to monitor the queries and responses
 returned by your deployed models. Essentially:
@@ -552,13 +552,24 @@ returned by your deployed models. Essentially:
 2. All inputs and outputs are logged
 3. You can set up a dashboard to monitor
 
-*** Evaluating Agents
+*** Evaluating Agents (MLflow Built-In Judges)
 
 Essentially:
 
 1. You can set up a series of test inputs/outputs as "judges" that are
    evaluated to check the relevancy and correctness of your responses.
 
+*Judge Types*:
+
+1. *Correctness*: Compares to an expectations dataset
+1. *RelevanceToQuery*: Identifies off-topic or irrelevant answers
+1. *RetrievalSufficiency*: Compares to expectations to see if key
+   context found
+1. *RetrievalRelevance*: Checks if retrieved docs are relevant
+1. *RetrievalGroundedness*: Ensures response is grounded in retrieved context
+1. *Safety*: Is the response free from "offensive or unsafe" content
+1. *Guidelines*: If the repsonse follows the given rules
+1. *ExpectationsGuidelines*: Guideline tests from a set of expectations
 
 *** LLMOps & Other Buzzwords
 
