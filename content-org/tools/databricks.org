@@ -13,8 +13,9 @@
 
 * Generative AI Tools in Databricks
 
-Notes from the class /"Generative AI Engineering with Databricks |
-Class 70234 | America/New_York | Jun 1-Jun 2 | IBM"/
+Notes from the class /"Generative AI Engineering with Databricks"/ were
+recorded on June 1st and 2nd *2026*. The platform may have changed since
+these notes were taken.
 
 - Related certificate: [[https://www.databricks.com/learn/certification/genai-engineer-associate][Generative AI Associate Badge]]
 - Partner Portal: [[https://partner-academy.databricks.com/learn/my-calendar][partner-academy.databricks.com/learn]]
@@ -180,7 +181,7 @@ showing the position in the document.
                     response curves labeled \"Tuned PID\" and
                     \"Untuned PID\" against a time scale.",
     "id": 9,
-    "type": "figure"  // <== An image description
+    "type": "figure"  // <== An OCR'ed and visually interpreted image
   }
 ]}
 #+end_src
@@ -355,17 +356,33 @@ reranked_results = index.similarity_search(
     query_type="HYBRID",
 )
 
-print("=== Similarity Search with Reranking Results ===")
+# Print search results
 display(reranked_results)
 #+end_src
 
-** AI Agents with MLflow
+** AI Agents with MLflow & LangChain
 
-*MLflow[fn:4]* can be used on Databricks to build auditable AI agents.
+An *AI agent* is an intermediary between a human (or another LLM) and a
+data system, combining one or more LLMs, MCP servers, callable
+functions/tools, and connections to databases and file servers. *Agents
+have the /agency/ to make decisions and take actions.* Frequently they
+also have memory systems to save conversation data and learned
+information.
+
+*Categorizations for AI Agents*:
+
+1. *Reflex*: Make decisions based on present data
+2. *Model-Based Reflex*: Use statistical and mathematical models
+3. *Goal-Based*: Plan multi-tool strategies to meet goals
+4. *Utility-Based*: Use risk-reward models and optimization criteria
+   combined with multiple execution options to meet goals
+5. *Learning*: Self-improves and adapts
+
+*MLflow[fn:4]* and LangChain[fn:3] can be used on Databricks to build auditable AI agents.
 
 #+begin_quote
-"MLflow is the largest open source AI engineering platform for agents,
-LLMs, and ML models. MLflow enables teams of all sizes to debug,
+"MLflow is the largest open source *AI engineering platform for agents,
+LLMs, and ML models*. MLflow enables teams of all sizes to debug,
 evaluate, monitor, and optimize production-quality AI applications
 while controlling costs and managing access to models and data." [fn:4]
 #+end_quote
@@ -378,11 +395,45 @@ while controlling costs and managing access to models and data." [fn:4]
 Anything from LLM inference to ML models and normal python code can be
 stored and used as a model in the *Unity Catalog*.
 
+*** Deploying Models & Agents
+
+*MLflow Models* are folders that contain key files and a ~MLModel~ file,
+which includes *flavors* which are interfaces (ways to use the model.)
+
+*Deployment Types balance throughput and latency:*
+
+1. *Batch* deployments have the highest throughput - overnight reports
+2. *Stream* deployments - personalized marketing messages
+3. *Real-time* deployments - chatbots, image generators
+4. *Embedded/Edge* deployments have the lowest latency - car environmental controls
+
+*Lifecycle Management*:
+
+- *Versioning*, tagging, and annotations can be applied to notebooks
+- *Aliases* like "champion" and "challenger" can point to the
+  latest/best model
+
+*Batch* deployments are ideal for cases when the volume of new records
+to process is very large, immediate replies are not necessary, and a
+high latency is OK. These can be implemented easily and run when
+compute is cheapest - though the data may be stale.
+
+*Batch Deployment Inference Options*:
+
+1. Python functions (~pyfunc.predict~)
+2. Pandas or spark UDF (from the model registry)
+3. The ~ai_query()~ function with a prompt and incoming text data
 
 
+*** Evaluating Agents
+
+*** Monitoring Agents
 
 * Footnotes
-[fn:4] MLflow Documentation: [[https://mlflow.org/docs/latest/ml/][mlflow.org/docs/latest/ml/]]
+
+[fn:3] *LangChain* Documentation: [[https://docs.langchain.com/][docs.langchain.com]]
+
+[fn:4] *MLflow* Documentation: [[https://mlflow.org/docs/latest/ml/][mlflow.org/docs/latest/ml]]
 
 [fn:2] Anecdotal, check with [[https://tiktokenizer.vercel.app/][tiktokenizer.vercel.app]] or other tool
 
