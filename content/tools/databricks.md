@@ -550,10 +550,17 @@ The model is now "deployed" and ready to use.
 **Lakehouse Monitoring** can be used to monitor the queries and responses
 returned by your deployed models. Essentially:
 
-1.  You register
+1.  You register an agent
+2.  All inputs and outputs are logged
+3.  You can set up a dashboard to monitor
 
 
 ### Evaluating Agents {#evaluating-agents}
+
+Essentially:
+
+1.  You can set up a series of test inputs/outputs as "judges" that are
+    evaluated to check the relevancy and correctness of your responses.
 
 
 ### LLMOps &amp; Other Buzzwords {#llmops-and-other-buzzwords}
