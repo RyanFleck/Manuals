@@ -25,6 +25,13 @@ these notes were taken.
     -   Course page: [courses/2222/generative-ai-engineering-with-databricks](https://partner-academy.databricks.com/learn/courses/2222/generative-ai-engineering-with-databricks/sessions/20757/generative-ai-engineering-with-databricks)
     -   Taught by [Abhimanyu "Abhi" Pande](https://www.linkedin.com/in/abhimanyu-pande-07551465/)
 
+**Course Content**:
+
+1.  Context retrieval and prompt engineering
+2.  Building a unity catalog function calling agent (secure, deterministic)
+3.  Deploying agents as batch or real-time
+4.  Evaluating agent performance
+
 
 ## Prompting, Context, RAG {#prompting-context-rag}
 
@@ -574,8 +581,38 @@ Essentially:
 7.  **Guidelines**: If the repsonse follows the given rules
 8.  **ExpectationsGuidelines**: Guideline tests from a set of expectations
 
+<!--listend-->
 
-### LLMOps &amp; Other Buzzwords {#llmops-and-other-buzzwords}
+```python
+from mlflow.genai.scorers import Correctness
+
+correctness_eval = Correctness(
+    model="databricks:/foundation-model-endpoint")
+
+correctness_results = mlflow.genai.evaluate(
+    data=eval_dataset,
+    predict_fn=lambda input: agent.predict({"input": input}),
+    scorers=[correctness_eval],
+)
+
+```
+
+
+## DABs - Databricks Asset Bundles {#dabs-databricks-asset-bundles}
+
+Repositories of YAML files for easy validation and deployment of
+artifacts, resources, and configurations. Code can be co-versioned
+with configuration and running infrastructure.
+
+```bash
+databricks bundle deploy -t "development"
+databricks bundle run pipeline -refresh-all -t "development"
+```
+
+See: [github.com/databricks/bundle-examples](https://github.com/databricks/bundle-examples)
+
+
+# Buzzwords Ending In "Ops" {#buzzwords-ending-in-ops}
 
 -   DevOps = Repos, workflows, CI/CD
 -   DataOps = Data storage, governance, security
