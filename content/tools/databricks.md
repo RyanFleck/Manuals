@@ -170,8 +170,6 @@ This `ai_parse_document` Databricks function will produce a JSON
 document containing this - note the type (text/figure) and coordinates
 showing the position in the document.
 
-{{< figure src="/images/databricks-2026-06/document-analysis.png" >}}
-
 ```json
 {"elements": [
   {
@@ -217,6 +215,8 @@ doc = sample[0]["parsed_content"]
 
 render_ai_parse_output(doc)
 ```
+
+{{< figure src="/images/databricks-2026-06/document-analysis.png" >}}
 
 
 ## Document Chunking {#document-chunking}
@@ -337,8 +337,8 @@ provides:
 -   Read embeddings computed by the user and use an external model to
     embed query strings
 
-_The **change data feed** feature must be enabled on the table in
-Databricks for vector search to prevent re-embedding._
+_IMPORTANT: The **change data feed** feature must be enabled on the table
+in Databricks for vector search to prevent re-embedding._
 
 After using the GUI to create a vector search index on your chunks
 table, we can create a client to perform vector searches.
@@ -565,17 +565,18 @@ The model is now "deployed" and ready to use.
 **Lakehouse Monitoring** can be used to monitor the queries and responses
 returned by your deployed models. Essentially:
 
-1.  You register an agent
+1.  You register an agent with **AI Gateway** inference tables
 2.  All inputs and outputs are logged
 3.  You can set up a dashboard to monitor
 
 
-### Evaluating Agents (MLflow Built-In Judges) {#evaluating-agents--mlflow-built-in-judges}
+### Continuously Evaluating Agents (MLflow Built-In Judges) {#continuously-evaluating-agents--mlflow-built-in-judges}
 
 Essentially:
 
 1.  You can set up a series of test inputs/outputs as "judges" that are
     evaluated to check the relevancy and correctness of your responses.
+2.  **MLflow Experiments** can be used to track and observe these runs
 
 **Judge Types**:
 
@@ -592,15 +593,32 @@ Essentially:
 <!--listend-->
 
 ```python
+# Correctness: Compare the response to a two-column dataset with expected results
 from mlflow.genai.scorers import Correctness
 
 correctness_eval = Correctness(
-    model="databricks:/foundation-model-endpoint")
+    model="databricks:/foundation-model-endpoint"
+)
 
 correctness_results = mlflow.genai.evaluate(
     data=eval_dataset,
     predict_fn=lambda input: agent.predict({"input": input}),
     scorers=[correctness_eval],
+)
+
+# Guidelines example: provide a rule to evaluate, and an LLM will score it
+from mlflow.genai.scorers import Guidelines
+
+language_guideline = Guidelines(
+    name="spanish",
+    guidelines=["The response should be in Spanish"],
+    model_name = guidelines_endpoint
+)
+
+guidelines_dataset_results = mlflow.genai.evaluate(
+    data=guidelines_dataset,
+    predict_fn= lambda input: agent.predict({"input": input}),
+    scorers=[language_guideline]
 )
 
 ```
