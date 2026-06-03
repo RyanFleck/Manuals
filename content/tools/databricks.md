@@ -170,6 +170,8 @@ This `ai_parse_document` Databricks function will produce a JSON
 document containing this - note the type (text/figure) and coordinates
 showing the position in the document.
 
+{{< figure src="/images/databricks-2026-06/document-analysis.png" >}}
+
 ```json
 {"elements": [
   {
@@ -551,6 +553,12 @@ display(batch_inference_results_df)
 
 The model is now "deployed" and ready to use.
 
+{{< figure src="/images/databricks-2026-06/batch-deployment.png" >}}
+
+{{< figure src="/images/databricks-2026-06/serverless-deployment.png" >}}
+
+{{< figure src="/images/databricks-2026-06/databricks-model-serving.png" >}}
+
 
 ### Monitoring Agents (Lakehouse Monitoring) {#monitoring-agents--lakehouse-monitoring}
 
@@ -610,6 +618,11 @@ databricks bundle run pipeline -refresh-all -t "development"
 ```
 
 See: [github.com/databricks/bundle-examples](https://github.com/databricks/bundle-examples)
+
+
+## Course Certificate {#course-certificate}
+
+{{< figure src="/images/databricks-2026-06/certificate.png" >}}
 
 
 # Buzzwords Ending In "Ops" {#buzzwords-ending-in-ops}

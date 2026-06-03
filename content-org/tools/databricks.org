@@ -168,6 +168,8 @@ This ~ai_parse_document~ Databricks function will produce a JSON
 document containing this - note the type (text/figure) and coordinates
 showing the position in the document.
 
+[[/images/databricks-2026-06/document-analysis.png]]
+
 #+begin_src json
 {"elements": [
   {
@@ -550,6 +552,14 @@ display(batch_inference_results_df)
 
 The model is now "deployed" and ready to use.
 
+
+[[/images/databricks-2026-06/batch-deployment.png]]
+
+[[/images/databricks-2026-06/serverless-deployment.png]]
+
+[[/images/databricks-2026-06/databricks-model-serving.png]]
+
+
 *** Monitoring Agents (Lakehouse Monitoring)
 
 *Lakehouse Monitoring* can be used to monitor the queries and responses
@@ -605,6 +615,10 @@ databricks bundle run pipeline -refresh-all -t "development"
 
 See: [[https://github.com/databricks/bundle-examples][github.com/databricks/bundle-examples]]
 
+** Course Certificate
+
+[[/images/databricks-2026-06/certificate.png]]
+
 * Buzzwords Ending In "Ops"
 
 - DevOps = Repos, workflows, CI/CD
@@ -621,8 +635,6 @@ See: [[https://github.com/databricks/bundle-examples][github.com/databricks/bund
 - OpsOps = Management
 - GossipOps = HR
 - NoOps = Ideal
-
-
 
 
 
