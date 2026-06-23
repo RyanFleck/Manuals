@@ -559,8 +559,11 @@ The model is now "deployed" and ready to use.
 
 {{< figure src="/images/databricks-2026-06/databricks-model-serving.png" >}}
 
+**Databricks Model Serving** provides a production-ready solution to
+deploy models with built-in payload logging and observability.
 
-### Monitoring Agents (Lakehouse Monitoring) {#monitoring-agents--lakehouse-monitoring}
+
+### Monitoring AI Agents (Lakehouse Monitoring) {#monitoring-ai-agents--lakehouse-monitoring}
 
 **Lakehouse Monitoring** can be used to monitor the queries and responses
 returned by your deployed models. Essentially:
@@ -568,6 +571,12 @@ returned by your deployed models. Essentially:
 1.  You register an agent with **AI Gateway** inference tables
 2.  All inputs and outputs are logged
 3.  You can set up a dashboard to monitor
+
+
+### Deployment Pattern Best Practices {#deployment-pattern-best-practices}
+
+1.  Use separate Databricks workspaces for dev, staging, and prod
+2.
 
 
 ### Continuously Evaluating Agents (MLflow Built-In Judges) {#continuously-evaluating-agents--mlflow-built-in-judges}
