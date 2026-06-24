@@ -76,6 +76,8 @@ This separation allows each layer to scale entirely independently.
 
 Snowflake data is stored in a **column-oriented, partitioned, encrypted
 format** highly optimized for the blob storage it is written to.
+_Columnar storage compresses much better due to probable high
+cardinality (similarity) of data in the same column._
 
 By default, strong **AES-256** encryption is applied to data written to
 the backing blob storage. Snowflake inherits the durability and
@@ -543,6 +545,77 @@ SHOW VIEWS;
 -   Loading semi-structured data and schema inference
 
 
+## High-Level Data Loading Process {#high-level-data-loading-process}
+
+1.  Output data from systems of record as CSV, JSON, Avro, etc
+2.  Move files to cloud storage (`PUT` to internal or external stage)
+3.  Load into Snowflake tables (`COPY INTO`)
+
+
+## Stages {#stages}
+
+Stages hold binary files, which can be **queried** and **copied into** tables,
+with the limitation of no joins, filters, aggregations.
+
+**Reference with**:
+
+-   `@` for **named stages**, made with `CREATE STAGE <NAME>;`
+-   `@%` for **table stages**, which are automatically created for permanent,
+    transient, and temporary tables
+-   `@~` for **user stages**, which are available for each user
+
+
+## File Formats &amp; COPY INTO {#file-formats-and-copy-into}
+
+`COPY INTO` can be used to move data from staged files to Snowflake
+tables. A **file format** must be defined to do this.
+
+```sql
+/* Create a file format */
+CREATE [ OR REPLACE ] [ { TEMP | TEMPORARY | VOLATILE } ]
+  FILE FORMAT [ IF NOT EXISTS ] <format-name>
+  TYPE = { CSV | JSON | AVRO | ORC | PARQUET | XML }
+  --> Optional format arguments (some CSV options shown)
+  ENCODING = '<string>' | UTF8
+  BINARY_FORMAT = HEX | BASE64 | UTF8
+  COMPRESSION = AUTO | GZIP | BZ2 | BROTLI | ZSTD | DEFLATE | RAW_DEFLATE | NONE
+  RECORD_DELIMITER = '<string>' | NONE
+  FIELD_DELIMITER = '<string>' | NONE
+  MULTI_LINE = TRUE | FALSE
+  PARSE_HEADER = TRUE | FALSE
+  SKIP_HEADER = <integer>
+  SKIP_BLANK_LINES = TRUE | FALSE
+  ESCAPE = '<character>' | NONE
+  ESCAPE_UNENCLOSED_FIELD = '<character>' | NONE
+  TRIM_SPACE = TRUE | FALSE
+  FIELD_OPTIONALLY_ENCLOSED_BY = '<character>' | NONE
+  NULL_IF = ( '<string>' [ , '<string>' ... ] )
+  EMPTY_FIELD_AS_NULL = TRUE | FALSE
+  -- ...and more.
+
+  [ COMMENT = '<string_literal>' ]
+
+/* Standard data load - simplified */
+COPY INTO <table_name> FROM { stage }
+  FILES = ( '<file_name>' [ , '<file_name>' ] [ , ... ] )
+  PATTERN = '<regex_pattern>'
+  FILE_FORMAT = ( format-name )
+  --> Optional copy arguments (some shown)
+  ENFORCE_LENGTH = TRUE | FALSE
+  TRUNCATECOLUMNS = TRUE | FALSE
+  INCLUDE_METADATA = ( <column_name> = METADATA$<field> [ , <column_name> = METADATA${field} ... ] )
+  PURGE = TRUE | FALSE
+  RETURN_FAILED_ONLY = TRUE | FALSE
+  ON_ERROR = { CONTINUE | SKIP_FILE | SKIP_FILE_<num> | 'SKIP_FILE_<num>%' | ABORT_STATEMENT }
+  VALIDATION_MODE = RETURN_<n>_ROWS | RETURN_ERRORS | RETURN_ALL_ERRORS
+  -- ...and more.
+```
+
+-   Both the **file format** and **copy into** have key parameters for
+    controlling file ingestion. See [file format type options](https://docs.snowflake.com/en/sql-reference/sql/create-file-format#format-type-options-formattypeoptions).
+-   See full [COPY INTO syntax](https://docs.snowflake.com/en/sql-reference/sql/copy-into-table#syntax) and [FILE FORMAT syntax](https://docs.snowflake.com/en/sql-reference/sql/create-file-format) for details.
+
+
 # Querying &amp; Data Manipulation Language {#querying-and-data-manipulation-language}
 
 Data Manipulation Language (DML) refers to the normal SQL methods of
@@ -587,23 +660,6 @@ COMMIT;
 _Transactions can be aborted by the user or account admin._
 
 
-## Query Optimization &amp; Performance Tips {#query-optimization-and-performance-tips}
-
--   Use `EXPLAIN` and the **query profile** to check the execution plan
--   **Row** ops are performed before **group** ops
--   Filter as early as possible on well-ordered filter columns
--   Avoid `SELECT *` and use `SELECT * EXCLUDE (cols)` or `ILIKE '<pattern>'`
--   Add **limits** to large `ORDER BY` calls
--   Don't use `GROUP BY` with high-cardinality columns
--   Avoid unintentional many-to-many or cross-joins
--   Use temporary tables for long single-session calculations!
--   Don't filter with functions that return a different type then the
-    target col.
--   Don't use **UDFs** in filter/where clauses (no partition pruning)
-
-> "Cardinality: The number of distinct values in a column"
-
-
 ## Data Types {#data-types}
 
 See [Data types](https://docs.snowflake.com/en/sql-reference/data-types) and [Summary of Data types](https://docs.snowflake.com/en/sql-reference/intro-summary-data-types) for info.
@@ -629,6 +685,11 @@ warehouse_.
 
 ## Caching {#caching}
 
+```sql
+-- Prevent caching for performance testing:
+ALTER SESSION SET USE_CACHED_RESULT = FALSE;
+```
+
 
 ### Query Result Cache {#query-result-cache}
 
@@ -644,6 +705,34 @@ warehouse_.
     result.
 -   The data
 -   This is _"percentage scanned from cache"_
+
+
+## Query Optimization &amp; Performance Tips {#query-optimization-and-performance-tips}
+
+-   Use `EXPLAIN` and the **query profile** to check the execution plan
+-   **Row** ops are performed before **group** ops
+-   Filter as early as possible on well-ordered filter columns
+-   Avoid `SELECT *` and use `SELECT * EXCLUDE (cols)` or `ILIKE '<pattern>'`
+-   Add **limits** to large `ORDER BY` calls
+-   Don't use `GROUP BY` with high-cardinality columns
+-   Avoid unintentional many-to-many or cross-joins
+-   Use temporary tables for long single-session calculations!
+-   Don't filter with functions that return a different type then the
+    target column, as the optimizer relies on the column type to partition
+-   Don't use **UDFs** in filter/where clauses (no partition pruning)
+
+> "Cardinality: The number of distinct values in a column"
+
+**Statistics:** In the **Query Profile** tab (openable from _"&lt;num&gt; rows"_ in
+result view) you will see a few important details:
+
+-   **Scan progress** (ex. 13.29%)
+-   **Bytes scanned** (ex. 13.00GB)
+-   **Percentage scanned from cache** (ex. 2.12%) the warehouse's cached partitions
+-   **Partitions scanned** (ex. 7302) the micro-partitions read
+-   **Partitions total** (ex. 54924)
+-   **Bytes spilled to remote storage** (ex. 2.45MB) occurs when a warehouse
+    has insufficient memory, beyond the local storage on the warehouse.
 
 
 # Snowflake Scripting SPs &amp; UDFs {#snowflake-scripting-sps-and-udfs}
@@ -847,47 +936,6 @@ CREATE OR REPLACE EXTERNAL FUNCTION blorgon_process(str_input varchar)
 ```
 
 
-## Sharp Edges {#sharp-edges}
-
-Despite its benefits, Snowflake (like any large platform) has a number
-of strange edge cases that can cut and hurt you without foreknowledge.
-
-
-### Control Character Handling {#control-character-handling}
-
-Regarding characters like `0x00` and `0x01`:
-
--   You **cannot** pass control characters in strings as procedure arguments
--   You **cannot** use control characters as arguments for `COPY INTO` and
-    other functions
--   The `REPLACE_INVALID_CHARACTERS` flag compromises data integrity when
-    attempting to perfectly replicate the data in Snowflake's databases
-
-
-### Different NULLS {#different-nulls}
-
-See [Snowflake user-guide/semistructured-considerations#null-values](https://docs.snowflake.com/en/user-guide/semistructured-considerations#null-values)
-
-SQL "NULL" and JSON "null" are handled differently in Snowflake.
-Checking a value like so will fail and always return false:
-
-```sql
--- OBJECT {"test": null}
-
-IF(:OBJECT:test is NULL) THEN
-   -- This will never run
-END IF;
-```
-
-Instead, use the `IS_NULL_VALUE` function to check this.
-
-```sql
-IF(IS_NULL_VALUE(:OBJECT:test)) THEN
-   -- This will correctly trigger
-END IF;
-```
-
-
 # Python SPs &amp; UDFs {#python-sps-and-udfs}
 
 -   See [Snowflake Docs: Python Stored Procedures](https://docs.snowflake.com/en/developer-guide/stored-procedure/python/procedure-python-overview).
@@ -957,6 +1005,7 @@ In snowflake, refer to this function in the JAR file:
 ```sql
 CREATE OR REPLACE STAGE my_stage;
 PUT file://hello-udf.jar @my_stage auto_compress=false;
+-- Stages are referenced with @<name>
 
 -- Define the function
 CREATE OR REPLACE FUNCTION hello(name STRING)
@@ -1223,6 +1272,52 @@ SELECT invoice_reader!PREDICT(get_presigned_url('@stage/one.pdf'), 1);
 -   Query patterns that can disrupt performance
 
 
+## The Bad Parts, Sharp Edges, and Boondoggles {#the-bad-parts-sharp-edges-and-boondoggles}
+
+Despite its benefits, Snowflake (like any large platform) has a number
+of strange edge cases that can **cut and hurt** you without foreknowledge.
+
+
+### Control Character Handling {#control-character-handling}
+
+Regarding characters like `0x00` and `0x01`:
+
+-   You **cannot** pass control characters in strings as procedure arguments
+-   You **cannot** use control characters as arguments for `COPY INTO` and
+    other functions
+-   The `REPLACE_INVALID_CHARACTERS` flag compromises data integrity when
+    attempting to perfectly replicate the data in Snowflake's databases
+
+
+### Different NULLS {#different-nulls}
+
+See [Snowflake user-guide/semistructured-considerations#null-values](https://docs.snowflake.com/en/user-guide/semistructured-considerations#null-values)
+
+SQL "NULL" and JSON "null" are handled differently in Snowflake.
+Checking a value like so will fail and always return false:
+
+```sql
+-- OBJECT {"test": null}
+
+IF(:OBJECT:test is NULL) THEN
+   -- This will never run
+END IF;
+```
+
+Instead, use the `IS_NULL_VALUE` function to check this.
+
+```sql
+IF(IS_NULL_VALUE(:OBJECT:test)) THEN
+   -- This will correctly trigger
+END IF;
+```
+
+
+### Control Character Handling {#control-character-handling}
+
+-   You can't pass control characters in a string or variant as a function argument
+
+
 # COF-C02 - Snowpro Core Certification {#cof-c02-snowpro-core-certification}
 
 You can download the study guide for this exam on the [Snowflake
@@ -1284,7 +1379,9 @@ The **cole's notes** on each of the key topics are below.
 
 -   **Bulk vs. Continuous Loading**: Know when to use the **COPY INTO** command (batch loading using virtual warehouses) versus **Snowpipe** (automated, serverless continuous loading).
 -   **Staging Areas**: Distinguish between **Internal Stages** (User, Table, and Named stages) and **External Stages** (pointing to S3, Azure, or GCS buckets).
--   **File Formats &amp; Optimization**: Understand how to define **File Format objects** and why it is a best practice to split large files into 100-250 MB chunks for parallel processing during load.
+-   **File Formats &amp; Optimization**: Understand how to define **File Format
+    objects** and why it is a best practice to split large files into
+    100-250 MB chunks for parallel processing during load.
 
 
 ## (12%) Data Protection and Sharing {#12--data-protection-and-sharing}
