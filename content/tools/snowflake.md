@@ -189,32 +189,16 @@ The following SQL commands can be found by clicking your profile
 picture, then "Connect a tool to Snowflake".
 
 ```sql
--- Account & data sharing account identifier
+-- Account Identifier (for data sharing)
 SELECT CURRENT_ORGANIZATION_NAME() || '-' || CURRENT_ACCOUNT_NAME();
-
--- Organization name
-SELECT CURRENT_ORGANIZATION_NAME();
-
--- Account name
-SELECT CURRENT_ACCOUNT_NAME();
-
--- Account locator
-SELECT CURRENT_ACCOUNT_LOCATOR();
-
--- User name
-SELECT CURRENT_USER();
-
--- Role
-SELECT CURRENT_ROLE();
-
--- Warehouse
-SELECT CURRENT_WAREHOUSE();
-
--- Database
-SELECT CURRENT_DATABASE();
-
--- Schema
-SELECT CURRENT_SCHEMA();
+SELECT CURRENT_ORGANIZATION_NAME(); -- Organization name
+SELECT CURRENT_ACCOUNT_NAME(); -- Account name
+SELECT CURRENT_ACCOUNT_LOCATOR(); -- Account locator
+SELECT CURRENT_WAREHOUSE(); -- Warehouse
+SELECT CURRENT_DATABASE(); -- Database
+SELECT CURRENT_SCHEMA(); -- Schema
+SELECT CURRENT_ROLE(); -- Role
+SELECT CURRENT_USER(); -- User name
 ```
 
 Configuration files to copy and JDBC, ODBC, .Net, and other connection
