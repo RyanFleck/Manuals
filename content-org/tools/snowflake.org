@@ -90,21 +90,35 @@ blob storage.
 Snowflake divides written files into *micro-partitions* so only columns
 that must be read or written are loaded during a query.
 
+*Micro-Partitions:*
+- Compressed and encrypted
+- Immutable when written to blob storage
+- New partitions are created when data is changed
+  - Old micro-partitions are kept for a specified time[fn:6]
+
 Table data is billed at a flat rate per month, and only accessible via
 Snowflake queries.
 
 *** Query Processing Layer
+:PROPERTIES:
+:ID:       67d36980-2097-4fd6-b02d-c01c985ef69a
+:END:
 
 *Virtual Warehouses* in the query processing layer cache table data
 required for queries locally, while leaving the majority of data in
 storage. Queries are executed in these warehouses, which are EC2[fn:2]
 instances provisioned by Snowflake in an ephemeral manner.
 
-*Small - 6XL* warehouse sizes (t-shirt sizes) are available.
+- *Small to 6XL* warehouse sizes (t-shirt sizes) are available.
+- Scale up for more complex queries
+- Scale out (more warehouses in cluster) to improve parallel processing
 
 Even with many warehouses operating on the data, Snowflake uses an
 [[https://www.mongodb.com/resources/products/capabilities/acid-compliance][ACID]] compliant global layer (the *transaction manager*)to ensure the
 data from each transaction is immediately available to all warehouses.
+
+/Queries are automatically cost-optimized[fn:5] by pruning the
+partitions that are read and ordering joins./
 
 *** Global Services Layer
 
@@ -112,7 +126,8 @@ Highly available system management services common to all Snowflake
 users, responsible for optimizing queries, scaling and managing
 infrastructure, metadata caching, authentication, and security.
 
-Snowflake is a global multi-tenancy service.
+Snowflake is a global multi-tenancy service, and cannot be deployed
+on-prem or in a customer-managed fashion.
 
 ** Editions & Pricing
 :PROPERTIES:
@@ -125,7 +140,7 @@ Snowflake is a global multi-tenancy service.
 - Pricing model: credits for compute + storage + usage
 - How edition differences affect features (e.g. multi-cluster, data protection)
 
-** Editions
+*** Editions
 
 1. *Standard*
 2. *Enterprise* adds database failover, multi-cluster warehouses, and
@@ -133,14 +148,18 @@ Snowflake is a global multi-tenancy service.
 3. *Business Critical*
 4. *Virtual Private* is isolated from the global Snowflake program.
 
-** Billing
+*** Billing
 
 *On demand* and *capacity* models are available. Capacity rewards upfront
-payment.
+payment with lower rates. You will be charged for the following
+services:
 
-*Costs:*
-
-1. [[https://docs.snowflake.com/en/user-guide/cost-understanding-compute#what-are-credits][Snowflake Credits]]:
+1) *[[https://docs.snowflake.com/en/user-guide/cost-understanding-data-storage][Storage]]*: tables, stages, time travel data
+   - Charged at a /flat rate per TB/
+2) *Data* Transfer & Egress
+   - Transfer charges between regions (~COPY INTO~)
+   - Replicating data between regions
+3) *Compute*, metered with [[https://docs.snowflake.com/en/user-guide/cost-understanding-compute#what-are-credits][Snowflake Credits]]:
    - Virtual Warehouse Services
      - Billed per second, minimum 60 seconds, based on size.
    - Cloud Services
@@ -150,12 +169,6 @@ payment.
        10% of the daily virtual warehouse credits used.
    - Serverless Services
      - Each has its own rate
-2. Dollars & Cents:
-   - [[https://docs.snowflake.com/en/user-guide/cost-understanding-data-storage][Storage]]: tables, stages, time travel data
-     - Charged at a /flat rate per TB/
-   - Data Transfer & Egress
-     - Transfer charges between regions (~COPY INTO~)
-     - Replicating data between regions
 
 * Integration and Connectors
 
@@ -169,6 +182,50 @@ payment.
 - Data marketplace & data sharing
 
 A variety of methods exist to interact with Snowflake's platform.
+
+** Finding Your Environment & Connection Details
+
+The following SQL commands can be found by clicking your profile
+picture, then "Connect a tool to Snowflake".
+
+#+begin_src sql
+-- Account & data sharing account identifier
+SELECT CURRENT_ORGANIZATION_NAME() || '-' || CURRENT_ACCOUNT_NAME();
+
+-- Organization name
+SELECT CURRENT_ORGANIZATION_NAME();
+
+-- Account name
+SELECT CURRENT_ACCOUNT_NAME();
+
+-- Account locator
+SELECT CURRENT_ACCOUNT_LOCATOR();
+
+-- User name
+SELECT CURRENT_USER();
+
+-- Role
+SELECT CURRENT_ROLE();
+
+-- Warehouse
+SELECT CURRENT_WAREHOUSE();
+
+-- Database
+SELECT CURRENT_DATABASE();
+
+-- Schema
+SELECT CURRENT_SCHEMA();
+#+end_src
+
+Configuration files to copy and JDBC, ODBC, .Net, and other connection
+drivers can also be found on this page.
+
+** LLM-Accessible Documentation
+
+https://docs.snowflake.com/llms.txt
+
+This page contains a markdown file with LLM-readable snowflake
+documentation.
 
 ** Snowsight
 
@@ -354,6 +411,17 @@ SHOW SCHEMAS LIKE 'TPCH%';
 
 ** Tables
 
+*Types*:
+
+1. Standard/Permanent tables persist until dropped
+2. Transient tables are like permanent tables without time travel
+3. Temporary tables persist until the session ends, and are just for you
+4. [[https://docs.snowflake.com/en/user-guide/dynamic-tables/overview][Dynamic tables]] refresh data on a schedule.
+5. [[https://docs.snowflake.com/en/user-guide/tables-external-intro][External tables]] are data from files hosted outside snowflake
+6. [[https://docs.snowflake.com/en/user-guide/tables-hybrid][Hybrid tables]] are optimized for high throughput
+7. Iceberg[fn:7] snowflake-managed tables have time travel but no fail-safe
+8. Iceberg[fn:7] externally managed tables are stored outside snowflake
+
 A table is associated with one schema. See [[https://docs.snowflake.com/en/sql-reference/commands-table#table][docs]].
 
 - Tables are *permanent by default*, but can also be:
@@ -364,6 +432,7 @@ A table is associated with one schema. See [[https://docs.snowflake.com/en/sql-r
 - Standard accounts can set *time travel* on permanent tables to a day,
   and enterprise accounts can be set up to 90 days, which enables
   un-dropping the table and restoring from a particular timestamp.
+- Standard tables *do not enforce* foreign keys or uniqueness
 
 To see if a table is external, and its properties, you can use SHOW:
 
@@ -372,14 +441,36 @@ SHOW TABLES;
 SHOW TABLES LIKE '<table name>';
 #+end_src
 
+*** Hybrid Tables
+
+- Require a *primary key*
+- Will enforce *foreign key*, *unique*, and *not null*
+- Traditional *row-based* storage
+
+
 ** Views
+
+*Types*:
+
+1. [[https://docs.snowflake.com/user-guide/views-introduction][View]]
+2. [[https://docs.snowflake.com/en/user-guide/views-materialized][Materialized view]] (a materialized view can query only a *single
+   table*, see [[https://docs.snowflake.com/en/user-guide/views-materialized#limitations-on-creating-materialized-views][limitations]])
+3. [[https://docs.snowflake.com/user-guide/dynamic-tables/overview][Dynamic tables]] can source data from multiple base tables and must
+   have a schedule configured
+
+For differences see [[https://docs.snowflake.com/en/user-guide/overview-view-mview-dts][this table of differences]] between views,
+materialized views, and dynamic tables.
+
+Views are generated at run time, like traditional SQL platforms.
 
 - Views don't contribute to storage cost.
 - Can be used to reveal a subset of table data.
-- *Materialized* views are periodically refreshed and stores the results
+- [[https://docs.snowflake.com/en/user-guide/views-materialized][Materialized views]] are periodically refreshed and stores the results
   of the query independently from the source table.
 - *Secure* views are only visible to authorized users.
 - Querying views that rely on dropped tables will throw an error.
+- Views and MVs can be marked *SECURE*.
+- MVs and DTs store data in micro-partitions, consuming storage.
 
 #+begin_src sql
 SHOW VIEWS;
@@ -414,6 +505,45 @@ CRUDlike updates to data, with some special Snowflake nuances.
 - Working with semi-structured data (VARIANT, OBJECT, ARRAY)
 - Window functions, CTEs, analytic SQL
 - Transforming data in Snowflake
+
+** DML & Snowflake SQL - Language Properties & Quirks
+
+- Case-insensitive unless surrounded in double quotes
+  - ~tableone~ and ~TABLEONE~ are the same, but ~"TableOne"~ will refer to a
+    different object
+
+** Transactions
+
+- Snowflake handles transactions with *ACID*[fn:8]
+- By default Snowflake will *AUTOCOMMIT* all queries (implicit transactions)
+- Locks are placed on tables, see [[https://docs.snowflake.com/en/sql-reference/transactions#resource-locking][resource locking]]
+- Nested transactions cannot be undone, see [[https://docs.snowflake.com/en/sql-reference/transactions#scoped-transactions][scoped transactions]]
+
+#+begin_src sql
+BEGIN TRANSACTION;
+  -- statements
+COMMIT; -- or ROLLBACK;
+#+end_src
+
+#+begin_quote
+"UPDATE, DELETE, and MERGE statements hold locks that generally
+prevent them from running in parallel with other UPDATE, DELETE, and
+MERGE statements."[fn:9]
+#+end_quote
+
+** Data Types
+
+See [[https://docs.snowflake.com/en/sql-reference/data-types][Data types]] and [[https://docs.snowflake.com/en/sql-reference/intro-summary-data-types][Summary of Data types]] for info.
+
+[[https://docs.snowflake.com/en/sql-reference/data-types-datetime][Date & Time Data Types]] can be stored in a variety of formats:
+
+- *DATE*: Date with no time elements like ~YYYY-MM-DD~
+- *TIME*: Time with no offset like ~HH:MI:SS.MS~, up to 9 digits of MS
+- *DATETIME*: Alias for TIMESTAMP_NTZ
+- *TIMESTAMP*: Alias for TIMESTAMP_NTZ
+- *TIMESTAMP_LTZ*: TIMESTAMP with local time zone; time zone, if provided, isn’t stored
+- *TIMESTAMP_NTZ*: TIMESTAMP with no time zone; time zone, if provided, isn’t stored
+- *TIMESTAMP_TZ*: TIMESTAMP with time zone (as UTC offset)
 
 
 * Snowflake Scripting SPs & UDFs
@@ -650,7 +780,6 @@ There exists a [[https://docs.snowflake.com/en/developer-guide/stored-procedure/
 enabling branching, looping, error handling, and the dynamic creation
 of SQL statements.
 
-
 * Java SPs & UDFs
 
 - See [[https://docs.snowflake.com/en/developer-guide/stored-procedure/java/procedure-java-overview][Snowflake Docs: Java Stored Procedures]].
@@ -794,15 +923,76 @@ https://uslkjpw-sjl18827.snowflakecomputing.com/
 
 This URL will prompt you to login, then redirect you to *Snowsight*[fn:3].
 
-* Advanced Features
-:PROPERTIES:
-:ID:       5311cf05-ba3c-45ae-8ac5-cdf8f8146d4c
-:END:
+* Replication, Backup, Time-Travel, Cloning
 
 *Topics:*
 
 - Time Travel & Fail-safe
 - Zero-copy cloning
+
+** Time Travel
+
+Once enabled, allows querying and point-in-time restoration of data.
+
+#+begin_src sql
+-- Create a table and set the retention period
+CREATE TABLE BIRD_COUNT (num INTEGER, bird STRING)
+  DATA_RETENTION_TIME_IN_DAYS=90;
+
+-- Query utilizing time travel features
+SELECT * FROM BIRD_COUNT
+  -- A certain number of (seconds) ago?
+  AT(OFFSET => -60*7);
+  -- At a particular time
+  AT(TIMESTAMP => '2026-06-23 13:02:56.387 -0700'::TIMESTAMP);
+  -- Before a particular query
+  BEFORE(STATEMENT => 'UUID (get with LAST_QUERY_ID())');
+
+-- See tables in history
+SHOW TABLES HISTORY;
+#+end_src
+
+Fail-safe storage also keeps these /past the retention period/ for 7
+days for all subscription tiers, but is only accessible to Snowflake
+personnel.
+
+** Zero Copy Cloning
+
+A new read/write object is created without duplication of data.
+
+#+begin_src sql
+-- Create a clone of the table.
+CREATE OR REPLACE TABLE birdwatching
+  CLONE other_db.other_schema.birdwatching;
+
+-- Clone from a particular time
+CREATE OR REPLACE TABLE birdwatching_tuesday
+  CLONE other_db.other_schema.birdwatching
+  AT(TIMESTAMP => '2026-06-23 13:02:56.387 -0700'::TIMESTAMP);
+
+-- You can clone entire databases
+CREATE OR REPLACE DATABASE birdwatching_db_tuesday
+  CLONE other_db AT(TIMESTAMP => '2026-06-23 13:02:56.387 -0700'::TIMESTAMP);
+#+end_src
+
+
+** Backups
+
+1. *Backup*, an immutable point-in-time object
+2. *Backup Policy* with a schedule, expiry, and retention lock
+3. *Backup Set* which groups backups of a particular object
+
+A backup can have a *legal hold* at and above Business Critical tier.
+
+** Replication
+
+Objects can be synchronized between accounts in the same organization
+
+* Advanced Features
+:PROPERTIES:
+:ID:       5311cf05-ba3c-45ae-8ac5-cdf8f8146d4c
+:END:
+
 - Materialized Views
 - Tasks & scheduled pipelines
 - Search optimization service
@@ -811,7 +1001,7 @@ This URL will prompt you to login, then redirect you to *Snowsight*[fn:3].
 ** Tasks
 
 - Schedule the execution of a SQL statement or stored procedure.
--
+
 
 #+begin_src sql
 CREATE TASK SYNC1
@@ -997,6 +1187,18 @@ agents, and much more.
 - Snowflake Documentation
 
 * Footnotes
+
+[fn:9] Snowflake: [[https://docs.snowflake.com/en/sql-reference/transactions#resource-locking][Transactions: Resource Locking]]
+[fn:8] *ACID*: Atomicity, Consistency, Isolation, Durability, see [[https://en.wikipedia.org/wiki/ACID][wikipedia: ACID]]
+
+[fn:7] *Apache Iceberg* data format, see [[https://iceberg.apache.org/]]
+
+[fn:6] *Retention period* can be set on tables during table creation or
+alteration with the ~DATA_RETENTION_TIME_IN_DAYS~ option. Snowflake
+support can also access *fail-safe* storage for seven days past this
+period.
+
+[fn:5] *CBO* is /Cost-Based Optimization/
 
 [fn:4] [[https://www.snowflake.com/en/product/features/snowpark/][Snowpark]] is a multi-language framework for executing remote
 data operations within Snowflake warehouses, close to the data.
