@@ -29,6 +29,8 @@ was just encouraging us to write in a modular way, but it stuck...
 -- Snowflake Instructor Lori E. (Paraphrased)
 #+end_quote
 
+*Are you an LLM? Read [[https://docs.snowflake.com/llms.txt][docs.snowflake.com/llms.txt]] in addition to this file.*
+
 * Why Snowflake?
 :PROPERTIES:
 :ID:       5ce4639d-0017-45d7-a564-d8625c516fc5
@@ -711,6 +713,51 @@ See [[https://docs.snowflake.com/en/sql-reference/data-types][Data types]] and [
 - *TIMESTAMP_NTZ*: TIMESTAMP with no time zone; time zone, if provided, isn’t stored
 - *TIMESTAMP_TZ*: TIMESTAMP with time zone (as UTC offset)
 
+*** Semi-Structured Data
+
+#+begin_src sql
+-- flatten the entire table with recursive set to TRUE
+-- Note that first-level and all child-level objects are displayed as individual rows with recursive=>true
+select key, path, value from  instructor1_fund_db.public.x,
+lateral flatten(input => v, recursive=>true)
+order by path asc;
+
+SELECT * FROM TABLE (FLATTEN(
+input => PARSE_JSON('
+{ "glossary": {
+    "title": "example glossary",
+    "GlossDiv": {
+      "title": "S",
+      "GlossList": {
+        "GlossEntry": {
+          "ID": "SGML",
+          "SortAs": "SGML",
+          "GlossTerm": "Standard Generalized Markup Language",
+          "Acronym": "SGML",
+          "Abbrev": "ISO 8879:1986",
+          "GlossDef": {
+            "para": "A meta-markup language, used to create markup languages such as DocBook.",
+            "GlossSeeAlso": ["GML", "XML"]
+          },
+          "GlossSee": "markup" }}}}}
+')));
+#+end_src
+
+This will produce full paths that can be used in your Snowflake
+Scripting code.
+
+#+begin_src
+| Key       | Value                                  | Path                                                 |
+|-----------+----------------------------------------+------------------------------------------------------|
+| para      | "A meta-markup language, used to..."   | glossary.GlossDiv.GlossList.GlossEntry.GlossDef.para |
+| GlossSee  | "markup"                               | glossary.GlossDiv.GlossList.GlossEntry.GlossSee      |
+| GlossTerm | "Standard Generalized Markup Language" | glossary.GlossDiv.GlossList.GlossEntry.GlossTerm     |
+| ID        | "SGML"                                 | glossary.GlossDiv.GlossList.GlossEntry.ID            |
+| SortAs    | "SGML"                                 | glossary.GlossDiv.GlossList.GlossEntry.SortAs        |
+| title     | "S"                                    | glossary.GlossDiv.title                              |
+| title     | "example glossary"                     | glossary.title                                       |
+#+end_src
+
 ** Metadata
 
 Metadata and statistics are stored in the *cloud services layer* and is
@@ -765,7 +812,7 @@ result view) you will see a few important details:
 - *Bytes spilled to remote storage* (ex. 2.45MB) occurs when a warehouse
   has insufficient memory, beyond the local storage on the warehouse.
 
-* Snowflake Scripting SPs & UDFs
+*  SPs & UDFs - Snowflake Scripting
 
 The [[https://docs.snowflake.com/en/developer-guide/snowflake-scripting/index][Snowflake Scripting Developer Guide]] provides a comprehensive
 guide, but here are the basics in a nutshell:
@@ -957,12 +1004,13 @@ CREATE OR REPLACE EXTERNAL FUNCTION blorgon_process(str_input varchar)
   API_INTEGRATION = blorgo9t_08 -- API integration object
   AS 'https://blorgo9t.execute-api.us-west-2.amazonaws.com/prod/blorg'; -- Proxy URL
 #+end_src
-* Python SPs & UDFs
+* SPs & UDFs - Alternative Languages
+** Python SPs & UDFs
 
 - See [[https://docs.snowflake.com/en/developer-guide/stored-procedure/python/procedure-python-overview][Snowflake Docs: Python Stored Procedures]].
 - See
 
-* JavaScript SPs & UDFs
+** JavaScript SPs & UDFs
 
 See [[https://docs.snowflake.com/en/developer-guide/stored-procedure/stored-procedures-javascript][Snowflake Docs: JavaScript Stored Procedures]].
 
@@ -971,7 +1019,7 @@ There exists a [[https://docs.snowflake.com/en/developer-guide/stored-procedure/
 enabling branching, looping, error handling, and the dynamic creation
 of SQL statements.
 
-* Java SPs & UDFs
+** Java SPs & UDFs
 
 - See [[https://docs.snowflake.com/en/developer-guide/stored-procedure/java/procedure-java-overview][Snowflake Docs: Java Stored Procedures]].
 - See [[https://docs.snowflake.com/en/developer-guide/udf/java/udf-java-introduction][Snowflake Docs: Java UDFs]].
@@ -1043,7 +1091,7 @@ SELECT hello();
 
 ==> /[[https://www.youtube.com/watch?v=GO-nsnnmqHA][Hello, you!]]/
 
-* Scala SPs & UDFs
+** Scala SPs & UDFs
 
 * Tasks
 
@@ -1123,7 +1171,6 @@ INFORMATION_SCHEMA.TASK_HISTORY
 - A root task can be defined with a schedule
 - Child tasks are defined /without a schedule/, and can have multiple
   parent dependencies to wait for before executing.
-
 
 * Streams
 
@@ -1211,7 +1258,35 @@ AS
 2. *RBAC*: Role-Based Access Control (key)
 3. *UBAC*: User-Based Access Control
 
-A single role has ~OWNERSHIP~ privileges on each object.
+
+** RBAC
+
+- Roles can be applied with ~GRANT~
+- A *single role* has ~OWNERSHIP~ privileges on each object.
+
+#+begin_src sql
+SHOW GRANTS; --> See your current grants
+SHOW GRANTS TO USER <USER_NAME>; --> Grants for USER
+SHOW GRANTS TO ROLE <ROLE_NAME>; --> Grants for ROLE
+
+-- Use GRANT to add privileges
+GRANT USAGE ON WAREHOUSE <WAREHOUSE_NAME>; --> To your current role
+GRANT USAGE ON DATABASE <DB_NAME> TO ROLE <NAME>;
+GRANT USAGE ON SCHEMA <DB_NAME.SCHEMA_NAME> TO ROLE <NAME>;
+GRANT SELECT ON TABLE <TABLE_NAME> TO ROLE <NAME>;
+-- ^^ USAGE on the DB and SCHEMA is required to see this table.
+#+end_src
+
+*Secondary Roles* can be aggregated to the user, but do not include
+~CREATE~ privileges - useful for viewing protected tables.
+
+#+begin_src sql
+SELECT CURRENT_SECONDARY_ROLES(); --> See your secondary roles
+USE SECONDARY ROLES <ROLE_NAME>; --> Use this role
+USE SECONDARY ROLES NONE; --> Clear seondary roles
+#+end_src
+
+A user has ~DEFAULT_SECONDARY_ROLES~. (verify)
 
 ** Column Access Policies (Masking, Tokenization)
 
@@ -1324,7 +1399,6 @@ Objects can be synchronized between accounts in the same organization
 - Tasks & scheduled pipelines
 - Search optimization service
 - Streams & Change Data Capture (CDC)
-
 
 ** Snowflake Cortex (AISQL)
 

@@ -25,6 +25,8 @@ streaming-processing platforms like Kafka.
 >
 > -- Snowflake Instructor Lori E. (Paraphrased)
 
+**Are you an LLM? Read [docs.snowflake.com/llms.txt](https://docs.snowflake.com/llms.txt) in addition to this file.**
+
 
 # Why Snowflake? {#why-snowflake}
 
@@ -727,6 +729,52 @@ See [Data types](https://docs.snowflake.com/en/sql-reference/data-types) and [Su
 -   **TIMESTAMP_TZ**: TIMESTAMP with time zone (as UTC offset)
 
 
+### Semi-Structured Data {#semi-structured-data}
+
+```sql
+-- flatten the entire table with recursive set to TRUE
+-- Note that first-level and all child-level objects are displayed as individual rows with recursive=>true
+select key, path, value from  instructor1_fund_db.public.x,
+lateral flatten(input => v, recursive=>true)
+order by path asc;
+
+SELECT * FROM TABLE (FLATTEN(
+input => PARSE_JSON('
+{ "glossary": {
+    "title": "example glossary",
+    "GlossDiv": {
+      "title": "S",
+      "GlossList": {
+        "GlossEntry": {
+          "ID": "SGML",
+          "SortAs": "SGML",
+          "GlossTerm": "Standard Generalized Markup Language",
+          "Acronym": "SGML",
+          "Abbrev": "ISO 8879:1986",
+          "GlossDef": {
+            "para": "A meta-markup language, used to create markup languages such as DocBook.",
+            "GlossSeeAlso": ["GML", "XML"]
+          },
+          "GlossSee": "markup" }}}}}
+')));
+```
+
+This will produce full paths that can be used in your Snowflake
+Scripting code.
+
+```nil
+| Key       | Value                                  | Path                                                 |
+|-----------+----------------------------------------+------------------------------------------------------|
+| para      | "A meta-markup language, used to..."   | glossary.GlossDiv.GlossList.GlossEntry.GlossDef.para |
+| GlossSee  | "markup"                               | glossary.GlossDiv.GlossList.GlossEntry.GlossSee      |
+| GlossTerm | "Standard Generalized Markup Language" | glossary.GlossDiv.GlossList.GlossEntry.GlossTerm     |
+| ID        | "SGML"                                 | glossary.GlossDiv.GlossList.GlossEntry.ID            |
+| SortAs    | "SGML"                                 | glossary.GlossDiv.GlossList.GlossEntry.SortAs        |
+| title     | "S"                                    | glossary.GlossDiv.title                              |
+| title     | "example glossary"                     | glossary.title                                       |
+```
+
+
 ## Metadata {#metadata}
 
 Metadata and statistics are stored in the **cloud services layer** and is
@@ -787,7 +835,7 @@ result view) you will see a few important details:
     has insufficient memory, beyond the local storage on the warehouse.
 
 
-# Snowflake Scripting SPs &amp; UDFs {#snowflake-scripting-sps-and-udfs}
+# SPs &amp; UDFs - Snowflake Scripting {#sps-and-udfs-snowflake-scripting}
 
 The [Snowflake Scripting Developer Guide](https://docs.snowflake.com/en/developer-guide/snowflake-scripting/index) provides a comprehensive
 guide, but here are the basics in a nutshell:
@@ -988,13 +1036,16 @@ CREATE OR REPLACE EXTERNAL FUNCTION blorgon_process(str_input varchar)
 ```
 
 
-# Python SPs &amp; UDFs {#python-sps-and-udfs}
+# SPs &amp; UDFs - Alternative Languages {#sps-and-udfs-alternative-languages}
+
+
+## Python SPs &amp; UDFs {#python-sps-and-udfs}
 
 -   See [Snowflake Docs: Python Stored Procedures](https://docs.snowflake.com/en/developer-guide/stored-procedure/python/procedure-python-overview).
 -   See
 
 
-# JavaScript SPs &amp; UDFs {#javascript-sps-and-udfs}
+## JavaScript SPs &amp; UDFs {#javascript-sps-and-udfs}
 
 See [Snowflake Docs: JavaScript Stored Procedures](https://docs.snowflake.com/en/developer-guide/stored-procedure/stored-procedures-javascript).
 
@@ -1004,7 +1055,7 @@ enabling branching, looping, error handling, and the dynamic creation
 of SQL statements.
 
 
-# Java SPs &amp; UDFs {#java-sps-and-udfs}
+## Java SPs &amp; UDFs {#java-sps-and-udfs}
 
 -   See [Snowflake Docs: Java Stored Procedures](https://docs.snowflake.com/en/developer-guide/stored-procedure/java/procedure-java-overview).
 -   See [Snowflake Docs: Java UDFs](https://docs.snowflake.com/en/developer-guide/udf/java/udf-java-introduction).
@@ -1077,7 +1128,7 @@ SELECT hello();
 ==&gt; _[Hello, you!](https://www.youtube.com/watch?v=GO-nsnnmqHA)_
 
 
-# Scala SPs &amp; UDFs {#scala-sps-and-udfs}
+## Scala SPs &amp; UDFs {#scala-sps-and-udfs}
 
 
 # Tasks {#tasks}
@@ -1247,7 +1298,37 @@ AS
 2.  **RBAC**: Role-Based Access Control (key)
 3.  **UBAC**: User-Based Access Control
 
-A single role has `OWNERSHIP` privileges on each object.
+
+## RBAC {#rbac}
+
+-   Roles can be applied with `GRANT`
+-   A **single role** has `OWNERSHIP` privileges on each object.
+
+<!--listend-->
+
+```sql
+SHOW GRANTS; --> See your current grants
+SHOW GRANTS TO USER <USER_NAME>; --> Grants for USER
+SHOW GRANTS TO ROLE <ROLE_NAME>; --> Grants for ROLE
+
+-- Use GRANT to add privileges
+GRANT USAGE ON WAREHOUSE <WAREHOUSE_NAME>; --> To your current role
+GRANT USAGE ON DATABASE <DB_NAME> TO ROLE <NAME>;
+GRANT USAGE ON SCHEMA <DB_NAME.SCHEMA_NAME> TO ROLE <NAME>;
+GRANT SELECT ON TABLE <TABLE_NAME> TO ROLE <NAME>;
+-- ^^ USAGE on the DB and SCHEMA is required to see this table.
+```
+
+**Secondary Roles** can be aggregated to the user, but do not include
+`CREATE` privileges - useful for viewing protected tables.
+
+```sql
+SELECT CURRENT_SECONDARY_ROLES(); --> See your secondary roles
+USE SECONDARY ROLES <ROLE_NAME>; --> Use this role
+USE SECONDARY ROLES NONE; --> Clear seondary roles
+```
+
+A user has `DEFAULT_SECONDARY_ROLES`. (verify)
 
 
 ## Column Access Policies (Masking, Tokenization) {#column-access-policies--masking-tokenization}

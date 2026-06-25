@@ -32,14 +32,16 @@ lobotomized drones, and develop your critical thinking!/
 
 Most of the domain-specific knowledge in this space is made from the
 *softest, fluffiest, most irritating fairy dust you can imagine*.
-Computer Engineers and programmers in general are used to highly
-structured layers of systems with predictable outputs for given
-inputs. Giving one million different whimsical names to /concatenated
-text inputs and text outputs/ is something that the devil himself
+Structured thinkers (like Computer Engineers and programmers in
+general,) are used to highly structured layers of systems with highly
+predictable outputs for given inputs. This reliability matters a lot
+when systems, from the code to the silicon, are tens of abstractive
+layers deep. Giving one million different whimsical names to
+/concatenated text inputs and text outputs/ is something that /Satan/
 certainly dreamed up just to violate our pragmatic virtues.
 
-*Use _discernment_ and cut to the meat of what is underneath the
-marketing scum.*
+*Use _discernment_ - cut to the meat of what is underneath the
+marketing crap.*
 
 /Ironically, it is this mindset that enables my success as the *GenAI
 Enablement Leader* in my [IT Consulting] practice./ Having a grounded
@@ -67,6 +69,11 @@ The questions are heavily weighted toward practical implementation.
 [[https://anthropic.skilljar.com/claude-certified-architect-foundations-access-request][anthropic.skilljar.com/claude-certified-architect-foundations-access-request]]
 
 /IBMer? Check the [[https://yourlearning.ibm.com/activity/PLAN-28EA8DF4C387][IBM learning plan]] for this certificate./
+
+** Claude Tips
+
+1. Keep ~CLAUDE.md~ under 500 lines
+2. Use ~YOLO~ mode for experimentation
 
 ** The Anthropic AI Fluency Framework
 
