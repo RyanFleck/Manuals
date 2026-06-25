@@ -11,11 +11,30 @@
 #+hugo_level_offset: 0
 #+STARTUP: showall
 
-* The Problem with LLM Programmers
+* The Problem with LLM Programming
 
-* The Anthropic AI Fluency Framework
+*Language models have no clue what they are doing.* They don't think
+like you.
 
-#+begin_quote
+LLM generated code is riddled with subtle dangers that can only be
+spotted by experienced programmers with domain knowledge. The output
+looks great to both the untrained and trained eye, and the dangers
+only become apparent when reading it line by line and seeing the
+amalgamated assumptions of thousands of different codebases.
+
+If you are a student, *do not use LLMs* (with the exception of searching
+through documentation,) or your critical thinking skills will be
+heavily eroded.
+
+
+* Anthropic
+
+** The Anthropic AI Fluency Framework
+
+This section is from an Anthropic training session - /Copyright 2025
+Rick Dakan, Joseph Feller, and Anthropic. Released under the CC
+BY-NC-SA 4.0 license./
+
 Four interconnected competencies neccessary to ensure our interactions
 with AI are effective, efficient, ethical, and safe.
 
@@ -26,6 +45,3 @@ with AI are effective, efficient, ethical, and safe.
 3. *Discernment*: Accurately assessing the usefulness of AI outputs and behaviors
 4. *Diligence*: Taking responsibility for what with do with AI and how
    we do it
-
--- /Copyright 2025 Rick Dakan, Joseph Feller, and Anthropic. Released under the CC BY-NC-SA 4.0 license./
-#+end_quote
