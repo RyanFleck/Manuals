@@ -627,6 +627,8 @@ COPY INTO <table_name> FROM { stage }
     controlling file ingestion. See [file format type options](https://docs.snowflake.com/en/sql-reference/sql/create-file-format#format-type-options-formattypeoptions).
 -   See full [COPY INTO syntax](https://docs.snowflake.com/en/sql-reference/sql/copy-into-table#syntax) and [FILE FORMAT syntax](https://docs.snowflake.com/en/sql-reference/sql/create-file-format) for details.
 
+You can also `COPY INTO` from a table to a file, **unloading** the data.
+
 
 ## Monitoring Copy Commands {#monitoring-copy-commands}
 
@@ -642,14 +644,28 @@ SELECT TABLE_NAME, FILE_NAME, LAST_LOAD_TIME, STATUS
 
 ## Snowpipe {#snowpipe}
 
+To automatically run `COPY INTO` on a stage.
+
 -   Triggers:
-    -   REST API
-    -   Auto Ingest (internal stage)
+    -   REST API (notify the pipe to pull from external stage)
+    -   Auto Ingest (internal stage detection)
+
+<!--listend-->
+
+```sql
+CREATE PIPE THE_PIPE AS
+  COPY INTO INGESTED_TABLE
+  FROM @THE_STAGE
+  AUTO_INGEST = TRUE;
+```
 
 
 ## Snowpipe Streaming {#snowpipe-streaming}
 
--   Loads data row by row using some sort of SDK.
+To load data **row by row** through API calls from an external system.
+
+-   Loads data row by row using some sort of SDK
+-   Useful for streaming data into Snowflake for analysis
 
 
 # Querying &amp; Data Manipulation Language {#querying-and-data-manipulation-language}
@@ -1064,6 +1080,125 @@ SELECT hello();
 # Scala SPs &amp; UDFs {#scala-sps-and-udfs}
 
 
+# Tasks {#tasks}
+
+**Chains of tasks in directed graphs** are an excellent way to handle
+complex processes in Snowflake environments, with some caveats.
+
+-   See [Snowflake tasks intro](https://docs.snowflake.com/en/user-guide/tasks-intro) official docs.
+-   Check **Transformation &gt; Tasks** dashboard for tons of useful statistics.
+-   Tasks are great for generating reports, loading data, and updating tables.
+-   Can schedule execution of a stored procedure, or snowflake scripting
+    call.
+-   Can run on a **schedule** or as a **follow-up task**.
+-   A **1000 task limit** exists for task graphs.
+-   Tasks can use a warehouse or serverless compute.
+    -   **Serverless** if the task runs in under 30s (will cost less even with
+        1.5x charge multiplier for serverless compute.)
+-   Use [Crontab guru](https://crontab.guru/#0,15,30,45_*_*_*_*) to build and validate your **cron** expressions.
+
+<!--listend-->
+
+```sql
+CREATE TASK SYNC1
+  WAREHOUSE = WH1
+  SCHEDULE = '30 MINUTE'
+    --> OR a crontab expression like this:
+    SCHEDULE = 'USING CRON 0,15,30,45 * * * * America/Denver'
+    --> OR as a child task
+    AFTER PRE_SYNC1, PRE_SYNC2
+  -- For ROOT task:
+  -- A finalizer task can be passed which will always be run at the end of the DAG.
+  FINALIZE = WRAP_UP_TASK
+  -- Allows multiple instances of the DAG at once
+  ALLOW_OVERLAPPING_EXECUTION = FALSE | TRUE
+  -- Max runtime for the task
+  USER_TASK_TIMEOUT_MS = 3600000 -- one hour
+
+AS
+  COPY INTO BIG_TABLE_1
+  FROM $SOME_STAGE;
+
+-- Show task status (started/stopped)
+SHOW TASKS;
+DESCRIBE TASK <NAME>;
+
+-- Start/Stop: Requires 'execute task' permission:
+EXECUTE TASK SYNC1; -- Run task once
+ALTER TASK SYNC1 RESUME; -- Start Task Schedule
+ALTER TASK SYNC1 SUSPEND; -- Stop Task Schedule
+SELECT SYSTEM$TASK_DEPENDENTS_ENABLE('<ROOT TASK NAME>'); -- Resume whole task graph
+
+-- View Task Tree & Dependants
+SELECT * FROM TABLE(INFORMATION_SCHEMA.TASK_DEPENDENTS(task_name => '<NAME>'));
+SELECT * FROM TABLE(INFORMATION_SCHEMA.TASK_DEPENDENTS(task_name => '<NAME>', recursive => FALSE));
+```
+
+
+## Task History {#task-history}
+
+Use the **Transformation &gt; Tasks** dashboard to view runs.
+
+```sql
+-- Check task history (all schemas)
+SELECT * FROM TABLE(INFORMATION_SCHEMA.TASK_HISTORY(
+    TASK_NAME => 'SYNC1', --> your task name
+    SCHEDULED_TIME_RANGE_START => DATEADD('DAY', -6, CURRENT_TIMESTAMP())
+))
+-- (filter by database/schema here)
+ORDER BY SCHEDULED_TIME DESC LIMIT 10;
+
+-- Other useful tables:
+SNOWFLAKE.ACCOUNT_USAGE.SERVERLESS_TASK_HISTORY
+SNOWFLAKE.ACCOUNT_USAGE.TASK_HISTORY
+SNOWFLAKE.ACCOUNT_USAGE.TASK_VERSIONS
+INFORMATION_SCHEMA.SERVERLESS_TASK_HISTORY
+INFORMATION_SCHEMA.TASK_HISTORY
+```
+
+
+## Task Graphs (DAGs) {#task-graphs--dags}
+
+-   A root task can be defined with a schedule
+-   Child tasks are defined _without a schedule_, and can have multiple
+    parent dependencies to wait for before executing.
+
+
+# Streams {#streams}
+
+**Identify and act on changed records in a table.**
+
+-   Created on a table or view
+-   Tracks in Standard (insert/update/delete) or append-only (insert) modes.
+-   Objects created to view and track DML changes to a source table.
+-   A stream is queryable, and is created on top of a table.
+
+<!--listend-->
+
+```sql
+CREATE STREAM USER_STREAM ON TABLE USERS;
+SELECT * FROM USER_STREAM;
+```
+
+These have three additional columns:
+
+-   The action (INSERT, UPDATE, DELETE)
+-   Whether or not it was a write/update operation
+-   The unique Snowflake row ID
+
+Tasks can be configured to process the stream data:
+
+```sql
+CREATE TASK NEWUSERS1
+  WAREHOUSE = WH1
+  SCHEDULE = '5 MINUTE' -- can be a CRON expression
+WHEN
+  SYSTEM$STREAM_HAS_DATA('USER_STREAM')
+AS
+  INSERT INTO SEND_EMAIL(ID, NAME) SELECT ID, NAME FROM USER_STREAM;
+```
+
+
 # Warehouses &amp; Compute {#warehouses-and-compute}
 
 **Topics:**
@@ -1203,67 +1338,6 @@ Objects can be synchronized between accounts in the same organization
 -   Tasks &amp; scheduled pipelines
 -   Search optimization service
 -   Streams &amp; Change Data Capture (CDC)
-
-
-## Tasks {#tasks}
-
--   Schedule the execution of a SQL statement or stored procedure.
-
-<!--listend-->
-
-```sql
-CREATE TASK SYNC1
-  WAREHOUSE = WH1
-  SCHEDULE = '30 MINUTE' -- can be a CRON expression
-AS
-  COPY INTO BIG_TABLE_1
-  FROM $SOME_STAGE;
-
--- Start Task Schedule:
--- Requires 'execute task' permission
-ALTER TASK SYNC1 RESUME;
-
--- Stop Task Schedule:
-ALTER TASK SYNC1 SUSPEND;
-```
-
-
-### Task Graphs (DAGs) {#task-graphs--dags}
-
--   A root task can be defined with a schedule
--   Child tasks are defined _without a schedule_, and can have multiple
-    parent dependencies to wait for before executing.
-
-
-## Streams {#streams}
-
--   Objects created to view and track DML changes to a source table.
--   A stream is queryable, and is created on top of a table.
-
-<!--listend-->
-
-```sql
-CREATE STREAM USER_STREAM ON TABLE USERS;
-SELECT * FROM USER_STREAM;
-```
-
-These have three additional columns:
-
--   The action (INSERT, UPDATE, DELETE)
--   Whether or not it was a write/update operation
--   The unique Snowflake row ID
-
-Tasks can be configured to process the stream data:
-
-```sql
-CREATE TASK NEWUSERS1
-  WAREHOUSE = WH1
-  SCHEDULE = '5 MINUTE' -- can be a CRON expression
-WHEN
-  SYSTEM$STREAM_HAS_DATA('USER_STREAM')
-AS
-  INSERT INTO SEND_EMAIL(ID, NAME) SELECT ID, NAME FROM USER_STREAM;
-```
 
 
 ## Snowflake Cortex (AISQL) {#snowflake-cortex--aisql}

@@ -22,10 +22,49 @@ amalgamated assumptions of thousands of different codebases.
 
 If you are a student, **do not use LLMs** (with the exception of searching
 through documentation,) or your critical thinking skills will be
-heavily eroded.
+heavily eroded. **LLMs do program better than those who only skim docs
+and copy-paste**, who fail to attain a deep understanding of the runtime
+or machine beneath a programming language, and ultimately those who
+fail to become competent computer programmers. _Don't end up like these
+lobotomized drones, and develop your critical thinking!_
+
+Most of the domain-specific knowledge in this space is made from the
+**softest, fluffiest, most irritating fairy dust you can imagine**.
+Computer Engineers and programmers in general are used to highly
+structured layers of systems with predictable outputs for given
+inputs. Giving one million different whimsical names to _concatenated
+text inputs and text outputs_ is something that the devil himself
+certainly dreamed up just to violate our pragmatic virtues.
+
+**Use <span class="underline">discernment</span> and cut to the meat of what is underneath the
+marketing scum.**
+
+_Ironically, it is this mindset that enables my success as the **GenAI
+Enablement Leader** in my [IT Consulting] practice._ Having a grounded
+understanding of the real capabilities of LLMs is essential for
+implementing and utilizing them for clients - whether the use case is
+graph-rag agents, enabling developers, _etc._
+
+Stay grounded _(and your LLM as well!)_
 
 
-# Anthropic {#anthropic}
+# Claude Certified Architect (CCA-F) {#claude-certified-architect--cca-f}
+
+The **Anthropic CCA (Claude Certified Architect) Certification** validates
+Claude knowledge with a 120-minute exam containing 60 multiple-choice
+questions[^fn:1]:
+
+1.  Agentic Architecture (27%)
+2.  Tool Design &amp; MCP Integration (18%)
+3.  Claude Code (20%)
+4.  Prompt Engineering (20%)
+5.  Context Management &amp; Reliability (15%)
+
+The questions are heavily weighted toward practical implementation.
+
+[anthropic.skilljar.com/claude-certified-architect-foundations-access-request](https://anthropic.skilljar.com/claude-certified-architect-foundations-access-request)
+
+_IBMer? Check the [IBM learning plan](https://yourlearning.ibm.com/activity/PLAN-28EA8DF4C387) for this certificate._
 
 
 ## The Anthropic AI Fluency Framework {#the-anthropic-ai-fluency-framework}
@@ -44,3 +83,5 @@ with AI are effective, efficient, ethical, and safe.
 3.  **Discernment**: Accurately assessing the usefulness of AI outputs and behaviors
 4.  **Diligence**: Taking responsibility for what with do with AI and how
     we do it
+
+[^fn:1]: Nina Duran: Become a Claude Certified Architect, [LinkedIn](https://www.linkedin.com/posts/ninadurann_become-a-claude-certified-architect-heres-share-7439014877488152577-nMh-/)
