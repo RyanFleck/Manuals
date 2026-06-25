@@ -191,14 +191,14 @@ picture, then "Connect a tool to Snowflake".
 ```sql
 -- Account Identifier (for data sharing)
 SELECT CURRENT_ORGANIZATION_NAME() || '-' || CURRENT_ACCOUNT_NAME();
-SELECT CURRENT_ORGANIZATION_NAME(); -- Organization name
-SELECT CURRENT_ACCOUNT_NAME(); -- Account name
-SELECT CURRENT_ACCOUNT_LOCATOR(); -- Account locator
-SELECT CURRENT_WAREHOUSE(); -- Warehouse
-SELECT CURRENT_DATABASE(); -- Database
-SELECT CURRENT_SCHEMA(); -- Schema
-SELECT CURRENT_ROLE(); -- Role
-SELECT CURRENT_USER(); -- User name
+SELECT CURRENT_ORGANIZATION_NAME(); --> Organization name
+SELECT CURRENT_ACCOUNT_NAME(); --> Account name
+SELECT CURRENT_ACCOUNT_LOCATOR(); --> Account locator
+SELECT CURRENT_WAREHOUSE(); --> Warehouse
+SELECT CURRENT_DATABASE(); --> Database
+SELECT CURRENT_SCHEMA(); --> Schema
+SELECT CURRENT_ROLE(); --> Role
+SELECT CURRENT_USER(); --> User name
 ```
 
 Configuration files to copy and JDBC, ODBC, .Net, and other connection
