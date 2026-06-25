@@ -21,6 +21,14 @@ streaming-processing platforms like Kafka.
 
 #+hugo: more
 
+#+begin_quote
+I had a computer science prof who once said *"you only have a certain
+number of keystrokes to use in your lifetime, so use them wisely"* - he
+was just encouraging us to write in a modular way, but it stuck...
+
+-- Snowflake Instructor Lori E. (Paraphrased)
+#+end_quote
+
 * Why Snowflake?
 :PROPERTIES:
 :ID:       5ce4639d-0017-45d7-a564-d8625c516fc5
@@ -514,7 +522,26 @@ SHOW VIEWS;
 - Snowpipe Streaming
 - Loading semi-structured data and schema inference
 
+Data loading is a *single threaded* operation. It's a waste of resources
+to use more than an *XS* warehouse (which has eight threads) for data
+loading, unless you require higher parallelism.
+
+| Warehouse Size   | Parallel File Loads |
+|------------------+---------------------|
+| XS / Extra Small |                   8 |
+| S / Small        |                  16 |
+| M / Medium       |                  32 |
+| L / Large        |                  64 |
+| XL / Extra Large |                 128 |
+
+*100MB-250MB* is the ideal compressed file size for data loading, but it
+is much better to split a large file into many small files to improve
+load performance than to send gigantic files.
+
 ** High-Level Data Loading Process
+:PROPERTIES:
+:ID:       a2c34d95-7e2a-4b77-a148-96ec6e99d561
+:END:
 
 1. Output data from systems of record as CSV, JSON, Avro, etc
 2. Move files to cloud storage (~PUT~ to internal or external stage)
@@ -523,7 +550,8 @@ SHOW VIEWS;
 ** Stages
 
 Stages hold binary files, which can be *queried* and *copied into* tables,
-with the limitation of no joins, filters, aggregations.
+with the limitation of no joins, filters, aggregations. The files can
+be watched and continuously loaded with a *snowpipe*.
 
 *Reference with*:
 
@@ -531,6 +559,11 @@ with the limitation of no joins, filters, aggregations.
 - ~@%~ for *table stages*, which are automatically created for permanent,
   transient, and temporary tables
 - ~@~~ for *user stages*, which are available for each user
+
+*Inspect with*:
+
+- ~DESCRIBE STAGE <name>~ to show info
+- ~LIST @<name>/<path>~ to find files
 
 ** File Formats & COPY INTO
 :PROPERTIES:
@@ -585,7 +618,26 @@ COPY INTO <table_name> FROM { stage }
   controlling file ingestion. See [[https://docs.snowflake.com/en/sql-reference/sql/create-file-format#format-type-options-formattypeoptions][file format type options]].
 - See full [[https://docs.snowflake.com/en/sql-reference/sql/copy-into-table#syntax][COPY INTO syntax]] and [[https://docs.snowflake.com/en/sql-reference/sql/create-file-format][FILE FORMAT syntax]] for details.
 
+** Monitoring Copy Commands
 
+~INFORMATION_SCHEMA.LOAD_HISTORY~ contains the status of ~COPY INTO~
+operations and can be queried like so:
+
+#+begin_src sql
+SELECT TABLE_NAME, FILE_NAME, LAST_LOAD_TIME, STATUS
+  FROM INFORMATION_SCHEMA.LOAD_HISTORY
+  WHERE SCHEMA_NAME = CURRENT_SCHEMA();
+#+end_src
+
+** Snowpipe
+
+- Triggers:
+  + REST API
+  + Auto Ingest (internal stage)
+
+** Snowpipe Streaming
+
+- Loads data row by row using some sort of SDK.
 
 * Querying & Data Manipulation Language
 :PROPERTIES:
