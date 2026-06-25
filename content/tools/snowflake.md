@@ -1178,6 +1178,12 @@ INFORMATION_SCHEMA.TASK_HISTORY
 ```sql
 CREATE STREAM USER_STREAM ON TABLE USERS;
 SELECT * FROM USER_STREAM;
+
+-- ==> Consume a stream!
+INSERT INTO HANDLED_TABLE
+  SELECT NAME, EMAIL FROM USER_STREAM
+  WHERE METADATA$ACTION = 'INSERT'
+    AND METADATA$ISUPDATE = 'FALSE';
 ```
 
 These have three additional columns:
@@ -1233,6 +1239,28 @@ AS
 -   Object-level permissions
 -   Row access policies, masking policies
 -   Network / IP policies, secure views, encryption
+
+
+## Access Control Framework {#access-control-framework}
+
+1.  **DAC**: Discretionary Access Control
+2.  **RBAC**: Role-Based Access Control (key)
+3.  **UBAC**: User-Based Access Control
+
+A single role has `OWNERSHIP` privileges on each object.
+
+
+## Column Access Policies (Masking, Tokenization) {#column-access-policies--masking-tokenization}
+
+[docs.snowflake.com/en/user-guide/security-column-intro](https://docs.snowflake.com/en/user-guide/security-column-intro)
+
+
+## Row Access Policies {#row-access-policies}
+
+[docs.snowflake.com/en/user-guide/security-column-intro](https://docs.snowflake.com/en/user-guide/security-column-intro)
+
+
+## Global Organization Administrator {#global-organization-administrator}
 
 Each **account** is created on specific **provider**, in a particular **region**,
 as a single Snowflake **edition**. An **organization** can manage one or more

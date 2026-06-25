@@ -45,7 +45,8 @@ understanding of the real capabilities of LLMs is essential for
 implementing and utilizing them for clients - whether the use case is
 graph-rag agents, enabling developers, _etc._
 
-Stay grounded _(and your LLM as well!)_
+**Stay grounded** _(and your LLM as well,)_ and may your prompts have
+clarity, context, and good structure.
 
 
 # Claude Certified Architect (CCA-F) {#claude-certified-architect--cca-f}
