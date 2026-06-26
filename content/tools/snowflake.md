@@ -605,6 +605,8 @@ be watched and continuously loaded with a **snowpipe**.
 -   `DESCRIBE STAGE <name>` to show info
 -   `LIST @<name>/<path>` to find files
 
+Download with [scoped and pre-signed URLs](https://docs.snowflake.com/en/user-guide/unstructured-intro#types-of-urls-available-to-access-files).
+
 
 ## File Formats &amp; COPY INTO {#file-formats-and-copy-into}
 
@@ -1546,6 +1548,15 @@ SELECT AI_COMPLETE('What is the airspeed velocity of an unladen swallow?');
 
 ## Snowflake ML &amp; Document AI {#snowflake-ml-and-document-ai}
 
+-   Available functions: [docs.snowflake.com/en/user-guide/snowflake-cortex/aisql](https://docs.snowflake.com/en/user-guide/snowflake-cortex/aisql)
+-   [docs.snowflake.com/en/guides-overview-ml-functions](https://docs.snowflake.com/en/guides-overview-ml-functions)
+-   [snowflake.com/blog/ml-powered-functions-improve-speed-quality](https://www.snowflake.com/blog/ml-powered-functions-improve-speed-quality/)
+
+**Cost considerations**:
+
+-   [docs.snowflake.com/user-guide/snowflake-cortex/aisql#cost-considerations](https://docs.snowflake.com/user-guide/snowflake-cortex/aisql#cost-considerations)
+-   [docs.snowflake.com/user-guide/snowflake-cortex/ai-images#cost-considerations](https://docs.snowflake.com/user-guide/snowflake-cortex/ai-images#cost-considerations)
+
 Snowflake has some proprietary built-in classical ML models -
 pipelines using those models that can extract data from a stage full
 of PDFs. Snowflake provides a fine-tuning interface to help improve
@@ -1614,13 +1625,21 @@ END IF;
 -   You can't pass control characters in a string or variant as a function argument
 
 
+# Keeping Up To Date {#keeping-up-to-date}
+
+-   Preview features: [docs.snowflake.com/en/release-notes/preview-features](https://docs.snowflake.com/en/release-notes/preview-features)
+
+
 # COF-C02 - Snowpro Core Certification {#cof-c02-snowpro-core-certification}
+
+**Study guide**: [learn.snowflake.com/en/certifications/snowpro-core-c03](https://learn.snowflake.com/en/certifications/snowpro-core-c03/?pdf_name=SnowProCoreStudyGuideC03)
 
 You can download the study guide for this exam on the [Snowflake
 COF-C02 Exam Guide](https://learn.snowflake.com/en/certifications/snowpro-core) page. This guide is updated frequently, so go and
 request your own copy if possible. It is a 100-question, 115-minute
-test. You will be expected to have knowledge of (taken from the
-guide):
+test. Snowpro Core is a prerequisite for **advanced certifications**.
+
+**You will be expected to have knowledge of**:
 
 1.  Data loading and transformation in Snowflake
 2.  Virtual Warehouses - best practices, performance, concurrency
