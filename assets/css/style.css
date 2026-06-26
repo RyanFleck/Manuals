@@ -282,6 +282,11 @@ figcaption {
   text-decoration: underline;
 }
 
+.underline {
+    text-decoration: underline;
+    text-decoration-color: #dbce8a;
+}
+
 .footnotes {
   padding-top: 3rem;
 }

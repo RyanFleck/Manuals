@@ -462,7 +462,7 @@ SHOW SCHEMAS LIKE 'TPCH%';
 3.  Temporary tables persist until the session ends, and are just for you
 4.  [Dynamic tables](https://docs.snowflake.com/en/user-guide/dynamic-tables/overview) refresh data on a schedule.
 5.  [External tables](https://docs.snowflake.com/en/user-guide/tables-external-intro) are data from files hosted outside snowflake
-6.  [Hybrid tables](https://docs.snowflake.com/en/user-guide/tables-hybrid) are optimized for high throughput
+6.  [Hybrid tables](https://docs.snowflake.com/en/user-guide/tables-hybrid) are **row-based** and optimized for high throughput
 7.  Iceberg[^fn:6] snowflake-managed tables have time travel but no fail-safe
 8.  Iceberg[^fn:6] externally managed tables are stored outside snowflake
 
@@ -488,9 +488,36 @@ SHOW TABLES LIKE '<table name>';
 
 ### Hybrid Tables {#hybrid-tables}
 
+For low-latency, high-throughput data that changes frequently.
+
 -   Require a **primary key**
 -   Will enforce **foreign key**, **unique**, and **not null**
 -   Traditional **row-based** storage
+-   High performance point operations (lookups, inserts)
+-   **Larger storage footprint** than standard tables due to less efficient compression
+
+See [docs.snowflake.com/en/user-guide/tables-hybrid](https://docs.snowflake.com/en/user-guide/tables-hybrid)
+
+
+## Shares {#shares}
+
+An object that contains all information required to share objects
+within a database, table, or secure view - including privileges for a
+database or schema.
+
+-   **No time travel** for consumers, only the current data
+-   **Read only** and **no re-sharing** for consumers
+-   Streams can be created on shares with **change tracking** permission
+-   **Provider pays for storage** and data transfer
+-   **Consumer pays for compute** to query data
+
+**Resources**:
+
+-   [docs.snowflake.com/en/guides-overview-sharing](https://docs.snowflake.com/en/guides-overview-sharing)
+-   [docs.snowflake.com/en/guides-overview-sharing#label-about-direct-share](https://docs.snowflake.com/en/guides-overview-sharing#label-about-direct-share)
+-   [docs.snowflake.com/en/user-guide/data-exchange](https://docs.snowflake.com/en/user-guide/data-exchange)
+-   [docs.snowflake.com/en/user-guide/data-sharing-reader-create](https://docs.snowflake.com/en/user-guide/data-sharing-reader-create)
+-   [docs.snowflake.com/en/user-guide/cleanrooms/introduction](https://docs.snowflake.com/en/user-guide/cleanrooms/introduction)
 
 
 ## Views {#views}
@@ -1268,6 +1295,10 @@ AS
 -   Multi-cluster warehouses
 -   Best practices for compute sizing &amp; concurrency
 
+Warehouses come in T-Shirt sizes (S, M, L, etc,) and a few varieties.
+Gen1, Gen2, Interactive, Snowpark-Optimized, and Adaptive warehouses
+each have particular properties, advantages, drawbacks, and cost.
+
 
 ## Performance &amp; Cost Optimization {#performance-and-cost-optimization}
 
@@ -1278,6 +1309,52 @@ AS
 -   Caching, result caching
 -   Query profiling / query history
 -   Avoiding overprovisioning / idle compute
+
+
+### Scaling Up &amp; Scaling Out {#scaling-up-and-scaling-out}
+
+-   Scale **Out** (more warehouses) for more <span class="underline">concurrent</span> tasks
+-   Scale **Up** (larger warehouses) for heavier tasks
+-   Larger warehouses are **not faster** (single-threaded) but have more threads and storage
+-   Scale to maximize use of the data cache and minimize resource contention
+-   For example, larger warehouses can be cheaper if they take half the time of a
+    medium warehouse for the same task.
+-   **Auto-scaling** policies:
+    -   **Standard**: Eliminate queueing
+    -   **Economy**: Eliminate queueing if the work will _occupy another
+        machine for over <span class="underline">six minutes</span>_
+
+Four **X-Small** warehouses will consume the same credits as one **Medium**
+warehouse, but will handle concurrent requests better - but will not
+keep as many cached micro-partitions.
+
+
+### Example - Calculating Optimal Warehouse Size {#example-calculating-optimal-warehouse-size}
+
+The following data was collected for a given computation:
+
+| Warehouse Size | Compute Time | Credits/Hour | Credits Consumed |
+|----------------|--------------|--------------|------------------|
+| Small          | 32m          | 2            | 1.067            |
+| Medium         | 14m          | 4            | 0.934            |
+| Large          | 7m           | 8            | 0.934            |
+| Extra Large    | 5m           | 16           | 1.334            |
+| 2 Extra Large  | 3m           | 32           | 1.6              |
+
+In this scenario, **Medium** and **Large** warehouse sizes are the sweet spot
+to run as they more than halve, or halve, the compute time. It is
+cheapest to run the query on those warehouses.
+
+
+### Serverless Compute (Task under 30s? Use it.) {#serverless-compute--task-under-30s-use-it-dot}
+
+-   Use **serverless compute** if a task takes less than 30 seconds.
+    -   The 1.5x cost is justified in this case and will be cheaper.
+
+
+## Monitoring Usage &amp; Billing {#monitoring-usage-and-billing}
+
+Identify, understand, and limit costs with **monitoring**.
 
 
 # Security &amp; Access Control {#security-and-access-control}

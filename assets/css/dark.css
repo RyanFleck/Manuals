@@ -2,6 +2,7 @@
 
 :root {
   --main-text-color: #cecbe4;
+  --underline-color: #565086;
   --main-secondary-text-color: #99c889;
   --main-bg-color: #151c2b;
   --main-link-color: #98b6ff;
@@ -20,6 +21,17 @@ pre.example::before{
 
 figcaption {
     color: var(--main-text-color);
+}
+
+#page-title,
+h1,
+h2,
+h3,
+h4,
+h5,
+a.navbar-brand,
+.underline {
+    text-decoration-color: var(--underline-color);
 }
 
 
@@ -66,7 +78,7 @@ h1#page-title a:visited {
 .navbar-brand {
     color: var(--main-text-color);
     text-decoration: underline;
-    text-decoration-color: var(--main-text-color);
+    /* text-decoration-color: var(--main-text-color); */
 }
 
 code {
@@ -75,7 +87,7 @@ code {
 
 hr {
     border: none;
-    border-top: 1px solid var(--main-text-color);
+    border-top: 1px solid var(--underline-color);
 }
 
 /* Webkit Scrollbar */
