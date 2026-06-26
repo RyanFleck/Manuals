@@ -23,18 +23,6 @@ figcaption {
     color: var(--main-text-color);
 }
 
-#page-title,
-h1,
-h2,
-h3,
-h4,
-h5,
-a.navbar-brand,
-.underline {
-    text-decoration-color: var(--underline-color);
-}
-
-
 .faint,
 .manual-link > small {
   color: var(--main-text-color);

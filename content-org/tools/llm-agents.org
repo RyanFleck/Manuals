@@ -68,6 +68,8 @@ The questions are heavily weighted toward practical implementation.
 
 [[https://anthropic.skilljar.com/claude-certified-architect-foundations-access-request][anthropic.skilljar.com/claude-certified-architect-foundations-access-request]]
 
+Study Guide: [[https://github.com/paullarionov/claude-certified-architect/blob/main/guide_en.MD][github.com/paullarionov/claude-certified-architect]]
+
 /IBMer? Check the [[https://yourlearning.ibm.com/activity/PLAN-28EA8DF4C387][IBM learning plan]] for this certificate./
 
 ** Claude Tips

@@ -1,5 +1,10 @@
 /* Fonts */
 
+:root {
+  --underline-color: #ffe664
+}
+
+
 /* JBM */
 
 @font-face {
@@ -137,7 +142,7 @@ html {
   min-height: 100vh;
   text-rendering: optimizeSpeed;
   font-size: 16px;  /* This is the base font size for all pages. */
-  background: #fffccc;
+  background: #fffeed;
   color: black;
   line-height: 1.5;
   margin: 0px;
@@ -282,9 +287,10 @@ figcaption {
   text-decoration: underline;
 }
 
-.underline {
+.underline,
+span.underline {
     text-decoration: underline;
-    text-decoration-color: #dbce8a;
+    /* text-decoration-color: #dbce8a; */
 }
 
 .footnotes {
@@ -437,7 +443,7 @@ ul {
 .navbar-brand {
   color: black;
   text-decoration: underline;
-  text-decoration-color: black;
+  /* text-decoration-color: black; */
 }
 
 #page-title {
@@ -601,9 +607,9 @@ p#article-subheading{
 }
 
 .codeblock{
-    background: #FFF3;
-    border-top: 1px solid #0001;
-    border-bottom: 1px solid #0001;
+    background: #FFF7;
+    border-top: 1px solid #ffee9a;
+    border-bottom: 1px solid #ffee9a;
     margin-bottom: 1rem;
     margin-top: 1rem;
     font-size: 1rem;
@@ -612,7 +618,7 @@ p#article-subheading{
     display: inline-block;
     user-select: none;
     -moz-user-select: none;
-    color: #0003;
+    color: #ddc44a;
     padding: 0;
     margin: 0;
     margin-left: 2rem;
@@ -637,4 +643,16 @@ pre.text-result small{
     user-select: none;
     -moz-user-select: none;
     opacity: 50%;
+}
+
+#page-title,
+h1,
+h2,
+h3,
+h4,
+h5,
+a.navbar-brand,
+.underline {
+    text-decoration: underline;
+    text-decoration-color: var(--underline-color);
 }
