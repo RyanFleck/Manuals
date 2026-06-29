@@ -902,6 +902,9 @@ EXCEPTION
 END;
 ```
 
+**You CANNOT nest anonymous blocks if a child returns something.** This
+will trigger an immediate exit and stop execution.
+
 This example from the [use cases](https://docs.snowflake.com/en/developer-guide/snowflake-scripting/use-cases#update-table-data-with-user-input) demonstrates variable assignment and a
 for loop:
 
@@ -1589,7 +1592,7 @@ of strange edge cases that can **cut and hurt** you without foreknowledge.
 
 Regarding characters like `0x00` and `0x01`:
 
--   You **cannot** pass control characters in strings as procedure arguments
+-   You **cannot** pass control characters in strings as **procedure arguments**
 -   You **cannot** use control characters as arguments for `COPY INTO` and
     other functions
 -   The `REPLACE_INVALID_CHARACTERS` flag compromises data integrity when
@@ -1620,9 +1623,10 @@ END IF;
 ```
 
 
-### Control Character Handling {#control-character-handling}
+### Returning in Anonymous Blocks {#returning-in-anonymous-blocks}
 
--   You can't pass control characters in a string or variant as a function argument
+Returning something in an anonymous nested block will terminate the
+parent and stop execution.
 
 
 # Keeping Up To Date {#keeping-up-to-date}
