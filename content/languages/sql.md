@@ -373,9 +373,9 @@ The **lexical** order that queries must be written in is as follows:
 | `ORDER BY` | Sort the results                          |
 | `LIMIT`    | Limit the number of rows returned         |
 
-**SFJWGHOL!?** _San Francisco Jehovah's Witnesses Get High on Life?_ Ha.
+**SFJWGHOL** -- good luck making an acronym with that!
 
-I asked ChatGPT and it gave me a few more good ones:
+_I asked ChatGPT, and it gave me a few good ones:_
 
 -   Seven Frogs Jump With Great Hops Over Lilies
 -   Seven Fluffy Jaguars Wait Gracefully, Holding On Lightly

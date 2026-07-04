@@ -34,7 +34,9 @@ documentation of what was done**. Some of the amazing and highly
 useful pieces of Azure tech are great to use, but only experience
 (which I have attained a modicum of) can reveal the sharp edges.
 
-**Azure is a box of footguns. Proceed with care.**
+For an inexperienced user, **Azure is a box of footguns and rusty razor blades.**
+
+**Proceed with care. Read the docs. Test your assumptions. Test them again.**
 
 # Learning Roadmap
 

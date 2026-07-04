@@ -451,9 +451,9 @@ Looks like we need to steal the `use` definition from the other controller so we
 
 ...what's `quote do`?
 
-**Aw shit -- we just got our first taste of metaprogramming.**
+**Holy crow -- *we just got our first taste of metaprogramming!***
 
-> Quote and Unquote: This guide aims to introduce the meta-programming techniques available in Elixir. The ability to represent an Elixir program by its own data structures is at the heart of meta-programming.  
+> Quote and Unquote: This guide aims to introduce the meta-programming techniques available in Elixir. The ability to represent an Elixir program by its own data structures is at the heart of meta-programming.
 > -- **[elixir-lang.org](https://elixir-lang.org/getting-started/meta/quote-and-unquote.html)**
 
 ...so I guess **use** must apply the quoted operations. Slick.
@@ -1440,7 +1440,7 @@ We will use the `get_by` function to search for existing users with the email pr
 2. We insert the records into Postgres
 3. Database record gets an ID for the user
 4. That ID is placed in the user cookie
-5. Cookie is sent back to the server on repeated requests  
+5. Cookie is sent back to the server on repeated requests
    (This is a **session**)
 
 Cookies are on encrypted strings and are not user editable.
@@ -3099,7 +3099,7 @@ end
 
 ...and that's it. The page will broadcast updates to all involved participants. But wait:
 
-> It is a common pattern in distributed programming to treat messages from self() just as if they were coming from anyone else. 
+> It is a common pattern in distributed programming to treat messages from self() just as if they were coming from anyone else.
 
 Let's fix that.
 

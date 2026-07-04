@@ -152,8 +152,8 @@ a specific `exists` output that [you can use](https://learn.microsoft.com/en-us/
 - The **[Lookup Activity](https://learn.microsoft.com/en-us/azure/data-factory/control-flow-lookup-activity)**
 enables the querying of data from a linked SQL service for further handling.
 - Supports a max of **5000 rows** or **4mb of data**, whichever comes
-  first. **How useless!** How **incredibly fucking useless!!!** How do
-  they expect us to do big data with this shit?!
+  first. **How useless!** *How **incredibly f\*\*\*ing useless!!!***
+  How do they expect us to do any "big data" work with this s\*\*t?!
   - **Solution:** Perhaps use `ORDER BY ID` and `OFFSET` with `LIMIT`
     to do batches of 1000.
   - This may not be so bad as it can guarantee somewhat parallel

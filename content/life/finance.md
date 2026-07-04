@@ -27,9 +27,9 @@ any asset will continue upwards without considerable momentum or reason.
 - Don't sell everything when the market is red, people are complaining
   about their losses, and fear is high.
 
-This is how chumps, suckers, and those manipulated by FUD[^fud] think. Use
-the [Fear & Greed](https://www.cnn.com/markets/fear-and-greed) index
-as a tool to help judge the market. Better put by *Warren Buffett*[^1]:
+This is how people manipulated by FUD[^fud] think. Use the [Fear &
+Greed](https://www.cnn.com/markets/fear-and-greed) index as a tool to
+help judge the market. Better put by *Warren Buffett*[^1]:
 
 - *"Be fearful when others are greedy."*
 - *"Be greedy **only** when others are fearful."*

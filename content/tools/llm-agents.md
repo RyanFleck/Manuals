@@ -26,7 +26,7 @@ heavily eroded. **LLMs do program better than those who only skim docs
 and copy-paste**, who fail to attain a deep understanding of the runtime
 or machine beneath a programming language, and ultimately those who
 fail to become competent computer programmers. _Don't end up like these
-lobotomized drones, and develop your critical thinking!_
+slop farmers -- **develop your critical thinking skills**!_
 
 Most of the domain-specific knowledge in this space is made from the
 **softest, fluffiest, most irritating fairy dust you can imagine**.
