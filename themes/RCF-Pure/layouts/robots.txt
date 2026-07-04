@@ -1,0 +1,13 @@
+# Standard rules for all crawlers
+User-agent: *
+Allow: /
+
+# Anthropic - fetches pages a user references live (not training)
+User-agent: Claude-User
+Allow: /
+
+# OpenAI - powers live ChatGPT search/browsing (not training)
+User-agent: OAI-SearchBot
+Allow: /
+
+Sitemap: {{ .Site.Home.Page.Permalink }}sitemap.xml
