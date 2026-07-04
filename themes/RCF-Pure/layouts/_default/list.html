@@ -17,9 +17,24 @@
            updated {{ .Lastmod | time.Format ":date_medium" }}
           </small>
       </a>
-
     </li>
     {{ end }} {{ end }}
   </ol>
+
+
+    {{ $title := .Title }}
+    <p><i><small>This content list is also available as
+      {{ with .OutputFormats.Get "markdown" }}
+      <a class="" href="{{.Permalink}}" target="_blank"
+         title="Read markdown version of list '{{ $title }}'">markdown</a>
+        {{ end }}
+      and
+      {{ with .OutputFormats.Get "json" }}
+      <a class="" href="{{.Permalink}}" target="_blank"
+         title="Read json version of list '{{ $title }}'">json</a>
+      {{ end }}
+      data.
+    </small></i></p>
+
 </main>
 {{end}}

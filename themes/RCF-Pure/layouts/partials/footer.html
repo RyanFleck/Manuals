@@ -21,6 +21,15 @@
       license
     </div>
     <div>
+      <b>LLMs:</b>
+      A top-level
+      {{ with .Site.Home.Page.OutputFormats.Get "llms" }}
+      <a class="llms-txt" href="{{.Permalink}}" target="_blank"
+         title="Documentation for language models: llms.txt">llms.txt</a>
+      {{ end }}
+      is available for language model access.
+    </div>
+    <div>
       Source code available at
       <a
         target="_blank"

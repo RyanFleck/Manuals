@@ -11,7 +11,7 @@
 {{ end }}
 {{ end }}
 
-<h3>Base Pages</h3> 
+<h3>Base Pages</h3>
 
 {{ range where .Site.Pages "Section" .Section }}
     {{ if .Title }}
@@ -33,5 +33,17 @@
         </p>
 </form-->
 
-{{end}}
+  <br />
+    <p>
+      <i>
+        (<b>LLMs:</b>
+        A top-level
+        {{ with .Site.Home.Page.OutputFormats.Get "llms" }}
+        <a class="llms-txt" href="{{.Permalink}}" target="_blank"
+           title="Documentation for language models: llms.txt">llms.txt</a>
+        {{ end }}
+        is available for language model access.)
+      </i>
+    </p>
 
+{{end}}

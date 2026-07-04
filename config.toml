@@ -55,3 +55,14 @@ min = '0.154.2'
   expiryDate = ['expiryDate']
   lastmod = [':git', 'lastmod', 'date', 'publishDate']
   publishDate = ['publishDate', 'date']
+
+[outputFormats]
+  [outputFormats.llms]
+    mediaType = "text/plain"
+    baseName = "llms"
+    isPlainText = true
+
+[outputs]
+home = ['html', 'markdown', 'llms', 'rss', 'json']
+section = ['html', 'markdown', 'rss', 'json']
+page = ['html', 'markdown']

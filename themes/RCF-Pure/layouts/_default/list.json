@@ -1,0 +1,13 @@
+[
+  {{ range $index, $element := .RegularPagesRecursive }}
+    {{ if $index }}, {{ end }}
+    {
+      "title": {{ .Title | jsonify }},
+      "category": {{ .CurrentSection.Title | jsonify }},
+      "url": {{ .Permalink | jsonify }},
+      "content": {{ .Plain | truncate 500 | jsonify }},
+      "created": {{ .Date.Format "Jan 02 2006" | jsonify }},
+      "last-modified": {{ .Lastmod.Format "Jan 02 2006" | jsonify }}
+    }
+  {{ end }}
+]

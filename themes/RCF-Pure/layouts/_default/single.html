@@ -1,4 +1,5 @@
 {{ define "main" }}
+{{ $title := .Title }}
 <h1 class="mt">
   <a href="{{.Permalink}}" id="title-link"> {{ .Title }} </a>
 </h1>
@@ -8,6 +9,13 @@
             ~{{ .ReadingTime}}m skim,
             {{ lang.FormatNumberCustom 0 .WordCount "- . ," }} words,
            updated {{ .Lastmod | time.Format ":date_medium" }}
+            <br />
+            ==> LLMs: Read this page as
+  {{ with .OutputFormats.Get "markdown" }}
+  <a class="" href="{{.Permalink}}" target="_blank"
+     title="Read markdown version of page '{{ $title }}'">markdown</a>
+  {{ end }}
+
    </small>
 </p>
 

@@ -1,0 +1,41 @@
+# Ryan Fleck's Personal Manuals
+
+This is the top-level index for {{ .Page.Permalink }}, a site
+containing technical notes for programming languages, platforms, and
+tools. The manuals are written by Ryan Fleck, a Computer Engineer
+(uOttawa '21) working at IBM.
+
+## Sections
+{{ " " }}
+{{- range site.Sections }}
+{{ $title := .Title -}}
+{{- with .OutputFormats.Get "markdown" -}}
+- [{{ $title }}]({{ .Permalink }})
+{{- end -}}
+
+{{- end }}
+
+{{- range site.Sections }}
+
+## {{ .Title }}
+
+{{ "" -}}
+
+> {{ .Summary | plainify | truncate 500 -}}{{- "" }}
+{{ "" -}}
+{{- range .RegularPagesRecursive }}
+{{- if or (not .Params.Hidden) (and .Params.Hidden (not hugo.IsProduction)) }}
+- [{{ .Title | plainify -}}]({{ .Permalink }}index.md)
+{{- end -}}
+{{- end }}
+
+<!-- Content: {{ $title := .Title -}}
+{{- with .OutputFormats.Get "markdown" -}}
+[{{ $title }} '.md' toc]({{ .Permalink }})
+{{- end -}}
+{{- with .OutputFormats.Get "json" }} [{{ $title }} '.json' toc]({{ .Permalink }})
+{{- end }} -->
+{{ "" }}
+
+
+{{- end -}}
