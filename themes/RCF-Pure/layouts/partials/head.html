@@ -48,6 +48,11 @@
   <link rel="stylesheet" href="{{ $printStyles.Permalink }}" media="print">
 
 
+  <!-- Alternative Output Formats -->
+  {{ range .AlternativeOutputFormats }}
+    {{ printf "<link rel=%q type=%q href=%q>" .Rel .MediaType.Type .Permalink | safeHTML }}
+  {{ end }}
+
 
   <!-- Font-Awesome -->
   <!-- Download at https://fontawesome.com/download and extract to /static/fa/ -->
