@@ -5,7 +5,8 @@
       <!-- Site title. -->
       {{ .Site.Title }}</a
     >
-    &middot; {{ .Site.Params.copyright }}
+    &middot; 
+    <span>Copyright © 2015–{{ now.Format "2006" }} Ryan Fleck</span>
   </span>
   <hr />
   <div id="footer-data">
@@ -47,8 +48,10 @@
         >manuals.ryanfleck.ca</a
       >
     </div>
-    <div>Development target RCF.19.2.78</div>
-    <div>Site last updated: {{ .Site.Lastmod.Format "January 2, 2006" }}</div>
+
+    <div>
+      Last build at {{ now | time.In "America/Edmonton" | time.Format "2006-01-02 15:04:05 MST" }}
+    </div>
     <br />
     <div>
       Read more at
@@ -59,3 +62,18 @@
   </div>
 </div>
 <br />
+
+
+
+    <div>
+      <br />
+    <small class="op-70">
+        Work licensed under the
+        <a href="https://creativecommons.org/licenses/by-sa/4.0/legalcode">CC BY-SA 4.0</a>
+        license unless otherwise specified.
+    </small>
+      <br />
+      <small class="op-70">
+        
+      </small>
+  </div>
