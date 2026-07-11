@@ -51,7 +51,7 @@ graph-rag agents, enabling developers, _etc._
 clarity, context, and good structure.
 
 
-# Claude Certified Architect (CCA-F) {#claude-certified-architect--cca-f}
+# CCAR-F: Claude Certified Architect {#ccar-f-claude-certified-architect}
 
 The **Anthropic CCA (Claude Certified Architect) Certification** validates
 Claude knowledge with a 120-minute exam containing 60 multiple-choice
@@ -65,11 +65,15 @@ questions[^fn:1]:
 
 The questions are heavily weighted toward practical implementation.
 
-[anthropic.skilljar.com/claude-certified-architect-foundations-access-request](https://anthropic.skilljar.com/claude-certified-architect-foundations-access-request)
+-   Request to take the exam at [anthropic.skilljar.com](https://anthropic.skilljar.com/claude-certified-architect-foundations-access-request)
+-   Study Guide: [github.com/paullarionov/claude-certified-architect](https://github.com/paullarionov/claude-certified-architect/blob/main/guide_en.MD)
+-   _IBMer? Check the [IBM learning plan](https://yourlearning.ibm.com/activity/PLAN-28EA8DF4C387) for this certificate._
 
-Study Guide: [github.com/paullarionov/claude-certified-architect](https://github.com/paullarionov/claude-certified-architect/blob/main/guide_en.MD)
+{{< figure src="/images/2026-07-11--CCAR-F-Exam-Result-Crop.jpg?invert=true" >}}
 
-_IBMer? Check the [IBM learning plan](https://yourlearning.ibm.com/activity/PLAN-28EA8DF4C387) for this certificate._
+I passed the [CCAR-F](https://www.credly.com/badges/69cf522c-d129-4215-86ff-169b4d6f21fc) with a score of **960/1000** on **2026-07-11**.
+
+See [credly.com/users/ryan-c-fleck](https://www.credly.com/users/ryan-c-fleck)
 
 
 ## Claude Tips {#claude-tips}
