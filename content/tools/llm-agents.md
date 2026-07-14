@@ -33,7 +33,7 @@ The powerful conciseness and expressiveness (the ability to describe a
 lot of functionality in only a few lines) is another key property that
 LLMs would probably prefer - if only they could better represent and
 conceptualize the underlying data flowing through those functions. As
-a result, languages like [Clojure](/clojure) with fantastic **ergonomics** will likely
+a result, languages like [Clojure](/clj) with fantastic **ergonomics** will likely
 not make the cut in the LLM age. While the language is highly concise,
 the shape of the data is not as evident from a glance at the code.
 
@@ -46,7 +46,11 @@ fail to become competent computer programmers. _Don't end up like these
 slop farmers -- **develop your critical thinking skills**!_
 
 Most of the domain-specific knowledge in this space is made from the
-**softest, fluffiest, most irritating fairy dust you can imagine**.
+**softest, fluffiest, most irritating fairy dust you can imagine**. The
+terminology is overburdened in order to help pump valuations and suck
+in VC cash. I respond poorly to this buzzword salad, and it sticks out
+like a red flag indicating danger and empty marketing baloney.
+
 Structured thinkers (like Computer Engineers and programmers in
 general,) are used to highly structured layers of systems with highly
 predictable outputs for given inputs. This reliability matters a lot
