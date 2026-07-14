@@ -65,6 +65,7 @@ questions[^fn:1]:
 
 The questions are heavily weighted toward practical implementation.
 
+-   The **best** related course: ["Claude with Amazon Bedrock"](https://anthropic.skilljar.com/claude-in-amazon-bedrock)
 -   Request to take the exam at [anthropic.skilljar.com](https://anthropic.skilljar.com/claude-certified-architect-foundations-access-request)
 -   Study Guide: [github.com/paullarionov/claude-certified-architect](https://github.com/paullarionov/claude-certified-architect/blob/main/guide_en.MD)
 -   _IBMer? Check the [IBM learning plan](https://yourlearning.ibm.com/activity/PLAN-28EA8DF4C387) for this certificate._
@@ -82,21 +83,22 @@ See [credly.com/users/ryan-c-fleck](https://www.credly.com/users/ryan-c-fleck)
 2.  Use `YOLO` mode for experimentation
 
 
-## The Anthropic AI Fluency Framework {#the-anthropic-ai-fluency-framework}
+## The Anthropic **"4D"** AI Fluency Framework {#the-anthropic-4d-ai-fluency-framework}
 
-This section is from an Anthropic training session - _Copyright 2025
+Four interconnected **competencies** necessary to ensure our interactions
+with AI are effective, efficient, ethical, and safe:
+
+1.  **Delegation**:
+    -   Setting goals and deciding whether, when, and how to engage with AI
+2.  **Description**:
+    -   Effectively describing goals to prompt useful AI behaviors and outputs
+3.  **Discernment**:
+    -   Accurately assessing the usefulness of AI outputs and behaviors
+4.  **Diligence**:
+    -   Taking responsibility for what with do with AI and how we do it
+
+_(This framework is from an Anthropic training session - Copyright 2025
 Rick Dakan, Joseph Feller, and Anthropic. Released under the CC
-BY-NC-SA 4.0 license._
-
-Four interconnected competencies neccessary to ensure our interactions
-with AI are effective, efficient, ethical, and safe.
-
-1.  **Delegation**: Setting goals and deciding whether, when, and how to
-    engage with AI
-2.  **Description**: Effectively describing goals to prompt useful AI
-    behaviors and outputs
-3.  **Discernment**: Accurately assessing the usefulness of AI outputs and behaviors
-4.  **Diligence**: Taking responsibility for what with do with AI and how
-    we do it
+BY-NC-SA 4.0 license.)_
 
 [^fn:1]: Nina Duran: Become a Claude Certified Architect, [LinkedIn](https://www.linkedin.com/posts/ninadurann_become-a-claude-certified-architect-heres-share-7439014877488152577-nMh-/)
