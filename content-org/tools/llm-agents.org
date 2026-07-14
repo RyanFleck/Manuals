@@ -31,6 +31,14 @@ The limited context required to write simple functions with a
 guaranteed incoming data shape (built-in strong pattern matching) is
 exactly what LLMs need to be highly productive.
 
+The powerful conciseness and expressiveness (the ability to describe a
+lot of functionality in only a few lines) is another key property that
+LLMs would probably prefer - if only they could better represent and
+conceptualize the underlying data flowing through those functions. As
+a result, languages like [[/clojure][Clojure]] with fantastic *ergonomics* will likely
+not make the cut in the LLM age. While the language is highly concise,
+the shape of the data is not as evident from a glance at the code.
+
 If you are a student, *do not use LLMs* (with the exception of searching
 through documentation,) or your critical thinking skills will be
 heavily eroded. *LLMs do program better than those who only skim docs
