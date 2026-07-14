@@ -14,13 +14,22 @@
 * The Problem with LLM Programming
 
 *Language models have no clue what they are doing.* They don't think
-like you.
+like you, and are tools - /don't make the mistake of trusting them like
+you would a person!/
 
-LLM generated code is riddled with subtle dangers that can only be
+*LLM generated code is riddled with subtle dangers* that can only be
 spotted by experienced programmers with domain knowledge. The output
 looks great to both the untrained and trained eye, and the dangers
 only become apparent when reading it line by line and seeing the
-amalgamated assumptions of thousands of different codebases.
+/amalgamated assumptions of thousands of different codebases/.
+
+To reduce this danger, better programming languages that lean on the
+strengths of LLMs will grow in popularity. The industry will likely
+transition to *expressive* high-level languages like [[/elixir][Elixir]] which lean
+on functional programming concepts and have pattern-matching built in.
+The limited context required to write simple functions with a
+guaranteed incoming data shape (built-in strong pattern matching) is
+exactly what LLMs need to be highly productive.
 
 If you are a student, *do not use LLMs* (with the exception of searching
 through documentation,) or your critical thinking skills will be
@@ -52,7 +61,7 @@ graph-rag agents, enabling developers, /etc./
 *Stay grounded* /(and your LLM as well,)/ and may your prompts have
 clarity, context, and good structure.
 
-* CCAR-F: Claude Certified Architect 
+* CCAR-F: Claude Certified Architect
 
 The *Anthropic CCA (Claude Certified Architect) Certification* validates
 Claude knowledge with a 120-minute exam containing 60 multiple-choice
