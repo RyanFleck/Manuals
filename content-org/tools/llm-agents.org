@@ -85,11 +85,17 @@ questions[fn:1]:
 4. Prompt Engineering (20%)
 5. Context Management & Reliability (15%)
 
-The questions are heavily weighted toward practical implementation.
+*Preparation recommendation*: If you are already familiar with LLMs,
+MCP, and programming assistant shells, I would sit down and
+read/highlight the [[https://anthropic-partners.skilljar.com/claude-certified-architect-foundations-certification][official study guide]] and look up anything you are
+unfamiliar with.
+
+/The questions are heavily weighted toward practical implementation
+within the scenarios mentioned in the study guide./
 
 - The *best* related course: [[https://anthropic.skilljar.com/claude-in-amazon-bedrock]["Claude with Amazon Bedrock"]]
 - Request to take the exam at [[https://anthropic.skilljar.com/claude-certified-architect-foundations-access-request][anthropic.skilljar.com]]
-- Study Guide: [[https://github.com/paullarionov/claude-certified-architect/blob/main/guide_en.MD][github.com/paullarionov/claude-certified-architect]]
+- Community Study Guide: [[https://github.com/paullarionov/claude-certified-architect][github.com/paullarionov/claude-certified-architect]]
 - /IBMer? Check the [[https://yourlearning.ibm.com/activity/PLAN-28EA8DF4C387][IBM learning plan]] for this certificate./
 
 [[/images/2026-07-11--CCAR-F-Exam-Result-Crop.jpg?invert=true]]
