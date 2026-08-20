@@ -98,11 +98,10 @@ within the scenarios mentioned in the study guide./
 - Community Study Guide: [[https://github.com/paullarionov/claude-certified-architect][github.com/paullarionov/claude-certified-architect]]
 - /IBMer? Check the [[https://yourlearning.ibm.com/activity/PLAN-28EA8DF4C387][IBM learning plan]] for this certificate./
 
+#+caption: I passed the [[https://www.credly.com/badges/69cf522c-d129-4215-86ff-169b4d6f21fc][CCAR-F]] with a score of *960/1000* on *2026-07-11*. 
 [[/images/2026-07-11--CCAR-F-Exam-Result-Crop.jpg?invert=true]]
 
-I passed the [[https://www.credly.com/badges/69cf522c-d129-4215-86ff-169b4d6f21fc][CCAR-F]] with a score of *960/1000* on *2026-07-11*. 
-
-See [[https://www.credly.com/users/ryan-c-fleck][credly.com/users/ryan-c-fleck]]
+Check out the *badge*: [[https://www.credly.com/users/ryan-c-fleck][credly.com/users/ryan-c-fleck]]
 
 ** Claude Tips
 

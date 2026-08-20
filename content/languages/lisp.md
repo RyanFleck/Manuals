@@ -10,25 +10,23 @@ aliases: ["/elisp", "/racket"]
 
 # Hello Lisp {#hello-lisp}
 
-```lisp
-(defparameter *langs* '( clisp racket scheme ))
-
-(princ "Hello, ")
-(princ *langs*)
+```elisp
+(print "Hello World!")
 ```
 
-Bwah, _LISP?_ From the _50s?_ Yes- Lisp is more common than you might
-think; often the "secret sauce" of successful companies like
-[Grammarly](https://tech.grammarly.com/blog/running-lisp-in-production)
-and
-[Amazon](https://groups.google.com/forum/#!topic/comp.lang.lisp/SD-8ULlEfy0%5B1-25%5D)
-is a finely crafted lispy back-end. Lisps are beautifully simple and
-functional tools; the following article contains my impressions as I
-begin to learn the CLISP dialect. While many speak poorly of its age,
-there have been a few occasions in the first 30 pages where I've been
-caught off guard by the effortlessness of construction and computation
-that lisp provides. I almost cried the first time I saw LISP handle
-rational numbers.
+```text
+Hello World!
+```
+
+Some of you may say "Bwah, _LISP?_ From the _60s?"_ Yes! Lisp is more
+common than you might think; surprisingly often the _"secret sauce"_ of
+successful companies like [Grammarly](https://tech.grammarly.com/blog/running-lisp-in-production) and [Amazon](https://groups.google.com/forum/#!topic/comp.lang.lisp/SD-8ULlEfy0%5B1-25%5D) is a finely crafted
+lispy back-end. Lisps are beautifully simple and functional tools; the
+following article contains my impressions as I begin to learn the
+CLISP dialect. While many speak poorly of its age, there have been a
+few occasions in the first 30 pages where I've been caught off guard
+by the effortlessness of construction and computation that lisp
+provides.
 
 It is important to note that there are many implementations of lisp,
 each with distinct advantages and disadvantages. For my learning, I'm
@@ -37,17 +35,18 @@ Scheme standard,) and SBCL, as these are what are used in my learning
 materials. Whether I settle with MIT-Scheme, Racket, Chicken or Guile
 depends on my mileage with each as I complete practice problems.
 
+**My favorite and most commonly used lisp-type language is [Clojure](/clj).**
+
 This manual contains snippets of all kinds of lisps. If I gravitate
-towards one in particular, say, Racket or Clojure, I'll breakout the
-lang-specific jargon into a separate manual. Currently, I am doing most
-of my learning in **Scheme**.[^fn:1]
+towards one in particular, say, Racket or [Clojure](/clj), I'll breakout the
+lang-specific jargon into a separate manual. Currently, I am doing
+most of my learning in **Scheme**.[^fn:1]
 
-> Lisp has been hailed as the world's most powerful programming language,
+> "Lisp has been hailed as the **world's most powerful programming language**,
 > but its cryptic syntax and academic reputation can be enough to scare
-> off even experienced programmers. Those dark days are finally over ---
-> Land of Lisp brings the power of functional programming to the people!
+> off even experienced programmers."[^fn:2]
 
-{{< figure src="/images/SymbolicsKB.jpg" caption="<span class=\"figure-number\">Figure 1: </span>Symbolics KB" >}}
+{{< figure src="/images/SymbolicsKB.jpg" caption="<span class=\"figure-number\">Figure 1: </span>Symbolics KB with cool Lisp editing keys" >}}
 
 MIT's _Structure and Interpretation of Computer Programs_ is a classic
 in the truest sense; the material in the tome has been used in MIT's
@@ -56,129 +55,9 @@ into reality, becoming the core of our global infrastructure. The book
 is available for free online in many forms.
 
 
-# Emacs, SLIME, and ORG {#emacs-slime-and-org}
-
-Emacs is a text editor in the same way that a cell phone makes phone
-calls. This entire file is an .org file that is converted to a webpage
-by Hugo, allowing me to have ****inline executable code cells**** and other
-handy features.
-
-
-## Installing Emacs on Windows and OSX {#emacs-on-windows}
-
-...I know, I know, heresey. I'm typing this in VS Code too. Still trying
-to get some quicklisp packages working via SLIME.
-
-First install Chocolatey, the package manager, then run this command:
-
-```ps2
-choco install sbcl pyenv-win nvm.install elixir git -y
-choco install emacs imagemagick msys2 -y
-```
-
-Open the msys2 shell and run:
-
-```nil
-pacman -S mingw-w64-x86_64-openssl
-```
-
-Add that .dll to the PATH:
-
-```nil
-C:\tools\msys64\mingw64\bin
-```
-
-Add something like this to your Emacs config. You can always use M-x
-describe-variable or describe-command.
-
-```lisp
-;; Ryan's Windows EMACS Config
-;; C-M-x to interpret a function, have fun.
-
-;; Add package repository for installing slime, etc.
-(add-to-list 'package-archives
-             '("melpa-stable" . "https://stable.melpa.org/packages/") t)
-(package-initialize)
-
-(require 'package)
-(require 'srefactor)
-(require 'srefactor-lisp)
-
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(custom-enabled-themes nil) '(package-selected-packages '(srefactor
- slime)))
-
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(default ((t (:family "Noto Mono" :foundry "outline" :slant normal :weight normal :height 120 :width normal)))))
-
-;; (setq inferior-lisp-program "/opt/sbcl/bin/sbcl")
-(setq inferior-lisp-program (executable-find "sbcl"))
-
-(add-to-list 'load-path "~/AppData/Roaming/slime")
-(require 'slime-autoloads)
-
-(load (expand-file-name "~/quicklisp/slime-helper.el"))
-;; Replace "sbcl" with the path to your implementation
-
-;; Semantic Refactor keybindings
-(global-set-key (kbd "M-RET o") 'srefactor-lisp-one-line)
-(global-set-key (kbd "M-RET m") 'srefactor-lisp-format-sexp)
-(global-set-key (kbd "M-RET d") 'srefactor-lisp-format-defun)
-(global-set-key (kbd "M-RET b") 'srefactor-lisp-format-buffer)
-
-;; (global-set-key (kbd "M-RET b") 'srefactor-lisp-format-buffer)
-```
-
-**Emacs Packages to Install:**
-
--   slime
--   srefactor
--   srefactor-lisp
--   magit
--   org
--   markdown-mode
--   modus-themes (modus-vivendi-tinted)
-
-Take note of
-[this page
-on super and hyper keys](http://xahlee.info/emacs/emacs/emacs_hyper_super_keys.html) -- it is good to use your keyboard, whether it
-is on a MacBook or a full mechanical keyboard, to its fullest.
-
-```lisp
-;; On Windows:
-(setq w32-pass-rwindow-to-system nil)
-(setq w32-rwindow-modifier 'super) ; Right Windows key
-
-(setq w32-pass-apps-to-system nil)
-(setq w32-apps-modifier 'hyper) ; Menu/App key
-
-;; On OSX:
-(setq mac-left-option-modifier 'super)
-(setq mac-right-option-modifier 'control)
-(setq mac-command-modifier 'meta)
-(setq ns-function-modifier 'hyper)
-```
-
-Hide your menu, tool, and scroll bars:
-
-```lisp
-(menu-bar-mode -1)
-(tool-bar-mode -1)
-(scroll-bar-mode -1)
-```
-
-
 # Notes on <span class="underline">Learn Common Lisp</span> {#notes-on}
 
-Notes on the [lisp-lang.org](https://lisp-lang.org/learn/) Common Lisp tutorial.
+Notes on the [lisp-lang.org](https://lisp-lang.org/learn/) Common Lisp tutorial,
 
 ```lisp
 (format t "Hello, world!")
@@ -190,7 +69,7 @@ Hello, world!
 
 You can define functions using `defun`:
 
-```lisp
+```elisp
 (defun fib (n)
   "Return the nth Fibonacci number"
   (if (< n 2)
@@ -202,10 +81,10 @@ You can define functions using `defun`:
 ```
 
 ```text
-FIB
+fib
 ```
 
-```lisp
+```elisp
 (fib 30)
 ```
 
@@ -213,13 +92,13 @@ FIB
 832040
 ```
 
-```lisp
+```elisp
 (setq stuff '(bear bucket ball chain rope))
 (caddr stuff)
 ```
 
 ```text
-BALL
+ball
 ```
 
 
@@ -346,7 +225,7 @@ functions being defined, string insertions, comments, and more:
 
 # Appendices {#appendices}
 
-> Emacs outshines all other editing software in approximately the same
+> [Emacs](/emacs) outshines all other editing software in approximately the same
 > way that the noonday sun does the stars. It is not just bigger and
 > brighter; it simply makes everything else vanish.
 >
@@ -448,3 +327,4 @@ Common Lisp seems to satisfy these requirements.
 -   [Learn X in Y mins: Common Lisp](https://learnxinyminutes.com/docs/common-lisp/)
 
 [^fn:1]: This didn't last long, though I still plan to go through SICP.
+[^fn:2]: From _"Land of Lisp"_
