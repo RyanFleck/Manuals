@@ -16,7 +16,16 @@
 
 * Emacs
 
-*Emacs* is a text editor that evolves to fit you.
+*Emacs* is a text editor that, rather than learning every function and
+bell and whistle, /*evolves to fit you* as you use and extend it./
+
+#+begin_quote
+[[/emacs][Emacs]] outshines all other editing software in approximately the same
+way that the noonday sun does the stars. It is not just bigger and
+brighter; it simply makes everything else vanish.
+
+-- *Neal Stephenson*, In the Beginning was the Command Line (1998)
+#+end_quote
 
 * Emacs Documentation 
 
