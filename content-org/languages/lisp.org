@@ -87,9 +87,9 @@ programs since 1980, and many of the core concepts have diffused out
 into reality, becoming the core of our global infrastructure. The book
 is available for free online in many forms.
 
-* Notes on _Learn Common Lisp_
+* Notes on /"Learn Common Lisp"/
 
-Notes on the [[https://lisp-lang.org/learn/][lisp-lang.org]] Common Lisp tutorial, 
+Notes on the [[https://lisp-lang.org/learn/getting-started/][lisp-lang.org]] Common Lisp tutorial, 
 
 #+begin_src lisp :results output
 (format t "Hello, world!")

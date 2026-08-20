@@ -81,9 +81,9 @@ into reality, becoming the core of our global infrastructure. The book
 is available for free online in many forms.
 
 
-# Notes on <span class="underline">Learn Common Lisp</span> {#notes-on}
+# Notes on _"Learn Common Lisp"_ {#notes-on-learn-common-lisp}
 
-Notes on the [lisp-lang.org](https://lisp-lang.org/learn/) Common Lisp tutorial,
+Notes on the [lisp-lang.org](https://lisp-lang.org/learn/getting-started/) Common Lisp tutorial,
 
 ```lisp
 (format t "Hello, world!")
