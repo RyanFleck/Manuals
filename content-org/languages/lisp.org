@@ -261,27 +261,26 @@ A simple number-guessing game, using arithmetic shifts (binary search,)
 can be written like so with a few global functions:
 
 #+begin_src lisp
-  (defparameter *big* 100)
+(defparameter *big* 100)
+(defparameter *small* 1)
+
+(defun guess-my-number ()
+  (ash (+ *small* *big*) -1))
+
+(defun smaller ()
+  (setf *big* (1- (guess-my-number)))
+  (guess-my-number))
+
+(defun bigger ()
+  (setf *small* (1+ (guess-my-number)))
+  (guess-my-number))
+
+(defun start-over ()
   (defparameter *small* 1)
+  (defparameter *big* 100)
+  (guess-my-number))
 
-  (defun guess-my-number ()
-    (ash (+ *small* *big*) -1)
-  )
-  (defun smaller ()
-    (setf *big* (1- (guess-my-number)))
-    (guess-my-number)
-  )
-  (defun bigger ()
-    (setf *small* (1+ (guess-my-number)))
-    (guess-my-number)
-  )
-  (defun start-over ()
-    (defparameter *small* 1)
-    (defparameter *big* 100)
-    (guess-my-number)
-  )
-
-  (start-over)
+(start-over)
 #+end_src
 
 #+RESULTS:
@@ -293,53 +292,53 @@ Here is another example program showing parameters being defined,
 functions being defined, string insertions, comments, and more:
 
 #+begin_src lisp
-  ;;;; Prog5: "Wizard Adventure Game" RCF 2018 - Land of Lisp p.70
+;;;; Prog5: "Wizard Adventure Game" RCF 2018 - Land of Lisp p.70
 
-  (defparameter *nodes*
-    '(
-      (living-room
-      (you are in the living-room. a wizard is snoring loudly on the couch.))
-      (garden
-      (you are in a beautiful garden. a well is in front of you.))
-      (attic
-      (you are in the attic. there is a giant welding torch in the corner.))))
+(defparameter *nodes*
+  '(
+    (living-room
+    (you are in the living-room. a wizard is snoring loudly on the couch.))
+    (garden
+    (you are in a beautiful garden. a well is in front of you.))
+    (attic
+    (you are in the attic. there is a giant welding torch in the corner.))))
 
-  (defparameter *edges*
-   '(
-      (living-room (garden west door) (attic upstairs ladder))
-      (garden (living-room east door))
-      (attic (lving-room downstairs ladder))))
+(defparameter *edges*
+ '(
+    (living-room (garden west door) (attic upstairs ladder))
+    (garden (living-room east door))
+    (attic (lving-room downstairs ladder))))
 
-  (defparameter *objects*'(whiskey bucket frog chain))
+(defparameter *objects*'(whiskey bucket frog chain))
 
-  (defparameter *object-locations*
-    '(
-	(whiskey living-room)
-	(bucket living-room)
-	(chain garden)
-	(frog garden)))
-
-
-  (defun describe-location (location nodes)
-    (cadr (assoc location nodes)))
-
-  (defun describe-path (edge)
-    `(there is a ,(caddr edge) going ,(cadr edge) from here.))
+(defparameter *object-locations*
+  '(
+      (whiskey living-room)
+      (bucket living-room)
+      (chain garden)
+      (frog garden)))
 
 
-  (defun describe-paths (location edges)
-    (apply #'append
-      (mapcar #'describe-path
-	(cdr (assoc location edges)))))
+(defun describe-location (location nodes)
+  (cadr (assoc location nodes)))
 
-  (defun objects-at (loc objs obj-locs)
-    (labels
-      ((at-loc-p (obj)
-	(eq (cadr (assoc obj obj-locs)) loc)))
-	(remove-if-not #'at-loc-p objs)))
+(defun describe-path (edge)
+  `(there is a ,(caddr edge) going ,(cadr edge) from here.))
 
-  ;; Let's run and see:
-  (describe-paths 'garden *edges*)
+
+(defun describe-paths (location edges)
+  (apply #'append
+    (mapcar #'describe-path
+      (cdr (assoc location edges)))))
+
+(defun objects-at (loc objs obj-locs)
+  (labels
+    ((at-loc-p (obj)
+      (eq (cadr (assoc obj obj-locs)) loc)))
+      (remove-if-not #'at-loc-p objs)))
+
+;; Let's run and see:
+(describe-paths 'garden *edges*)
 #+end_src
 
 #+RESULTS:
