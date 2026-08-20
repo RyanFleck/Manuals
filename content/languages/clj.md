@@ -214,7 +214,7 @@ the simplicity of this process.
 (apply #'+ '(1 2 3))  ; => 6
 ```
 
-{{< figure src="/clj/eval-apply.jpg" >}}
+{{< figure src="/clj/eval-apply.jpg" caption="<span class=\"figure-number\">Figure 4: </span>**\"The Metacircular Evaluator\"** from [SICP](https://mitp-content-server.mit.edu/books/content/sectbyfn/books_pres_0/6515/sicp.zip/full-text/book/book-Z-H-26.html#%_sec_4.1)" >}}
 
 > The metacircular evaluator is essentially a Scheme formulation of the
 > environment model of evaluation described in 3.2. Recall that the
