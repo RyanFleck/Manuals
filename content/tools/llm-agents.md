@@ -99,7 +99,9 @@ within the scenarios mentioned in the study guide._
 
 {{< figure src="/images/2026-07-11--CCAR-F-Exam-Result-Crop.jpg?invert=true" caption="<span class=\"figure-number\">Figure 1: </span>I passed the [CCAR-F](https://www.credly.com/badges/69cf522c-d129-4215-86ff-169b4d6f21fc) with a score of **960/1000** on **2026-07-11**." >}}
 
-Check out the **badge**: [credly.com/users/ryan-c-fleck](https://www.credly.com/users/ryan-c-fleck)
+{{< figure src="/img/2026-10-09--CCAR-P-Exam-Result-1--CROP.jpg?invert=true" caption="<span class=\"figure-number\">Figure 2: </span>I passed the [CCAR-P](https://www.credly.com/badges/43de311d-9561-46c5-8dd4-6fe4b13b29c9) with a score of **861/1000** on **2026-10-09**." >}}
+
+Check out the **badges**: [credly.com/users/ryan-c-fleck](https://www.credly.com/users/ryan-c-fleck)
 
 
 ## Claude Tips {#claude-tips}

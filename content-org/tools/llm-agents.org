@@ -101,7 +101,10 @@ within the scenarios mentioned in the study guide./
 #+caption: I passed the [[https://www.credly.com/badges/69cf522c-d129-4215-86ff-169b4d6f21fc][CCAR-F]] with a score of *960/1000* on *2026-07-11*. 
 [[/images/2026-07-11--CCAR-F-Exam-Result-Crop.jpg?invert=true]]
 
-Check out the *badge*: [[https://www.credly.com/users/ryan-c-fleck][credly.com/users/ryan-c-fleck]]
+#+caption: I passed the [[https://www.credly.com/badges/43de311d-9561-46c5-8dd4-6fe4b13b29c9][CCAR-P]] with a score of *861/1000* on *2026-10-09*. 
+[[/img/2026-10-09--CCAR-P-Exam-Result-1--CROP.jpg?invert=true]]
+
+Check out the *badges*: [[https://www.credly.com/users/ryan-c-fleck][credly.com/users/ryan-c-fleck]]
 
 ** Claude Tips
 
