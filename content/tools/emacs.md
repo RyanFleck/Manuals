@@ -48,6 +48,30 @@ for a general discussion of lisp programming languages.
 | `M-x toggle-debug-on-quit`  | Triggers debugger on `C-g`                        |
 | `C-u C-M-x`                 | Overwrite function and enable `edebug`            |
 
+The **ERT** system can be used to write and manage unit tests.
+
+[gnu.org/software/emacs/manual/html_mono/ert.html](https://www.gnu.org/software/emacs/manual/html_mono/ert.html)
+
+```lisp
+(ert-deftest to-num-test ()
+  (should (equal (to-num "$200.00") 200.00))
+  (should (equal (to-num "  $200   ") 200.00)))
+```
+
+Use the following in your setup programs to allow easy evaluation and debugging:
+
+```lisp
+(defun r/run-elisp-tests ()
+  "Evaluate the buffer and run all ERT tests."
+  (interactive)
+  (save-excursion
+    (eval-buffer)
+    (ert t)))
+
+(with-eval-after-load 'lisp-mode
+  (define-key emacs-lisp-mode-map (kbd "C-c t") #'r/run-elisp-tests))
+```
+
 
 # Using Emacs Remotely {#using-emacs-remotely}
 
