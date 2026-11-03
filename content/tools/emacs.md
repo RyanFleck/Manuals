@@ -40,13 +40,13 @@ for a general discussion of lisp programming languages.
 
 ## Debugging Emacs Lisp {#debugging-emacs-lisp}
 
-| Command                   | Effect                                            |
-|---------------------------|---------------------------------------------------|
-| M-x toggle-debug-on-error | Opens a backtrace when an error occurs            |
-| M-x debug-on-entry        | Includes debugger trigger when function is called |
-| M-x cancel-debug-on-entry | Removes debugger trigger when function is called  |
-| M-x toggle-debug-on-quit  | Triggers debugger on `C-g`                        |
-| C-u C-M-x                 | Overwrite function and enable `edebug`            |
+| **Command**                 | **Effect**                                        |
+|-----------------------------|---------------------------------------------------|
+| `M-x toggle-debug-on-error` | Opens a backtrace when an error occurs            |
+| `M-x debug-on-entry`        | Includes debugger trigger when function is called |
+| `M-x cancel-debug-on-entry` | Removes debugger trigger when function is called  |
+| `M-x toggle-debug-on-quit`  | Triggers debugger on `C-g`                        |
+| `C-u C-M-x`                 | Overwrite function and enable `edebug`            |
 
 
 # Using Emacs Remotely {#using-emacs-remotely}
