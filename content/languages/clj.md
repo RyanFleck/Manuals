@@ -466,6 +466,29 @@ asdf set --home clojure latest
 ```
 
 
+## Babashka {#babashka}
+
+The ["Babashka Book"](https://book.babashka.org/#introduction) is the first stop for documentation.
+
+See the regular Clojure installation docs for **asdf** instructions.
+
+```bash
+# This particular fork has a fix for Apple silicon
+asdf plugin add babashka https://github.com/pitch-io/asdf-babashka.git
+
+# Install the latest 'bb' executable
+asdf install babashka latest
+asdf set --home babashka latest
+adsf reshim
+```
+
+It's easy to jack in to babashka with **CIDER**, run `bb nrepl-server
+0.0.0.0:1667` and then `M-x cider-jack-in-clj` to get going.
+
+-   <https://book.babashka.org/#_nrepl>
+-   <https://docs.cider.mx/cider/platforms/babashka.html>
+
+
 # Common Clojure Tasks {#common-clojure-tasks}
 
 
@@ -701,27 +724,6 @@ in which case they will be commented out. _I learned this the hard way._
 
 <script>console.log("outside, this runs.");</script>
 ```
-
-
-# Babashka {#babashka}
-
-See the regular Clojure installation docs for **asdf** instructions.
-
-```bash
-# This particular fork has a fix for Apple silicon
-asdf plugin add babashka https://github.com/pitch-io/asdf-babashka.git
-
-# Install the latest 'bb' executable
-asdf install babashka latest
-asdf set --home babashka latest
-adsf reshim
-```
-
-It's easy to jack in to babashka with **CIDER**, run `bb nrepl-server
-0.0.0.0:1667` and then `M-x cider-jack-in-clj` to get going.
-
--   <https://book.babashka.org/#_nrepl>
--   <https://docs.cider.mx/cider/platforms/babashka.html>
 
 
 # Notes: Clojure for the Brave and True + {#notes-clojure-for-the-brave-and-true-plus}
